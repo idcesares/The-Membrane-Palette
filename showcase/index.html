@@ -818,6 +818,184 @@
       border: 1px solid #3D3842;
     }
 
+    .do-dont-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+      margin-top: var(--space-5);
+    }
+
+    .do-dont-card {
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      background: var(--color-bg-secondary);
+      border-left: var(--border-width-thick) solid transparent;
+    }
+
+    .do-dont-card--do {
+      border-left-color: var(--color-success);
+    }
+
+    .do-dont-card--dont {
+      border-left-color: var(--color-error);
+    }
+
+    .do-dont-card__label {
+      margin: 0 0 var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+    }
+
+    .do-dont-card--do .do-dont-card__label { color: var(--color-success-text); }
+    .do-dont-card--dont .do-dont-card__label { color: var(--color-error-text); }
+
+    .do-dont-card__code {
+      margin: 0 0 var(--space-2);
+      overflow-x: auto;
+      color: var(--color-text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      line-height: var(--leading-code);
+    }
+
+    .do-dont-card__note {
+      margin: 0;
+      color: var(--color-text-secondary);
+      font-size: var(--text-small);
+      line-height: var(--leading-small);
+    }
+
+    .token-filter {
+      display: block;
+      width: 100%;
+      min-height: var(--size-touch-target);
+      margin-top: var(--space-5);
+      border: var(--border-default);
+      border-radius: var(--radius-sm);
+      padding: 0 var(--space-4);
+      color: var(--color-text-primary);
+      background: var(--color-bg-primary);
+      font: inherit;
+      font-size: var(--text-body);
+    }
+
+    .token-filter:focus-visible {
+      border-color: var(--color-focus);
+      outline: none;
+      box-shadow: var(--shadow-glow-teal);
+    }
+
+    .token-filter__count {
+      margin: var(--space-2) 0 0;
+      color: var(--color-text-tertiary);
+      font-size: var(--text-xs);
+    }
+
+    .token-table-wrap {
+      max-height: 420px;
+      margin-top: var(--space-3);
+      overflow: auto;
+      border: var(--border-default);
+      border-radius: var(--radius-md);
+    }
+
+    .token-table,
+    .contrast-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-small);
+    }
+
+    .token-table th,
+    .token-table td,
+    .contrast-table th,
+    .contrast-table td {
+      padding: var(--space-2) var(--space-3);
+      text-align: left;
+      border-bottom: var(--border-default);
+      white-space: nowrap;
+    }
+
+    .token-table td:last-child,
+    .contrast-table td:last-child {
+      white-space: normal;
+    }
+
+    .token-table th,
+    .contrast-table th {
+      position: sticky;
+      top: 0;
+      color: var(--color-text-tertiary);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+      background: var(--color-bg-primary);
+    }
+
+    .token-table code,
+    .contrast-table code {
+      color: var(--color-text-accent);
+      font-size: var(--text-xs);
+    }
+
+    .token-table__preview {
+      width: 32px;
+    }
+
+    .token-swatch {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border-radius: var(--radius-sm);
+      border: var(--border-width-thin) solid color-mix(in srgb, var(--color-border-emphasis), transparent 18%);
+    }
+
+    .token-badge {
+      display: inline-block;
+      margin-left: var(--space-2);
+      border-radius: var(--radius-sm);
+      padding: 0 var(--space-2);
+      color: var(--color-warning-text);
+      background: var(--color-amber-10);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-label);
+    }
+
+    .token-table tr[hidden] {
+      display: none;
+    }
+
+    .contrast-matrix__note {
+      margin: var(--space-3) 0 0;
+      color: var(--color-text-secondary);
+      font-size: var(--text-small);
+    }
+
+    .contrast-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      border-radius: var(--radius-full);
+      padding: 0 var(--space-2);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+    }
+
+    .contrast-badge.status-line--success {
+      color: var(--color-success-text);
+      background: var(--color-sage-10);
+    }
+
+    .contrast-badge.status-line--error {
+      color: var(--color-error-text);
+      background: color-mix(in srgb, var(--color-error) 10%, transparent);
+    }
+
     .quote-band {
       padding: var(--space-20) 0;
       color: #F0EBE1;
@@ -933,6 +1111,10 @@
       .color-step {
         min-height: 72px;
       }
+
+      .do-dont-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -948,6 +1130,7 @@
         <a href="#type">Type</a>
         <a href="#components">Components</a>
         <a href="#rhythm">Rhythm</a>
+        <a href="#reference">Reference</a>
         <button class="theme-toggle" type="button" aria-pressed="false" onclick="toggleTheme(this)">
           <span class="theme-toggle__dot" aria-hidden="true"></span>
           Theme
@@ -1270,6 +1453,1535 @@
       </div>
     </section>
 
+    <section class="band" id="reference">
+      <div class="shell">
+        <div class="section-heading">
+          <div>
+            <p class="label">05 / Reference</p>
+            <h2>Every token, every ratio — generated, not hand-typed.</h2>
+          </div>
+          <p>The table and the contrast matrix below are rendered directly from <code>tokens/membrane.tokens.json</code> by the same build script that writes the CSS. There is no second copy to fall out of sync.</p>
+        </div>
+
+        <div class="specimen-grid">
+          <article class="specimen specimen--wide">
+            <p class="label">Do / Don't</p>
+            <h2>Consume the semantic tier, not the primitive.</h2>
+            <div class="do-dont-grid">
+              <div class="do-dont-card do-dont-card--do">
+                <p class="do-dont-card__label">Do</p>
+                <pre class="do-dont-card__code">background: var(--color-action-primary);</pre>
+                <p class="do-dont-card__note">Retheme is automatic — the semantic token already carries its <code>light-dark()</code> pair.</p>
+              </div>
+              <div class="do-dont-card do-dont-card--dont">
+                <p class="do-dont-card__label">Don't</p>
+                <pre class="do-dont-card__code">background: var(--color-terracotta);</pre>
+                <p class="do-dont-card__note">Reaches into a Tier 1 primitive directly — the exact pattern that once forced dark mode to redefine primitives per theme.</p>
+              </div>
+              <div class="do-dont-card do-dont-card--do">
+                <p class="do-dont-card__label">Do</p>
+                <pre class="do-dont-card__code">color: var(--color-warning-text);</pre>
+                <p class="do-dont-card__note">5.0:1 on <code>--color-bg-primary</code> — passes WCAG AA for body text.</p>
+              </div>
+              <div class="do-dont-card do-dont-card--dont">
+                <p class="do-dont-card__label">Don't</p>
+                <pre class="do-dont-card__code">color: var(--color-warning);</pre>
+                <p class="do-dont-card__note">2.3:1 as text on cream — this token is a fill/badge color, not a text color.</p>
+              </div>
+              <div class="do-dont-card do-dont-card--do">
+                <p class="do-dont-card__label">Do</p>
+                <pre class="do-dont-card__code">min-height: var(--size-touch-target);</pre>
+                <p class="do-dont-card__note">Meets the 44px WCAG 2.5.5 minimum by construction.</p>
+              </div>
+              <div class="do-dont-card do-dont-card--dont">
+                <p class="do-dont-card__label">Don't</p>
+                <pre class="do-dont-card__code">min-height: 44px;</pre>
+                <p class="do-dont-card__note">Same value today, but a literal — it silently drifts the moment the token changes.</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="specimen specimen--full">
+            <p class="label">Token Table</p>
+            <h2 id="token-table-heading">All tokens, searchable.</h2>
+            <input
+              type="search"
+              id="token-filter"
+              class="token-filter"
+              placeholder="Filter by name, category, or description…"
+              aria-label="Filter tokens"
+              aria-controls="token-table-body"
+            >
+            <p class="token-filter__count" id="token-filter-count" aria-live="polite"></p>
+            <div class="token-table-wrap">
+              <table class="token-table">
+                <thead>
+                  <tr><th scope="col"></th><th scope="col">Token</th><th scope="col">Category</th><th scope="col">Description</th></tr>
+                </thead>
+                <tbody id="token-table-body">
+<!-- GENERATED:TOKEN-TABLE -->
+                <tr data-search="--bg-glow-focal glow ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--bg-glow-focal);" aria-hidden="true"></span></td>
+                  <td><code>--bg-glow-focal</code></td>
+                  <td>Glow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--bg-glow-focal-loaded glow ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--bg-glow-focal-loaded);" aria-hidden="true"></span></td>
+                  <td><code>--bg-glow-focal-loaded</code></td>
+                  <td>Glow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--bg-glow-sage glow ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--bg-glow-sage);" aria-hidden="true"></span></td>
+                  <td><code>--bg-glow-sage</code></td>
+                  <td>Glow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--bg-glow-teal glow ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--bg-glow-teal);" aria-hidden="true"></span></td>
+                  <td><code>--bg-glow-teal</code></td>
+                  <td>Glow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--bg-glow-terracotta glow ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--bg-glow-terracotta);" aria-hidden="true"></span></td>
+                  <td><code>--bg-glow-terracotta</code></td>
+                  <td>Glow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--blur-backdrop blur backdrop blur for translucent surfaces (nav bars, veils).">
+                  <td class="token-table__preview"></td>
+                  <td><code>--blur-backdrop</code></td>
+                  <td>Blur</td>
+                  <td>Backdrop blur for translucent surfaces (nav bars, veils).</td>
+                </tr>
+                <tr data-search="--border-accent border ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--border-accent</code></td>
+                  <td>Border</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--border-default border ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--border-default</code></td>
+                  <td>Border</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--border-emphasis border ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--border-emphasis</code></td>
+                  <td>Border</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--border-width-medium border-width ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--border-width-medium</code></td>
+                  <td>Border-width</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--border-width-thick border-width ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--border-width-thick</code></td>
+                  <td>Border-width</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--border-width-thin border-width ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--border-width-thin</code></td>
+                  <td>Border-width</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-bg code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-bg);" aria-hidden="true"></span></td>
+                  <td><code>--code-bg</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-border code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-border);" aria-hidden="true"></span></td>
+                  <td><code>--code-border</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-comment code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-comment);" aria-hidden="true"></span></td>
+                  <td><code>--code-comment</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-function code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-function);" aria-hidden="true"></span></td>
+                  <td><code>--code-function</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-keyword code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-keyword);" aria-hidden="true"></span></td>
+                  <td><code>--code-keyword</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-number code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-number);" aria-hidden="true"></span></td>
+                  <td><code>--code-number</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-string code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-string);" aria-hidden="true"></span></td>
+                  <td><code>--code-string</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--code-text code ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--code-text);" aria-hidden="true"></span></td>
+                  <td><code>--code-text</code></td>
+                  <td>Code</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-action-primary color / semantic primary ctas and key interactive accents. replaces direct use of --color-terracotta on interactive elements.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-action-primary);" aria-hidden="true"></span></td>
+                  <td><code>--color-action-primary</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Primary CTAs and key interactive accents. Replaces direct use of --color-terracotta on interactive elements.</td>
+                </tr>
+                <tr data-search="--color-action-secondary color / semantic secondary/navigational actions.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-action-secondary);" aria-hidden="true"></span></td>
+                  <td><code>--color-action-secondary</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Secondary/navigational actions.</td>
+                </tr>
+                <tr data-search="--color-amber color / primitive builder energy. fill/badge use only — fails text contrast on cream; use semantic warning-text for text.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-amber);" aria-hidden="true"></span></td>
+                  <td><code>--color-amber</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Builder energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text.</td>
+                </tr>
+                <tr data-search="--color-amber-10 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-amber-10);" aria-hidden="true"></span></td>
+                  <td><code>--color-amber-10</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-amber-light color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-amber-light);" aria-hidden="true"></span></td>
+                  <td><code>--color-amber-light</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-bg-primary color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-bg-primary);" aria-hidden="true"></span></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-bg-secondary color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-bg-secondary);" aria-hidden="true"></span></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-bg-tertiary color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-bg-tertiary);" aria-hidden="true"></span></td>
+                  <td><code>--color-bg-tertiary</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-border-default color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-border-default);" aria-hidden="true"></span></td>
+                  <td><code>--color-border-default</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-border-emphasis color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-border-emphasis);" aria-hidden="true"></span></td>
+                  <td><code>--color-border-emphasis</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-burgundy color / primitive heritage depth.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-burgundy);" aria-hidden="true"></span></td>
+                  <td><code>--color-burgundy</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Heritage depth.</td>
+                </tr>
+                <tr data-search="--color-burgundy-10 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-burgundy-10);" aria-hidden="true"></span></td>
+                  <td><code>--color-burgundy-10</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-burgundy-light color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-burgundy-light);" aria-hidden="true"></span></td>
+                  <td><code>--color-burgundy-light</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-charcoal color / primitive dark canvas. never pure black.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-charcoal);" aria-hidden="true"></span></td>
+                  <td><code>--color-charcoal</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Dark canvas. Never pure black.</td>
+                </tr>
+                <tr data-search="--color-cream color / primitive light canvas. never pure white.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-cream);" aria-hidden="true"></span></td>
+                  <td><code>--color-cream</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Light canvas. Never pure white.</td>
+                </tr>
+                <tr data-search="--color-error color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-error);" aria-hidden="true"></span></td>
+                  <td><code>--color-error</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-error-text color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-error-text);" aria-hidden="true"></span></td>
+                  <td><code>--color-error-text</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-focus color / semantic focus indicator color. v2.0: dark mode now remaps to teal-light (raw teal was ~3:1 on charcoal).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-focus);" aria-hidden="true"></span></td>
+                  <td><code>--color-focus</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Focus indicator color. v2.0: dark mode now remaps to teal-light (raw teal was ~3:1 on charcoal).</td>
+                </tr>
+                <tr data-search="--color-info color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-info);" aria-hidden="true"></span></td>
+                  <td><code>--color-info</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-100 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-100);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-100</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-200 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-200);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-200</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-300 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-300);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-300</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-400 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-400);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-400</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-50 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-50);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-50</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-500 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-500);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-500</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-600 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-600);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-600</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-700 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-700);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-700</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-800 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-800);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-800</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-neutral-900 color / neutral ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-neutral-900);" aria-hidden="true"></span></td>
+                  <td><code>--color-neutral-900</code></td>
+                  <td>Color / Neutral</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-overlay-bg color / semantic scrims and image-readability layers. intentionally identical in both modes.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-overlay-bg);" aria-hidden="true"></span></td>
+                  <td><code>--color-overlay-bg</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Scrims and image-readability layers. Intentionally identical in both modes.</td>
+                </tr>
+                <tr data-search="--color-sage color / primitive growth. fill/icon use; use semantic success-text for text on light surfaces.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-sage);" aria-hidden="true"></span></td>
+                  <td><code>--color-sage</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Growth. Fill/icon use; use semantic success-text for text on light surfaces.</td>
+                </tr>
+                <tr data-search="--color-sage-10 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-sage-10);" aria-hidden="true"></span></td>
+                  <td><code>--color-sage-10</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-sage-light color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-sage-light);" aria-hidden="true"></span></td>
+                  <td><code>--color-sage-light</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-selection color / semantic text selection highlight.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--color-selection</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Text selection highlight.</td>
+                </tr>
+                <tr data-search="--color-success color / semantic fills, icons, large text (≥3:1). for body-size text use success-text.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-success);" aria-hidden="true"></span></td>
+                  <td><code>--color-success</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Fills, icons, large text (≥3:1). For body-size text use success-text.</td>
+                </tr>
+                <tr data-search="--color-success-text color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-success-text);" aria-hidden="true"></span></td>
+                  <td><code>--color-success-text</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-teal color / primitive secondary brand. the digital register: technology, depth, rio&#39;s ocean.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Secondary brand. The digital register: technology, depth, Rio&#39;s ocean.</td>
+                </tr>
+                <tr data-search="--color-teal-08 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal-08);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal-08</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-teal-10 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal-10);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal-10</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-teal-12 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal-12);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal-12</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-teal-20 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal-20);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal-20</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-teal-dark color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal-dark);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal-dark</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-teal-light color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-teal-light);" aria-hidden="true"></span></td>
+                  <td><code>--color-teal-light</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-terracotta color / primitive primary brand. the human register: earth, hands, making, brazilian clay.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-terracotta);" aria-hidden="true"></span></td>
+                  <td><code>--color-terracotta</code></td>
+                  <td>Color / Primitive</td>
+                  <td>Primary brand. The human register: earth, hands, making, Brazilian clay.</td>
+                </tr>
+                <tr data-search="--color-terracotta-10 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-terracotta-10);" aria-hidden="true"></span></td>
+                  <td><code>--color-terracotta-10</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-terracotta-20 color / tint ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-terracotta-20);" aria-hidden="true"></span></td>
+                  <td><code>--color-terracotta-20</code></td>
+                  <td>Color / Tint</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-terracotta-dark color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-terracotta-dark);" aria-hidden="true"></span></td>
+                  <td><code>--color-terracotta-dark</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-terracotta-light color / primitive ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-terracotta-light);" aria-hidden="true"></span></td>
+                  <td><code>--color-terracotta-light</code></td>
+                  <td>Color / Primitive</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-text-accent color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-text-accent);" aria-hidden="true"></span></td>
+                  <td><code>--color-text-accent</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-text-on-accent color / semantic v2.0: flips to charcoal in dark mode — white on the lightened terracotta was 3.3:1.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-text-on-accent);" aria-hidden="true"></span></td>
+                  <td><code>--color-text-on-accent</code></td>
+                  <td>Color / Semantic</td>
+                  <td>v2.0: flips to charcoal in dark mode — white on the lightened terracotta was 3.3:1.</td>
+                </tr>
+                <tr data-search="--color-text-primary color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-text-primary);" aria-hidden="true"></span></td>
+                  <td><code>--color-text-primary</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-text-secondary color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-text-secondary);" aria-hidden="true"></span></td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--color-text-tertiary color / semantic metadata, placeholders. v2.0: darkened from neutral-400 (2.5:1) to pass wcag aa 4.5:1 on bg-primary and bg-secondary.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-text-tertiary);" aria-hidden="true"></span></td>
+                  <td><code>--color-text-tertiary</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Metadata, placeholders. v2.0: darkened from neutral-400 (2.5:1) to pass WCAG AA 4.5:1 on bg-primary and bg-secondary.</td>
+                </tr>
+                <tr data-search="--color-warning color / semantic fills and badges with dark text on top. never use as text on light surfaces — 2.3:1.">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-warning);" aria-hidden="true"></span></td>
+                  <td><code>--color-warning</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Fills and badges with dark text on top. Never use as text on light surfaces — 2.3:1.</td>
+                </tr>
+                <tr data-search="--color-warning-text color / semantic ">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-warning-text);" aria-hidden="true"></span></td>
+                  <td><code>--color-warning-text</code></td>
+                  <td>Color / Semantic</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--container-full container ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--container-full</code></td>
+                  <td>Container</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--container-lg container ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--container-lg</code></td>
+                  <td>Container</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--container-md container ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--container-md</code></td>
+                  <td>Container</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--container-sm container ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--container-sm</code></td>
+                  <td>Container</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--container-xl container ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--container-xl</code></td>
+                  <td>Container</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--duration-fast duration ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--duration-fast</code></td>
+                  <td>Duration</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--duration-normal duration ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--duration-normal</code></td>
+                  <td>Duration</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--duration-slow duration ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--duration-slow</code></td>
+                  <td>Duration</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--duration-slower duration ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--duration-slower</code></td>
+                  <td>Duration</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--ease-default ease ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--ease-default</code></td>
+                  <td>Ease</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--ease-in ease ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--ease-in</code></td>
+                  <td>Ease</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--ease-out ease ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--ease-out</code></td>
+                  <td>Ease</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--ease-spring ease ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--ease-spring</code></td>
+                  <td>Ease</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--elevation-modal elevation ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--elevation-modal</code></td>
+                  <td>Elevation</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--elevation-overlay elevation ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--elevation-overlay</code></td>
+                  <td>Elevation</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--elevation-raised elevation ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--elevation-raised</code></td>
+                  <td>Elevation</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--focus-ring focus ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--focus-ring</code></td>
+                  <td>Focus</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--focus-ring-offset focus ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--focus-ring-offset</code></td>
+                  <td>Focus</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--font-mono font ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--font-mono</code></td>
+                  <td>Font</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--font-sans font ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--font-sans</code></td>
+                  <td>Font</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--font-serif font ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--font-serif</code></td>
+                  <td>Font</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--gradient-depth gradient ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--gradient-depth</code></td>
+                  <td>Gradient</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--gradient-divider gradient ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--gradient-divider</code></td>
+                  <td>Gradient</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--gradient-membrane gradient signature gradient, human → digital. v2.0: endpoints now lighten in dark mode per spec §12.2.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--gradient-membrane</code></td>
+                  <td>Gradient</td>
+                  <td>Signature gradient, human → digital. v2.0: endpoints now lighten in dark mode per spec §12.2.</td>
+                </tr>
+                <tr data-search="--gradient-subtle gradient ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--gradient-subtle</code></td>
+                  <td>Gradient</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--gradient-warmth gradient ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--gradient-warmth</code></td>
+                  <td>Gradient</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-body leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-body</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-body-lg leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-body-lg</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-code leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-code</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-display leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-display</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-heading leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-heading</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-label leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-label</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-small leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-small</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--leading-subheading leading ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--leading-subheading</code></td>
+                  <td>Leading</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--opacity-heavy opacity ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--opacity-heavy</code></td>
+                  <td>Opacity</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--opacity-light opacity ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--opacity-light</code></td>
+                  <td>Opacity</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--opacity-medium opacity ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--opacity-medium</code></td>
+                  <td>Opacity</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--opacity-overlay opacity ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--opacity-overlay</code></td>
+                  <td>Opacity</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--opacity-subtle opacity ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--opacity-subtle</code></td>
+                  <td>Opacity</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--photo-border-radius photo ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--photo-border-radius</code></td>
+                  <td>Photo</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--photo-dim-dark photo recommended brightness() factor for photos on dark surfaces (spec §12.2 rule 6). applied by the consumer, not automatically.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--photo-dim-dark</code></td>
+                  <td>Photo</td>
+                  <td>Recommended brightness() factor for photos on dark surfaces (spec §12.2 rule 6). Applied by the consumer, not automatically.</td>
+                </tr>
+                <tr data-search="--photo-shadow photo ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--photo-shadow</code></td>
+                  <td>Photo</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--photo-warmth photo ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--photo-warmth</code></td>
+                  <td>Photo</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--radius-full radius ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--radius-full</code></td>
+                  <td>Radius</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--radius-lg radius ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--radius-lg</code></td>
+                  <td>Radius</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--radius-md radius ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--radius-md</code></td>
+                  <td>Radius</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--radius-sm radius ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--radius-sm</code></td>
+                  <td>Radius</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--radius-xl radius ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--radius-xl</code></td>
+                  <td>Radius</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--shadow-glow-teal shadow v2.0: dark variant added (was unmapped).">
+                  <td class="token-table__preview"></td>
+                  <td><code>--shadow-glow-teal</code></td>
+                  <td>Shadow</td>
+                  <td>v2.0: dark variant added (was unmapped).</td>
+                </tr>
+                <tr data-search="--shadow-glow-warm shadow ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--shadow-glow-warm</code></td>
+                  <td>Shadow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--shadow-lg shadow ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--shadow-lg</code></td>
+                  <td>Shadow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--shadow-md shadow ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--shadow-md</code></td>
+                  <td>Shadow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--shadow-sm shadow ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--shadow-sm</code></td>
+                  <td>Shadow</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--site-margin layout ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--site-margin</code></td>
+                  <td>Layout</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--size-icon-lg size feature icons.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-icon-lg</code></td>
+                  <td>Size</td>
+                  <td>Feature icons.</td>
+                </tr>
+                <tr data-search="--size-icon-md size standard icons.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-icon-md</code></td>
+                  <td>Size</td>
+                  <td>Standard icons.</td>
+                </tr>
+                <tr data-search="--size-icon-sm size inline icons.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-icon-sm</code></td>
+                  <td>Size</td>
+                  <td>Inline icons.</td>
+                </tr>
+                <tr data-search="--size-icon-xl size hero icons.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-icon-xl</code></td>
+                  <td>Size</td>
+                  <td>Hero icons.</td>
+                </tr>
+                <tr data-search="--size-nav size navigation bar height, desktop.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-nav</code></td>
+                  <td>Size</td>
+                  <td>Navigation bar height, desktop.</td>
+                </tr>
+                <tr data-search="--size-nav-mobile size navigation bar height, mobile.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-nav-mobile</code></td>
+                  <td>Size</td>
+                  <td>Navigation bar height, mobile.</td>
+                </tr>
+                <tr data-search="--size-touch-target size wcag 2.5.5 minimum interactive target.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--size-touch-target</code></td>
+                  <td>Size</td>
+                  <td>WCAG 2.5.5 minimum interactive target.</td>
+                </tr>
+                <tr data-search="--space-1 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-1</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-10 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-10</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-12 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-12</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-16 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-16</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-2 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-2</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-20 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-20</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-24 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-24</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-3 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-3</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-32 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-32</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-4 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-4</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-5 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-5</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-6 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-6</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--space-8 space ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--space-8</code></td>
+                  <td>Space</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--state-disabled-opacity state ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--state-disabled-opacity</code></td>
+                  <td>State</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-base text compatibility alias.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-base</code></td>
+                  <td>Text</td>
+                  <td>Compatibility alias.</td>
+                </tr>
+                <tr data-search="--text-body text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-body</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-body-lg text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-body-lg</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-code text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-code</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-display text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-display</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-h1 text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-h1</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-h2 text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-h2</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-h3 text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-h3</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-h4 text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-h4</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-lg text compatibility alias.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-lg</code></td>
+                  <td>Text</td>
+                  <td>Compatibility alias.</td>
+                </tr>
+                <tr data-search="--text-md text compatibility alias.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-md</code></td>
+                  <td>Text</td>
+                  <td>Compatibility alias.</td>
+                </tr>
+                <tr data-search="--text-sm text compatibility alias.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-sm</code></td>
+                  <td>Text</td>
+                  <td>Compatibility alias.</td>
+                </tr>
+                <tr data-search="--text-small text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-small</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--text-xl text compatibility alias.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-xl</code></td>
+                  <td>Text</td>
+                  <td>Compatibility alias.</td>
+                </tr>
+                <tr data-search="--text-xs text ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--text-xs</code></td>
+                  <td>Text</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--tracking-body tracking ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--tracking-body</code></td>
+                  <td>Tracking</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--tracking-display tracking ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--tracking-display</code></td>
+                  <td>Tracking</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--tracking-heading tracking ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--tracking-heading</code></td>
+                  <td>Tracking</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--tracking-label tracking ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--tracking-label</code></td>
+                  <td>Tracking</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--tracking-small tracking ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--tracking-small</code></td>
+                  <td>Tracking</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--tracking-subheading tracking ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--tracking-subheading</code></td>
+                  <td>Tracking</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--transition-default transition ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--transition-default</code></td>
+                  <td>Transition</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--transition-fast transition ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--transition-fast</code></td>
+                  <td>Transition</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--transition-slow transition ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--transition-slow</code></td>
+                  <td>Transition</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--weight-bold weight ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--weight-bold</code></td>
+                  <td>Weight</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--weight-medium weight ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--weight-medium</code></td>
+                  <td>Weight</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--weight-regular weight ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--weight-regular</code></td>
+                  <td>Weight</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--weight-semibold weight ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--weight-semibold</code></td>
+                  <td>Weight</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-base z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-base</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-dropdown z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-dropdown</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-modal z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-modal</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-nav z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-nav</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-overlay z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-overlay</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-sticky z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-sticky</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-toast z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-toast</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <tr data-search="--z-tooltip z ">
+                  <td class="token-table__preview"></td>
+                  <td><code>--z-tooltip</code></td>
+                  <td>Z</td>
+                  <td></td>
+                </tr>
+                <!-- /GENERATED:TOKEN-TABLE -->
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="specimen specimen--full">
+            <p class="label">Contrast Matrix</p>
+            <h2>40 pairs, gate-checked on every build.</h2>
+            <p class="contrast-matrix__note">Generated from the exact same computation that fails <code>npm run build:tokens</code> if a pair regresses — see <code>scripts/build-tokens.mjs</code>.</p>
+            <div class="token-table-wrap">
+              <table class="contrast-table">
+                <thead>
+                  <tr><th scope="col">Mode</th><th scope="col">Foreground</th><th scope="col">Background</th><th scope="col">Ratio</th><th scope="col">Minimum</th><th scope="col">Status</th></tr>
+                </thead>
+                <tbody>
+<!-- GENERATED:CONTRAST-MATRIX -->
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>13.93:1</td>
+                  <td>7.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>12.64:1</td>
+                  <td>7.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>6.73:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>6.10:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-tertiary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.12:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-tertiary</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>4.64:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-accent</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.11:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-on-accent</code></td>
+                  <td><code>--color-action-primary</code></td>
+                  <td>4.93:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-action-primary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>4.57:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-action-secondary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.11:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-focus</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.11:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-focus</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>4.64:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-success</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>3.68:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-success-text</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.68:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-success-text</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>5.15:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-warning-text</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>4.96:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-warning-text</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>4.50:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-error</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>4.69:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-error-text</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.47:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-error-text</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>4.97:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>14.48:1</td>
+                  <td>7.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>13.00:1</td>
+                  <td>7.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>6.39:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>5.74:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-tertiary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.23:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-tertiary</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>4.69:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-accent</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>6.45:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-on-accent</code></td>
+                  <td><code>--color-action-primary</code></td>
+                  <td>5.18:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-action-primary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.18:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-action-secondary</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>6.45:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-focus</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>6.45:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-focus</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>5.79:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-success</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>7.78:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-success-text</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>7.78:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-success-text</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>6.98:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-warning-text</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>9.06:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-warning-text</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>8.13:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-error</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.14:1</td>
+                  <td>3.0:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-error-text</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td>5.14:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-error-text</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td>4.61:1</td>
+                  <td>4.5:1</td>
+                  <td><span class="contrast-badge status-line--success">Pass</span></td>
+                </tr>
+                <!-- /GENERATED:CONTRAST-MATRIX -->
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="quote-band">
       <div class="shell quote-band__inner">
         <blockquote>Human intelligence, amplified with technological intentionality.</blockquote>
@@ -1299,6 +3011,30 @@
       window.localStorage.setItem('idcesares-theme', next);
       if (button) button.setAttribute('aria-pressed', String(next === 'dark'));
     }
+
+    (function initTokenFilter() {
+      const input = document.getElementById('token-filter');
+      const body = document.getElementById('token-table-body');
+      const count = document.getElementById('token-filter-count');
+      if (!input || !body || !count) return;
+
+      const rows = Array.from(body.querySelectorAll('tr'));
+      const total = rows.length;
+
+      function apply() {
+        const query = input.value.trim().toLowerCase();
+        let shown = 0;
+        for (const row of rows) {
+          const match = !query || (row.dataset.search || '').includes(query);
+          row.hidden = !match;
+          if (match) shown += 1;
+        }
+        count.textContent = query ? `${shown} of ${total} tokens` : `${total} tokens`;
+      }
+
+      input.addEventListener('input', apply);
+      apply();
+    })();
   </script>
 </body>
 </html>

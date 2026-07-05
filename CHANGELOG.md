@@ -45,6 +45,9 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 - New photo token: `--photo-dim-dark` (the `brightness(0.92)` factor from spec §12.2 rule 6).
 - New accent color tints: `--color-amber-10`, `--color-burgundy-10`, `--color-sage-10`.
 - Showcase: status semantics specimen (success/warning/error text + fill tokens side by side).
+- `.github/workflows/ci.yml` — runs `npm run build:tokens` (OKLCH round-trip + 40-pair contrast gate) and `npm run build` on every push/PR, and fails if the committed generated CSS doesn't match a fresh build. Full pixel-diff visual regression was considered and intentionally scoped out: this project has no existing test framework, and screenshot-baseline maintenance is disproportionate for a token/CSS-only system without a component tree to snapshot.
+- Token lifecycle & deprecation policy (`DESIGN-SYSTEM.md` §15) with a real mechanism behind it: mark a token `"$deprecated": "<reason>"` in `tokens/membrane.tokens.json` and the build emits an inline `/* @deprecated */` comment above its CSS declaration plus a console summary on every `npm run build:tokens` run (surfaced in CI logs too).
+- Showcase "05 / Reference" section: a Do/Don't specimen (six concrete good/bad comparisons — semantic vs. primitive tokens, contrast-safe vs. unsafe status text, tokenized vs. literal touch targets); a full, searchable, generated token table (186 rows, vanilla-JS filter, live `var()` color swatches); and a generated contrast matrix (all 40 gated pairs with pass/fail badges). The table and matrix are rendered by `scripts/build-tokens.mjs` from the exact same registry and gate computation used to build the CSS — there is no hand-maintained copy to fall out of sync.
 
 ### Fixed
 
@@ -76,6 +79,8 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 **Primitive mutation removed.** `[data-theme="dark"]` no longer redefines `--color-terracotta` or other primitives. Primitives are invariant; dark-mode behavior is entirely in semantic tokens.
 
 **README CDN link fixed.** The Quick Start `<link>` example now uses jsDelivr instead of `raw.githubusercontent.com` (which serves `text/plain` and is rejected by browsers).
+
+**Repository URL mismatch fixed.** `package.json`'s `repository.url`, the README's jsDelivr CDN link, git clone command, and file-structure diagram all pointed to `github.com/idcesares/idcesares-design-system` — a repository that does not exist. The actual remote is `github.com/idcesares/The-Membrane-Palette`; every reference now matches it. Caught by running `npm publish --dry-run` while verifying publish-readiness for this release.
 
 ### Changed (non-breaking)
 

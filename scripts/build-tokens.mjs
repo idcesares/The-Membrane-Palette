@@ -31,6 +31,7 @@ function isToken(node) {
 
 /** Walk the tree; collect { path, name (css var), token, group } for every token. */
 const registry = new Map(); // "color.primitive.terracotta" -> { cssName, token }
+const deprecated = []; // { cssName, message }
 
 function walk(node, pathParts, prefix) {
   for (const [key, child] of Object.entries(node)) {
@@ -38,11 +39,18 @@ function walk(node, pathParts, prefix) {
     const childPath = [...pathParts, key];
     if (isToken(child)) {
       if (!prefix) throw new Error(`No cssPrefix in scope for token ${childPath.join(".")}`);
+      const cssName = prefix + key;
       registry.set(childPath.join("."), {
-        cssName: prefix + key,
+        cssName,
         token: child,
         comment: node.$extensions?.cssComment === true,
       });
+      if (child.$deprecated) {
+        deprecated.push({
+          cssName,
+          message: typeof child.$deprecated === "string" ? child.$deprecated : "no replacement noted",
+        });
+      }
     } else if (child && typeof child === "object") {
       walk(child, childPath, child.$extensions?.cssPrefix ?? prefix);
     }
@@ -196,6 +204,7 @@ const GATE = [
 
 const gateFailures = [];
 const gateReport = [];
+const gateRows = []; // structured rows for the generated showcase contrast matrix
 for (const mode of ["light", "dark"]) {
   for (const [fg, bg, min, note] of GATE) {
     const fgV = resolveLiteral(`{${fg}}`, mode);
@@ -203,7 +212,9 @@ for (const mode of ["light", "dark"]) {
     const ratio = contrast(fgV, bgV);
     const line = `${mode.padEnd(5)} ${fg.replace(S, "").padEnd(16)} on ${bg.replace(S, "").padEnd(13)} ${ratio.toFixed(2).padStart(6)} (min ${min})  ${note}`;
     gateReport.push(line);
-    if (ratio < min) gateFailures.push(line);
+    const pass = ratio >= min;
+    gateRows.push({ mode, fg: fg.replace(S, ""), bg: bg.replace(S, ""), ratio, min, note, pass });
+    if (!pass) gateFailures.push(line);
   }
 }
 
@@ -307,6 +318,10 @@ for (const [title, groups] of SECTIONS) {
     const width = Math.max(...entries.map((e) => e.cssName.length)) + 1;
     for (const e of entries) {
       const { css, comment } = emitValue(e.token);
+      if (e.token.$deprecated) {
+        const msg = typeof e.token.$deprecated === "string" ? e.token.$deprecated : "no replacement noted";
+        lines.push(`    /* @deprecated ${e.cssName} — ${msg} */`);
+      }
       if (e.comment) {
         lines.push(`    /* ${e.cssName}: ${css}; */`);
       } else {
@@ -524,6 +539,84 @@ const baseCss = `/* ============================================================
 `;
 
 /* ------------------------------------------------------------------ *
+ *  Generated showcase content — token table & contrast matrix.
+ *  Rendered from the same registry/gateRows used to build the CSS,
+ *  so the showcase can never drift from the actual token source the
+ *  way a hand-maintained reference table would.
+ * ------------------------------------------------------------------ */
+
+function escapeHtml(str) {
+  return String(str).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function humanizeCategory(key) {
+  const parts = key.split(".");
+  parts.pop();
+  return parts.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join(" / ");
+}
+
+function buildTokenTableRows() {
+  const rows = [];
+  for (const [key, entry] of registry) {
+    if (entry.comment) continue; // breakpoints are reference-only, never real custom properties
+    const category = humanizeCategory(key);
+    const isColor = entry.token.$type === "color" || entry.token.$type === "tint";
+    const desc = entry.token.$description || "";
+    const preview = isColor
+      ? `<span class="token-swatch" style="background: var(${entry.cssName});" aria-hidden="true"></span>`
+      : "";
+    const deprecated = Boolean(entry.token.$deprecated);
+    rows.push({
+      cssName: entry.cssName,
+      category,
+      desc,
+      preview,
+      deprecated,
+      searchText: `${entry.cssName} ${category} ${desc}`.toLowerCase(),
+    });
+  }
+  rows.sort((a, b) => a.cssName.localeCompare(b.cssName));
+  return rows;
+}
+
+function renderTokenTable(rows) {
+  return rows
+    .map((r) => {
+      const badge = r.deprecated ? ` <span class="token-badge">deprecated</span>` : "";
+      return `                <tr data-search="${escapeHtml(r.searchText)}">
+                  <td class="token-table__preview">${r.preview}</td>
+                  <td><code>${escapeHtml(r.cssName)}</code>${badge}</td>
+                  <td>${escapeHtml(r.category)}</td>
+                  <td>${escapeHtml(r.desc)}</td>
+                </tr>`;
+    })
+    .join("\n");
+}
+
+function renderContrastMatrix(rows) {
+  return rows
+    .map((r) => {
+      const statusClass = r.pass ? "status-line--success" : "status-line--error";
+      const statusText = r.pass ? "Pass" : "Fail";
+      return `                <tr>
+                  <td>${r.mode}</td>
+                  <td><code>--color-${r.fg}</code></td>
+                  <td><code>--color-${r.bg}</code></td>
+                  <td>${r.ratio.toFixed(2)}:1</td>
+                  <td>${r.min.toFixed(1)}:1</td>
+                  <td><span class="contrast-badge ${statusClass}">${statusText}</span></td>
+                </tr>`;
+    })
+    .join("\n");
+}
+
+function injectMarker(html, markerName, content) {
+  const re = new RegExp(`(<!-- GENERATED:${markerName} -->)[\\s\\S]*?(<!-- /GENERATED:${markerName} -->)`);
+  if (!re.test(html)) throw new Error(`Marker GENERATED:${markerName} not found in showcase/index.html`);
+  return html.replace(re, `$1\n${content}\n                $2`);
+}
+
+/* ------------------------------------------------------------------ *
  *  Verify, then write
  * ------------------------------------------------------------------ */
 
@@ -546,3 +639,16 @@ await writeFile(path.join(root, "tokens", "design-tokens.css"), header);
 await writeFile(path.join(root, "tokens", "base.css"), baseCss);
 console.log(`\n✓ All ${GATE.length * 2} contrast pairs pass; all colors round-trip through OKLCH.`);
 console.log("✓ Wrote tokens/design-tokens.css and tokens/base.css");
+
+const SHOWCASE_PATH = path.join(root, "showcase", "index.html");
+const tokenTableRows = buildTokenTableRows();
+let showcaseHtml = await readFile(SHOWCASE_PATH, "utf8");
+showcaseHtml = injectMarker(showcaseHtml, "TOKEN-TABLE", renderTokenTable(tokenTableRows));
+showcaseHtml = injectMarker(showcaseHtml, "CONTRAST-MATRIX", renderContrastMatrix(gateRows));
+await writeFile(SHOWCASE_PATH, showcaseHtml);
+console.log(`✓ Regenerated showcase/index.html: ${tokenTableRows.length}-row token table, ${gateRows.length}-row contrast matrix`);
+
+if (deprecated.length > 0) {
+  console.log(`\n⚠ ${deprecated.length} deprecated token(s) still in the source (see DESIGN-SYSTEM.md token lifecycle policy):`);
+  for (const d of deprecated) console.log(`  ${d.cssName} — ${d.message}`);
+}

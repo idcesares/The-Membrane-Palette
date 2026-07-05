@@ -7,7 +7,7 @@
   "homepage": "https://membrane-palette.dcesares.dev/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/idcesares/idcesares-design-system.git"
+    "url": "git+https://github.com/idcesares/The-Membrane-Palette.git"
   },
   "keywords": [
     "design-system",

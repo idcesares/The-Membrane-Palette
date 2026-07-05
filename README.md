@@ -95,7 +95,7 @@ import '@idcesares/design-system/base';         // + base layer
 
 ```html
 <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/idcesares/idcesares-design-system@2/tokens/design-tokens.css">
+  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2/tokens/design-tokens.css">
 ```
 
 > **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets.
@@ -109,8 +109,8 @@ Download [`tokens/design-tokens.css`](tokens/design-tokens.css) and place it in 
 ## Running Locally
 
 ```bash
-git clone https://github.com/idcesares/idcesares-design-system.git
-cd idcesares-design-system
+git clone https://github.com/idcesares/The-Membrane-Palette.git
+cd The-Membrane-Palette
 npm install
 npm run dev          # builds tokens, then serves showcase at localhost:3456
 ```
@@ -229,7 +229,7 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 
 ## Accessibility
 
-- **Automated contrast gate:** the build script verifies 40 foreground/background pairs in both light and dark mode before writing CSS output. A failing pair aborts the build.
+- **Automated contrast gate:** the build script verifies 40 foreground/background pairs in both light and dark mode before writing CSS output. A failing pair aborts the build. CI (`.github/workflows/ci.yml`) runs this gate on every push and PR, and separately verifies the committed generated CSS matches a fresh build — so hand-edited or stale generated files can't merge.
 - All primary/secondary color pairings meet **WCAG AA** contrast requirements; primary text pairs target **AAA**.
 - Focus states use a visible `2px solid` ring from `--focus-ring`, with a dedicated `--color-focus` semantic token that remaps to a higher-contrast value in dark mode.
 - Motion tokens respect `prefers-reduced-motion: reduce`.
@@ -260,7 +260,7 @@ Accent colors are paired per-token (primitives stay immutable; only semantic tok
 ## File Structure
 
 ```
-idcesares-design-system/
+The-Membrane-Palette/
 ├── tokens/
 │   ├── membrane.tokens.json   ← Source of truth (edit this)
 │   ├── design-tokens.css      ← Generated — import this

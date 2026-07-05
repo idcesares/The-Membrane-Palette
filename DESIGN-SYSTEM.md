@@ -970,6 +970,19 @@ Three tiers:
 
 Numeric suffixes mean different things in different categories — `--color-neutral-100` is a lightness step; `--color-terracotta-10` is an alpha wash (10% opacity). This is a known inconsistency preserved for backwards compatibility. New tokens use explicit suffixes (`--color-tint-terracotta-10`) where ambiguity would arise.
 
+### Token lifecycle & deprecation policy
+
+Tokens are a public API — renaming or removing one is a breaking change for every consumer who imported `tokens/design-tokens.css`. This system follows the semantic-versioning discipline already stated at the top of `CHANGELOG.md` (breaking token renames or removals increment the major version), with a concrete process for the deprecation window in between:
+
+1. **Mark, don't remove.** When a token is superseded, add `"$deprecated": "<reason and replacement>"` to its entry in `tokens/membrane.tokens.json` rather than deleting it. Example:
+   ```json
+   "old-token": { "$type": "color", "$value": "...", "$deprecated": "Use --color-action-primary instead." }
+   ```
+2. **The build surfaces it automatically.** `scripts/build-tokens.mjs` emits an `/* @deprecated ... */` comment directly above the token's declaration in the generated CSS, and prints a summary of every deprecated token still in the source at the end of every `npm run build:tokens` run (and therefore in every CI log — see `.github/workflows/ci.yml`). A deprecated token is never silently forgotten.
+3. **One full major version of overlap, minimum.** A token marked deprecated in `v2.x` is not deleted before `v3.0.0`. This gives consumers a real window to migrate, discoverable by grepping their own CSS for the token name against the CHANGELOG's migration notes.
+4. **Removal happens in the CHANGELOG's "Removed" section**, with the same token name and the version it was first deprecated in, so the history stays traceable — mirroring the removed-token entries already in this CHANGELOG (see `--state-hover-opacity`/`--state-pressed-opacity` for the pre-1.0 precedent of removing something that was never actually adopted, versus a true deprecation-then-removal cycle for something consumers may already depend on).
+5. **This does not apply to pre-release churn.** Tokens added and removed within the same unreleased version (as happened during the v2.0 rebuild in this document's history) are not deprecations — nothing shipped, so there's nothing to migrate away from.
+
 ---
 
 > **Companion Documents:**
