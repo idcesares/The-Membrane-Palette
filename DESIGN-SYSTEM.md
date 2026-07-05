@@ -1,5 +1,5 @@
 # Isaac D'Césares — Brand Design System
-> **Version 1.1 · March 2026**
+> **Version 2.0 · July 2026**
 > *The visual translation of the brand essence into a coherent, reproducible system.*
 
 ---
@@ -10,7 +10,7 @@ This design system is the **single source of truth** for every visual and intera
 
 **For designers:** Follow the tokens, scales, and component patterns. Every decision has intent — do not substitute without understanding the reasoning.
 
-**For developers:** Reference the CSS custom properties in `tokens/design-tokens.css`. All values map 1:1 to this document.
+**For developers:** The CSS custom properties in `tokens/design-tokens.css` are **generated** from `tokens/membrane.tokens.json`. Edit the JSON source, run `npm run build:tokens`, and the CSS updates. All semantic token names map 1:1 to this document. Prefer Tier 2 semantic tokens (`--color-action-primary`, `--color-text-tertiary`, etc.) over Tier 1 primitives (`--color-terracotta`) in component code.
 
 **For AI agents:** Use this document as your style constraint. When generating any visual or textual content for the brand, validate against Section 1 (Principles), Section 2 (Color), and Section 3 (Typography) at minimum.
 
@@ -111,23 +111,32 @@ This is not arbitrary. When a design element relates to the human side of the br
 
 ### 2.3 Semantic Colors
 
-| Token | Light Mode | Dark Mode | Usage |
-|-------|-----------|-----------|-------|
-| `--color-text-primary` | `--neutral-800` | `#F0EBE1` | Primary body text |
-| `--color-text-secondary` | `--neutral-600` | `#A39D93` | Supporting text, captions |
-| `--color-text-tertiary` | `--neutral-400` | `#7D776E` | Placeholder, metadata |
-| `--color-text-accent` | `--color-teal` | `#3AAFA8` | Links, interactive text |
-| `--color-text-on-accent` | `#FFFFFF` | `#FFFFFF` | Text on terracotta/teal backgrounds |
+Each token carries its `light-dark()` pair internally — the same property name works in both modes. No override blocks required.
+
+| Token | Light value | Dark value | Usage |
+|-------|------------|-----------|-------|
+| `--color-text-primary` | `--neutral-800` | `--neutral-100` | Primary body text |
+| `--color-text-secondary` | `--neutral-600` | `--neutral-400` | Supporting text, captions |
+| `--color-text-tertiary` | `#6E685F` | `#938D83` | Placeholder, metadata. v2.0: darkened to meet 4.5:1 on bg-primary and bg-secondary. |
+| `--color-text-accent` | `--color-teal` | `--color-teal-light` | Links, interactive text |
+| `--color-text-on-accent` | `#FFFFFF` | `--color-charcoal` | Text on action-primary background. v2.0: dark mode flips to charcoal — white on lightened terracotta was 3.3:1. |
+| `--color-action-primary` | `--color-terracotta` | `--color-terracotta-light` | Primary CTAs, key interactive accents. Use instead of bare `--color-terracotta` on interactive elements. |
+| `--color-action-secondary` | `--color-teal` | `--color-teal-light` | Secondary/navigational actions. |
+| `--color-focus` | `--color-teal` | `--color-teal-light` | Focus ring color. v2.0: dark mode remapped to teal-light (raw teal is 3.1:1 on charcoal). |
 | `--color-bg-primary` | `--color-cream` | `--color-charcoal` | Page background |
 | `--color-bg-secondary` | `--neutral-100` | `#242429` | Cards, sections |
 | `--color-bg-tertiary` | `--neutral-200` | `#2E2E34` | Nested containers |
 | `--color-border-default` | `--neutral-200` | `#3D3842` | Default borders |
-| `--color-border-emphasis` | `--neutral-300` | `#5C564E` | Emphasized borders |
-| `--color-overlay-bg` | `rgba(26, 27, 31, 0.70)` | `rgba(26, 27, 31, 0.70)` | Scrims, navigation overlays, image readability layers |
-| `--color-success` | `--color-sage` | `#6FBF8A` | Success states |
-| `--color-warning` | `--color-amber` | `#E8B44A` | Warning states |
-| `--color-error` | `#C44040` | `#E86060` | Error states |
-| `--color-info` | `--color-teal` | `#3AAFA8` | Informational states |
+| `--color-border-emphasis` | `--neutral-300` | `--neutral-600` | Emphasized borders |
+| `--color-overlay-bg` | `rgba(26, 27, 31, 0.70)` | same | Scrims, navigation overlays, image readability layers |
+| `--color-success` | `--color-sage` | `--color-sage-light` | Success fills, icons, large text (≥3:1 on bg-primary). |
+| `--color-success-text` | `#3E6B52` | `--color-sage-light` | Success body text (4.5:1). v2.0: new. |
+| `--color-warning` | `--color-amber` | `--color-amber-light` | Warning fills and badges with dark text on top. Never use as text on light surfaces (2.3:1). |
+| `--color-warning-text` | `#8A6420` | `--color-amber-light` | Warning body text (5.0:1). v2.0: new. |
+| `--color-error` | `#C44040` | `#E86060` | Error fills and icons. |
+| `--color-error-text` | `#B23A3A` | `#E86060` | Error body text (5.5:1). v2.0: new. |
+| `--color-info` | `--color-teal` | `--color-teal-light` | Informational states |
+| `--color-selection` | terracotta 20% | terracotta-light 20% | Text selection highlight. v2.0: new. |
 
 ### 2.4 Color Usage Rules
 
@@ -209,7 +218,7 @@ This triad mirrors the brand identity triad: **Researcher (Fraunces) · Educator
 
 ### 3.3 Type Scale
 
-The scale uses a **1.250 ratio (Major Third)** — harmonious and readable without being dramatic. All sizes use `clamp()` for fluid responsive behavior.
+The scale uses a **variable ratio** — approximately 1.20 between small steps, widening to approximately 1.375 at display sizes. All sizes use `clamp()` for fluid responsive behavior.
 
 | Token | Min (mobile) | Preferred | Max (desktop) | Weight | Font | Usage |
 |-------|-------------|-----------|---------------|--------|------|-------|
@@ -779,6 +788,27 @@ VOICE CONSTRAINTS (from Brand Essence):
 
 Dark mode is not an afterthought — it is an equal expression of the brand. The membrane metaphor holds: warm accents on cool-dark surfaces create a compelling visual tension.
 
+### 12.0 Implementation (v2.0)
+
+Dark mode is implemented entirely via `light-dark()` on each semantic token — there are no override blocks or media query duplication. The token file sets:
+
+```css
+:root { color-scheme: light dark; }
+[data-theme="dark"],  .theme-dark { color-scheme: dark; }
+[data-theme="light"] { color-scheme: light; }
+```
+
+Every semantic token declares its own pair:
+
+```css
+--color-bg-primary:     light-dark(var(--color-cream), var(--color-charcoal));
+--color-action-primary: light-dark(var(--color-terracotta), var(--color-terracotta-light));
+--color-focus:          light-dark(var(--color-teal), var(--color-teal-light));
+```
+
+Primitives are immutable in both modes. **Never redefine a primitive inside a theme override block.**
+
+
 ### 12.1 Dark Mode Color Mapping
 
 | Role | Light Mode | Dark Mode |
@@ -809,19 +839,32 @@ Dark mode is not an afterthought — it is an equal expression of the brand. The
 
 ## 13. Accessibility
 
+> The design system now enforces accessibility at the build level — see §13.1 for the automated contrast gate. The rules below are design intent; the gate is what makes them non-negotiable.
+
+
+
 ### 13.1 Contrast Requirements
 
-All text must meet **WCAG AA minimum** (4.5:1 for body text, 3:1 for large text). Target **AAA** (7:1 / 4.5:1) where possible.
+All text must meet **WCAG AA minimum** (4.5:1 for body text, 3:1 for large text and UI components). Target **AAA** (7:1 / 4.5:1) where possible.
 
-Verified contrast ratios for core combinations:
+> **v2.0 enforcement:** The build script (`npm run build:tokens`) verifies 40 foreground/background pairs in both light and dark mode before writing CSS output. The build aborts if any pair regresses. Run it after any token change.
 
-| Foreground | Background | Ratio | Pass |
-|-----------|------------|-------|------|
-| `--neutral-800` on `--cream` | `#2A2622` on `#FAF6EE` | 12.4:1 | AAA |
-| `--terracotta` on `--cream` | `#B35530` on `#FAF6EE` | 4.6:1 | AA |
-| `--teal` on `--cream` | `#1B756D` on `#FAF6EE` | 5.6:1 | AA |
-| `--cream` text on `--charcoal` | `#F0EBE1` on `#1A1B1F` | 14.2:1 | AAA |
-| `--cream` text on `--terracotta` | `#FFFFFF` on `#B35530` | 4.9:1 | AA |
+Verified contrast ratios (light mode / dark mode):
+
+| Foreground | Background | Light | Dark | Level |
+|-----------|------------|-------|------|-------|
+| `--color-text-primary` | `--color-bg-primary` | 13.9:1 | 14.5:1 | AAA |
+| `--color-text-primary` | `--color-bg-secondary` | 12.6:1 | 13.0:1 | AAA |
+| `--color-text-secondary` | `--color-bg-primary` | 6.7:1 | 6.4:1 | AA |
+| `--color-text-tertiary` | `--color-bg-primary` | 5.1:1 | 5.2:1 | AA |
+| `--color-text-tertiary` | `--color-bg-secondary` | 4.6:1 | 4.7:1 | AA |
+| `--color-text-accent` | `--color-bg-primary` | 5.1:1 | 6.5:1 | AA |
+| `--color-text-on-accent` | `--color-action-primary` | 4.9:1 | 8.3:1 | AA / AAA |
+| `--color-success-text` | `--color-bg-primary` | 5.7:1 | 7.8:1 | AA |
+| `--color-warning-text` | `--color-bg-primary` | 5.0:1 | 9.1:1 | AA |
+| `--color-error-text` | `--color-bg-primary` | 5.5:1 | 5.1:1 | AA |
+| `--color-focus` | `--color-bg-primary` | 5.1:1 | 6.5:1 | AA (WCAG 1.4.11) |
+| `--color-focus` | `--color-bg-secondary` | 4.6:1 | 5.8:1 | AA |
 
 ### 13.2 Focus States
 
@@ -867,32 +910,53 @@ Examples:
 
 ## 15. Design Token Summary
 
-All tokens are available in `tokens/design-tokens.css` as CSS custom properties. The token architecture:
+All tokens are generated from `tokens/membrane.tokens.json` into `tokens/design-tokens.css` and `tokens/base.css`.
 
 ```
 tokens/
-├── design-tokens.css     ← Complete token file (import this)
+├── membrane.tokens.json   ← Source of truth (DTCG-flavored JSON — edit this)
+├── design-tokens.css      ← Generated: @layer tokens — pure custom properties
+└── base.css               ← Generated: @layer base — element rules (optional)
 ```
 
-Token naming convention: `--{category}-{property}-{variant}`
+### Token architecture
+
+Three tiers:
+- **Tier 1 — Primitives:** raw values, immutable across modes. (`--color-terracotta`, `--color-neutral-*`, etc.)
+- **Tier 2 — Semantics:** intent-named, carry their own `light-dark()` pair. (**Consume these in components.**)
+- **Tier 3 — Component recipes:** documented as patterns in §6; not emitted as tokens.
+
+### Token naming convention: `--{category}-{property}-{variant}`
 
 ```
---color-terracotta          (color, named)
---color-text-primary        (color, semantic)
---color-info                (color, semantic)
+--color-terracotta          (color, primitive)
+--color-action-primary      (color, semantic)
+--color-text-tertiary       (color, semantic)
+--color-success-text        (color, semantic)
+--color-warning-text        (color, semantic)
 --text-h1                   (typography, scale)
 --weight-semibold           (typography, weight)
 --space-8                   (spacing, scale)
+--size-touch-target         (size, fixed — v2.0)
+--size-nav                  (size, fixed — v2.0)
+--border-width-thick        (border, width — v2.0)
 --radius-md                 (border-radius, scale)
+--elevation-modal           (shadow, semantic — v2.0)
 --z-nav                     (z-index, layer)
+--state-hover-opacity       (interaction, state — v2.0)
 --opacity-subtle            (opacity, scale)
 --shadow-md                 (shadow, scale)
 --duration-normal           (motion, scale)
 --ease-out                  (motion, easing)
 --transition-default        (motion, composite)
 --focus-ring                (accessibility, focus)
+--blur-backdrop             (blur, scale — v2.0)
 --code-bg                   (code block, color)
 ```
+
+### Naming note
+
+Numeric suffixes mean different things in different categories — `--color-neutral-100` is a lightness step; `--color-terracotta-10` is an alpha wash (10% opacity). This is a known inconsistency preserved for backwards compatibility. New tokens use explicit suffixes (`--color-tint-terracotta-10`) where ambiguity would arise.
 
 ---
 

@@ -1,10 +1,10 @@
 {
-  "name": "idcesares-design-system",
-  "version": "1.1.0",
+  "name": "@idcesares/design-system",
+  "version": "2.0.0",
   "description": "The Membrane Palette — a token-based design system where human warmth meets digital precision.",
-  "author": "Isaac D'Cesares",
+  "author": "Isaac D'Césares <isaac.dcesares@gmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/idcesares/idcesares-design-system",
+  "homepage": "https://membrane-palette.dcesares.dev/",
   "repository": {
     "type": "git",
     "url": "https://github.com/idcesares/idcesares-design-system.git"
@@ -12,17 +12,31 @@
   "keywords": [
     "design-system",
     "design-tokens",
+    "dtcg",
     "css-custom-properties",
     "membrane-palette",
     "dark-mode",
     "accessibility",
-    "wcag"
+    "wcag",
+    "oklch"
+  ],
+  "exports": {
+    ".":              "./tokens/design-tokens.css",
+    "./tokens":       "./tokens/design-tokens.css",
+    "./base":         "./tokens/base.css",
+    "./tokens.json":  "./tokens/membrane.tokens.json"
+  },
+  "files": [
+    "tokens/design-tokens.css",
+    "tokens/base.css",
+    "tokens/membrane.tokens.json"
   ],
   "scripts": {
-    "build": "node scripts/build-cloudflare-pages.mjs",
-    "deploy": "npx wrangler deploy",
-    "dev": "npm run build && serve dist -l 3456",
-    "preview": "npm run build && serve dist -l 3456"
+    "build:tokens":  "node scripts/build-tokens.mjs",
+    "build":         "node scripts/build-cloudflare-pages.mjs",
+    "deploy":        "npx wrangler deploy",
+    "dev":           "npm run build && serve dist -l 3456",
+    "preview":       "npm run build && serve dist -l 3456"
   },
   "type": "commonjs",
   "devDependencies": {
