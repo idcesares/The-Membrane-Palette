@@ -5,6 +5,14 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ---
 
+## [Unreleased]
+
+- `package.json` name changed from `@idcesares/design-system` (a scope/name that was never published and didn't match the repository) to `@idcesares/the-membrane-palette`. `package-lock.json` regenerated to match.
+- Removed npm as a documented delivery path for now — `README.md`, `CLAUDE.md`, and `AGENTS.md` no longer describe an `npm install` / `npm publish` flow for the tokens. The jsDelivr CDN link is the only supported integration path until npm distribution is set up.
+- Fixed the jsDelivr CDN URL in `README.md`: dropped the `@2` version pin (no matching release tag exists) — `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css`.
+
+---
+
 ## [2.0.0] — 2026-07-05
 
 ### Architecture overhaul
@@ -86,6 +94,9 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 - `package.json` name changed from `idcesares-design-system` to `@idcesares/design-system`.
 - Type-scale description updated in spec: the scale is a variable ratio (≈1.20 at small steps, ≈1.375 at display), not a fixed Major Third.
+- `README.md` restructured for two audiences: added a "For AI Agents" section (pointers to `CLAUDE.md`/`AGENTS.md`, `DESIGN-SYSTEM.md` §0/§11.4, `BRAND-VOICE.md`), a "Deployment & Publishing" section documenting the previously-undocumented Cloudflare Pages (`npm run deploy`) and `npm publish` paths, a "Contributing" section, and an anchor-linked nav row under the title.
+- `CLAUDE.md` / `AGENTS.md` Commands section now lists `npm run preview` and `npm run deploy` (previously omitted) and documents the `files`/`exports` publish surface in `package.json`.
+- `CHANGELOG.md` gained a standing `[Unreleased]` section per Keep a Changelog convention, so PRs have a documented place to add entries.
 
 ### Removed
 
