@@ -955,7 +955,7 @@ Three tiers:
 --radius-md                 (border-radius, scale)
 --elevation-modal           (shadow, semantic — v2.0)
 --z-nav                     (z-index, layer)
---state-hover-opacity       (interaction, state — v2.0)
+--state-disabled-opacity    (interaction, state — v2.0)
 --opacity-subtle            (opacity, scale)
 --shadow-md                 (shadow, scale)
 --duration-normal           (motion, scale)
@@ -974,10 +974,8 @@ Numeric suffixes mean different things in different categories — `--color-neut
 
 > **Companion Documents:**
 > - `BRAND-VOICE.md` — Complete voice and tone guide with writing samples, vocabulary, and audience adaptation rules.
-> - `isaac-dcesares-brand-essence-ultimate.md` — The generative seed from which this system and the voice guide derive.
 
 ---
 
 *This design system is a living document. Revisit every 6 months or at any significant brand evolution.*
-*It is the visual companion to the Brand Essence document — both must be consulted together.*
 *When in doubt: warm, precise, human, and meaningful. Always.*

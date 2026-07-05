@@ -21,7 +21,6 @@ This is a **token-based design system** — not a component library. It consists
 - `tokens/base.css` — **Generated (optional).** Element-level rules — `::selection`, reduced motion, focus ring, typography composite classes — in `@layer base`. Import after `design-tokens.css` if you want these defaults.
 - `showcase/index.html` — Static reference site demonstrating all tokens and component patterns in one file.
 - `DESIGN-SYSTEM.md` — Authoritative specification: 15 sections covering colors, typography, spacing, components, dark mode, accessibility, and naming conventions.
-- `DESIGN.md` — **Deprecated.** Frozen v1.1 YAML mirror, scheduled for removal in v3.0. Do not update it; update `tokens/membrane.tokens.json` instead.
 
 There is no TypeScript or framework. The intended distribution model: other projects import `tokens/design-tokens.css` directly, then build components manually following the patterns in `DESIGN-SYSTEM.md`.
 

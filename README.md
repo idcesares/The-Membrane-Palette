@@ -213,7 +213,7 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 - **4px base unit** — `--space-1` (0.25rem) through `--space-32` (8rem)
 - **Warm-tinted shadows** — each stop uses `light-dark()` for automatic dark-mode adaptation
 - **Motion** — respects `prefers-reduced-motion`; all durations fall to 0ms when enabled
-- **State layers** — `--state-hover-opacity`, `--state-pressed-opacity`, `--state-disabled-opacity`
+- **Disabled state** — `--state-disabled-opacity`; hover/active feedback is brightness()-filter-based, not opacity-overlay-based
 
 <br>
 
