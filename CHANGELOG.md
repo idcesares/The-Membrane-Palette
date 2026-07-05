@@ -39,12 +39,15 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 - New size tokens: `--size-icon-sm/md/lg/xl`, `--size-touch-target`, `--size-nav`, `--size-nav-mobile`.
 - New border-width tokens: `--border-width-thin/medium/thick` (previously literal px values in specs).
 - New semantic elevation aliases: `--elevation-raised`, `--elevation-overlay`, `--elevation-modal`.
-- New state-layer tokens: `--state-hover-opacity`, `--state-pressed-opacity`, `--state-disabled-opacity`.
+- New state token: `--state-disabled-opacity`, wired to a real disabled-button demo in the showcase (hover/active feedback in this system stays brightness()-filter-based per §6.1, so no separate hover/pressed opacity tokens were introduced).
 - New blur token: `--blur-backdrop` (previously 12px in spec, 18px in showcase — now unified at 12px).
 - New glow token: `--shadow-glow-teal` dark-mode variant (previously unmapped).
 - New photo token: `--photo-dim-dark` (the `brightness(0.92)` factor from spec §12.2 rule 6).
 - New accent color tints: `--color-amber-10`, `--color-burgundy-10`, `--color-sage-10`.
 - Showcase: status semantics specimen (success/warning/error text + fill tokens side by side).
+- `.github/workflows/ci.yml` — runs `npm run build:tokens` (OKLCH round-trip + 40-pair contrast gate) and `npm run build` on every push/PR, and fails if the committed generated CSS doesn't match a fresh build. Full pixel-diff visual regression was considered and intentionally scoped out: this project has no existing test framework, and screenshot-baseline maintenance is disproportionate for a token/CSS-only system without a component tree to snapshot.
+- Token lifecycle & deprecation policy (`DESIGN-SYSTEM.md` §15) with a real mechanism behind it: mark a token `"$deprecated": "<reason>"` in `tokens/membrane.tokens.json` and the build emits an inline `/* @deprecated */` comment above its CSS declaration plus a console summary on every `npm run build:tokens` run (surfaced in CI logs too).
+- Showcase "05 / Reference" section: a Do/Don't specimen (six concrete good/bad comparisons — semantic vs. primitive tokens, contrast-safe vs. unsafe status text, tokenized vs. literal touch targets); a full, searchable, generated token table (186 rows, vanilla-JS filter, live `var()` color swatches); and a generated contrast matrix (all 40 gated pairs with pass/fail badges). The table and matrix are rendered by `scripts/build-tokens.mjs` from the exact same registry and gate computation used to build the CSS — there is no hand-maintained copy to fall out of sync.
 
 ### Fixed
 
@@ -66,19 +69,29 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 - `--gradient-membrane` endpoints now lighten in dark mode (spec §12.2 rule 3 was documented but not implemented).
 - `--shadow-*` tokens now carry their own dark-mode values via `light-dark()` (were not overridden in dark mode).
 - `--gradient-warmth` stop-color is now mode-aware via `light-dark()`.
+- `DESIGN-SYSTEM.md` §6 component recipes (buttons, cards, nav, inputs, tags, blockquotes, code blocks) referenced Tier 1 primitives directly instead of the new Tier 2 semantic tokens — the exact defect the semantic tier exists to prevent. Rewritten to use `--color-action-primary/secondary`, `--color-focus`, `--elevation-*`, and `--border-width-*` throughout.
+- `DESIGN-SYSTEM.md` §12.1's dark-mode mapping table and §5.3/§13.2 token tables still showed pre-fix literal values (old tertiary-text hex, old `--border-accent`/`--focus-ring` values) after the token layer had already moved on.
+- §12.2 rule 2 described a "cards get a border instead of a shadow" dark-mode behavior that was never implemented and was redundant with the always-on card border in §6.2 — corrected to describe what's actually true.
+- The showcase reimplemented `.type-display`/`.type-heading`/`.type-body`/`.type-code` locally instead of consuming the real `.type-display`/`.type-h2`/`.type-body`/`.type-code` composite classes shipped in `tokens/base.css` — removed the duplicate, wired the showcase to the real classes.
+- The showcase's card/toggle/swatch shadows referenced raw `--shadow-sm`/`--shadow-md` directly instead of the semantic `--elevation-raised`/`--elevation-overlay` aliases introduced alongside them; wired where the component is genuinely card/overlay-shaped (large decorative panels and the code-block panel intentionally kept raw `--shadow-lg`, since "modal" doesn't describe them).
+- `CLAUDE.md` and `AGENTS.md` (identical content) claimed "no build step" and named `design-tokens.css` as the single source of truth — both false as of this release. Updated to describe the actual build commands and the JSON-source/generated-CSS split; also fixed a transposed terracotta hex (`#BF5B33` → `#B35530`) that predated this release.
 
 **Primitive mutation removed.** `[data-theme="dark"]` no longer redefines `--color-terracotta` or other primitives. Primitives are invariant; dark-mode behavior is entirely in semantic tokens.
 
 **README CDN link fixed.** The Quick Start `<link>` example now uses jsDelivr instead of `raw.githubusercontent.com` (which serves `text/plain` and is rejected by browsers).
+
+**Repository URL mismatch fixed.** `package.json`'s `repository.url`, the README's jsDelivr CDN link, git clone command, and file-structure diagram all pointed to `github.com/idcesares/idcesares-design-system` — a repository that does not exist. The actual remote is `github.com/idcesares/The-Membrane-Palette`; every reference now matches it. Caught by running `npm publish --dry-run` while verifying publish-readiness for this release.
 
 ### Changed (non-breaking)
 
 - `package.json` name changed from `idcesares-design-system` to `@idcesares/design-system`.
 - Type-scale description updated in spec: the scale is a variable ratio (≈1.20 at small steps, ≈1.375 at display), not a fixed Major Third.
 
-### Deprecated
+### Removed
 
-- `DESIGN.md` — the YAML file was a hand-synced mirror of the tokens. It is preserved for one release but will be removed in v3.0. The canonical machine-readable source is now `tokens/membrane.tokens.json`.
+- `DESIGN.md` — the hand-synced YAML mirror of the tokens. Since v2.0 had not shipped yet, it was removed outright rather than carried forward as a deprecated stub. The canonical machine-readable source is now `tokens/membrane.tokens.json`.
+- References to `isaac-dcesares-brand-essence-ultimate.md` in `DESIGN-SYSTEM.md` and `BRAND-VOICE.md` — this file does not exist anywhere in the repository. Rather than guess at its location or leave an unverifiable pointer, the references were removed.
+- `--state-hover-opacity` and `--state-pressed-opacity` — declared but never consumed anywhere; this system's hover/active feedback is brightness()-filter-based (§6.1), not opacity-overlay-based, so the tokens described an interaction model the system doesn't actually use. Only `--state-disabled-opacity` (which is wired to a real component) remains.
 
 ### Migration guide
 

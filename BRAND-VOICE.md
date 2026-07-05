@@ -595,7 +595,7 @@ If any answer is no, revise.
 
 ---
 
-*This brand voice guide is the companion to the Brand Essence document (isaac-dcesares-brand-essence-ultimate.md) and the Design System (DESIGN-SYSTEM.md). Consult all three together.*
+*This brand voice guide is the companion to the Design System (`DESIGN-SYSTEM.md`). Consult both together.*
 
 *When in doubt: articulate, warm, concrete, confident without arrogance, Brazilian in texture, and layered. Always.*
 

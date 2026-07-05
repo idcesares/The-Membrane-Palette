@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    name: Build tokens & showcase
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      # Regenerates tokens/design-tokens.css and tokens/base.css from
+      # tokens/membrane.tokens.json. Fails the build if any color fails
+      # its OKLCH round-trip, or if any of the 40 gated contrast pairs
+      # (light + dark) falls below its WCAG minimum. This is the
+      # primary regression check for this repo.
+      - name: Build tokens (OKLCH round-trip + WCAG contrast gate)
+        run: npm run build:tokens
+
+      # Confirms the generated tokens are consistent with what's
+      # committed, so nobody merges hand-edited or stale generated CSS.
+      - name: Verify generated files are up to date
+        run: |
+          if ! git diff --quiet -- tokens/design-tokens.css tokens/base.css; then
+            echo "::error::tokens/design-tokens.css or tokens/base.css is out of date."
+            echo "Run 'npm run build:tokens' locally and commit the result."
+            git diff -- tokens/design-tokens.css tokens/base.css
+            exit 1
+          fi
+
+      # Assembles dist/ the same way the Cloudflare Pages deploy does,
+      # to catch showcase/marker or asset-copy regressions before merge.
+      - name: Build showcase (Cloudflare Pages assembly)
+        run: npm run build

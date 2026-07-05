@@ -154,8 +154,8 @@ Gradients are used intentionally to represent the "membrane" — the translation
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--gradient-membrane` | `linear-gradient(135deg, #B35530 0%, #1B756D 100%)` | The brand's signature gradient. Human → Digital. Used on hero sections, key visual moments, not on small UI elements. |
-| `--gradient-warmth` | `radial-gradient(ellipse at 15% 0%, rgba(179,85,48,0.08) 0%, transparent 70%)` | Subtle warm glow applied to section backgrounds. Creates ambient warmth without being decorative. |
+| `--gradient-membrane` | `linear-gradient(135deg, light-dark(#B35530, #D4724F) 0%, light-dark(#1B756D, #3AAFA8) 100%)` | The brand's signature gradient. Human → Digital. v2.0: both endpoints lighten in dark mode via `light-dark()` on `--color-action-primary`/`--color-action-secondary`. Used on hero sections, key visual moments, not on small UI elements. |
+| `--gradient-warmth` | `radial-gradient(ellipse at 15% 0%, color-mix(in srgb, light-dark(#B35530, #D4724F) 8%, transparent) 0%, transparent 70%)` | Subtle warm glow applied to section backgrounds. v2.0: mode-aware via the same mechanism as the derived tints (§2.2). Creates ambient warmth without being decorative. |
 | `--gradient-depth` | `linear-gradient(180deg, var(--color-charcoal) 0%, #12131A 100%)` | Dark mode depth. Used on hero backgrounds in dark mode. |
 | `--gradient-divider` | `linear-gradient(90deg, transparent, var(--color-border-default), transparent)` | Fading dividers between sections |
 | `--gradient-subtle` | `linear-gradient(150deg, var(--color-bg-secondary) 8%, var(--color-bg-primary) 92%)` | Quiet surface transition used by content cards and media frames |
@@ -392,37 +392,40 @@ Shadows are warm-tinted (not pure black) to maintain the warmth principle.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--border-default` | `1px solid var(--color-border-default)` | Standard borders |
-| `--border-emphasis` | `1px solid var(--color-border-emphasis)` | Emphasized separation |
-| `--border-accent` | `2px solid var(--color-terracotta)` | Active states, selected items |
+| `--border-default` | `var(--border-width-thin) solid var(--color-border-default)` | Standard borders |
+| `--border-emphasis` | `var(--border-width-thin) solid var(--color-border-emphasis)` | Emphasized separation |
+| `--border-accent` | `var(--border-width-medium) solid var(--color-action-primary)` | Active states, selected items |
 
 ---
 
 ## 6. Component Patterns
 
+> **v2.0:** Every recipe below consumes Tier 2 **semantic** tokens (`--color-action-primary`, `--color-focus`, etc.), not Tier 1 primitives (`--color-terracotta`). This is what lets a component built from these recipes retheme automatically — the semantic token already carries its `light-dark()` pair. Reaching into a primitive directly (as earlier versions of this spec did) is what caused dark mode to require duplicated override blocks; don't reintroduce that pattern.
+
 ### 6.1 Buttons
 
-**Primary Button (Terracotta)**
+**Primary Button**
 ```
-Background:     var(--color-terracotta)
-Text:           #FFFFFF
+Background:     var(--color-action-primary)
+Text:           var(--color-text-on-accent)
 Padding:        0.875rem 2rem
 Border-radius:  var(--radius-full)
 Font:           Instrument Sans, 500, var(--text-body)
 Letter-spacing: 0.01em
 Hover:          brightness(1.08), shadow-glow-warm
 Active:         brightness(0.95)
-Transition:     all 0.2s ease
+Transition:     var(--transition-fast)
 ```
 
-**Secondary Button (Teal, outline)**
+**Secondary Button (outline)**
 ```
 Background:     transparent
-Border:         2px solid var(--color-teal)
-Text:           var(--color-teal)
+Border:         var(--border-width-medium) solid var(--color-action-secondary)
+Text:           var(--color-action-secondary)
 Padding:        0.75rem 1.75rem
 Border-radius:  var(--radius-full)
-Hover:          background var(--color-teal), text #FFFFFF
+Hover:          background var(--color-action-secondary), text var(--color-bg-primary)
+Transition:     var(--transition-fast)
 ```
 
 **Ghost Button**
@@ -432,6 +435,7 @@ Text:           var(--color-text-primary)
 Padding:        0.75rem 1.5rem
 Border-radius:  var(--radius-full)
 Hover:          background var(--color-bg-secondary)
+Transition:     var(--transition-fast)
 ```
 
 **Button sizing:**
@@ -441,6 +445,8 @@ Hover:          background var(--color-bg-secondary)
 | Default | `0.875rem 2rem` | `--text-body` |
 | Large | `1rem 2.5rem` | `--text-body-lg` |
 
+All buttons must meet `--size-touch-target` (44px) as a minimum height regardless of padding.
+
 ### 6.2 Cards
 
 **Standard Card**
@@ -449,37 +455,39 @@ Background:     var(--color-bg-secondary)
 Border:         var(--border-default)
 Border-radius:  var(--radius-lg)
 Padding:        var(--space-6)
-Shadow:         var(--shadow-sm)
-Hover:          shadow-md, translateY(-2px)
-Transition:     all 0.25s ease
+Shadow:         var(--elevation-raised)
+Hover:          var(--elevation-overlay), translateY(-2px)
+Transition:     var(--transition-slow)
 ```
 
 **Featured Card**
 ```
 Background:     var(--color-bg-secondary)
-Border-left:    3px solid var(--color-terracotta)
+Border-left:    var(--border-width-thick) solid var(--color-action-primary)
 Border-radius:  var(--radius-lg)
 Padding:        var(--space-8)
-Shadow:         var(--shadow-md)
+Shadow:         var(--elevation-overlay)
 ```
 
 **Card anatomy:**
 1. Optional image/media area (top, full-bleed within card radius)
-2. Overline label (text-xs, uppercase, terracotta or teal, `--space-3` bottom)
+2. Overline label (text-xs, uppercase, `--color-action-primary` or `--color-action-secondary`, `--space-3` bottom)
 3. Title (H3, Fraunces, `--space-2` bottom)
 4. Description (body text, `--space-4` bottom)
 5. Optional metadata footer (text-small, secondary text color)
 
+> Cards already carry `--border-default` in both light and dark mode as part of the base recipe — this is why dark mode does not need a separate "border instead of shadow" swap (see §12.2 rule 2 for the historical note).
+
 ### 6.3 Navigation
 
 ```
-Height:         64px (desktop), 56px (mobile)
-Background:     var(--color-bg-primary) with backdrop-blur(12px) + 80% opacity
+Height:         var(--size-nav) (desktop), var(--size-nav-mobile) (mobile)
+Background:     var(--color-bg-primary) with backdrop-filter: blur(var(--blur-backdrop)) + ~85-88% opacity
 Border-bottom:  var(--border-default)
 Position:       sticky top
 Logo:           Left-aligned
 Nav links:      Instrument Sans, 500, --text-small, uppercase, letter-spacing 0.04em
-Active link:    color var(--color-terracotta), underline-offset 4px
+Active link:    color var(--color-action-primary), underline-offset 4px
 ```
 
 ### 6.4 Input Fields
@@ -488,29 +496,31 @@ Active link:    color var(--color-terracotta), underline-offset 4px
 Background:     var(--color-bg-primary)
 Border:         var(--border-default)
 Border-radius:  var(--radius-sm)
-Padding:        0.75rem 1rem
+Padding:        var(--space-3) var(--space-4)
 Font:           Instrument Sans, 400, --text-body
-Focus:          border-color var(--color-teal), shadow-glow-teal (subtle)
+Focus:          border-color var(--color-focus), shadow-glow-teal (subtle)
 Placeholder:    var(--color-text-tertiary)
 ```
+
+`--color-focus` is a dedicated semantic token (distinct from `--color-action-secondary`) precisely so the focus ring can be retuned for contrast independent of the teal action color — see §13.2.
 
 ### 6.5 Tags / Pills
 
 ```
-Background:     rgba(27, 117, 109, 0.1)  /* teal at 10% */
-Text:           var(--color-teal)
+Background:     var(--color-teal-10)
+Text:           var(--color-action-secondary)
 Padding:        var(--space-1) var(--space-3)
 Border-radius:  var(--radius-full)
 Font:           Instrument Sans, 500, --text-xs
 ```
 
-For human-register tags (education topics): use terracotta at 10% with terracotta text.
-For builder-register tags (tech stack): use teal at 10% with teal text.
+For human-register tags (education topics): `--color-terracotta-10` background with `--color-action-primary` text.
+For builder-register tags (tech stack): `--color-teal-10` background with `--color-action-secondary` text.
 
 ### 6.6 Blockquotes
 
 ```
-Border-left:    3px solid var(--color-terracotta)
+Border-left:    var(--border-width-thick) solid var(--color-action-primary)
 Padding-left:   var(--space-6)
 Font:           Fraunces, 400 italic, --text-body-lg
 Color:          var(--color-text-primary)
@@ -520,7 +530,7 @@ Margin:         var(--space-8) 0
 Pull quotes (the brand's signature phrases) get special treatment:
 ```
 Font:           Fraunces, 600 italic, --text-h2
-Color:          var(--color-terracotta)
+Color:          var(--color-action-primary)
 Text-align:     center
 Max-width:      var(--container-sm)
 Margin:         var(--space-12) auto
@@ -529,21 +539,21 @@ Margin:         var(--space-12) auto
 ### 6.7 Code Blocks
 
 ```
-Background:     #1E1F26 (always dark, even in light mode)
-Text:           #E2DCD2
+Background:     var(--code-bg) (always dark, even in light mode)
+Text:           var(--code-text)
 Border-radius:  var(--radius-md)
 Padding:        var(--space-6)
 Font:           JetBrains Mono, 400, --text-code
-Line-height:    1.6
-Border:         1px solid rgba(255,255,255,0.06)
+Line-height:    var(--leading-code)
+Border:         var(--border-width-thin) solid var(--code-border)
 ```
 
-Syntax highlighting accents:
-- Keywords: `--color-terracotta` (lightened to `#E07050`)
-- Strings: `--color-sage` (lightened to `#7BC494`)
-- Functions: `--color-amber` (lightened to `#E8B44A`)
-- Comments: `--neutral-500`
-- Numbers: teal lightened to `#5AC8C0`
+Syntax highlighting accents — each is its own token, already tuned for readability on `--code-bg` in both modes (code blocks don't retheme; see §2.6):
+- Keywords: `--code-keyword`
+- Strings: `--code-string`
+- Functions: `--code-function`
+- Comments: `--code-comment`
+- Numbers: `--code-number`
 
 ### 6.8 Section Dividers
 
@@ -551,8 +561,8 @@ Prefer generous spacing (`--space-16` to `--space-24`) over visible lines. When 
 
 ```
 Border:         none
-Height:         1px
-Background:     linear-gradient(90deg, transparent, var(--color-border-default), transparent)
+Height:         var(--border-width-thin)
+Background:     var(--gradient-divider)
 Margin:         var(--space-16) auto
 Max-width:      var(--container-sm)
 ```
@@ -818,7 +828,7 @@ Primitives are immutable in both modes. **Never redefine a primitive inside a th
 | Background tertiary | `#E2DCD2` | `#2E2E34` |
 | Text primary | `#2A2622` | `#F0EBE1` |
 | Text secondary | `#5C564E` | `#A39D93` |
-| Text tertiary | `#A39D93` | `#7D776E` |
+| Text tertiary | `#6E685F` | `#938D83` |
 | Border default | `#E2DCD2` | `#3D3842` |
 | Terracotta | `#B35530` | `#D4724F` (lightened for contrast) |
 | Teal | `#1B756D` | `#3AAFA8` (lightened for contrast) |
@@ -828,12 +838,12 @@ Primitives are immutable in both modes. **Never redefine a primitive inside a th
 
 ### 12.2 Dark Mode Rules
 
-1. **Accent colors lighten by ~15% in dark mode** to maintain WCAG AA contrast ratios.
-2. **Shadows shift from opacity-based to glow-based** in dark mode. Cards get a subtle border instead of a drop shadow.
-3. **The membrane gradient remains the same direction** (terracotta → teal) but both endpoints lighten.
+1. **Accent colors lighten in dark mode** via each semantic token's `light-dark()` pair, to maintain WCAG AA contrast ratios (verified by the build's contrast gate — see §13.1).
+2. **Shadows deepen** in dark mode — each `--shadow-*` token carries its own darker, higher-opacity value via `light-dark()` (see §5.2). Cards do **not** swap to a border-only treatment in dark mode: `--border-default` is already present on cards in both modes (§6.2), so no separate dark-only mechanism is needed. *(v1.1 described a border-instead-of-shadow swap here; it was never implemented and was redundant with the always-on card border, so the claim has been retired rather than built.)*
+3. **The membrane gradient remains the same direction** (terracotta → teal) but both endpoints lighten via `light-dark()` on `--gradient-membrane`.
 4. **Ambient glow stop-colors shift brighter** so background texture remains perceptible on dark surfaces.
-5. **Manual toggles support both `[data-theme="dark"]` and `:root.theme-dark`.** The class exists for compatibility with the current website theme script.
-6. **Images receive a subtle `brightness(0.92)` filter** in dark mode to prevent them from blowing out against dark surfaces.
+5. **Manual toggles support `[data-theme="dark"]` and the legacy `.theme-dark` class.** Both simply set `color-scheme: dark`; every semantic token's `light-dark()` pair does the rest.
+6. **Photos may receive a subtle `brightness(0.92)` filter** in dark mode to prevent them from blowing out against dark surfaces. The factor is available as `--photo-dim-dark` (a plain number, e.g. `filter: brightness(var(--photo-dim-dark))`); it is not applied automatically since photo treatment is author-controlled per image, not a global rule.
 
 ---
 
@@ -870,8 +880,10 @@ Verified contrast ratios (light mode / dark mode):
 
 | Token | Value |
 |-------|-------|
-| `--focus-ring` | `2px solid var(--color-teal)` |
+| `--focus-ring` | `var(--border-width-medium) solid var(--color-focus)` |
 | `--focus-ring-offset` | `2px` |
+
+`--color-focus` is a dedicated semantic token, distinct from `--color-action-secondary`, so the ring's contrast can be tuned independently of the teal action color — its dark-mode value maps to `--color-teal-light` specifically because raw `--color-teal` measured 3.1:1 on charcoal (below the 3:1 WCAG 1.4.11 minimum with no margin). See §13.1 for the verified ratio.
 
 Focus states use the following properties:
 
@@ -943,7 +955,7 @@ Three tiers:
 --radius-md                 (border-radius, scale)
 --elevation-modal           (shadow, semantic — v2.0)
 --z-nav                     (z-index, layer)
---state-hover-opacity       (interaction, state — v2.0)
+--state-disabled-opacity    (interaction, state — v2.0)
 --opacity-subtle            (opacity, scale)
 --shadow-md                 (shadow, scale)
 --duration-normal           (motion, scale)
@@ -958,14 +970,25 @@ Three tiers:
 
 Numeric suffixes mean different things in different categories — `--color-neutral-100` is a lightness step; `--color-terracotta-10` is an alpha wash (10% opacity). This is a known inconsistency preserved for backwards compatibility. New tokens use explicit suffixes (`--color-tint-terracotta-10`) where ambiguity would arise.
 
+### Token lifecycle & deprecation policy
+
+Tokens are a public API — renaming or removing one is a breaking change for every consumer who imported `tokens/design-tokens.css`. This system follows the semantic-versioning discipline already stated at the top of `CHANGELOG.md` (breaking token renames or removals increment the major version), with a concrete process for the deprecation window in between:
+
+1. **Mark, don't remove.** When a token is superseded, add `"$deprecated": "<reason and replacement>"` to its entry in `tokens/membrane.tokens.json` rather than deleting it. Example:
+   ```json
+   "old-token": { "$type": "color", "$value": "...", "$deprecated": "Use --color-action-primary instead." }
+   ```
+2. **The build surfaces it automatically.** `scripts/build-tokens.mjs` emits an `/* @deprecated ... */` comment directly above the token's declaration in the generated CSS, and prints a summary of every deprecated token still in the source at the end of every `npm run build:tokens` run (and therefore in every CI log — see `.github/workflows/ci.yml`). A deprecated token is never silently forgotten.
+3. **One full major version of overlap, minimum.** A token marked deprecated in `v2.x` is not deleted before `v3.0.0`. This gives consumers a real window to migrate, discoverable by grepping their own CSS for the token name against the CHANGELOG's migration notes.
+4. **Removal happens in the CHANGELOG's "Removed" section**, with the same token name and the version it was first deprecated in, so the history stays traceable — mirroring the removed-token entries already in this CHANGELOG (see `--state-hover-opacity`/`--state-pressed-opacity` for the pre-1.0 precedent of removing something that was never actually adopted, versus a true deprecation-then-removal cycle for something consumers may already depend on).
+5. **This does not apply to pre-release churn.** Tokens added and removed within the same unreleased version (as happened during the v2.0 rebuild in this document's history) are not deprecations — nothing shipped, so there's nothing to migrate away from.
+
 ---
 
 > **Companion Documents:**
 > - `BRAND-VOICE.md` — Complete voice and tone guide with writing samples, vocabulary, and audience adaptation rules.
-> - `isaac-dcesares-brand-essence-ultimate.md` — The generative seed from which this system and the voice guide derive.
 
 ---
 
 *This design system is a living document. Revisit every 6 months or at any significant brand evolution.*
-*It is the visual companion to the Brand Essence document — both must be consulted together.*
 *When in doubt: warm, precise, human, and meaningful. Always.*

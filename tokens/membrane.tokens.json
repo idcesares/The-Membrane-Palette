@@ -287,10 +287,8 @@
   },
 
   "state": {
-    "$description": "Interaction state layers (new in v2.0).",
+    "$description": "Interaction state opacity (new in v2.0). Hover/active feedback in this system is brightness()-filter-based (see §6.1) rather than opacity-overlay-based, so only the disabled state — which every component genuinely needs — is tokenized here.",
     "$extensions": { "cssPrefix": "--state-" },
-    "hover-opacity":    { "$type": "number", "$value": 0.08 },
-    "pressed-opacity":  { "$type": "number", "$value": 0.12 },
     "disabled-opacity": { "$type": "number", "$value": 0.50 }
   },
 
