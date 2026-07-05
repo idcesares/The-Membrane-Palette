@@ -1,6 +1,13 @@
+# DEPRECATED — v2.0
+
+> This file is a hand-synced YAML mirror of the token values that existed in v1.1.
+> It is no longer updated. The canonical machine-readable source is now
+> `tokens/membrane.tokens.json` (DTCG-flavored JSON).
+> This file will be removed in v3.0.
+
 ---
 name: Isaac D'Césares Design System
-version: 1.1
+version: 1.1  # frozen — see tokens/membrane.tokens.json for current values
 
 colors:
   # Primary (Human)

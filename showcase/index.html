@@ -53,6 +53,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../tokens/design-tokens.css">
+  <link rel="stylesheet" href="../tokens/base.css">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; }
@@ -104,7 +105,7 @@
     }
 
     button {
-      min-height: 44px;
+      min-height: var(--size-touch-target);
       cursor: pointer;
     }
 
@@ -114,7 +115,7 @@
     }
 
     .shell {
-      width: min(calc(100% - 3rem), var(--container-xl));
+      width: min(calc(100% - 2 * var(--site-margin)), var(--container-xl));
       margin: 0 auto;
     }
 
@@ -124,7 +125,7 @@
       z-index: var(--z-nav);
       border-bottom: var(--border-default);
       background: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(var(--blur-backdrop));
     }
 
     .topbar__inner {
@@ -132,7 +133,7 @@
       align-items: center;
       justify-content: space-between;
       gap: var(--space-4);
-      min-height: 68px;
+      min-height: var(--size-nav);
     }
 
     .brand {
@@ -151,8 +152,8 @@
       letter-spacing: var(--tracking-display);
     }
 
-    .brand__mark span:first-child { color: var(--color-terracotta); }
-    .brand__mark span:last-child { color: var(--color-teal); }
+    .brand__mark span:first-child { color: var(--color-action-primary); }
+    .brand__mark span:last-child { color: var(--color-action-secondary); }
 
     .brand__name {
       font-size: var(--text-small);
@@ -175,7 +176,7 @@
     }
 
     .topbar__links a:hover {
-      color: var(--color-terracotta);
+      color: var(--color-action-primary);
     }
 
     .theme-toggle {
@@ -209,7 +210,7 @@
       grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
       gap: clamp(var(--space-8), 6vw, var(--space-20));
       align-items: center;
-      min-height: calc(100vh - 68px);
+      min-height: calc(100vh - var(--size-nav));
       padding: var(--space-20) 0 var(--space-16);
     }
 
@@ -227,7 +228,7 @@
     }
 
     .hero h1 span {
-      color: var(--color-terracotta);
+      color: var(--color-action-primary);
       font-style: italic;
     }
 
@@ -269,19 +270,24 @@
 
     .btn--primary {
       color: var(--color-text-on-accent);
-      background: var(--color-terracotta);
+      background: var(--color-action-primary);
       box-shadow: var(--shadow-glow-warm);
     }
 
     .btn--secondary {
-      color: var(--color-teal);
+      color: var(--color-action-secondary);
       background: var(--color-bg-primary);
-      border-color: var(--color-teal);
+      border-color: var(--color-action-secondary);
     }
 
     .btn--secondary:hover {
-      color: var(--color-text-on-accent);
-      background: var(--color-teal);
+      color: var(--color-bg-primary);
+      background: var(--color-action-secondary);
+    }
+
+    .btn[aria-disabled="true"] {
+      opacity: var(--state-disabled-opacity);
+      pointer-events: none;
     }
 
     .token-line {
@@ -323,7 +329,7 @@
       position: absolute;
       inset: var(--space-5) 50% var(--space-5) auto;
       width: 2px;
-      background: linear-gradient(180deg, transparent, var(--color-terracotta), var(--color-teal), transparent);
+      background: linear-gradient(180deg, transparent, var(--color-action-primary), var(--color-action-secondary), transparent);
       opacity: 0.7;
     }
 
@@ -602,13 +608,13 @@
     }
 
     .field input:focus {
-      border-color: var(--color-teal);
+      border-color: var(--color-focus);
       box-shadow: var(--shadow-glow-teal);
       outline: none;
     }
 
     .work-card {
-      border-left: 3px solid var(--color-terracotta);
+      border-left: var(--border-width-thick) solid var(--color-action-primary);
       border-radius: var(--radius-md);
       padding: var(--space-5);
       background: var(--color-bg-secondary);
@@ -628,6 +634,40 @@
       color: var(--color-text-secondary);
       font-size: var(--text-small);
       line-height: var(--leading-small);
+    }
+
+    .status-list {
+      display: grid;
+      gap: var(--space-3);
+      margin-top: var(--space-5);
+    }
+
+    .status-line {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      font-size: var(--text-small);
+      line-height: var(--leading-small);
+    }
+
+    .status-line .status-dot {
+      flex: none;
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .status-line--success .status-dot { background: var(--color-success); }
+    .status-line--success span { color: var(--color-success-text); }
+    .status-line--warning .status-dot { background: var(--color-warning); }
+    .status-line--warning span { color: var(--color-warning-text); }
+    .status-line--error .status-dot { background: var(--color-error); }
+    .status-line--error span { color: var(--color-error-text); }
+
+    .status-list code {
+      margin-left: auto;
+      color: var(--color-text-tertiary);
+      font-size: var(--text-xs);
     }
 
     .code-panel {
@@ -701,8 +741,8 @@
       height: 24px;
       border-radius: var(--radius-sm);
       background: linear-gradient(90deg, var(--color-teal-20), var(--color-terracotta-20));
-      border-left: 2px solid var(--color-teal);
-      border-right: 2px solid var(--color-terracotta);
+      border-left: var(--border-width-medium) solid var(--color-action-secondary);
+      border-right: var(--border-width-medium) solid var(--color-action-primary);
     }
 
     .motion-list {
@@ -1141,6 +1181,27 @@
           </article>
 
           <article class="specimen specimen--narrow">
+            <p class="label">Status Semantics</p>
+            <div class="status-list">
+              <div class="status-line status-line--success">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>All contrast pairs passing</span>
+                <code>--color-success-text</code>
+              </div>
+              <div class="status-line status-line--warning">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>3 tokens deprecated</span>
+                <code>--color-warning-text</code>
+              </div>
+              <div class="status-line status-line--error">
+                <span class="status-dot" aria-hidden="true"></span>
+                <span>Build failed: contrast gate</span>
+                <code>--color-error-text</code>
+              </div>
+            </div>
+          </article>
+
+          <article class="specimen specimen--narrow">
             <p class="label">Code Specimen</p>
             <div class="code-panel">
               <div class="code-panel__bar">
@@ -1234,7 +1295,7 @@
   </main>
 
   <footer class="shell footer">
-    Isaac D'Césares Design System · v1.1 · Token source: <code>tokens/design-tokens.css</code>
+    Isaac D'Césares Design System · v2.0 · Source: <code>tokens/membrane.tokens.json</code> · Generated: <code>tokens/design-tokens.css</code>
   </footer>
 
   <script>
