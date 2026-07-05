@@ -26,6 +26,15 @@
   <code>#1A1B1F</code> Rich Charcoal
 </p>
 
+<p align="center">
+  <a href="https://membrane-palette.dcesares.dev/"><strong>Live Showcase</strong></a> &nbsp;•&nbsp;
+  <a href="#quick-start">Quick Start</a> &nbsp;•&nbsp;
+  <a href="#for-ai-agents">For AI Agents</a> &nbsp;•&nbsp;
+  <a href="#token-architecture">Architecture</a> &nbsp;•&nbsp;
+  <a href="#deployment">Deployment</a> &nbsp;•&nbsp;
+  <a href="#contributing">Contributing</a>
+</p>
+
 <br>
 
 ---
@@ -68,41 +77,41 @@ There is no TypeScript or framework dependency. The intended model: **import the
 
 <br>
 
+## For AI Agents
+
+This repo is written to be machine-consumable, not just human-readable. If you're an agent (Claude, GPT, or otherwise) working in or against this system, start here:
+
+| Read this | For |
+|---|---|
+| [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) | Repo-level operating instructions — commands, architecture, the "never hand-edit generated CSS" rule. Identical content, kept in sync for Claude Code and Codex respectively. |
+| [`DESIGN-SYSTEM.md` §0](DESIGN-SYSTEM.md#0-how-to-use-this-document) | How to read the spec depending on your role — designer, developer, or agent. |
+| [`DESIGN-SYSTEM.md` §11.4](DESIGN-SYSTEM.md#114-ai-agent-configuration) | A copy-pasteable visual + voice constraint block for configuring a content-generation agent to stay on-brand. |
+| [`BRAND-VOICE.md`](BRAND-VOICE.md) | Verbal identity — tone, vocabulary, what never to say — for any agent generating copy alongside the visuals. |
+
+**The one rule that matters most:** `tokens/membrane.tokens.json` is the only file with authority over token values. `tokens/design-tokens.css` and `tokens/base.css` are build output — hand-edit them and `npm run build:tokens` will silently discard the change on the next run, while CI (`.github/workflows/ci.yml`) will fail the PR because the committed CSS no longer matches a fresh build.
+
+<br>
+
 ## Quick Start
 
-### Option A — npm (recommended)
-
-```bash
-npm install @idcesares/design-system
-```
-
-```html
-<!-- Tokens only (required) -->
-<link rel="stylesheet" href="node_modules/@idcesares/design-system/tokens/design-tokens.css">
-
-<!-- Optional layer: selection color, reduced motion, typography composites -->
-<link rel="stylesheet" href="node_modules/@idcesares/design-system/tokens/base.css">
-```
-
-Or with a bundler:
-
-```js
-import '@idcesares/design-system';              // tokens only
-import '@idcesares/design-system/base';         // + base layer
-```
-
-### Option B — CDN (jsDelivr)
+### Option A — CDN (jsDelivr, recommended)
 
 ```html
 <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2/tokens/design-tokens.css">
+  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css">
+
+<!-- Optional layer: selection color, reduced motion, typography composites -->
+<link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/base.css">
 ```
 
-> **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets.
+> **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. This URL has no version pin, so it always serves the latest commit on the default branch; pin to a release tag once one exists if you need a stable reference.
 
-### Option C — Copy the file
+### Option B — Copy the file
 
 Download [`tokens/design-tokens.css`](tokens/design-tokens.css) and place it in your project. Regenerate it with `npm run build:tokens` when you fork and modify the source.
+
+npm distribution isn't set up for now — the CDN link above is the supported integration path until that changes.
 
 <br>
 
@@ -122,6 +131,21 @@ To modify tokens and rebuild:
 npm run build:tokens   # regenerates tokens/design-tokens.css + tokens/base.css
                        # aborts if any WCAG contrast pair fails
 ```
+
+<br>
+
+## Deployment
+
+The showcase site is the only thing this repo deploys right now. Token distribution is the CDN link from [Quick Start](#quick-start) — there's no publish step to run.
+
+```bash
+npm run build     # regenerates tokens, assembles dist/ (showcase + tokens/ + DESIGN-SYSTEM.md + robots.txt + sitemap.xml)
+npm run deploy    # npx wrangler deploy — pushes dist/ per wrangler.toml
+```
+
+`dist/` is gitignored — it's rebuilt fresh on every deploy and every CI run, never committed. Live at [membrane-palette.dcesares.dev](https://membrane-palette.dcesares.dev/).
+
+A token rename or removal is still a breaking change regardless of distribution channel: bump the version per [`CHANGELOG.md`](CHANGELOG.md)'s semantic conventions and add a migration note (see the [2.0.0 migration guide](CHANGELOG.md#migration-guide) for the shape that should take).
 
 <br>
 
@@ -267,13 +291,16 @@ The-Membrane-Palette/
 │   └── base.css               ← Generated — optional element rules
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)
-│   └── build-cloudflare-pages.mjs
+│   └── build-cloudflare-pages.mjs   ← Assembles dist/ for Pages deploy
 ├── showcase/
 │   └── index.html             ← Living reference
+├── .github/workflows/ci.yml   ← Contrast gate + freshness check on every push/PR
+├── dist/                      ← Generated, gitignored — Cloudflare Pages output
 ├── DESIGN-SYSTEM.md           ← Full specification
 ├── BRAND-VOICE.md             ← Verbal identity guidelines
 ├── CHANGELOG.md               ← Version history
-└── CLAUDE.md                  ← AI agent instructions
+├── CLAUDE.md                  ← AI agent instructions (Claude Code)
+└── AGENTS.md                  ← AI agent instructions (Codex) — kept in sync with CLAUDE.md
 ```
 
 <br>
@@ -287,6 +314,16 @@ idcesares-{type}-{descriptor}-{variant}.{ext}
 ```
 
 Examples: `idcesares-logo-wordmark-primary.svg`, `idcesares-photo-speaking-header.jpg`
+
+<br>
+
+## Contributing
+
+1. Fork or branch, edit `tokens/membrane.tokens.json` — never the generated CSS.
+2. Run `npm run build:tokens` and commit the regenerated `tokens/design-tokens.css` + `tokens/base.css` alongside your JSON change. CI rejects PRs where the generated files don't match a fresh build.
+3. Retiring a token? Mark it `"$deprecated": "<reason>"` in the JSON instead of deleting it outright — the build emits an inline `/* @deprecated */` comment above its CSS declaration and a console summary on every run (see [`DESIGN-SYSTEM.md` §15](DESIGN-SYSTEM.md#15-design-token-summary)).
+4. Update [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) if the change affects the spec, and add an entry to [`CHANGELOG.md`](CHANGELOG.md) under `[Unreleased]` — lead with *why*, not just the diff.
+5. Open a PR against `master`. CI (`.github/workflows/ci.yml`) runs the contrast gate, verifies generated-file freshness, and rebuilds the Cloudflare Pages `dist/` assembly.
 
 <br>
 
