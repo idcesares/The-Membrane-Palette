@@ -25,6 +25,21 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - `scripts/build-components.mjs` (`npm run build:components`) — **lints** every component (no raw colors, no unknown/deprecated tokens, no Tier 1 primitives, knobs must be `--mp-*`) and every README example (no classes, attributes or values the CSS doesn't implement; unique ids; labelled icon-only buttons; `alt` on images), then writes the bundles, the manifest, `llms.txt`, each README's API section and the showcase gallery.
 - **Coverage lint:** every class and `data-*` value a component implements must be demonstrated in its README examples, so the showcase is guaranteed to render all of them (token scales and runtime state can opt out via an `exempt:` frontmatter line).
 - `npm run build:system` runs both builds in order.
+- **Nine more components** (34 in total): Text (tone + reading measure, so pages need no inline styles), Chart (figure, legend, single/stacked bar list), Icon (Lucide-style line icons sized by `--size-icon-*`), Skeleton, Empty state, Toast (`MembranePalette.toast()` + `data-mp-toast`), Pagination, Steps (course progress) and Menu (native `popover`, anchor-positioned, WAI-ARIA menu keys).
+- **Page patterns:** `examples/article.html` and `examples/dashboard.html` next to the starter; all `examples/*.html` are linted by the component build like README examples.
+
+### Added — data visualization
+
+- `--color-chart-1` … `--color-chart-6` (terracotta, teal, amber, burgundy, steel blue, green): a categorical palette **searched and validated** per mode — lightness band, chroma floor, adjacent color-blind separation (worst ΔE 11.5, OKLab ×100), normal-vision separation (≥ 16) and ≥ 3:1 on page and cards. Gate-checked on every build. Scatter-type charts are capped at 2 series (slots 1 and 3 collapse for deuteranopes when adjacent) — documented, not hidden.
+- `DESIGN-SYSTEM.md` §7.4 rewritten as rules: fixed order, color follows the entity, one-hue magnitude, terracotta↔teal polarity, status kept separate, thin marks, one y-axis.
+
+### Added — platforms & testing
+
+- `tokens/membrane-tailwind.css` — a Tailwind v4 theme generated from the tokens. Tailwind namespaces that collide with the system's own names (`--radius-md`, `--text-sm`, `--shadow-sm`, `--ease-in`…) are reset so load order can never override the system; the system is exposed as `mp-` utilities and the default palette is removed, so off-brand classes don't compile. Verified against Tailwind 4.1.
+- `tokens/tokens.resolved.json` — every token's resolved light/dark value (hex for colors) for charting libraries, native apps and tools.
+- `npm test` — Playwright + axe-core: every page in both themes, phone-width overflow, and keyboard/focus/ARIA behavior of tabs, dialog, tooltip, menu, toast, skip link and forms. Runs as a second CI job. It found two real bugs on its first run (an unfocusable scrolling code block, two regions with the same name) — both fixed.
+- `CONTRIBUTING.md` — sources vs generated files, the build loop, adding a token or component.
+- `DESIGN-SYSTEM.md` §16 — interface writing rules, pt-BR localization (expansion, `Intl` formatting, `lang` on mixed-language phrases, RTL), and the page-pattern index.
 
 ### Added — for agents
 
@@ -51,6 +66,8 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - Showcase structure: foundations first (Palette → Typography → Rhythm), then Components, then Reference. The component gallery has a sticky index that tracks the current component, an "API at a glance" row generated from each component's CSS, and a "View HTML" disclosure with a copy button on every example. The type specimen shows the full scale with its tokens. The hero register map no longer breaks token names mid-word, and the hero stacks below 1200px.
 - Showcase rebuilt on the library (navbar, buttons, inputs, tables, code blocks), with a generated component gallery, a composed specimen, and dark-mode previews that use real `data-theme` subtrees instead of hard-coded hex. Theme is applied before first paint and follows the OS until toggled. Skip link added; mobile horizontal overflow fixed.
 - `@layer tokens, base, components;` order is declared at the top of every generated stylesheet.
+- `tokens/base.css` now sets page defaults — `box-sizing: border-box`, `body` canvas/text/font/margin, text-size-adjust — all wrapped in `:where()` (zero specificity), so a page linking `membrane.css` needs no CSS of its own and any rule you write still wins. If you relied on the browser's 8px body margin with `base.css` loaded, set it back explicitly.
+- The digital register no longer lists colors that don't exist: "Slate" was never a token (Charcoal is the dark anchor) and Steel Blue now exists only as data color `--color-chart-5`.
 - CI runs both builds and fails if **any** generated file is stale (previously only the two token CSS files were checked).
 - `package.json` `exports` now maps `.` to `membrane.css` and adds `./components`, `./components.js`, `./manifest.json` (npm is still not a supported channel; no published consumers).
 - `package.json` name changed from `@idcesares/design-system` (a scope/name that was never published and didn't match the repository) to `@idcesares/the-membrane-palette`. `package-lock.json` regenerated to match.

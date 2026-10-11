@@ -49,3 +49,32 @@ jobs:
       # Assembles dist/ the same way the Cloudflare Pages deploy does.
       - name: Build showcase (Cloudflare Pages assembly)
         run: npm run build
+
+  test:
+    name: Accessibility & behavior tests (Playwright + axe)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      # Builds dist/, serves it, then runs axe-core on every page in light
+      # and dark mode, a phone-width overflow check, and the keyboard /
+      # focus / ARIA behavior of tabs, dialog, tooltip, menu and toast.
+      - name: Run tests
+        run: npm test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7

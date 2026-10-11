@@ -1,0 +1,101 @@
+/* Toast — brief confirmation of something the person just did, announced
+   politely and gone after a few seconds. Lives in one live region per page;
+   components/membrane.js provides MembranePalette.toast() and data-mp-toast. */
+
+.mp-toast-region {
+  box-sizing: border-box;
+  position: fixed;
+  inset-block-end: var(--space-6);
+  inset-inline-end: var(--space-6);
+  z-index: var(--z-toast);
+  display: grid;
+  gap: var(--space-3);
+  width: min(24rem, 100% - 2 * var(--space-4));
+  pointer-events: none;
+}
+
+.mp-toast {
+  --mp-toast-accent: var(--color-info);
+  --mp-toast-title: var(--color-text-primary);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: var(--border-default);
+  border-inline-start: var(--border-width-thick) solid var(--mp-toast-accent);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--elevation-overlay);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+  pointer-events: auto;
+  transition: opacity var(--transition-default), translate var(--transition-default);
+}
+
+@starting-style {
+  .mp-toast {
+    opacity: 0;
+    translate: 0 var(--space-2);
+  }
+}
+
+.mp-toast[data-tone="success"] { --mp-toast-accent: var(--color-success); --mp-toast-title: var(--color-success-text); }
+.mp-toast[data-tone="warning"] { --mp-toast-accent: var(--color-warning); --mp-toast-title: var(--color-warning-text); }
+.mp-toast[data-tone="error"] { --mp-toast-accent: var(--color-error); --mp-toast-title: var(--color-error-text); }
+
+.mp-toast__content {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mp-toast__content > p {
+  margin: 0;
+}
+
+.mp-toast__title {
+  color: var(--mp-toast-title);
+  font-weight: var(--weight-semibold);
+}
+
+.mp-toast__close {
+  appearance: none;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--size-control-sm);
+  height: var(--size-control-sm);
+  margin: calc(-1 * var(--space-2)) calc(-1 * var(--space-2)) 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text-secondary);
+  font: inherit;
+  font-size: var(--text-body);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mp-toast__close:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.mp-toast__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* A region placed inside page content (docs, previews) instead of floating. */
+.mp-toast-region[data-placement="inline"] {
+  position: static;
+  width: auto;
+  max-width: 24rem;
+}

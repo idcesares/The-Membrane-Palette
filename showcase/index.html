@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Isaac D'Césares Design System: a token-based visual language and framework-free CSS component library for warm, precise digital education products. Explore The Membrane Palette, typography, 25 components, dark mode, and accessibility.">
+  <meta name="description" content="The Isaac D'Césares Design System: a token-based visual language and framework-free CSS component library for warm, precise digital education products. Explore The Membrane Palette, typography, the component library, dark mode, and accessibility.">
   <meta name="author" content="Isaac D'Césares">
   <meta name="robots" content="index, follow">
   <meta name="theme-color" content="#FAF6EE" media="(prefers-color-scheme: light)">
@@ -368,6 +368,24 @@
       color: var(--color-text-secondary);
       font-size: var(--text-small);
     }
+
+    .data-palette {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+      gap: var(--space-3);
+    }
+
+    .data-swatch {
+      display: grid;
+      gap: var(--space-1);
+      padding-top: var(--space-16);
+      border-radius: var(--radius-md);
+      background: linear-gradient(var(--swatch) 0 var(--space-12), transparent 0);
+      font-size: var(--text-small);
+    }
+
+    .data-swatch code { color: var(--color-text-primary); font-size: var(--text-xs); }
+    .data-swatch span { color: var(--color-text-secondary); }
 
     .color-rail {
       display: grid;
@@ -937,7 +955,7 @@
     <section class="mp-container hero" id="top">
       <div>
         <h1>The Membrane Palette, rendered as a living <span>design system</span>.</h1>
-        <p class="hero__lede">Tokens, 25 components and a contrast gate for work that moves between human pedagogy and digital precision. Every specimen on this page is the real library — link one stylesheet and write HTML.</p>
+        <p class="hero__lede">Tokens, a component library and a contrast gate for work that moves between human pedagogy and digital precision. Every specimen on this page is the real library — link one stylesheet and write HTML.</p>
         <div class="mp-cluster">
           <a class="mp-button" href="#components">Browse components</a>
           <a class="mp-button" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/DESIGN-SYSTEM.md" data-variant="secondary">Read the specification</a>
@@ -1069,6 +1087,20 @@
               </div>
               <p class="type-small muted">Every <code>-text</code> token is verified at ≥4.5:1 on its own <code>-bg</code> wash, on the page, and on cards — in both modes.</p>
             </div>
+          </article>
+
+          <article class="specimen specimen--full">
+            <p class="label">Data Colors</p>
+            <h2>Six series, validated — not picked.</h2>
+            <div class="data-palette">
+              <div class="data-swatch" style="--swatch: var(--color-chart-1);"><code>chart-1</code><span>Terracotta</span></div>
+              <div class="data-swatch" style="--swatch: var(--color-chart-2);"><code>chart-2</code><span>Teal</span></div>
+              <div class="data-swatch" style="--swatch: var(--color-chart-3);"><code>chart-3</code><span>Amber</span></div>
+              <div class="data-swatch" style="--swatch: var(--color-chart-4);"><code>chart-4</code><span>Burgundy</span></div>
+              <div class="data-swatch" style="--swatch: var(--color-chart-5);"><code>chart-5</code><span>Steel blue</span></div>
+              <div class="data-swatch" style="--swatch: var(--color-chart-6);"><code>chart-6</code><span>Green</span></div>
+            </div>
+            <p class="specimen__note" style="margin: var(--space-4) 0 0;">Each step was searched within its brand hue, then checked as a set in both modes: neighbors stay ≥ 11.5 ΔE apart under protanopia and deuteranopia, ≥ 16 for full-color vision, and every series is ≥ 3:1 on page and cards. Assign in order; never cycle. See <a class="mp-link" href="#component-chart">Chart</a>.</p>
           </article>
         </div>
       </div>
@@ -1209,7 +1241,7 @@
             <p class="label">04 / Components</p>
             <h2>A component library made of tokens.</h2>
           </div>
-          <p>Twenty-five framework-free components in one stylesheet. Classes name the thing (<code>mp-button</code>), <code>data-*</code> attributes choose the option, and ARIA drives the state — so the look and what assistive tech hears can't disagree.</p>
+          <p>Framework-free components in one stylesheet. Classes name the thing (<code>mp-button</code>), <code>data-*</code> attributes choose the option, and ARIA drives the state — so the look and what assistive tech hears can't disagree.</p>
         </div>
 
         <div class="specimen-grid">
@@ -1296,6 +1328,7 @@
     <p class="gallery-index__heading">Layout</p>
     <ul class="gallery-index__list">
       <li><a class="gallery-index__link" href="#component-layout">Layout</a></li>
+      <li><a class="gallery-index__link" href="#component-text">Text</a></li>
       <li><a class="gallery-index__link" href="#component-prose">Prose</a></li>
     </ul>
   </div>
@@ -1327,6 +1360,8 @@
       <li><a class="gallery-index__link" href="#component-divider">Divider</a></li>
       <li><a class="gallery-index__link" href="#component-table">Table</a></li>
       <li><a class="gallery-index__link" href="#component-stat">Stat</a></li>
+      <li><a class="gallery-index__link" href="#component-chart">Chart</a></li>
+      <li><a class="gallery-index__link" href="#component-icon">Icon</a></li>
     </ul>
   </div>
   <div class="gallery-index__group">
@@ -1334,6 +1369,9 @@
     <ul class="gallery-index__list">
       <li><a class="gallery-index__link" href="#component-alert">Alert</a></li>
       <li><a class="gallery-index__link" href="#component-progress">Progress</a></li>
+      <li><a class="gallery-index__link" href="#component-skeleton">Skeleton</a></li>
+      <li><a class="gallery-index__link" href="#component-empty-state">Empty state</a></li>
+      <li><a class="gallery-index__link" href="#component-toast">Toast</a></li>
       <li><a class="gallery-index__link" href="#component-tooltip">Tooltip</a></li>
       <li><a class="gallery-index__link" href="#component-dialog">Dialog</a></li>
     </ul>
@@ -1345,6 +1383,9 @@
       <li><a class="gallery-index__link" href="#component-breadcrumb">Breadcrumb</a></li>
       <li><a class="gallery-index__link" href="#component-tabs">Tabs</a></li>
       <li><a class="gallery-index__link" href="#component-accordion">Accordion</a></li>
+      <li><a class="gallery-index__link" href="#component-pagination">Pagination</a></li>
+      <li><a class="gallery-index__link" href="#component-steps">Steps</a></li>
+      <li><a class="gallery-index__link" href="#component-menu">Menu</a></li>
     </ul>
   </div>
 </nav>
@@ -1487,6 +1528,40 @@
     &lt;p class=&quot;type-body&quot;&gt;Every token inside this section resolves to its dark value, because &lt;code class=&quot;mp-code&quot;&gt;data-theme=&quot;dark&quot;&lt;/code&gt; sets &lt;code class=&quot;mp-code&quot;&gt;color-scheme&lt;/code&gt; for the subtree.&lt;/p&gt;
   &lt;/div&gt;
 &lt;/section&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-text" aria-labelledby="component-text-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Layout</p>
+      <h3 class="gallery-item__title" id="component-text-title">Text</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/text/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Text</span></a>
+  </header>
+  <p class="gallery-item__summary">Tone (muted, subtle, human, digital) and reading measure for running copy — combine with the .type-* size classes instead of writing inline color or max-width.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-text</code></dd></div><div><dt><code>data-tone</code></dt><dd>muted · subtle · human · digital</dd></div><div><dt><code>data-measure</code></dt><dd>boolean</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Tones and measure</p>
+  <div class="gallery-example__stage">
+<div class="mp-stack" data-gap="2">
+  <p class="mp-text type-label" data-tone="human">Workshop</p>
+  <h3 class="type-h3">AI literacy, from the classroom up</h3>
+  <p class="mp-text type-body-lg" data-tone="muted" data-measure>Six weeks for educators who want to use AI with intention — warm in how we teach, precise in how we build.</p>
+  <p class="mp-text type-small" data-tone="subtle">Updated 3 days ago · <span class="mp-text" data-tone="digital">v2.1</span></p>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Text · Tones and measure</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;2&quot;&gt;
+  &lt;p class=&quot;mp-text type-label&quot; data-tone=&quot;human&quot;&gt;Workshop&lt;/p&gt;
+  &lt;h3 class=&quot;type-h3&quot;&gt;AI literacy, from the classroom up&lt;/h3&gt;
+  &lt;p class=&quot;mp-text type-body-lg&quot; data-tone=&quot;muted&quot; data-measure&gt;Six weeks for educators who want to use AI with intention — warm in how we teach, precise in how we build.&lt;/p&gt;
+  &lt;p class=&quot;mp-text type-small&quot; data-tone=&quot;subtle&quot;&gt;Updated 3 days ago · &lt;span class=&quot;mp-text&quot; data-tone=&quot;digital&quot;&gt;v2.1&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;</code></pre>
     </figure>
   </details>
 </div>
@@ -2533,6 +2608,176 @@
   </details>
 </div>
 </article>
+<article class="gallery-item" id="component-chart" aria-labelledby="component-chart-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Content · beta</p>
+      <h3 class="gallery-item__title" id="component-chart-title">Chart</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/chart/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Chart</span></a>
+  </header>
+  <p class="gallery-item__summary">A figure shell (title, legend, caption) and a CSS bar list — single, multi-series or stacked — colored by the validated --color-chart-* palette, with every value printed.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-chart</code></dd></div><div><dt><code>data-series</code></dt><dd>1 · 2 · 3 · 4 · 5 · 6</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Single series</p>
+  <div class="gallery-example__stage">
+<figure class="mp-chart" aria-labelledby="chart-completion-title">
+  <div class="mp-chart__header">
+    <p class="mp-chart__title" id="chart-completion-title">Course completion by cohort</p>
+  </div>
+  <ul class="mp-chart__bars">
+    <li class="mp-chart__row"><span class="mp-chart__label">AI Literacy I</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 82%"></span></span><span class="mp-chart__value">82%</span></li>
+    <li class="mp-chart__row"><span class="mp-chart__label">Prompting for Teachers</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 64%"></span></span><span class="mp-chart__value">64%</span></li>
+    <li class="mp-chart__row"><span class="mp-chart__label">Builders' Lab</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 47%"></span></span><span class="mp-chart__value">47%</span></li>
+  </ul>
+  <figcaption class="mp-chart__caption">Learners who finished every module, 2026.</figcaption>
+</figure>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Chart · Single series</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;figure class=&quot;mp-chart&quot; aria-labelledby=&quot;chart-completion-title&quot;&gt;
+  &lt;div class=&quot;mp-chart__header&quot;&gt;
+    &lt;p class=&quot;mp-chart__title&quot; id=&quot;chart-completion-title&quot;&gt;Course completion by cohort&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;ul class=&quot;mp-chart__bars&quot;&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;AI Literacy I&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; style=&quot;--mp-chart-value: 82%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;82%&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;Prompting for Teachers&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; style=&quot;--mp-chart-value: 64%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;64%&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;Builders&#39; Lab&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; style=&quot;--mp-chart-value: 47%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;47%&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;figcaption class=&quot;mp-chart__caption&quot;&gt;Learners who finished every module, 2026.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Stacked, with legend</p>
+  <div class="gallery-example__stage">
+<figure class="mp-chart" aria-labelledby="chart-format-title">
+  <div class="mp-chart__header">
+    <p class="mp-chart__title" id="chart-format-title">Enrolment by format</p>
+    <ul class="mp-chart__legend">
+      <li class="mp-chart__key" data-series="1">Online</li>
+      <li class="mp-chart__key" data-series="2">Hybrid</li>
+      <li class="mp-chart__key" data-series="3">In person</li>
+    </ul>
+  </div>
+  <ul class="mp-chart__bars">
+    <li class="mp-chart__row"><span class="mp-chart__label">2024</span><span class="mp-chart__track"><span class="mp-chart__fill" data-series="1" style="--mp-chart-value: 40%"></span><span class="mp-chart__fill" data-series="2" style="--mp-chart-value: 25%"></span><span class="mp-chart__fill" data-series="3" style="--mp-chart-value: 35%"></span></span><span class="mp-chart__value">40 · 25 · 35%</span></li>
+    <li class="mp-chart__row"><span class="mp-chart__label">2025</span><span class="mp-chart__track"><span class="mp-chart__fill" data-series="1" style="--mp-chart-value: 52%"></span><span class="mp-chart__fill" data-series="2" style="--mp-chart-value: 28%"></span><span class="mp-chart__fill" data-series="3" style="--mp-chart-value: 20%"></span></span><span class="mp-chart__value">52 · 28 · 20%</span></li>
+    <li class="mp-chart__row"><span class="mp-chart__label">2026</span><span class="mp-chart__track"><span class="mp-chart__fill" data-series="1" style="--mp-chart-value: 61%"></span><span class="mp-chart__fill" data-series="2" style="--mp-chart-value: 27%"></span><span class="mp-chart__fill" data-series="3" style="--mp-chart-value: 12%"></span></span><span class="mp-chart__value">61 · 27 · 12%</span></li>
+  </ul>
+</figure>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Chart · Stacked, with legend</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;figure class=&quot;mp-chart&quot; aria-labelledby=&quot;chart-format-title&quot;&gt;
+  &lt;div class=&quot;mp-chart__header&quot;&gt;
+    &lt;p class=&quot;mp-chart__title&quot; id=&quot;chart-format-title&quot;&gt;Enrolment by format&lt;/p&gt;
+    &lt;ul class=&quot;mp-chart__legend&quot;&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;1&quot;&gt;Online&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;2&quot;&gt;Hybrid&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;3&quot;&gt;In person&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;ul class=&quot;mp-chart__bars&quot;&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;2024&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;1&quot; style=&quot;--mp-chart-value: 40%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;2&quot; style=&quot;--mp-chart-value: 25%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;3&quot; style=&quot;--mp-chart-value: 35%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;40 · 25 · 35%&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;2025&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;1&quot; style=&quot;--mp-chart-value: 52%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;2&quot; style=&quot;--mp-chart-value: 28%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;3&quot; style=&quot;--mp-chart-value: 20%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;52 · 28 · 20%&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;2026&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;1&quot; style=&quot;--mp-chart-value: 61%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;2&quot; style=&quot;--mp-chart-value: 27%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;3&quot; style=&quot;--mp-chart-value: 12%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;61 · 27 · 12%&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/figure&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">All six series</p>
+  <div class="gallery-example__stage">
+<figure class="mp-chart" aria-labelledby="chart-palette-title">
+  <div class="mp-chart__header">
+    <p class="mp-chart__title" id="chart-palette-title">Learners by region</p>
+    <ul class="mp-chart__legend">
+      <li class="mp-chart__key" data-series="1">Sudeste</li>
+      <li class="mp-chart__key" data-series="2">Nordeste</li>
+      <li class="mp-chart__key" data-series="3">Sul</li>
+      <li class="mp-chart__key" data-series="4">Norte</li>
+      <li class="mp-chart__key" data-series="5">Centro-Oeste</li>
+      <li class="mp-chart__key" data-series="6">Exterior</li>
+    </ul>
+  </div>
+  <ul class="mp-chart__bars">
+    <li class="mp-chart__row"><span class="mp-chart__label">2026</span><span class="mp-chart__track"><span class="mp-chart__fill" data-series="1" style="--mp-chart-value: 38%"></span><span class="mp-chart__fill" data-series="2" style="--mp-chart-value: 22%"></span><span class="mp-chart__fill" data-series="3" style="--mp-chart-value: 16%"></span><span class="mp-chart__fill" data-series="4" style="--mp-chart-value: 9%"></span><span class="mp-chart__fill" data-series="5" style="--mp-chart-value: 8%"></span><span class="mp-chart__fill" data-series="6" style="--mp-chart-value: 7%"></span></span><span class="mp-chart__value">100%</span></li>
+  </ul>
+  <figcaption class="mp-chart__caption">Shares of 3,214 learners. Legend order matches bar order.</figcaption>
+</figure>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Chart · All six series</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;figure class=&quot;mp-chart&quot; aria-labelledby=&quot;chart-palette-title&quot;&gt;
+  &lt;div class=&quot;mp-chart__header&quot;&gt;
+    &lt;p class=&quot;mp-chart__title&quot; id=&quot;chart-palette-title&quot;&gt;Learners by region&lt;/p&gt;
+    &lt;ul class=&quot;mp-chart__legend&quot;&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;1&quot;&gt;Sudeste&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;2&quot;&gt;Nordeste&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;3&quot;&gt;Sul&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;4&quot;&gt;Norte&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;5&quot;&gt;Centro-Oeste&lt;/li&gt;
+      &lt;li class=&quot;mp-chart__key&quot; data-series=&quot;6&quot;&gt;Exterior&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/div&gt;
+  &lt;ul class=&quot;mp-chart__bars&quot;&gt;
+    &lt;li class=&quot;mp-chart__row&quot;&gt;&lt;span class=&quot;mp-chart__label&quot;&gt;2026&lt;/span&gt;&lt;span class=&quot;mp-chart__track&quot;&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;1&quot; style=&quot;--mp-chart-value: 38%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;2&quot; style=&quot;--mp-chart-value: 22%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;3&quot; style=&quot;--mp-chart-value: 16%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;4&quot; style=&quot;--mp-chart-value: 9%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;5&quot; style=&quot;--mp-chart-value: 8%&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__fill&quot; data-series=&quot;6&quot; style=&quot;--mp-chart-value: 7%&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mp-chart__value&quot;&gt;100%&lt;/span&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;figcaption class=&quot;mp-chart__caption&quot;&gt;Shares of 3,214 learners. Legend order matches bar order.&lt;/figcaption&gt;
+&lt;/figure&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-icon" aria-labelledby="component-icon-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Content</p>
+      <h3 class="gallery-item__title" id="component-icon-title">Icon</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/icon/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Icon</span></a>
+  </header>
+  <p class="gallery-item__summary">Sizes and colors an inline line-icon SVG from the --size-icon-* tokens (20/24/32/48px) and the register/status text colors.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-icon</code></dd></div><div><dt><code>data-size</code></dt><dd>sm · lg · xl</dd></div><div><dt><code>data-tone</code></dt><dd>human · digital · success · warning · error</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Sizes and tones</p>
+  <div class="gallery-example__stage">
+<div class="mp-cluster" data-gap="5">
+  <svg class="mp-icon" data-size="sm" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+  <svg class="mp-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+  <svg class="mp-icon" data-size="lg" data-tone="human" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+  <svg class="mp-icon" data-size="xl" data-tone="digital" viewBox="0 0 24 24" aria-hidden="true"><path d="m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16"/></svg>
+  <svg class="mp-icon" data-tone="success" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+  <svg class="mp-icon" data-tone="warning" viewBox="0 0 24 24" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4M12 17h.01"/></svg>
+  <svg class="mp-icon" data-tone="error" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Icon · Sizes and tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;5&quot;&gt;
+  &lt;svg class=&quot;mp-icon&quot; data-size=&quot;sm&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z&quot;/&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/&gt;&lt;/svg&gt;
+  &lt;svg class=&quot;mp-icon&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z&quot;/&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;3&quot;/&gt;&lt;/svg&gt;
+  &lt;svg class=&quot;mp-icon&quot; data-size=&quot;lg&quot; data-tone=&quot;human&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M22 10v6M2 10l10-5 10 5-10 5z&quot;/&gt;&lt;path d=&quot;M6 12v5c3 3 9 3 12 0v-5&quot;/&gt;&lt;/svg&gt;
+  &lt;svg class=&quot;mp-icon&quot; data-size=&quot;xl&quot; data-tone=&quot;digital&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16&quot;/&gt;&lt;/svg&gt;
+  &lt;svg class=&quot;mp-icon&quot; data-tone=&quot;success&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;/&gt;&lt;path d=&quot;m9 12 2 2 4-4&quot;/&gt;&lt;/svg&gt;
+  &lt;svg class=&quot;mp-icon&quot; data-tone=&quot;warning&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3&quot;/&gt;&lt;path d=&quot;M12 9v4M12 17h.01&quot;/&gt;&lt;/svg&gt;
+  &lt;svg class=&quot;mp-icon&quot; data-tone=&quot;error&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;10&quot;/&gt;&lt;path d=&quot;m15 9-6 6M9 9l6 6&quot;/&gt;&lt;/svg&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
 <article class="gallery-item" id="component-alert" aria-labelledby="component-alert-title">
   <header class="gallery-item__header">
     <div>
@@ -2646,8 +2891,8 @@
     <progress class="mp-progress" id="progress-upload" data-size="sm"></progress>
   </div>
   <div class="mp-field">
-    <label class="mp-field__label" for="progress-gate">Contrast checks — 126 of 126</label>
-    <progress class="mp-progress" id="progress-gate" value="126" max="126" data-tone="success" data-size="lg">126 of 126</progress>
+    <label class="mp-field__label" for="progress-gate">Modules completed — 8 of 8</label>
+    <progress class="mp-progress" id="progress-gate" value="8" max="8" data-tone="success" data-size="lg">8 of 8</progress>
   </div>
 </div>
   </div>
@@ -2665,8 +2910,8 @@
     &lt;progress class=&quot;mp-progress&quot; id=&quot;progress-upload&quot; data-size=&quot;sm&quot;&gt;&lt;/progress&gt;
   &lt;/div&gt;
   &lt;div class=&quot;mp-field&quot;&gt;
-    &lt;label class=&quot;mp-field__label&quot; for=&quot;progress-gate&quot;&gt;Contrast checks — 126 of 126&lt;/label&gt;
-    &lt;progress class=&quot;mp-progress&quot; id=&quot;progress-gate&quot; value=&quot;126&quot; max=&quot;126&quot; data-tone=&quot;success&quot; data-size=&quot;lg&quot;&gt;126 of 126&lt;/progress&gt;
+    &lt;label class=&quot;mp-field__label&quot; for=&quot;progress-gate&quot;&gt;Modules completed — 8 of 8&lt;/label&gt;
+    &lt;progress class=&quot;mp-progress&quot; id=&quot;progress-gate&quot; value=&quot;8&quot; max=&quot;8&quot; data-tone=&quot;success&quot; data-size=&quot;lg&quot;&gt;8 of 8&lt;/progress&gt;
   &lt;/div&gt;
 &lt;/div&gt;</code></pre>
     </figure>
@@ -2687,6 +2932,200 @@
       <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;span class=&quot;mp-spinner&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
   &lt;span class=&quot;type-small&quot; role=&quot;status&quot;&gt;Generating feedback…&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-skeleton" aria-labelledby="component-skeleton-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Feedback</p>
+      <h3 class="gallery-item__title" id="component-skeleton-title">Skeleton</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/skeleton/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Skeleton</span></a>
+  </header>
+  <p class="gallery-item__summary">Placeholder text lines, circles and blocks that hold a layout&#39;s shape while content loads; still under reduced motion.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-skeleton</code></dd></div><div><dt><code>data-variant</code></dt><dd>text · circle · block</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Loading card</p>
+  <div class="gallery-example__stage">
+<div class="mp-card" aria-busy="true" aria-describedby="skeleton-status">
+  <span class="mp-visually-hidden" id="skeleton-status" role="status">Loading workshop…</span>
+  <div class="mp-skeleton" data-variant="block" aria-hidden="true"></div>
+  <div aria-hidden="true">
+    <div class="mp-skeleton" data-variant="text" style="--mp-skeleton-width: 40%"></div>
+    <div class="mp-skeleton" data-variant="text"></div>
+    <div class="mp-skeleton" data-variant="text"></div>
+  </div>
+  <div class="mp-cluster" aria-hidden="true">
+    <div class="mp-skeleton" data-variant="circle"></div>
+    <div class="mp-skeleton" data-variant="text" style="--mp-skeleton-width: 8rem"></div>
+  </div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Skeleton · Loading card</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-card&quot; aria-busy=&quot;true&quot; aria-describedby=&quot;skeleton-status&quot;&gt;
+  &lt;span class=&quot;mp-visually-hidden&quot; id=&quot;skeleton-status&quot; role=&quot;status&quot;&gt;Loading workshop…&lt;/span&gt;
+  &lt;div class=&quot;mp-skeleton&quot; data-variant=&quot;block&quot; aria-hidden=&quot;true&quot;&gt;&lt;/div&gt;
+  &lt;div aria-hidden=&quot;true&quot;&gt;
+    &lt;div class=&quot;mp-skeleton&quot; data-variant=&quot;text&quot; style=&quot;--mp-skeleton-width: 40%&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;mp-skeleton&quot; data-variant=&quot;text&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;mp-skeleton&quot; data-variant=&quot;text&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-cluster&quot; aria-hidden=&quot;true&quot;&gt;
+    &lt;div class=&quot;mp-skeleton&quot; data-variant=&quot;circle&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;mp-skeleton&quot; data-variant=&quot;text&quot; style=&quot;--mp-skeleton-width: 8rem&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-empty-state" aria-labelledby="component-empty-state-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Feedback</p>
+      <h3 class="gallery-item__title" id="component-empty-state-title">Empty state</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/empty-state/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Empty state</span></a>
+  </header>
+  <p class="gallery-item__summary">What a view shows before it has content — icon on a warm wash, Fraunces title, one sentence of guidance and the next action.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-empty</code></dd></div><div><dt><code>data-variant</code></dt><dd>bordered</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">First use</p>
+  <div class="gallery-example__stage">
+<div class="mp-empty">
+  <div class="mp-empty__media">
+    <svg class="mp-icon" data-size="xl" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></svg>
+  </div>
+  <h3 class="mp-empty__title">Your reading list starts here</h3>
+  <p class="mp-empty__body">Save essays and case studies while you browse — they'll wait for you here, in the order you saved them.</p>
+  <div class="mp-empty__actions">
+    <a class="mp-button" href="#components">Browse essays</a>
+  </div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Empty state · First use</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-empty&quot;&gt;
+  &lt;div class=&quot;mp-empty__media&quot;&gt;
+    &lt;svg class=&quot;mp-icon&quot; data-size=&quot;xl&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z&quot;/&gt;&lt;/svg&gt;
+  &lt;/div&gt;
+  &lt;h3 class=&quot;mp-empty__title&quot;&gt;Your reading list starts here&lt;/h3&gt;
+  &lt;p class=&quot;mp-empty__body&quot;&gt;Save essays and case studies while you browse — they&#39;ll wait for you here, in the order you saved them.&lt;/p&gt;
+  &lt;div class=&quot;mp-empty__actions&quot;&gt;
+    &lt;a class=&quot;mp-button&quot; href=&quot;#components&quot;&gt;Browse essays&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">No results (bordered)</p>
+  <div class="gallery-example__stage">
+<div class="mp-empty" data-variant="bordered">
+  <h3 class="mp-empty__title">No workshops match "robotics"</h3>
+  <p class="mp-empty__body">Try a broader word, or clear the filters to see everything that's open this term.</p>
+  <div class="mp-empty__actions">
+    <button class="mp-button" type="button" data-variant="secondary">Clear filters</button>
+    <button class="mp-button" type="button" data-variant="ghost">Suggest a topic</button>
+  </div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Empty state · No results (bordered)</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-empty&quot; data-variant=&quot;bordered&quot;&gt;
+  &lt;h3 class=&quot;mp-empty__title&quot;&gt;No workshops match &quot;robotics&quot;&lt;/h3&gt;
+  &lt;p class=&quot;mp-empty__body&quot;&gt;Try a broader word, or clear the filters to see everything that&#39;s open this term.&lt;/p&gt;
+  &lt;div class=&quot;mp-empty__actions&quot;&gt;
+    &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot;&gt;Clear filters&lt;/button&gt;
+    &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot;&gt;Suggest a topic&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-toast" aria-labelledby="component-toast-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Feedback · beta</p>
+      <h3 class="gallery-item__title" id="component-toast-title">Toast</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/toast/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Toast</span></a>
+  </header>
+  <p class="gallery-item__summary">A brief, polite confirmation of something the person just did — one live region per page, MembranePalette.toast() or a data-mp-toast button, auto-dismissed unless it&#39;s an error.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-toast-region</code> <code>.mp-toast</code></dd></div><div><dt><code>data-tone</code></dt><dd>success · warning · error</dd></div><div><dt><code>data-placement</code></dt><dd>inline</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Tones</p>
+  <div class="gallery-example__stage">
+<div class="mp-toast-region" data-placement="inline" aria-live="polite">
+  <div class="mp-toast" data-tone="success">
+    <div class="mp-toast__content"><p class="mp-toast__title">Draft saved</p><p>Last edit 2 minutes ago.</p></div>
+    <button class="mp-toast__close" type="button" aria-label="Dismiss">×</button>
+  </div>
+  <div class="mp-toast">
+    <div class="mp-toast__content"><p class="mp-toast__title">Workshop shared</p><p>Ana can now edit the syllabus.</p></div>
+    <button class="mp-toast__close" type="button" aria-label="Dismiss">×</button>
+  </div>
+  <div class="mp-toast" data-tone="warning">
+    <div class="mp-toast__content"><p class="mp-toast__title">Working offline</p><p>Changes will sync when you reconnect.</p></div>
+    <button class="mp-toast__close" type="button" aria-label="Dismiss">×</button>
+  </div>
+  <div class="mp-toast" data-tone="error" role="alert">
+    <div class="mp-toast__content"><p class="mp-toast__title">Couldn't publish</p><p>The cohort is full. Nothing was lost.</p></div>
+    <button class="mp-toast__close" type="button" aria-label="Dismiss">×</button>
+  </div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Toast · Tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-toast-region&quot; data-placement=&quot;inline&quot; aria-live=&quot;polite&quot;&gt;
+  &lt;div class=&quot;mp-toast&quot; data-tone=&quot;success&quot;&gt;
+    &lt;div class=&quot;mp-toast__content&quot;&gt;&lt;p class=&quot;mp-toast__title&quot;&gt;Draft saved&lt;/p&gt;&lt;p&gt;Last edit 2 minutes ago.&lt;/p&gt;&lt;/div&gt;
+    &lt;button class=&quot;mp-toast__close&quot; type=&quot;button&quot; aria-label=&quot;Dismiss&quot;&gt;×&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-toast&quot;&gt;
+    &lt;div class=&quot;mp-toast__content&quot;&gt;&lt;p class=&quot;mp-toast__title&quot;&gt;Workshop shared&lt;/p&gt;&lt;p&gt;Ana can now edit the syllabus.&lt;/p&gt;&lt;/div&gt;
+    &lt;button class=&quot;mp-toast__close&quot; type=&quot;button&quot; aria-label=&quot;Dismiss&quot;&gt;×&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-toast&quot; data-tone=&quot;warning&quot;&gt;
+    &lt;div class=&quot;mp-toast__content&quot;&gt;&lt;p class=&quot;mp-toast__title&quot;&gt;Working offline&lt;/p&gt;&lt;p&gt;Changes will sync when you reconnect.&lt;/p&gt;&lt;/div&gt;
+    &lt;button class=&quot;mp-toast__close&quot; type=&quot;button&quot; aria-label=&quot;Dismiss&quot;&gt;×&lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-toast&quot; data-tone=&quot;error&quot; role=&quot;alert&quot;&gt;
+    &lt;div class=&quot;mp-toast__content&quot;&gt;&lt;p class=&quot;mp-toast__title&quot;&gt;Couldn&#39;t publish&lt;/p&gt;&lt;p&gt;The cohort is full. Nothing was lost.&lt;/p&gt;&lt;/div&gt;
+    &lt;button class=&quot;mp-toast__close&quot; type=&quot;button&quot; aria-label=&quot;Dismiss&quot;&gt;×&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Triggered by a button</p>
+  <div class="gallery-example__stage">
+<div class="mp-cluster">
+  <button class="mp-button" type="button" data-variant="secondary" data-mp-toast="Link copied" data-mp-toast-body="Paste it anywhere." data-mp-toast-tone="success">Copy link</button>
+  <button class="mp-button" type="button" data-variant="ghost" data-mp-toast="Couldn't reach the server" data-mp-toast-tone="error">Simulate an error</button>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Toast · Triggered by a button</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+  &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; data-mp-toast=&quot;Link copied&quot; data-mp-toast-body=&quot;Paste it anywhere.&quot; data-mp-toast-tone=&quot;success&quot;&gt;Copy link&lt;/button&gt;
+  &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; data-mp-toast=&quot;Couldn&#39;t reach the server&quot; data-mp-toast-tone=&quot;error&quot;&gt;Simulate an error&lt;/button&gt;
 &lt;/div&gt;</code></pre>
     </figure>
   </details>
@@ -3052,6 +3491,196 @@
   </details>
 </div>
 </article>
+<article class="gallery-item" id="component-pagination" aria-labelledby="component-pagination-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Navigation</p>
+      <h3 class="gallery-item__title" id="component-pagination-title">Pagination</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/pagination/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Pagination</span></a>
+  </header>
+  <p class="gallery-item__summary">Numbered page links with previous/next; aria-current marks the current page (teal pill), and narrow containers collapse to previous · current · next.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-pagination</code></dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Pages</p>
+  <div class="gallery-example__stage">
+<nav class="mp-pagination" aria-label="Essays pages">
+  <ul class="mp-pagination__list">
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components" rel="prev">← Previous</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components">1</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components" aria-current="page">2</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components">3</a></li>
+    <li class="mp-pagination__item"><span class="mp-pagination__gap" aria-hidden="true">…</span></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components">12</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components" rel="next">Next →</a></li>
+  </ul>
+</nav>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Pagination · Pages</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;nav class=&quot;mp-pagination&quot; aria-label=&quot;Essays pages&quot;&gt;
+  &lt;ul class=&quot;mp-pagination__list&quot;&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot; rel=&quot;prev&quot;&gt;← Previous&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot; aria-current=&quot;page&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;span class=&quot;mp-pagination__gap&quot; aria-hidden=&quot;true&quot;&gt;…&lt;/span&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot;&gt;12&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot; rel=&quot;next&quot;&gt;Next →&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">First page</p>
+  <div class="gallery-example__stage">
+<nav class="mp-pagination" aria-label="Cohort pages">
+  <ul class="mp-pagination__list">
+    <li class="mp-pagination__item"><a class="mp-pagination__link" aria-disabled="true">← Previous</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components" aria-current="page">1</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components">2</a></li>
+    <li class="mp-pagination__item"><a class="mp-pagination__link" href="#components" rel="next">Next →</a></li>
+  </ul>
+</nav>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Pagination · First page</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;nav class=&quot;mp-pagination&quot; aria-label=&quot;Cohort pages&quot;&gt;
+  &lt;ul class=&quot;mp-pagination__list&quot;&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; aria-disabled=&quot;true&quot;&gt;← Previous&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot; aria-current=&quot;page&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+    &lt;li class=&quot;mp-pagination__item&quot;&gt;&lt;a class=&quot;mp-pagination__link&quot; href=&quot;#components&quot; rel=&quot;next&quot;&gt;Next →&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/nav&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-steps" aria-labelledby="component-steps-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Navigation</p>
+      <h3 class="gallery-item__title" id="component-steps-title">Steps</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/steps/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Steps</span></a>
+  </header>
+  <p class="gallery-item__summary">Progress through an ordered sequence — course modules, onboarding, a multi-page form — vertical or horizontal, with complete, current and upcoming steps.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-steps</code></dd></div><div><dt><code>data-status</code></dt><dd>complete</dd></div><div><dt><code>data-orientation</code></dt><dd>horizontal</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Course modules</p>
+  <div class="gallery-example__stage">
+<ol class="mp-steps" aria-label="Course progress">
+  <li class="mp-steps__item" data-status="complete">
+    <p class="mp-steps__label">Start from the classroom<span class="mp-visually-hidden"> (completed)</span></p>
+    <p class="mp-steps__description">Map one real problem before touching a tool.</p>
+  </li>
+  <li class="mp-steps__item" aria-current="step">
+    <p class="mp-steps__label">How models actually work</p>
+    <p class="mp-steps__description">Tokens, context, and why confident answers can be wrong.</p>
+  </li>
+  <li class="mp-steps__item">
+    <p class="mp-steps__label">Design the assistant</p>
+    <p class="mp-steps__description">Co-create the prompts with your students.</p>
+  </li>
+</ol>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Steps · Course modules</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;ol class=&quot;mp-steps&quot; aria-label=&quot;Course progress&quot;&gt;
+  &lt;li class=&quot;mp-steps__item&quot; data-status=&quot;complete&quot;&gt;
+    &lt;p class=&quot;mp-steps__label&quot;&gt;Start from the classroom&lt;span class=&quot;mp-visually-hidden&quot;&gt; (completed)&lt;/span&gt;&lt;/p&gt;
+    &lt;p class=&quot;mp-steps__description&quot;&gt;Map one real problem before touching a tool.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;mp-steps__item&quot; aria-current=&quot;step&quot;&gt;
+    &lt;p class=&quot;mp-steps__label&quot;&gt;How models actually work&lt;/p&gt;
+    &lt;p class=&quot;mp-steps__description&quot;&gt;Tokens, context, and why confident answers can be wrong.&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li class=&quot;mp-steps__item&quot;&gt;
+    &lt;p class=&quot;mp-steps__label&quot;&gt;Design the assistant&lt;/p&gt;
+    &lt;p class=&quot;mp-steps__description&quot;&gt;Co-create the prompts with your students.&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Horizontal</p>
+  <div class="gallery-example__stage">
+<ol class="mp-steps" data-orientation="horizontal" aria-label="Enrolment">
+  <li class="mp-steps__item" data-status="complete"><p class="mp-steps__label">Account<span class="mp-visually-hidden"> (completed)</span></p></li>
+  <li class="mp-steps__item" data-status="complete"><p class="mp-steps__label">Cohort<span class="mp-visually-hidden"> (completed)</span></p></li>
+  <li class="mp-steps__item" aria-current="step"><p class="mp-steps__label">Payment</p></li>
+  <li class="mp-steps__item"><p class="mp-steps__label">Done</p></li>
+</ol>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Steps · Horizontal</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;ol class=&quot;mp-steps&quot; data-orientation=&quot;horizontal&quot; aria-label=&quot;Enrolment&quot;&gt;
+  &lt;li class=&quot;mp-steps__item&quot; data-status=&quot;complete&quot;&gt;&lt;p class=&quot;mp-steps__label&quot;&gt;Account&lt;span class=&quot;mp-visually-hidden&quot;&gt; (completed)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li class=&quot;mp-steps__item&quot; data-status=&quot;complete&quot;&gt;&lt;p class=&quot;mp-steps__label&quot;&gt;Cohort&lt;span class=&quot;mp-visually-hidden&quot;&gt; (completed)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;
+  &lt;li class=&quot;mp-steps__item&quot; aria-current=&quot;step&quot;&gt;&lt;p class=&quot;mp-steps__label&quot;&gt;Payment&lt;/p&gt;&lt;/li&gt;
+  &lt;li class=&quot;mp-steps__item&quot;&gt;&lt;p class=&quot;mp-steps__label&quot;&gt;Done&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-menu" aria-labelledby="component-menu-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Navigation · beta</p>
+      <h3 class="gallery-item__title" id="component-menu-title">Menu</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/menu/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Menu</span></a>
+  </header>
+  <p class="gallery-item__summary">A list of actions in a native popover — opened by a popovertarget button, light-dismissed by the browser, arrow-key navigable with membrane.js.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-menu</code></dd></div><div><dt><code>data-tone</code></dt><dd>danger</dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Actions menu</p>
+  <div class="gallery-example__stage">
+<button class="mp-button" type="button" data-variant="secondary" popovertarget="menu-workshop" aria-haspopup="menu" aria-expanded="false">Workshop actions</button>
+<div class="mp-menu" id="menu-workshop" popover role="menu" aria-label="Workshop actions">
+  <p class="mp-menu__label" role="presentation">Edit</p>
+  <button class="mp-menu__item" type="button" role="menuitem">
+    <svg class="mp-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="14" height="14" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+    Duplicate
+  </button>
+  <button class="mp-menu__item" type="button" role="menuitem">Export syllabus</button>
+  <button class="mp-menu__item" type="button" role="menuitem" aria-disabled="true">Move to cohort (none open)</button>
+  <hr class="mp-menu__separator">
+  <button class="mp-menu__item" type="button" role="menuitem" data-tone="danger">Archive workshop</button>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Menu · Actions menu</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; popovertarget=&quot;menu-workshop&quot; aria-haspopup=&quot;menu&quot; aria-expanded=&quot;false&quot;&gt;Workshop actions&lt;/button&gt;
+&lt;div class=&quot;mp-menu&quot; id=&quot;menu-workshop&quot; popover role=&quot;menu&quot; aria-label=&quot;Workshop actions&quot;&gt;
+  &lt;p class=&quot;mp-menu__label&quot; role=&quot;presentation&quot;&gt;Edit&lt;/p&gt;
+  &lt;button class=&quot;mp-menu__item&quot; type=&quot;button&quot; role=&quot;menuitem&quot;&gt;
+    &lt;svg class=&quot;mp-icon&quot; viewBox=&quot;0 0 24 24&quot; aria-hidden=&quot;true&quot;&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;14&quot; height=&quot;14&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2&quot;/&gt;&lt;/svg&gt;
+    Duplicate
+  &lt;/button&gt;
+  &lt;button class=&quot;mp-menu__item&quot; type=&quot;button&quot; role=&quot;menuitem&quot;&gt;Export syllabus&lt;/button&gt;
+  &lt;button class=&quot;mp-menu__item&quot; type=&quot;button&quot; role=&quot;menuitem&quot; aria-disabled=&quot;true&quot;&gt;Move to cohort (none open)&lt;/button&gt;
+  &lt;hr class=&quot;mp-menu__separator&quot;&gt;
+  &lt;button class=&quot;mp-menu__item&quot; type=&quot;button&quot; role=&quot;menuitem&quot; data-tone=&quot;danger&quot;&gt;Archive workshop&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
 </div>
 </div>
         <!-- /GENERATED:COMPONENT-GALLERY -->
@@ -3124,7 +3753,8 @@
               <ul class="mp-stack agent-list" data-gap="2">
                 <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/manifest.json">components/manifest.json</a> — classes, allowed values, states, knobs, examples</li>
                 <li><a class="mp-link" href="../llms.txt">llms.txt</a> — the index and the house rules</li>
-                <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/starter.html">examples/starter.html</a> — a full page to copy</li>
+                <li><a class="mp-link" href="../examples/starter.html">Starter</a>, <a class="mp-link" href="../examples/article.html">article</a> and <a class="mp-link" href="../examples/dashboard.html">dashboard</a> — full pages to copy, linted against the library</li>
+                <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/tokens/membrane-tailwind.css">Tailwind v4 theme</a> — only on-brand <code>mp-</code> utilities compile</li>
               </ul>
               <figure class="mp-code-block">
                 <figcaption class="mp-code-block__header"><span>manifest.json</span><span>excerpt</span></figcaption>
@@ -3406,6 +4036,42 @@
                   <td><code>--color-charcoal</code></td>
                   <td>Color / Primitive</td>
                   <td>Dark canvas. Never pure black.</td>
+                </tr>
+                <tr data-search="--color-chart-1 color / semantic categorical chart series 1 (terracotta — human register; the brand&#39;s lead series). assign in order, never cycle; validated as a set (adjacent cvd δe ≥ 11.5, ≥3:1 on page and cards in both modes).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-chart-1);" aria-hidden="true"></span></td>
+                  <td><code>--color-chart-1</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Categorical chart series 1 (terracotta — human register; the brand&#39;s lead series). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes).</td>
+                </tr>
+                <tr data-search="--color-chart-2 color / semantic categorical chart series 2 (teal — digital register). assign in order, never cycle; validated as a set (adjacent cvd δe ≥ 11.5, ≥3:1 on page and cards in both modes).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-chart-2);" aria-hidden="true"></span></td>
+                  <td><code>--color-chart-2</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Categorical chart series 2 (teal — digital register). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes).</td>
+                </tr>
+                <tr data-search="--color-chart-3 color / semantic categorical chart series 3 (amber). assign in order, never cycle; validated as a set (adjacent cvd δe ≥ 11.5, ≥3:1 on page and cards in both modes).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-chart-3);" aria-hidden="true"></span></td>
+                  <td><code>--color-chart-3</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Categorical chart series 3 (amber). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes).</td>
+                </tr>
+                <tr data-search="--color-chart-4 color / semantic categorical chart series 4 (burgundy). assign in order, never cycle; validated as a set (adjacent cvd δe ≥ 11.5, ≥3:1 on page and cards in both modes).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-chart-4);" aria-hidden="true"></span></td>
+                  <td><code>--color-chart-4</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Categorical chart series 4 (burgundy). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes).</td>
+                </tr>
+                <tr data-search="--color-chart-5 color / semantic categorical chart series 5 (steel blue). assign in order, never cycle; validated as a set (adjacent cvd δe ≥ 11.5, ≥3:1 on page and cards in both modes).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-chart-5);" aria-hidden="true"></span></td>
+                  <td><code>--color-chart-5</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Categorical chart series 5 (steel blue). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes).</td>
+                </tr>
+                <tr data-search="--color-chart-6 color / semantic categorical chart series 6 (green). assign in order, never cycle; validated as a set (adjacent cvd δe ≥ 11.5, ≥3:1 on page and cards in both modes).">
+                  <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-chart-6);" aria-hidden="true"></span></td>
+                  <td><code>--color-chart-6</code></td>
+                  <td>Color / Semantic</td>
+                  <td>Categorical chart series 6 (green). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes).</td>
                 </tr>
                 <tr data-search="--color-cream color / primitive light canvas. never pure white.">
                   <td class="token-table__preview"><span class="token-swatch" style="background: var(--color-cream);" aria-hidden="true"></span></td>
@@ -4882,10 +5548,130 @@
                 </tr>
                 <tr>
                   <td>light</td>
+                  <td><code>--color-success-text</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">5.68:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-warning-text</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">6.08:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-error-text</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">6.20:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
                   <td><code>--color-text-primary</code></td>
                   <td><code>--color-bg-hover</code></td>
                   <td data-align="end">11.31:1</td>
                   <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-1</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">4.57:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-1</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">4.15:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-2</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">3.61:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-2</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">3.27:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-3</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">3.86:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-3</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">3.50:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-4</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">6.00:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-4</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">5.44:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-5</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">3.80:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-5</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">3.45:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-6</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">3.62:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-chart-6</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">3.29:1</td>
+                  <td data-align="end">3.0:1</td>
                   <td><span class="mp-badge" data-tone="success">Pass</span></td>
                 </tr>
                 <tr>
@@ -5386,10 +6172,130 @@
                 </tr>
                 <tr>
                   <td>dark</td>
+                  <td><code>--color-success-text</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">6.71:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-warning-text</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">7.82:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-error-text</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">5.56:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
                   <td><code>--color-text-primary</code></td>
                   <td><code>--color-bg-hover</code></td>
                   <td data-align="end">11.06:1</td>
                   <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-1</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">5.18:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-1</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">4.65:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-2</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">5.87:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-2</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">5.27:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-3</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">5.46:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-3</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">4.91:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-4</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">3.57:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-4</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">3.21:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-5</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">5.58:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-5</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">5.01:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-6</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">4.65:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-chart-6</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">4.18:1</td>
+                  <td data-align="end">3.0:1</td>
                   <td><span class="mp-badge" data-tone="success">Pass</span></td>
                 </tr>
                 <tr>

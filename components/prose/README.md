@@ -40,6 +40,7 @@ Every inner selector is wrapped in `:where()`, so the whole component has the sp
 
 - Keeps a 65-character measure and 1.6 line height for sustained reading (WCAG 1.4.8 guidance).
 - Links stay underlined inside prose — color alone never marks a link.
+- Code blocks that can scroll sideways need `tabindex="0"` on the `<pre>` so keyboard users can scroll them (most Markdown renderers let you add it in a post-process step).
 
 ## API
 

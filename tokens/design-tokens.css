@@ -104,6 +104,12 @@
     --color-warning-bg:              color-mix(in srgb, light-dark(var(--color-amber), var(--color-amber-light)) 10%, transparent);
     --color-error-bg:                color-mix(in srgb, var(--color-error) 10%, transparent);
     --color-info-bg:                 color-mix(in srgb, light-dark(var(--color-teal), var(--color-teal-light)) 10%, transparent);
+    --color-chart-1:                 light-dark(oklch(55.9604% 0.13265 41.129), oklch(65.6421% 0.13269 40.109));  /* #B35530 / #D4724F */
+    --color-chart-2:                 light-dark(oklch(59.0959% 0.10351 186.292), oklch(66.1129% 0.11599 185.941));  /* #009187 / #00A99D */
+    --color-chart-3:                 light-dark(oklch(59.0942% 0.10525 76.159), oklch(66.0496% 0.10536 76.27));  /* #A1742A / #B78941 */
+    --color-chart-4:                 light-dark(oklch(50.0078% 0.13542 4.176), oklch(56.9314% 0.13521 3.925));  /* #9F3B5A / #B6506E */
+    --color-chart-5:                 light-dark(oklch(58.9605% 0.10485 250.022), oklch(66.0911% 0.10452 249.669));  /* #4981B9 / #5E97D0 */
+    --color-chart-6:                 light-dark(oklch(59.1083% 0.10547 149.808), oklch(59.9834% 0.14961 150.164));  /* #4B8F5B / #25984D */
 
     /* --------------------------------------------------------
        4. COLORS — Derived Tints (computed, mode-aware)

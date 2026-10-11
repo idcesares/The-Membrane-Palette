@@ -19,7 +19,10 @@
     "theming": "Dark mode is automatic. Add data-theme=\"dark\"|\"light\" to any element to force a subtree; add .mp-surface so the subtree paints its own background.",
     "componentTokens": "--mp-<component>-* custom properties are per-component knobs; override them on an instance.",
     "designTokens": "In your own CSS consume semantic tokens (--color-text-*, --color-bg-*, --color-action-*, --space-*, --text-*). Never Tier 1 primitives or raw color values.",
-    "layer": "All component CSS is in @layer components; unlayered CSS overrides it."
+    "layer": "All component CSS is in @layer components; unlayered CSS overrides it.",
+    "behaviorHooks": "data-mp-* attributes are hooks for components/membrane.js (e.g. data-mp-toast). Valid on any element.",
+    "tailwind": "Using Tailwind v4? Import tokens/membrane-tailwind.css: only mp- utilities exist (bg-mp-surface, text-mp-fg, bg-mp-primary, rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2); the default palette is removed. p-4 = --space-4.",
+    "patterns": "examples/*.html are complete pages (starter, article, dashboard) built only from the library and linted like the examples here."
   },
   "categories": [
     "Layout",
@@ -140,6 +143,45 @@
         {
           "title": "Dark band inside a light page",
           "html": "<section class=\"mp-section mp-surface\" data-size=\"sm\" data-theme=\"dark\">\n  <div class=\"mp-container\" data-size=\"sm\">\n    <p class=\"type-body\">Every token inside this section resolves to its dark value, because <code class=\"mp-code\">data-theme=\"dark\"</code> sets <code class=\"mp-code\">color-scheme</code> for the subtree.</p>\n  </div>\n</section>"
+        }
+      ]
+    },
+    {
+      "slug": "text",
+      "name": "Text",
+      "category": "Layout",
+      "status": "stable",
+      "summary": "Tone (muted, subtle, human, digital) and reading measure for running copy — combine with the .type-* size classes instead of writing inline color or max-width.",
+      "docs": "components/text/README.md",
+      "css": "components/text/text.css",
+      "classes": {
+        "roots": [
+          "mp-text"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-tone": [
+          "muted",
+          "subtle",
+          "human",
+          "digital"
+        ],
+        "data-measure": "boolean"
+      },
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-digital-text",
+        "--color-human-text",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--measure"
+      ],
+      "examples": [
+        {
+          "title": "Tones and measure",
+          "html": "<div class=\"mp-stack\" data-gap=\"2\">\n  <p class=\"mp-text type-label\" data-tone=\"human\">Workshop</p>\n  <h3 class=\"type-h3\">AI literacy, from the classroom up</h3>\n  <p class=\"mp-text type-body-lg\" data-tone=\"muted\" data-measure>Six weeks for educators who want to use AI with intention — warm in how we teach, precise in how we build.</p>\n  <p class=\"mp-text type-small\" data-tone=\"subtle\">Updated 3 days ago · <span class=\"mp-text\" data-tone=\"digital\">v2.1</span></p>\n</div>"
         }
       ]
     },
@@ -1192,6 +1234,139 @@
       ]
     },
     {
+      "slug": "chart",
+      "name": "Chart",
+      "category": "Content",
+      "status": "beta",
+      "summary": "A figure shell (title, legend, caption) and a CSS bar list — single, multi-series or stacked — colored by the validated --color-chart-* palette, with every value printed.",
+      "docs": "components/chart/README.md",
+      "css": "components/chart/chart.css",
+      "classes": {
+        "roots": [
+          "mp-chart"
+        ],
+        "parts": [
+          "mp-chart__header",
+          "mp-chart__title",
+          "mp-chart__legend",
+          "mp-chart__key",
+          "mp-chart__bars",
+          "mp-chart__row",
+          "mp-chart__label",
+          "mp-chart__track",
+          "mp-chart__fill",
+          "mp-chart__value",
+          "mp-chart__caption"
+        ]
+      },
+      "attributes": {
+        "data-series": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-chart-bar": "0.75rem",
+        "--mp-chart-color": "var(--color-chart-1)",
+        "--mp-chart-value": "0%"
+      },
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-bg-hover",
+        "--color-chart-1",
+        "--color-chart-2",
+        "--color-chart-3",
+        "--color-chart-4",
+        "--color-chart-5",
+        "--color-chart-6",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--font-sans",
+        "--leading-small",
+        "--radius-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--text-body",
+        "--text-small",
+        "--text-xs",
+        "--weight-medium",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Single series",
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-completion-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-completion-title\">Course completion by cohort</p>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">AI Literacy I</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 82%\"></span></span><span class=\"mp-chart__value\">82%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Prompting for Teachers</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 64%\"></span></span><span class=\"mp-chart__value\">64%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Builders' Lab</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 47%\"></span></span><span class=\"mp-chart__value\">47%</span></li>\n  </ul>\n  <figcaption class=\"mp-chart__caption\">Learners who finished every module, 2026.</figcaption>\n</figure>"
+        },
+        {
+          "title": "Stacked, with legend",
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-format-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-format-title\">Enrolment by format</p>\n    <ul class=\"mp-chart__legend\">\n      <li class=\"mp-chart__key\" data-series=\"1\">Online</li>\n      <li class=\"mp-chart__key\" data-series=\"2\">Hybrid</li>\n      <li class=\"mp-chart__key\" data-series=\"3\">In person</li>\n    </ul>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2024</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 40%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 25%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 35%\"></span></span><span class=\"mp-chart__value\">40 · 25 · 35%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2025</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 52%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 28%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 20%\"></span></span><span class=\"mp-chart__value\">52 · 28 · 20%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2026</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 61%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 27%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 12%\"></span></span><span class=\"mp-chart__value\">61 · 27 · 12%</span></li>\n  </ul>\n</figure>"
+        },
+        {
+          "title": "All six series",
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-palette-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-palette-title\">Learners by region</p>\n    <ul class=\"mp-chart__legend\">\n      <li class=\"mp-chart__key\" data-series=\"1\">Sudeste</li>\n      <li class=\"mp-chart__key\" data-series=\"2\">Nordeste</li>\n      <li class=\"mp-chart__key\" data-series=\"3\">Sul</li>\n      <li class=\"mp-chart__key\" data-series=\"4\">Norte</li>\n      <li class=\"mp-chart__key\" data-series=\"5\">Centro-Oeste</li>\n      <li class=\"mp-chart__key\" data-series=\"6\">Exterior</li>\n    </ul>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2026</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 38%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 22%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 16%\"></span><span class=\"mp-chart__fill\" data-series=\"4\" style=\"--mp-chart-value: 9%\"></span><span class=\"mp-chart__fill\" data-series=\"5\" style=\"--mp-chart-value: 8%\"></span><span class=\"mp-chart__fill\" data-series=\"6\" style=\"--mp-chart-value: 7%\"></span></span><span class=\"mp-chart__value\">100%</span></li>\n  </ul>\n  <figcaption class=\"mp-chart__caption\">Shares of 3,214 learners. Legend order matches bar order.</figcaption>\n</figure>"
+        }
+      ]
+    },
+    {
+      "slug": "icon",
+      "name": "Icon",
+      "category": "Content",
+      "status": "stable",
+      "summary": "Sizes and colors an inline line-icon SVG from the --size-icon-* tokens (20/24/32/48px) and the register/status text colors.",
+      "docs": "components/icon/README.md",
+      "css": "components/icon/icon.css",
+      "classes": {
+        "roots": [
+          "mp-icon"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "lg",
+          "xl"
+        ],
+        "data-tone": [
+          "human",
+          "digital",
+          "success",
+          "warning",
+          "error"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-icon-size": "var(--size-icon-md)"
+      },
+      "tokensUsed": [
+        "--color-digital-text",
+        "--color-error-text",
+        "--color-human-text",
+        "--color-success-text",
+        "--color-warning-text",
+        "--size-icon-lg",
+        "--size-icon-md",
+        "--size-icon-sm",
+        "--size-icon-xl"
+      ],
+      "examples": [
+        {
+          "title": "Sizes and tones",
+          "html": "<div class=\"mp-cluster\" data-gap=\"5\">\n  <svg class=\"mp-icon\" data-size=\"sm\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n  <svg class=\"mp-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n  <svg class=\"mp-icon\" data-size=\"lg\" data-tone=\"human\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M22 10v6M2 10l10-5 10 5-10 5z\"/><path d=\"M6 12v5c3 3 9 3 12 0v-5\"/></svg>\n  <svg class=\"mp-icon\" data-size=\"xl\" data-tone=\"digital\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16\"/></svg>\n  <svg class=\"mp-icon\" data-tone=\"success\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/></svg>\n  <svg class=\"mp-icon\" data-tone=\"warning\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4M12 17h.01\"/></svg>\n  <svg class=\"mp-icon\" data-tone=\"error\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6M9 9l6 6\"/></svg>\n</div>"
+        }
+      ]
+    },
+    {
       "slug": "alert",
       "name": "Alert",
       "category": "Feedback",
@@ -1310,11 +1485,195 @@
       "examples": [
         {
           "title": "Determinate and indeterminate",
-          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-course\">Course completion — 64%</label>\n    <progress class=\"mp-progress\" id=\"progress-course\" value=\"64\" max=\"100\" data-tone=\"human\">64%</progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-upload\">Uploading materials</label>\n    <progress class=\"mp-progress\" id=\"progress-upload\" data-size=\"sm\"></progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-gate\">Contrast checks — 126 of 126</label>\n    <progress class=\"mp-progress\" id=\"progress-gate\" value=\"126\" max=\"126\" data-tone=\"success\" data-size=\"lg\">126 of 126</progress>\n  </div>\n</div>"
+          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-course\">Course completion — 64%</label>\n    <progress class=\"mp-progress\" id=\"progress-course\" value=\"64\" max=\"100\" data-tone=\"human\">64%</progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-upload\">Uploading materials</label>\n    <progress class=\"mp-progress\" id=\"progress-upload\" data-size=\"sm\"></progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-gate\">Modules completed — 8 of 8</label>\n    <progress class=\"mp-progress\" id=\"progress-gate\" value=\"8\" max=\"8\" data-tone=\"success\" data-size=\"lg\">8 of 8</progress>\n  </div>\n</div>"
         },
         {
           "title": "Spinner",
           "html": "<div class=\"mp-cluster\">\n  <span class=\"mp-spinner\" aria-hidden=\"true\"></span>\n  <span class=\"type-small\" role=\"status\">Generating feedback…</span>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "skeleton",
+      "name": "Skeleton",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "Placeholder text lines, circles and blocks that hold a layout's shape while content loads; still under reduced motion.",
+      "docs": "components/skeleton/README.md",
+      "css": "components/skeleton/skeleton.css",
+      "classes": {
+        "roots": [
+          "mp-skeleton"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-variant": [
+          "text",
+          "circle",
+          "block"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-skeleton-width": "100%",
+        "--mp-skeleton-height": "1rem"
+      },
+      "tokensUsed": [
+        "--color-bg-active",
+        "--color-bg-hover",
+        "--ease-in-out",
+        "--radius-full",
+        "--radius-lg",
+        "--radius-sm",
+        "--space-10",
+        "--space-32"
+      ],
+      "examples": [
+        {
+          "title": "Loading card",
+          "html": "<div class=\"mp-card\" aria-busy=\"true\" aria-describedby=\"skeleton-status\">\n  <span class=\"mp-visually-hidden\" id=\"skeleton-status\" role=\"status\">Loading workshop…</span>\n  <div class=\"mp-skeleton\" data-variant=\"block\" aria-hidden=\"true\"></div>\n  <div aria-hidden=\"true\">\n    <div class=\"mp-skeleton\" data-variant=\"text\" style=\"--mp-skeleton-width: 40%\"></div>\n    <div class=\"mp-skeleton\" data-variant=\"text\"></div>\n    <div class=\"mp-skeleton\" data-variant=\"text\"></div>\n  </div>\n  <div class=\"mp-cluster\" aria-hidden=\"true\">\n    <div class=\"mp-skeleton\" data-variant=\"circle\"></div>\n    <div class=\"mp-skeleton\" data-variant=\"text\" style=\"--mp-skeleton-width: 8rem\"></div>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "empty-state",
+      "name": "Empty state",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "What a view shows before it has content — icon on a warm wash, Fraunces title, one sentence of guidance and the next action.",
+      "docs": "components/empty-state/README.md",
+      "css": "components/empty-state/empty-state.css",
+      "classes": {
+        "roots": [
+          "mp-empty"
+        ],
+        "parts": [
+          "mp-empty__media",
+          "mp-empty__title",
+          "mp-empty__body",
+          "mp-empty__actions"
+        ]
+      },
+      "attributes": {
+        "data-variant": [
+          "bordered"
+        ]
+      },
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-border-emphasis",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--container-sm",
+        "--font-sans",
+        "--font-serif",
+        "--leading-body",
+        "--leading-subheading",
+        "--radius-full",
+        "--radius-lg",
+        "--space-10",
+        "--space-2",
+        "--space-20",
+        "--space-3",
+        "--space-6",
+        "--text-h3",
+        "--tracking-subheading",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "First use",
+          "html": "<div class=\"mp-empty\">\n  <div class=\"mp-empty__media\">\n    <svg class=\"mp-icon\" data-size=\"xl\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/></svg>\n  </div>\n  <h3 class=\"mp-empty__title\">Your reading list starts here</h3>\n  <p class=\"mp-empty__body\">Save essays and case studies while you browse — they'll wait for you here, in the order you saved them.</p>\n  <div class=\"mp-empty__actions\">\n    <a class=\"mp-button\" href=\"#components\">Browse essays</a>\n  </div>\n</div>"
+        },
+        {
+          "title": "No results (bordered)",
+          "html": "<div class=\"mp-empty\" data-variant=\"bordered\">\n  <h3 class=\"mp-empty__title\">No workshops match \"robotics\"</h3>\n  <p class=\"mp-empty__body\">Try a broader word, or clear the filters to see everything that's open this term.</p>\n  <div class=\"mp-empty__actions\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\">Clear filters</button>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Suggest a topic</button>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "toast",
+      "name": "Toast",
+      "category": "Feedback",
+      "status": "beta",
+      "summary": "A brief, polite confirmation of something the person just did — one live region per page, MembranePalette.toast() or a data-mp-toast button, auto-dismissed unless it's an error.",
+      "docs": "components/toast/README.md",
+      "css": "components/toast/toast.css",
+      "classes": {
+        "roots": [
+          "mp-toast-region",
+          "mp-toast"
+        ],
+        "parts": [
+          "mp-toast__content",
+          "mp-toast__title",
+          "mp-toast__close"
+        ]
+      },
+      "attributes": {
+        "data-tone": [
+          "success",
+          "warning",
+          "error"
+        ],
+        "data-placement": [
+          "inline"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {
+        "--mp-toast-accent": "var(--color-info)",
+        "--mp-toast-title": "var(--color-text-primary)"
+      },
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-thick",
+        "--color-bg-elevated",
+        "--color-bg-hover",
+        "--color-error",
+        "--color-error-text",
+        "--color-info",
+        "--color-success",
+        "--color-success-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-warning",
+        "--color-warning-text",
+        "--elevation-overlay",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-small",
+        "--radius-full",
+        "--radius-md",
+        "--size-control-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--text-body",
+        "--text-small",
+        "--transition-default",
+        "--weight-semibold",
+        "--z-toast"
+      ],
+      "examples": [
+        {
+          "title": "Tones",
+          "html": "<div class=\"mp-toast-region\" data-placement=\"inline\" aria-live=\"polite\">\n  <div class=\"mp-toast\" data-tone=\"success\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Draft saved</p><p>Last edit 2 minutes ago.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n  <div class=\"mp-toast\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Workshop shared</p><p>Ana can now edit the syllabus.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n  <div class=\"mp-toast\" data-tone=\"warning\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Working offline</p><p>Changes will sync when you reconnect.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n  <div class=\"mp-toast\" data-tone=\"error\" role=\"alert\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Couldn't publish</p><p>The cohort is full. Nothing was lost.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n</div>"
+        },
+        {
+          "title": "Triggered by a button",
+          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-mp-toast=\"Link copied\" data-mp-toast-body=\"Paste it anywhere.\" data-mp-toast-tone=\"success\">Copy link</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-mp-toast=\"Couldn't reach the server\" data-mp-toast-tone=\"error\">Simulate an error</button>\n</div>"
         }
       ]
     },
@@ -1667,6 +2026,199 @@
         {
           "title": "FAQ",
           "html": "<div>\n  <details class=\"mp-accordion\" name=\"accordion-faq\" open>\n    <summary class=\"mp-accordion__summary\">Do I need a framework?</summary>\n    <div class=\"mp-accordion__content\"><p>No. Link one stylesheet and write HTML with <code class=\"mp-code\">mp-</code> classes.</p></div>\n  </details>\n  <details class=\"mp-accordion\" name=\"accordion-faq\">\n    <summary class=\"mp-accordion__summary\">Does dark mode need extra CSS?</summary>\n    <div class=\"mp-accordion__content\"><p>No. Every semantic token carries its own light and dark value.</p></div>\n  </details>\n  <details class=\"mp-accordion\" name=\"accordion-faq\">\n    <summary class=\"mp-accordion__summary\">Can agents use it?</summary>\n    <div class=\"mp-accordion__content\"><p>Yes — start from <code class=\"mp-code\">components/manifest.json</code>.</p></div>\n  </details>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "pagination",
+      "name": "Pagination",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "Numbered page links with previous/next; aria-current marks the current page (teal pill), and narrow containers collapse to previous · current · next.",
+      "docs": "components/pagination/README.md",
+      "css": "components/pagination/pagination.css",
+      "classes": {
+        "roots": [
+          "mp-pagination"
+        ],
+        "parts": [
+          "mp-pagination__list",
+          "mp-pagination__link",
+          "mp-pagination__gap",
+          "mp-pagination__item"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[aria-current=\"page\"]",
+        "[aria-disabled=\"true\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-action-secondary",
+        "--color-bg-hover",
+        "--color-text-on-accent",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--radius-full",
+        "--size-touch-target",
+        "--space-1",
+        "--space-3",
+        "--space-8",
+        "--state-disabled-opacity",
+        "--text-small",
+        "--transition-fast",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Pages",
+          "html": "<nav class=\"mp-pagination\" aria-label=\"Essays pages\">\n  <ul class=\"mp-pagination__list\">\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" rel=\"prev\">← Previous</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">1</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" aria-current=\"page\">2</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">3</a></li>\n    <li class=\"mp-pagination__item\"><span class=\"mp-pagination__gap\" aria-hidden=\"true\">…</span></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">12</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" rel=\"next\">Next →</a></li>\n  </ul>\n</nav>"
+        },
+        {
+          "title": "First page",
+          "html": "<nav class=\"mp-pagination\" aria-label=\"Cohort pages\">\n  <ul class=\"mp-pagination__list\">\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" aria-disabled=\"true\">← Previous</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" aria-current=\"page\">1</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">2</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" rel=\"next\">Next →</a></li>\n  </ul>\n</nav>"
+        }
+      ]
+    },
+    {
+      "slug": "steps",
+      "name": "Steps",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "Progress through an ordered sequence — course modules, onboarding, a multi-page form — vertical or horizontal, with complete, current and upcoming steps.",
+      "docs": "components/steps/README.md",
+      "css": "components/steps/steps.css",
+      "classes": {
+        "roots": [
+          "mp-steps"
+        ],
+        "parts": [
+          "mp-steps__item",
+          "mp-steps__label",
+          "mp-steps__description"
+        ]
+      },
+      "attributes": {
+        "data-status": [
+          "complete"
+        ],
+        "data-orientation": [
+          "horizontal"
+        ]
+      },
+      "states": [
+        "[aria-current=\"step\"]"
+      ],
+      "componentTokens": {
+        "--mp-steps-marker": "2rem",
+        "--mp-steps-ring": "var(--color-border-input)",
+        "--mp-steps-line": "var(--color-border-default)"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--border-width-thin",
+        "--color-action-primary",
+        "--color-action-secondary",
+        "--color-bg-primary",
+        "--color-border-default",
+        "--color-border-input",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-text-on-accent",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--font-sans",
+        "--leading-small",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-4",
+        "--space-6",
+        "--text-small",
+        "--weight-medium",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Course modules",
+          "html": "<ol class=\"mp-steps\" aria-label=\"Course progress\">\n  <li class=\"mp-steps__item\" data-status=\"complete\">\n    <p class=\"mp-steps__label\">Start from the classroom<span class=\"mp-visually-hidden\"> (completed)</span></p>\n    <p class=\"mp-steps__description\">Map one real problem before touching a tool.</p>\n  </li>\n  <li class=\"mp-steps__item\" aria-current=\"step\">\n    <p class=\"mp-steps__label\">How models actually work</p>\n    <p class=\"mp-steps__description\">Tokens, context, and why confident answers can be wrong.</p>\n  </li>\n  <li class=\"mp-steps__item\">\n    <p class=\"mp-steps__label\">Design the assistant</p>\n    <p class=\"mp-steps__description\">Co-create the prompts with your students.</p>\n  </li>\n</ol>"
+        },
+        {
+          "title": "Horizontal",
+          "html": "<ol class=\"mp-steps\" data-orientation=\"horizontal\" aria-label=\"Enrolment\">\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Account<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Cohort<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" aria-current=\"step\"><p class=\"mp-steps__label\">Payment</p></li>\n  <li class=\"mp-steps__item\"><p class=\"mp-steps__label\">Done</p></li>\n</ol>"
+        }
+      ]
+    },
+    {
+      "slug": "menu",
+      "name": "Menu",
+      "category": "Navigation",
+      "status": "beta",
+      "summary": "A list of actions in a native popover — opened by a popovertarget button, light-dismissed by the browser, arrow-key navigable with membrane.js.",
+      "docs": "components/menu/README.md",
+      "css": "components/menu/menu.css",
+      "classes": {
+        "roots": [
+          "mp-menu"
+        ],
+        "parts": [
+          "mp-menu__item",
+          "mp-menu__separator",
+          "mp-menu__label"
+        ]
+      },
+      "attributes": {
+        "data-tone": [
+          "danger"
+        ]
+      },
+      "states": [
+        ":disabled",
+        ":focus-visible",
+        ":hover",
+        ":popover-open",
+        "[aria-disabled=\"true\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-medium",
+        "--border-width-thin",
+        "--color-bg-elevated",
+        "--color-bg-hover",
+        "--color-border-default",
+        "--color-error-text",
+        "--color-text-primary",
+        "--color-text-tertiary",
+        "--duration-fast",
+        "--elevation-overlay",
+        "--focus-ring",
+        "--font-sans",
+        "--radius-md",
+        "--radius-sm",
+        "--size-control-sm",
+        "--size-icon-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--state-disabled-opacity",
+        "--text-small",
+        "--text-xs",
+        "--tracking-label",
+        "--transition-fast",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Actions menu",
+          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" popovertarget=\"menu-workshop\" aria-haspopup=\"menu\" aria-expanded=\"false\">Workshop actions</button>\n<div class=\"mp-menu\" id=\"menu-workshop\" popover role=\"menu\" aria-label=\"Workshop actions\">\n  <p class=\"mp-menu__label\" role=\"presentation\">Edit</p>\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\">\n    <svg class=\"mp-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"8\" y=\"8\" width=\"14\" height=\"14\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg>\n    Duplicate\n  </button>\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\">Export syllabus</button>\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\" aria-disabled=\"true\">Move to cohort (none open)</button>\n  <hr class=\"mp-menu__separator\">\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\" data-tone=\"danger\">Archive workshop</button>\n</div>"
         }
       ]
     }

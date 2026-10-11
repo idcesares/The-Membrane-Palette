@@ -31,13 +31,17 @@
     "./components": "./components/membrane-components.css",
     "./components.js": "./components/membrane.js",
     "./manifest.json": "./components/manifest.json",
-    "./tokens.json": "./tokens/membrane.tokens.json"
+    "./tokens.json": "./tokens/membrane.tokens.json",
+    "./tailwind": "./tokens/membrane-tailwind.css",
+    "./tokens.resolved.json": "./tokens/tokens.resolved.json"
   },
   "files": [
     "membrane.css",
     "tokens/design-tokens.css",
     "tokens/base.css",
     "tokens/membrane.tokens.json",
+    "tokens/membrane-tailwind.css",
+    "tokens/tokens.resolved.json",
     "components/",
     "llms.txt"
   ],
@@ -46,12 +50,15 @@
     "build:components": "node scripts/build-components.mjs",
     "build:system": "npm run build:tokens && npm run build:components",
     "build": "node scripts/build-cloudflare-pages.mjs",
+    "test": "npm run build && playwright test",
     "deploy": "npx wrangler deploy",
     "dev": "npm run build && serve dist -l 3456",
     "preview": "npm run build && serve dist -l 3456"
   },
   "type": "commonjs",
   "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "axe-core": "4.10.3",
     "serve": "^14.2.6"
   }
 }

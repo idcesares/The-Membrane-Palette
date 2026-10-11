@@ -1,9 +1,9 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-2.1.0-B35530?style=flat-square" alt="Version 2.1.0">
-  <img src="https://img.shields.io/badge/components-25-1B756D?style=flat-square" alt="25 components">
+  <img src="https://img.shields.io/badge/components-34-1B756D?style=flat-square" alt="34 components">
   <img src="https://img.shields.io/badge/tokens-DTCG_JSON_→_CSS-1B756D?style=flat-square" alt="DTCG JSON">
   <img src="https://img.shields.io/badge/colors-OKLCH-5A8A6E?style=flat-square" alt="OKLCH">
-  <img src="https://img.shields.io/badge/WCAG-AA_gated_(126_checks)-5A8A6E?style=flat-square" alt="WCAG AA">
+  <img src="https://img.shields.io/badge/WCAG-AA_gated_+_axe_tested-5A8A6E?style=flat-square" alt="WCAG AA gated and axe tested">
   <img src="https://img.shields.io/badge/dark_mode-light--dark()_native-D49A3A?style=flat-square" alt="light-dark()">
   <img src="https://img.shields.io/badge/license-MIT-7A3345?style=flat-square" alt="MIT License">
 </p>
@@ -55,9 +55,11 @@ The **Membrane Palette** is organized around a central metaphor — the translat
   hands, pedagogy)        translate)             precision, code)
 
    Terracotta              Warm Cream              Deep Teal
-   Amber Gold              Warm Gray               Steel Blue
-   Burgundy                                        Slate
+   Amber Gold              Warm Gray               Steel Blue*
+   Burgundy                                        Charcoal
 ```
+
+\* Steel Blue exists only as a data color (`--color-chart-5`); it never appears in UI chrome. Earlier versions also listed a "Slate" that was never defined — the digital register's dark anchor is Charcoal.
 
 When a design element relates to the human side — education, community, ethics — it gravitates toward warm tones. When it relates to the digital side — code, AI, systems — it gravitates toward cool tones. When it bridges both (which is most of the time), it uses the neutral membrane colors with accents from either register.
 
@@ -65,7 +67,7 @@ When a design element relates to the human side — education, community, ethics
 
 ## What This Is
 
-A **design system with a framework-free CSS component library**. Link one stylesheet, write semantic HTML, and you get the brand: tokens, typography, dark mode and 25 accessible components.
+A **design system with a framework-free CSS component library**. Link one stylesheet, write semantic HTML, and you get the brand: tokens, typography, dark mode, page defaults and 34 accessible components — or use the same tokens from Tailwind, a charting library or a native app.
 
 | File | Purpose |
 |------|---------|
@@ -75,10 +77,13 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`components/membrane.js`](components/membrane.js) | **Optional behaviors** (~1.7 KB gzipped): tabs keyboard support, tooltip Escape-dismiss, dialog invoker fallback. |
 | [`tokens/membrane.tokens.json`](tokens/membrane.tokens.json) | **Single source of truth for values.** DTCG-flavored JSON. Edit this; never edit the CSS. |
 | [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Custom properties — 3 tiers, OKLCH colors, `light-dark()`, `@layer tokens`. |
-| [`tokens/base.css`](tokens/base.css) | **Generated.** Element rules: `::selection`, focus ring, reduced motion, `.type-*` composites. |
+| [`tokens/base.css`](tokens/base.css) | **Generated.** Page defaults (canvas, text, font, `box-sizing`, all zero-specificity), `::selection`, focus ring, reduced motion, `.type-*` composites. |
+| [`tokens/membrane-tailwind.css`](tokens/membrane-tailwind.css) | **Generated.** Tailwind v4 theme: only `mp-` utilities mapped to the tokens; default palette removed. |
+| [`tokens/tokens.resolved.json`](tokens/tokens.resolved.json) | **Generated.** Every token's light and dark value as plain hex, for charting libraries, native apps and tools. |
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
-| [`examples/starter.html`](examples/starter.html) | **Starter page** to copy. |
+| [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
+| [`tests/`](tests/) | **Browser tests** — axe-core in both themes, overflow, keyboard behavior (`npm test`). |
 | [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
 <br>
@@ -87,12 +92,12 @@ A **design system with a framework-free CSS component library**. Link one styles
 
 | Category | Components |
 |---|---|
-| Layout | [Layout](components/layout/README.md) — container, stack, cluster, grid, section, surface · [Prose](components/prose/README.md) |
+| Layout | [Layout](components/layout/README.md) — container, stack, cluster, grid, section, surface · [Text](components/text/README.md) · [Prose](components/prose/README.md) |
 | Actions | [Button](components/button/README.md) · [Link](components/link/README.md) |
 | Forms | [Field](components/field/README.md) · [Input](components/input/README.md) · [Choice](components/choice/README.md) · [Switch](components/switch/README.md) |
-| Content | [Card](components/card/README.md) · [Tag](components/tag/README.md) · [Badge](components/badge/README.md) · [Avatar](components/avatar/README.md) · [Quote](components/quote/README.md) · [Code](components/code/README.md) · [Divider](components/divider/README.md) · [Table](components/table/README.md) · [Stat](components/stat/README.md) |
-| Feedback | [Alert](components/alert/README.md) · [Progress](components/progress/README.md) · [Tooltip](components/tooltip/README.md) · [Dialog](components/dialog/README.md) |
-| Navigation | [Navbar](components/navbar/README.md) · [Breadcrumb](components/breadcrumb/README.md) · [Tabs](components/tabs/README.md) · [Accordion](components/accordion/README.md) |
+| Content | [Card](components/card/README.md) · [Tag](components/tag/README.md) · [Badge](components/badge/README.md) · [Avatar](components/avatar/README.md) · [Quote](components/quote/README.md) · [Code](components/code/README.md) · [Divider](components/divider/README.md) · [Table](components/table/README.md) · [Stat](components/stat/README.md) · [Chart](components/chart/README.md) · [Icon](components/icon/README.md) |
+| Feedback | [Alert](components/alert/README.md) · [Progress](components/progress/README.md) · [Skeleton](components/skeleton/README.md) · [Empty state](components/empty-state/README.md) · [Toast](components/toast/README.md) · [Tooltip](components/tooltip/README.md) · [Dialog](components/dialog/README.md) |
+| Navigation | [Navbar](components/navbar/README.md) · [Breadcrumb](components/breadcrumb/README.md) · [Tabs](components/tabs/README.md) · [Accordion](components/accordion/README.md) · [Pagination](components/pagination/README.md) · [Steps](components/steps/README.md) · [Menu](components/menu/README.md) |
 
 **The API in one paragraph.** A class names the component (`mp-button`), a BEM element names a part (`mp-card__title`), a `data-*` attribute picks an option from a closed set (`data-variant="secondary"`, `data-size="sm"`, `data-tone="human"`), and **native attributes and ARIA drive state** (`disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-busy="true"`) — so what you see and what a screen reader hears can't disagree.
 
@@ -154,7 +159,25 @@ Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/ba
 
 > **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. These URLs have no version pin, so they serve the latest commit on the default branch; pin to a release tag once one exists if you need a stable reference.
 
-### Option B — Copy the files
+### Option B — Tailwind CSS v4
+
+```css
+@import "tailwindcss";
+@import "./membrane-tailwind.css";   /* from tokens/ */
+```
+
+Load `tokens/design-tokens.css` on the page too (the utilities reference its custom properties). Tailwind's default palette is removed, so only on-brand utilities exist:
+
+```html
+<button class="bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent rounded-full px-6 py-2">Let's co-create</button>
+<article class="bg-mp-surface-2 text-mp-fg border border-mp-border rounded-mp-lg shadow-mp-raised p-6">
+  <h3 class="font-mp-display text-mp-h3">…</h3>
+</article>
+```
+
+`bg-blue-500`, `text-white` or `rounded-md` simply don't compile, which keeps hand-written and agent-written utility code on-brand. Spacing (`p-4` = `--space-4`) and breakpoints already match.
+
+### Option C — Copy the files
 
 Download `membrane.css` (and `components/membrane.js` if you need it) into your project. Regenerate with `npm run build:system` when you fork and modify the sources.
 
@@ -169,6 +192,13 @@ git clone https://github.com/idcesares/The-Membrane-Palette.git
 cd The-Membrane-Palette
 npm install
 npm run dev          # builds everything, then serves the showcase at localhost:3456
+```
+
+To run the browser tests (axe-core in both themes, phone overflow, keyboard behavior):
+
+```bash
+npx playwright install chromium   # once
+npm test                          # builds, serves dist/, runs tests/*.spec.mjs
 ```
 
 To modify tokens or components and rebuild:
@@ -314,7 +344,7 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 
 ## Accessibility
 
-- **Automated contrast gate:** the build verifies 63 foreground/background pairs in both modes (126 checks) before writing CSS — text on every surface, button labels on resting *and hover* fills, register and status text on their washes (over both page and card surfaces), form-control boundaries and focus rings (WCAG 1.4.11), and every code syntax color. A failing pair aborts the build.
+- **Automated contrast gate:** the build verifies every foreground/background pair the UI depends on, in both modes, before writing CSS — text on every surface, button labels on resting *and hover* fills, register and status text on their washes (over both page and card surfaces), form-control boundaries and focus rings (WCAG 1.4.11), chart series, and every code syntax color. The full list is generated into `DESIGN-SYSTEM.md` §13.1. A failing pair aborts the build.
 - **Component lint:** components may only use semantic tokens; docs may only show classes and values the CSS implements. CI runs both builds on every push and PR and fails if any generated file is stale.
 - **State via ARIA:** component states are styled from `aria-*` and native attributes, so every visual state is also announced.
 - All primary/secondary color pairings meet **WCAG AA** contrast requirements; primary text pairs target **AAA**.
@@ -360,14 +390,17 @@ The-Membrane-Palette/
 ├── tokens/
 │   ├── membrane.tokens.json   ← Source of truth for values (edit this)
 │   ├── design-tokens.css      ← Generated
-│   └── base.css               ← Generated
+│   ├── base.css               ← Generated
+│   ├── membrane-tailwind.css  ← Generated — Tailwind v4 theme
+│   └── tokens.resolved.json   ← Generated — light/dark values as hex
 ├── components/
 │   ├── <name>/<name>.css      ← Component source (edit this)
 │   ├── <name>/README.md       ← Docs + examples (edit; the API section is generated)
 │   ├── membrane.js            ← Optional behaviors (hand-written)
 │   ├── membrane-components.css← Generated bundle
 │   └── manifest.json          ← Generated machine-readable API
-├── examples/starter.html      ← A complete page to copy
+├── examples/                  ← Pattern pages (starter, article, dashboard), linted
+├── tests/                     ← Playwright + axe browser tests
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)
 │   ├── build-components.mjs   ← Component linter + bundler + manifest/docs generator
@@ -400,7 +433,7 @@ Examples: `idcesares-logo-wordmark-primary.svg`, `idcesares-photo-speaking-heade
 
 1. **Tokens:** edit `tokens/membrane.tokens.json` — never the generated CSS. New color pairings get a `GATE` entry in `scripts/build-tokens.mjs`.
 2. **Components:** edit `components/<name>/<name>.css` and its `README.md`. New components also go in `ORDER` in `scripts/build-components.mjs` (see [`DESIGN-SYSTEM.md` §6.5](DESIGN-SYSTEM.md#65-contributing-a-component)).
-3. Run `npm run build:system` and commit the regenerated files alongside your change. CI rejects PRs where generated files don't match a fresh build.
+3. Run `npm run build:system` and commit the regenerated files alongside your change, then `npm test`. CI rejects PRs where generated files don't match a fresh build or a browser test fails. See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full checklist.
 4. Retiring a token? Mark it `"$deprecated": "<reason>"` in the JSON instead of deleting it — the build emits an inline `/* @deprecated */` comment, a console summary, and refuses to let components use it (see [`DESIGN-SYSTEM.md` §15](DESIGN-SYSTEM.md#15-design-token-summary)).
 5. Update [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) if the change affects the spec, and add an entry to [`CHANGELOG.md`](CHANGELOG.md) under `[Unreleased]` — lead with *why*, not just the diff.
 6. Open a PR against `master`.

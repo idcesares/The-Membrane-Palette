@@ -5,16 +5,17 @@ This file provides guidance to Codex (Codex.ai/code) when working with code in t
 ## Commands
 
 ```bash
-npm run build:tokens      # Regenerate tokens/design-tokens.css + tokens/base.css from source; runs the WCAG contrast gate (63 pairs × light/dark) and aborts on failure
+npm run build:tokens      # Regenerate tokens/design-tokens.css + tokens/base.css from source; runs the WCAG contrast gate (every `GATE` pair × light/dark) and aborts on failure
 npm run build:components  # Lint components + README examples, then write components/membrane-components.css, membrane.css, components/manifest.json, llms.txt and the generated doc/showcase regions
 npm run build:system      # Both of the above, in order — run this after any source change
 npm run build             # Cloudflare Pages build: build:system, then assembles dist/ (adds llms-full.txt)
+npm test                  # Build, serve dist/, run Playwright: axe-core on every page in both themes, phone-width overflow, keyboard/focus/ARIA behavior
 npm run dev               # Build, then start local dev server at localhost:3456
 npm run preview           # Alias of dev
 npm run deploy            # npx wrangler deploy — pushes dist/ to Cloudflare Pages per wrangler.toml
 ```
 
-There is no test framework. The two builds are the test suite: a failing contrast gate or component/docs lint is a build break. CI (`.github/workflows/ci.yml`) runs both and fails if any committed generated file differs from a fresh build. `dist/` is gitignored and fully generated — never commit it or hand-edit it.
+Three layers of checks, all in CI (`.github/workflows/ci.yml`): the contrast gate (`build:tokens`), the component/docs/coverage lint (`build:components`), and the browser suite (`npm test`, `tests/*.spec.mjs`). CI also fails if any committed generated file differs from a fresh build. Run `npm test` after changing component CSS, `membrane.js`, the showcase or an example page. `dist/` is gitignored and fully generated — never commit it or hand-edit it.
 
 ## Architecture
 
@@ -25,16 +26,20 @@ A **token-based design system with a framework-free CSS component library**:
 - `components/<name>/README.md` — **Component docs.** Frontmatter (`name`, `category`, `status`, `summary`), `## Examples` with `### Title` + ```` ```html ```` blocks (rendered in the showcase and copied into the manifest), and a generated `## API` section between `<!-- GENERATED:API -->` markers.
 - `components/membrane.js` — hand-written optional behaviors (tabs keys, tooltip Escape, dialog invoker fallback).
 - `scripts/build-tokens.mjs` / `scripts/build-components.mjs` — the two builds (see Commands).
-- **Generated, committed, never hand-edited:** `tokens/design-tokens.css`, `tokens/base.css`, `components/membrane-components.css`, `components/manifest.json`, `membrane.css`, `llms.txt`, and the `GENERATED:*` marker regions in `showcase/index.html`, `DESIGN-SYSTEM.md` and each component README.
+- **Generated, committed, never hand-edited:** `tokens/design-tokens.css`, `tokens/base.css` (includes `:where()`-level page defaults for `body`), `tokens/membrane-tailwind.css` (Tailwind v4 theme), `tokens/tokens.resolved.json`, `components/membrane-components.css`, `components/manifest.json`, `membrane.css`, `llms.txt`, and the `GENERATED:*` marker regions in `showcase/index.html`, `DESIGN-SYSTEM.md` and each component README.
 - `showcase/index.html` — static reference site; its gallery, token table and contrast matrix are generated.
 - `DESIGN-SYSTEM.md` — authoritative specification (§6 = component conventions).
-- `examples/starter.html` — a complete page consumers (and agents) can copy.
+- `examples/*.html` — complete pages (starter, article, dashboard) built only from the library; linted by `build:components` exactly like README examples.
 
 Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. npm publishing is not set up; the CDN link in `README.md` is the only supported channel.
 
 **Changing a token value:** edit the JSON, run `npm run build:system`. A new color pairing that UI depends on also gets a `GATE` entry in `scripts/build-tokens.mjs`.
 
 **Changing or adding a component:** edit/create `components/<name>/<name>.css` + `README.md`, add new names to `ORDER` in `scripts/build-components.mjs`, run `npm run build:system`. The component lint rejects: raw colors (hex/rgb/oklch/white/black), unknown or deprecated tokens, Tier 1 primitives (`--color-terracotta`, `--color-neutral-*`, alpha tints), and custom properties not named `--mp-*`. The docs lint rejects README examples that use classes, `data-*` attributes or values the CSS doesn't implement, duplicate ids across all examples, icon-only buttons without `aria-label`, and `<img>` without `alt`. The coverage lint requires every class and every `data-*` value the CSS implements to appear in at least one README example (so the showcase renders it); a README can opt an attribute or class out with a frontmatter line such as `exempt: data-gap, .mp-skip-link`, which should be reserved for token scales and runtime-only state.
+
+**Behavior hooks:** `data-mp-*` attributes (e.g. `data-mp-toast`) are read by `membrane.js` and are valid on any element. `window.MembranePalette.toast()` is the only JS API; it renders text with `textContent`, never HTML.
+
+**Charts:** series colors are `--color-chart-1…6`, a palette validated for color-blind separation; assign in order, never cycle, max 2 series in scatter-type charts.
 
 **Component conventions:** root class `mp-<name>`, parts `mp-<name>__<part>`, options as `data-*` attributes (`data-variant`, `data-size`, `data-tone`…; omit for default), **states from native attributes/ARIA only** (`disabled`, `aria-invalid`, `aria-current`, `aria-selected`, `aria-pressed`, `aria-busy`, `[open]`) — never state classes. Tier 3 knobs are `--mp-<name>-*`, declared on the component root and defaulting to semantic tokens.
 
@@ -48,7 +53,7 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 |---|---|---|
 | Human | Warm, pedagogical, tactile | Terracotta `#B35530`, Amber, Burgundy |
 | The Membrane | Translation zone (canvas) | Warm Cream `#FAF6EE`, Warm Gray |
-| Digital | Precision, depth, code | Deep Teal `#1B756D`, Steel Blue, Slate |
+| Digital | Precision, depth, code | Deep Teal `#1B756D`, Charcoal `#1A1B1F` (Steel Blue exists only as chart color `--color-chart-5`) |
 
 **Typography:**
 - `Fraunces` (variable serif) = human/heading register

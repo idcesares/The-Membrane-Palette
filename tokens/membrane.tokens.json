@@ -82,7 +82,13 @@
       "success-bg":       { "$type": "tint", "$value": { "light": "{color.primitive.sage}", "dark": "{color.primitive.sage-light}", "amount": 0.10 }, "$description": "Success surface for alerts and badges. Pair with success-text." },
       "warning-bg":       { "$type": "tint", "$value": { "light": "{color.primitive.amber}", "dark": "{color.primitive.amber-light}", "amount": 0.10 }, "$description": "Warning surface. Pair with warning-text." },
       "error-bg":         { "$type": "tint", "$value": { "light": "{color.semantic.error}", "dark": "{color.semantic.error}", "amount": 0.10 }, "$description": "Error surface. Pair with error-text." },
-      "info-bg":          { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.10 }, "$description": "Informational surface. Pair with info-text." }
+      "info-bg":          { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.10 }, "$description": "Informational surface. Pair with info-text." },
+      "chart-1":          { "$type": "color", "$value": "#B35530", "$extensions": { "mode": { "dark": "#D4724F" } }, "$description": "Categorical chart series 1 (terracotta — human register; the brand's lead series). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
+      "chart-2":          { "$type": "color", "$value": "#009187", "$extensions": { "mode": { "dark": "#00A99D" } }, "$description": "Categorical chart series 2 (teal — digital register). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
+      "chart-3":          { "$type": "color", "$value": "#A1742A", "$extensions": { "mode": { "dark": "#B78941" } }, "$description": "Categorical chart series 3 (amber). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
+      "chart-4":          { "$type": "color", "$value": "#9F3B5A", "$extensions": { "mode": { "dark": "#B6506E" } }, "$description": "Categorical chart series 4 (burgundy). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
+      "chart-5":          { "$type": "color", "$value": "#4981B9", "$extensions": { "mode": { "dark": "#5E97D0" } }, "$description": "Categorical chart series 5 (steel blue). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
+      "chart-6":          { "$type": "color", "$value": "#4B8F5B", "$extensions": { "mode": { "dark": "#25984D" } }, "$description": "Categorical chart series 6 (green). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." }
     },
 
     "tint": {

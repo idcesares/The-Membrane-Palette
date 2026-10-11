@@ -272,7 +272,15 @@ const GATE = [
   [S + "info-text", S + "bg-primary", 4.5, "info text"],
   [S + "info-text", S + "info-bg", 4.5, "info alert/badge"],
   [S + "info-text", S + "info-bg", 4.5, "info badge on a card", ON_CARD],
+  [S + "success-text", S + "bg-elevated", 4.5, "success toast title"],
+  [S + "warning-text", S + "bg-elevated", 4.5, "warning toast title"],
+  [S + "error-text", S + "bg-elevated", 4.5, "error toast title, danger menu item"],
   [S + "text-primary", S + "bg-hover", 7.0, "hovered rows on a card", ON_CARD],
+  // Data visualization — categorical series are non-text marks (WCAG 1.4.11)
+  ...[1, 2, 3, 4, 5, 6].flatMap((n) => [
+    [S + "chart-" + n, S + "bg-primary", 3.0, `chart series ${n} on page`],
+    [S + "chart-" + n, S + "bg-secondary", 3.0, `chart series ${n} on a card`],
+  ]),
   // Code blocks (always dark)
   [C + "text", C + "bg", 4.5, "code text"],
   [C + "keyword", C + "bg", 4.5, "syntax: keyword"],
@@ -517,6 +525,27 @@ const baseCss = `/* ============================================================
 @layer tokens, base, components;
 
 @layer base {
+
+  /* Page defaults. Zero specificity (:where), so any rule you write wins. */
+  :where(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
+
+  :where(html) {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  :where(body) {
+    margin: 0;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
   ::selection {
     background: var(--color-selection);
@@ -770,7 +799,112 @@ if (gateFailures.length > 0) {
 await writeFile(path.join(root, "tokens", "design-tokens.css"), header);
 await writeFile(path.join(root, "tokens", "base.css"), baseCss);
 console.log(`\n✓ All ${GATE.length * 2} contrast checks (${GATE.length} pairs × light/dark) pass; all colors round-trip through OKLCH.`);
-console.log("✓ Wrote tokens/design-tokens.css and tokens/base.css");
+console.log("✓ Wrote tokens/design-tokens.css, tokens/base.css, tokens/membrane-tailwind.css, tokens/tokens.resolved.json");
+
+/* ------------------------------------------------------------------ *
+ *  Platform exports
+ * ------------------------------------------------------------------ */
+
+// Tailwind CSS v4 theme. Tailwind's default namespaces reuse names this
+// system already owns (--radius-md, --text-sm, --shadow-sm, --ease-in…);
+// depending on stylesheet order they could override the system's values.
+// So every overlapping namespace is reset, and the system is exposed under
+// an `mp-` prefix that maps onto the real tokens: bg-mp-surface, text-mp-fg,
+// rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2…
+// Spacing needs nothing: Tailwind's --spacing base (0.25rem) is the 4px unit,
+// so p-4 === --space-4. Breakpoint defaults (40/48/64/80rem) also match.
+const TW = {
+  color: {
+    surface: "color.semantic.bg-primary", "surface-2": "color.semantic.bg-secondary", "surface-3": "color.semantic.bg-tertiary",
+    elevated: "color.semantic.bg-elevated", inverse: "color.semantic.bg-inverse", hover: "color.semantic.bg-hover", active: "color.semantic.bg-active",
+    fg: "color.semantic.text-primary", "fg-muted": "color.semantic.text-secondary", "fg-subtle": "color.semantic.text-tertiary",
+    "fg-inverse": "color.semantic.text-inverse", "on-accent": "color.semantic.text-on-accent", link: "color.semantic.text-accent",
+    primary: "color.semantic.action-primary", "primary-hover": "color.semantic.action-primary-hover",
+    secondary: "color.semantic.action-secondary", "secondary-hover": "color.semantic.action-secondary-hover",
+    border: "color.semantic.border-default", "border-strong": "color.semantic.border-emphasis", "border-input": "color.semantic.border-input",
+    focus: "color.semantic.focus",
+    human: "color.semantic.human-text", "human-bg": "color.semantic.human-bg", digital: "color.semantic.digital-text", "digital-bg": "color.semantic.digital-bg",
+    success: "color.semantic.success", "success-text": "color.semantic.success-text", "success-bg": "color.semantic.success-bg",
+    warning: "color.semantic.warning", "warning-text": "color.semantic.warning-text", "warning-bg": "color.semantic.warning-bg",
+    error: "color.semantic.error", "error-text": "color.semantic.error-text", "error-bg": "color.semantic.error-bg", "error-hover": "color.semantic.error-hover",
+    info: "color.semantic.info", "info-text": "color.semantic.info-text", "info-bg": "color.semantic.info-bg",
+    ...Object.fromEntries([1, 2, 3, 4, 5, 6].map((n) => [`chart-${n}`, `color.semantic.chart-${n}`])),
+    "code-bg": "code.bg", "code-fg": "code.text",
+  },
+  font: { display: "font.serif", body: "font.sans", code: "font.mono" },
+  text: [["display", "display"], ["h1", "heading"], ["h2", "heading"], ["h3", "subheading"], ["h4", "subheading"], ["body-lg", "body-lg"], ["body", "body"], ["small", "small"], ["xs", "label"], ["code", "code"]],
+  radius: ["sm", "md", "lg", "xl"],
+  shadow: { raised: "elevation.raised", overlay: "elevation.overlay", modal: "elevation.modal", "glow-warm": "shadow.glow-warm", "glow-teal": "shadow.glow-teal" },
+  ease: ["default", "out", "in", "in-out"],
+  container: ["sm", "md", "lg", "xl"],
+};
+const v = (p) => `var(${entryOf(`{${p}}`).cssName})`;
+const twLines = [
+  "  /* Reset Tailwind namespaces that overlap the system's own token names. */",
+  ...["color", "font", "text", "font-weight", "leading", "tracking", "radius", "shadow", "inset-shadow", "drop-shadow", "ease", "container", "blur"].map((ns) => `  --${ns}-*: initial;`),
+  "",
+  ...Object.entries(TW.color).map(([k, p]) => `  --color-mp-${k}: ${v(p)};`),
+  "",
+  ...Object.entries(TW.font).map(([k, p]) => `  --font-mp-${k}: ${v(p)};`),
+  "",
+  ...TW.text.flatMap(([k, lead]) => [`  --text-mp-${k}: ${v("text." + k)};`, `  --text-mp-${k}--line-height: ${v("leading." + lead)};`]),
+  "",
+  ...TW.radius.map((k) => `  --radius-mp-${k}: ${v("radius." + k)};`),
+  ...Object.entries(TW.shadow).map(([k, p]) => `  --shadow-mp-${k}: ${v(p)};`),
+  ...TW.ease.map((k) => `  --ease-mp-${k}: ${v("ease." + k)};`),
+  ...TW.container.map((k) => `  --container-mp-${k}: ${v("container." + k)};`),
+  "  --font-weight-regular: var(--weight-regular);",
+  "  --font-weight-medium: var(--weight-medium);",
+  "  --font-weight-semibold: var(--weight-semibold);",
+  "  --font-weight-bold: var(--weight-bold);",
+];
+const tailwindCss = `/* ============================================================
+   The Membrane Palette — Tailwind CSS v4 theme
+   Version ${pkg.version}
+
+   GENERATED FILE — do not edit by hand.
+   Source of truth:  tokens/membrane.tokens.json + scripts/build-tokens.mjs
+   Regenerate with:  npm run build:tokens
+
+   Usage (after design-tokens.css is loaded on the page):
+     @import "tailwindcss";
+     @import "./membrane-tailwind.css";
+
+   Utilities map onto the semantic tokens, so they retheme with
+   light-dark() like everything else: bg-mp-surface, text-mp-fg,
+   bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent,
+   border-mp-border-input, rounded-mp-lg, shadow-mp-raised,
+   font-mp-display, text-mp-h2, p-4 (= --space-4).
+   Tailwind's default palette is removed on purpose: only on-brand
+   colors exist, and there is no white or black.
+   ============================================================ */
+
+@theme inline {
+${twLines.join("\n")}
+}
+`;
+
+// Resolved values for tools that can't evaluate CSS (charting libraries,
+// native apps, Figma plugins, agents reasoning about contrast).
+const resolved = { name: "The Membrane Palette", version: pkg.version, generated: "Do not edit — produced by scripts/build-tokens.mjs", modes: { light: {}, dark: {} }, tokens: {} };
+for (const [key, entry] of registry) {
+  if (entry.comment) continue;
+  const t = entry.token;
+  const isColor = ["color", "tint", "mix"].includes(t.$type);
+  const item = { path: key, type: t.$type, description: t.$description, deprecated: t.$deprecated };
+  if (isColor) {
+    for (const mode of ["light", "dark"]) {
+      const lit = resolveLiteral(`{${key}}`, mode);
+      resolved.modes[mode][entry.cssName] = lit.startsWith("#") ? lit.toUpperCase() : lit;
+    }
+  } else {
+    item.css = emitValue(t).css;
+  }
+  resolved.tokens[entry.cssName] = item;
+}
+
+await writeFile(path.join(root, "tokens", "membrane-tailwind.css"), tailwindCss);
+await writeFile(path.join(root, "tokens", "tokens.resolved.json"), JSON.stringify(resolved, null, 2) + "\n");
 
 const SHOWCASE_PATH = path.join(root, "showcase", "index.html");
 const tokenTableRows = buildTokenTableRows();

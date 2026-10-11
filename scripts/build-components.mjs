@@ -39,12 +39,13 @@ const SITE = "https://membrane-palette.dcesares.dev/";
 
 /** Display order. A component folder missing from this list fails the build. */
 const ORDER = [
-  "layout", "prose",
+  "layout", "text", "prose",
   "button", "link",
   "field", "input", "choice", "switch",
-  "card", "tag", "badge", "avatar", "quote", "code", "divider", "table", "stat",
-  "alert", "progress", "tooltip", "dialog",
-  "navbar", "breadcrumb", "tabs", "accordion",
+  "card", "tag", "badge", "avatar", "quote", "code", "divider", "table", "stat", "chart",
+  "icon",
+  "alert", "progress", "skeleton", "empty-state", "toast", "tooltip", "dialog",
+  "navbar", "breadcrumb", "tabs", "accordion", "pagination", "steps", "menu",
 ];
 const CATEGORIES = ["Layout", "Actions", "Forms", "Content", "Feedback", "Navigation"];
 const STATUSES = ["stable", "beta", "deprecated"];
@@ -181,42 +182,54 @@ const ownerOfClass = new Map(components.flatMap((c) => c.classes.map((k) => [k, 
 const seenIds = new Map();
 const demonstrated = new Map(components.map((c) => [c.slug, {}])); // slug -> { attr: Set(values) }
 
-for (const c of components) {
-  const where = `components/${c.slug}/README.md`;
-  for (const ex of c.examples) {
-    const ctx = `${where} › "${ex.title}"`;
-    // Components present anywhere in the example: the context for unclassed
-    // elements such as <td data-align> inside an .mp-table.
-    const inExample = uniq([...ex.html.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/)).map((k) => ownerOfClass.get(k)).filter(Boolean));
-    for (const tag of ex.html.matchAll(/<([a-z][a-z0-9-]*)\b([^>]*)>/gi)) {
-      const [, name, attrStr] = tag;
-      const attrs = Object.fromEntries([...attrStr.matchAll(/([a-z][a-z0-9-:]*)(?:="([^"]*)")?/gi)].map((m) => [m[1], m[2] ?? ""]));
-      const cls = (attrs.class || "").split(/\s+/).filter(Boolean);
+/** Lint one HTML fragment or page against the component CSS. */
+function lintMarkup(html, ctx, ids, { record = false, idHint = "" } = {}) {
+  // Components present anywhere in the markup: the context for unclassed
+  // elements such as <td data-align> inside an .mp-table.
+  const present = uniq([...html.matchAll(/class="([^"]*)"/g)].flatMap((m) => m[1].split(/\s+/)).map((k) => ownerOfClass.get(k)).filter(Boolean));
+  for (const tag of html.matchAll(/<([a-z][a-z0-9-]*)\b([^>]*)>/gi)) {
+    const [, name, attrStr] = tag;
+    const attrs = Object.fromEntries([...attrStr.matchAll(/([a-z][a-z0-9-:]*)(?:="([^"]*)")?/gi)].map((m) => [m[1], m[2] ?? ""]));
+    const cls = (attrs.class || "").split(/\s+/).filter(Boolean);
 
-      for (const k of cls) if (k.startsWith("mp-") && !allClasses.has(k)) fail(ctx, `class "${k}" is not defined by any component`);
+    for (const k of cls) if (k.startsWith("mp-") && !allClasses.has(k)) fail(ctx, `class "${k}" is not defined by any component`);
 
-      const own = uniq(cls.map((k) => ownerOfClass.get(k)).filter(Boolean));
-      const owners = own.length ? own : inExample;
-      for (const [attr, value] of Object.entries(attrs)) {
-        if (!attr.startsWith("data-")) continue;
-        const key = attr.slice(5);
-        if (GLOBAL_DATA_ATTRS.has(key)) continue;
-        if (owners.length === 0) { fail(ctx, `<${name} ${attr}> has no .mp-* root class that defines it`); continue; }
-        const defs = owners.map((o) => o.dataAttrs[key]).filter(Boolean);
-        if (defs.length === 0) { fail(ctx, `${attr} is not an attribute of ${owners.map((o) => o.slug).join(", ")}`); continue; }
-        const allowed = new Set(defs.flatMap((s) => [...s]));
-        if (allowed.size > 0 && !allowed.has(value)) fail(ctx, `${attr}="${value}" — allowed: ${[...allowed].join(", ")}`);
-        for (const o of owners) if (o.dataAttrs[key]) (demonstrated.get(o.slug)[key] ??= new Set()).add(value);
-      }
+    const own = uniq(cls.map((k) => ownerOfClass.get(k)).filter(Boolean));
+    const owners = own.length ? own : present;
+    for (const [attr, value] of Object.entries(attrs)) {
+      if (!attr.startsWith("data-")) continue;
+      const key = attr.slice(5);
+      if (GLOBAL_DATA_ATTRS.has(key) || key.startsWith("mp-")) continue; // data-mp-* = membrane.js behavior hooks
+      if (owners.length === 0) { fail(ctx, `<${name} ${attr}> has no .mp-* root class that defines it`); continue; }
+      const defs = owners.map((o) => o.dataAttrs[key]).filter(Boolean);
+      if (defs.length === 0) { fail(ctx, `${attr} is not an attribute of ${owners.map((o) => o.slug).join(", ")}`); continue; }
+      const allowed = new Set(defs.flatMap((s) => [...s]));
+      if (allowed.size > 0 && !allowed.has(value)) fail(ctx, `${attr}="${value}" — allowed: ${[...allowed].join(", ")}`);
+      if (record) for (const o of owners) if (o.dataAttrs[key]) (demonstrated.get(o.slug)[key] ??= new Set()).add(value);
+    }
 
-      if ("data-icon-only" in attrs && !attrs["aria-label"]) fail(ctx, "icon-only button needs aria-label");
-      if (name === "img" && !("alt" in attrs)) fail(ctx, "<img> needs alt");
-      if (attrs.id) {
-        if (seenIds.has(attrs.id)) fail(ctx, `id "${attrs.id}" already used in ${seenIds.get(attrs.id)} — example ids must be unique (they share one showcase page)`);
-        else seenIds.set(attrs.id, ctx);
-      }
+    if ("data-icon-only" in attrs && !attrs["aria-label"]) fail(ctx, "icon-only button needs aria-label");
+    if (name === "img" && !("alt" in attrs)) fail(ctx, "<img> needs alt");
+    if (attrs.id) {
+      if (ids.has(attrs.id)) fail(ctx, `id "${attrs.id}" already used in ${ids.get(attrs.id)}${idHint}`);
+      else ids.set(attrs.id, ctx);
     }
   }
+}
+
+for (const c of components) {
+  for (const ex of c.examples) {
+    lintMarkup(ex.html, `components/${c.slug}/README.md › "${ex.title}"`, seenIds, {
+      record: true,
+      idHint: " — example ids must be unique (they share one showcase page)",
+    });
+  }
+}
+
+// Pattern pages: the same rules, ids unique per page.
+const examplePages = (await readdir(rel("examples"))).filter((f) => f.endsWith(".html")).sort();
+for (const f of examplePages) {
+  lintMarkup(await readFile(rel("examples", f), "utf8"), `examples/${f}`, new Map());
 }
 
 /* Coverage — every option the CSS implements is demonstrated in the README
@@ -349,6 +362,9 @@ const manifest = {
     componentTokens: "--mp-<component>-* custom properties are per-component knobs; override them on an instance.",
     designTokens: "In your own CSS consume semantic tokens (--color-text-*, --color-bg-*, --color-action-*, --space-*, --text-*). Never Tier 1 primitives or raw color values.",
     layer: "All component CSS is in @layer components; unlayered CSS overrides it.",
+    behaviorHooks: "data-mp-* attributes are hooks for components/membrane.js (e.g. data-mp-toast). Valid on any element.",
+    tailwind: "Using Tailwind v4? Import tokens/membrane-tailwind.css: only mp- utilities exist (bg-mp-surface, text-mp-fg, bg-mp-primary, rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2); the default palette is removed. p-4 = --space-4.",
+    patterns: "examples/*.html are complete pages (starter, article, dashboard) built only from the library and linted like the examples here.",
   },
   categories: CATEGORIES,
   components: components.map((c) => ({
@@ -385,6 +401,8 @@ Rules for generating UI with this system:
 - States come from semantic HTML/ARIA (\`disabled\`, \`aria-invalid="true"\`, \`aria-current="page"\`, \`aria-selected\`, \`aria-busy\`), never from extra classes.
 - In custom CSS use semantic tokens only (\`--color-text-primary\`, \`--color-bg-secondary\`, \`--color-action-primary\`, \`--space-6\`, \`--text-h2\`). Never hex values, never Tier 1 primitives like \`--color-terracotta\`.
 - At most one primary (terracotta) button per view. Cream not white, charcoal not black.
+- Charts use \`--color-chart-1\`…\`-6\` in order (never cycled); status meaning uses status tokens with a label.
+- Writing Tailwind? Import \`tokens/membrane-tailwind.css\` and use only \`mp-\` utilities (\`bg-mp-surface\`, \`text-mp-fg\`, \`bg-mp-primary\`); off-brand classes like \`bg-blue-500\` don't exist.
 
 ## Start here
 
@@ -399,7 +417,11 @@ ${CATEGORIES.map((cat) => components.filter((c) => c.meta.category === cat).map(
 
 ## Optional
 
-- [Starter page](examples/starter.html): a complete page wired to the CDN, to copy from
+- [Starter page](examples/starter.html): a complete landing page to copy from
+- [Article pattern](examples/article.html): long-form essay page
+- [Dashboard pattern](examples/dashboard.html): product UI with stats, chart, table, tabs, menu and toast
+- [Tailwind v4 theme](tokens/membrane-tailwind.css): mp- utilities mapped onto the semantic tokens
+- [Resolved tokens (JSON)](tokens/tokens.resolved.json): every token's light and dark value as plain hex, for charting libraries and native apps
 - [Live showcase](${SITE}): every component rendered in light and dark mode
 - [Changelog](CHANGELOG.md): versions, deprecations, migration notes
 `;
@@ -478,6 +500,6 @@ html = html.replace(re, (_, a, b) => `${a}\n${renderGallery()}\n        ${b}`);
 await writeFile(SHOWCASE, html);
 
 const exampleCount = components.reduce((n, c) => n + c.examples.length, 0);
-console.log(`✓ Linted ${components.length} components and ${exampleCount} documented examples against ${tokens.size} tokens`);
+console.log(`✓ Linted ${components.length} components, ${exampleCount} documented examples and ${examplePages.length} pattern pages against ${tokens.size} tokens`);
 console.log("✓ Wrote components/membrane-components.css, membrane.css, components/manifest.json, llms.txt");
 console.log(`✓ Regenerated API sections in ${components.length} READMEs and the showcase component gallery`);

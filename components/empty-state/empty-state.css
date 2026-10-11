@@ -1,0 +1,56 @@
+/* Empty state — what a view shows when there is nothing in it yet: an
+   illustration or icon, a serif title, one sentence and the next action. */
+
+.mp-empty {
+  box-sizing: border-box;
+  display: grid;
+  justify-items: center;
+  align-content: start;
+  gap: var(--space-3);
+  max-width: var(--container-sm);
+  margin-inline: auto;
+  padding: var(--space-10) var(--space-6);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  text-align: center;
+}
+
+.mp-empty[data-variant="bordered"] {
+  border: var(--border-width-thin) dashed var(--color-border-emphasis);
+  border-radius: var(--radius-lg);
+}
+
+.mp-empty__media {
+  display: grid;
+  place-items: center;
+  width: var(--space-20);
+  height: var(--space-20);
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-full);
+  background-color: var(--color-human-bg);
+  color: var(--color-human-text);
+}
+
+.mp-empty__title {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-subheading);
+}
+
+.mp-empty__body {
+  max-width: 45ch;
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: var(--leading-body);
+}
+
+.mp-empty__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}

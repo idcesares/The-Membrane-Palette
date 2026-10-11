@@ -1,0 +1,110 @@
+/* Menu — a list of actions in a native popover, opened by a button with
+   popovertarget. Anchored to its button with CSS anchor positioning where
+   supported; components/membrane.js positions it elsewhere and adds the
+   menu keyboard pattern. */
+
+.mp-menu {
+  box-sizing: border-box;
+  min-width: 12rem;
+  max-width: 20rem;
+  margin: 0;
+  padding: var(--space-1);
+  border: var(--border-default);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-elevated);
+  box-shadow: var(--elevation-overlay);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  opacity: 0;
+  translate: 0 calc(-1 * var(--space-1));
+  transition:
+    opacity var(--transition-fast),
+    translate var(--transition-fast),
+    overlay var(--duration-fast) allow-discrete,
+    display var(--duration-fast) allow-discrete;
+}
+
+.mp-menu:popover-open {
+  display: grid;
+  opacity: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  .mp-menu:popover-open {
+    opacity: 0;
+    translate: 0 calc(-1 * var(--space-1));
+  }
+}
+
+@supports (position-area: block-end) {
+  .mp-menu {
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block, flip-inline;
+    inset: auto;
+    margin-block: var(--space-1);
+  }
+}
+
+.mp-menu__item {
+  box-sizing: border-box;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+  min-height: var(--size-control-sm);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mp-menu__item:hover,
+.mp-menu__item:focus-visible {
+  background-color: var(--color-bg-hover);
+}
+
+.mp-menu__item:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--border-width-medium));
+}
+
+.mp-menu__item[data-tone="danger"] {
+  color: var(--color-error-text);
+}
+
+.mp-menu__item:disabled,
+.mp-menu__item[aria-disabled="true"] {
+  opacity: var(--state-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.mp-menu__item > svg {
+  flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+}
+
+.mp-menu__separator {
+  height: var(--border-width-thin);
+  margin: var(--space-1) var(--space-2);
+  border: 0;
+  background: var(--color-border-default);
+}
+
+.mp-menu__label {
+  margin: 0;
+  padding: var(--space-2) var(--space-3) var(--space-1);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}

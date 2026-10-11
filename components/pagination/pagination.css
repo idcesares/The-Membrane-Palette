@@ -1,0 +1,72 @@
+/* Pagination — numbered page links with previous/next. The current page is
+   marked with aria-current="page"; unavailable ends with aria-disabled. */
+
+.mp-pagination {
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+}
+
+.mp-pagination__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mp-pagination__link {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-width: var(--size-touch-target);
+  min-height: var(--size-touch-target);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.mp-pagination__link:hover:not([aria-current="page"], [aria-disabled="true"]) {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.mp-pagination__link[aria-current="page"] {
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-on-accent);
+}
+
+.mp-pagination__link[aria-disabled="true"] {
+  opacity: var(--state-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.mp-pagination__link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-pagination__gap {
+  display: inline-flex;
+  justify-content: center;
+  min-width: var(--space-8);
+  color: var(--color-text-tertiary);
+}
+
+/* Narrow: keep previous, current and next; hide the other numbers. */
+@container (max-width: 28rem) {
+  .mp-pagination__item:not(:first-child, :last-child):not(:has([aria-current="page"])) {
+    display: none;
+  }
+}
+
+.mp-pagination {
+  container-type: inline-size;
+}
