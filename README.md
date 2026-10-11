@@ -392,7 +392,7 @@ Fully automatic via `color-scheme: light dark` and `light-dark()` on every seman
 /* Manual — attribute or class */
 [data-theme="dark"]  { color-scheme: dark; }
 [data-theme="light"] { color-scheme: light; }
-.theme-dark          { color-scheme: dark; }   /* legacy class */
+.theme-dark          { color-scheme: dark; }   /* deprecated: removal in v3.0.0 */
 ```
 
 Accent colors are paired per-token (primitives stay immutable; only semantic tokens theme). Shadows, glow effects, gradient endpoints, and derived tints all adapt automatically.

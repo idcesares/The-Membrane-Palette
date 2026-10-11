@@ -131,6 +131,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 ### Deprecated
 
 - `--text-sm`, `--text-base`, `--text-md`, `--text-lg`, `--text-xl` — compatibility aliases. Use `--text-small`, `--text-body`, `--text-h4`, `--text-h3`, `--text-h2`. They still work and will not be removed before v3.0.0.
+- `.theme-dark` — the legacy dark-mode class. Use `data-theme="dark"` (which also offers `"light"` and works on any subtree). Still works; removal no earlier than v3.0.0.
 
 ### Migration guide
 

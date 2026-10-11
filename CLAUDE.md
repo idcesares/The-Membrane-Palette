@@ -69,7 +69,7 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 
 **Shadows:** Warm-tinted in light mode via `light-dark()`, never pure black
 
-**Dark mode:** `light-dark()` on every semantic token, driven by `color-scheme: light dark` on `:root`. Manual override via `[data-theme="dark"|"light"]` attribute (works on any subtree — pair with `.mp-surface`) or the legacy `.theme-dark` class. Primitives (`--color-terracotta`, etc.) are immutable — never redefine them inside a theme override; only semantic tokens (`--color-action-primary`, `--color-focus`, etc.) theme.
+**Dark mode:** `light-dark()` on every semantic token, driven by `color-scheme: light dark` on `:root`. Manual override via `[data-theme="dark"|"light"]` attribute (works on any subtree — pair with `.mp-surface`) (the legacy `.theme-dark` class still works but is deprecated: never generate it). Primitives (`--color-terracotta`, etc.) are immutable — never redefine them inside a theme override; only semantic tokens (`--color-action-primary`, `--color-focus`, etc.) theme.
 
 **Controls:** `--size-control-sm/md/lg` = 36/44/52px; `--size-touch-target` = 44px. Compact controls grow to 44px on coarse pointers.
 

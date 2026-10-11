@@ -177,7 +177,8 @@
      Tier 2 semantic tokens via light-dark().
    - Dark mode follows the OS via `color-scheme: light dark`.
      Manual override: set data-theme="dark" | "light" on any
-     element (or the legacy .theme-dark class on <html>).
+     element. (.theme-dark still works but is deprecated: removal
+     in v3.0.0; use data-theme="dark".)
    - Colors are emitted as OKLCH (round-trip-verified against
      the sRGB source values); derived tints use color-mix().
    - This file is pure custom properties + color-scheme wiring.
@@ -527,7 +528,7 @@
   /* Manual theme override — works on :root or any subtree. */
   [data-theme="light"] { color-scheme: light; }
   [data-theme="dark"],
-  .theme-dark { color-scheme: dark; }
+  .theme-dark { color-scheme: dark; } /* @deprecated .theme-dark: use [data-theme="dark"]; removal in v3.0.0 */
 
   /* ===========================================================
      REDUCED MOTION — token-level fallbacks (pure custom props;

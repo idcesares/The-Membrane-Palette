@@ -68,6 +68,9 @@
     "preview": "npm run build && serve dist -l 3456"
   },
   "type": "commonjs",
+  "engines": {
+    "node": ">=22"
+  },
   "devDependencies": {
     "@playwright/test": "1.56.1",
     "axe-core": "4.10.3",

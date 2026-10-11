@@ -885,7 +885,7 @@ Primitives are immutable in both modes. **Never redefine a primitive inside a th
 2. **Shadows deepen** in dark mode — each `--shadow-*` token carries its own darker, higher-opacity value via `light-dark()` (see §5.2). Cards do **not** swap to a border-only treatment in dark mode: `--border-default` is already present on cards in both modes (Card README), so no separate dark-only mechanism is needed. *(v1.1 described a border-instead-of-shadow swap here; it was never implemented and was redundant with the always-on card border, so the claim has been retired rather than built.)*
 3. **The membrane gradient remains the same direction** (terracotta → teal) but both endpoints lighten via `light-dark()` on `--gradient-membrane`.
 4. **Ambient glow stop-colors shift brighter** so background texture remains perceptible on dark surfaces.
-5. **Manual toggles support `[data-theme="dark"]` and the legacy `.theme-dark` class.** Both simply set `color-scheme: dark`; every semantic token's `light-dark()` pair does the rest.
+5. **Manual toggles use `[data-theme="dark"|"light"]`.** The legacy `.theme-dark` class still works but is **deprecated** (removal in v3.0.0): two switches for one state make generated code inconsistent. Either simply sets `color-scheme: dark`; every semantic token's `light-dark()` pair does the rest.
 6. **Photos may receive a subtle `brightness(0.92)` filter** in dark mode to prevent them from blowing out against dark surfaces. The factor is available as `--photo-dim-dark` (a plain number, e.g. `filter: brightness(var(--photo-dim-dark))`); it is not applied automatically since photo treatment is author-controlled per image, not a global rule.
 
 ---
