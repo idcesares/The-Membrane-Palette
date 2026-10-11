@@ -4,17 +4,18 @@ The CDN is the only distribution channel (npm publishing isn't set up), and jsDe
 
 ## 1. Before tagging
 
-- [ ] `npm ci && npm test` passes locally. It builds everything, then runs HTML validation, axe in both themes, link integrity, and keyboard, motion and touch behavior.
+- [ ] `npm ci && npm test` passes locally. It builds everything, validates the HTML, type-checks the generated types, then runs axe in both themes, link integrity, and keyboard, motion and touch behavior in Chromium, Firefox and WebKit, plus Chromium visual baselines.
 - [ ] `npm run build:system` leaves `git status` clean. CI checks this too, but it's faster to catch locally.
 - [ ] CI is green on the commit you are about to tag.
 - [ ] `CHANGELOG.md`: move everything under `[Unreleased]` into a new `## [x.y.z] — YYYY-MM-DD` section. Use the date you tag, not the date you started.
 - [ ] A **breaking** change has a migration note, and the version bumps major. Breaking means a token or component class/attribute is renamed or removed (see `CLAUDE.md`). Deprecations ship in a minor release first.
 - [ ] `package.json` `version` matches. The generated CSS headers, `manifest.json`, `tokens.resolved.json` and the social image read from it.
 - [ ] If the version or anything visual in the card changed: `npm run render:social`, look at `showcase/assets/idcesares-social-design-system-og.png`, and commit it.
-- [ ] Check the showcase by hand in one non-Chromium browser (Safari or Firefox). The automated suite only runs Chromium. Things to check:
-  - dialog and menu open and close;
-  - the accordion animates or snaps cleanly;
-  - tooltips and the theme toggle work;
+- [ ] Look at the showcase once in a real Safari and a real Firefox. The suite runs their engines headless, which can't judge what a person sees. Things to check:
+  - the accordion animates (or snaps cleanly);
+  - the menu sits under its button;
+  - the theme toggle crossfades;
+  - fonts load with no visible jump;
   - print preview of `examples/article.html`.
 
 ## 2. Tag

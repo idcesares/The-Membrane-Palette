@@ -17,6 +17,8 @@ Rules for generating UI with this system:
 ## Start here
 
 - [Component manifest (JSON)](components/manifest.json): every component's classes, allowed attribute values, states, knobs, tokens and HTML examples
+- [TypeScript types](components/membrane.d.ts): the same API as types (MpAttrs<"button">, MpClass, MpToken) for framework code
+- [Brand marks](DESIGN-SYSTEM.md#103-files): outlined SVG wordmark and `dc` monogram in brand/ — use the files, never retype the name in Fraunces
 - [Design system specification](DESIGN-SYSTEM.md): principles, color, type, spacing, motion, dark mode, accessibility
 - [Token source (DTCG JSON)](tokens/membrane.tokens.json): every token with descriptions; the only file with authority over values
 - [Brand voice](BRAND-VOICE.md): tone and vocabulary for any copy you write alongside the UI

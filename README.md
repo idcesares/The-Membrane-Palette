@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/version-2.1.0-B35530?style=flat-square" alt="Version 2.1.0">
-  <img src="https://img.shields.io/badge/components-34-1B756D?style=flat-square" alt="34 components">
+  <img src="https://img.shields.io/badge/components-35-1B756D?style=flat-square" alt="35 components">
   <img src="https://img.shields.io/badge/tokens-DTCG_JSON_→_CSS-1B756D?style=flat-square" alt="DTCG JSON">
   <img src="https://img.shields.io/badge/colors-OKLCH-5A8A6E?style=flat-square" alt="OKLCH">
   <img src="https://img.shields.io/badge/WCAG-AA_gated_+_axe_tested-5A8A6E?style=flat-square" alt="WCAG AA gated and axe tested">
@@ -67,23 +67,26 @@ When a design element relates to the human side — education, community, ethics
 
 ## What This Is
 
-A **design system with a framework-free CSS component library**. Link one stylesheet, write semantic HTML, and you get the brand: tokens, typography, dark mode, page defaults and 34 accessible components — or use the same tokens from Tailwind, a charting library or a native app.
+A **design system with a framework-free CSS component library**. Link one stylesheet, write semantic HTML, and you get the brand: tokens, typography, dark mode, page defaults, self-hosted fonts and 35 accessible components — or use the same tokens from Tailwind, TypeScript, a charting library or a native app.
 
 | File | Purpose |
 |------|---------|
 | [`membrane.css`](membrane.css) | **The one link.** Generated: tokens + base + all components. |
 | [`components/`](components/) | **Component library.** One folder per component: `<name>.css` (source) + `README.md` (docs, examples, generated API). Bundled into `components/membrane-components.css`. |
 | [`components/manifest.json`](components/manifest.json) | **Machine-readable API.** Every component's classes, allowed `data-*` values, states, knobs, tokens and HTML examples. Generated. |
+| [`components/membrane.d.ts`](components/membrane.d.ts) | **TypeScript types.** Generated from the manifest: class names, each component's allowed options, public tokens and knobs. Types only, for React/Vue/Svelte/Astro. |
 | [`components/membrane.js`](components/membrane.js) | **Optional behaviors** (~5 KB gzipped): tabs, menu and combobox keyboard patterns, toasts, tooltip Escape-dismiss, dialog invoker fallback. |
 | [`tokens/membrane.tokens.json`](tokens/membrane.tokens.json) | **Single source of truth for values.** DTCG-flavored JSON. Edit this; never edit the CSS. |
 | [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Custom properties — 3 tiers, OKLCH colors, `light-dark()`, `@layer tokens`. |
 | [`tokens/base.css`](tokens/base.css) | **Generated.** Page defaults (canvas, text, font, `box-sizing`, all zero-specificity), `::selection`, focus ring, reduced motion, `.type-*` composites. |
 | [`tokens/membrane-tailwind.css`](tokens/membrane-tailwind.css) | **Generated.** Tailwind v4 theme: only `mp-` utilities mapped to the tokens; default palette removed. |
 | [`tokens/tokens.resolved.json`](tokens/tokens.resolved.json) | **Generated.** Every token's light and dark value as plain hex, for charting libraries, native apps and tools. |
+| [`fonts/`](fonts/) | **Self-hosted fonts** (SIL OFL): Fraunces, Instrument Sans, JetBrains Mono as variable woff2, plus `fonts.css` (generated from `fonts.json`, already inside `membrane.css`). |
+| [`brand/`](brand/) | **Brand marks** as outlined SVG: wordmark, compact, `dc` monogram, app icons. |
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
-| [`tests/`](tests/) | **Browser tests** — axe-core in both themes, overflow, link integrity, keyboard and motion behavior (`npm test`, after an html-validate pass). |
+| [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; Chromium visual baselines of every example; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
 | [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
 <br>
@@ -94,7 +97,7 @@ A **design system with a framework-free CSS component library**. Link one styles
 |---|---|
 | Layout | [Layout](components/layout/README.md) — container, stack, cluster, grid, section, surface · [Text](components/text/README.md) · [Prose](components/prose/README.md) |
 | Actions | [Button](components/button/README.md) · [Link](components/link/README.md) |
-| Forms | [Field](components/field/README.md) · [Input](components/input/README.md) · [Choice](components/choice/README.md) · [Switch](components/switch/README.md) |
+| Forms | [Field](components/field/README.md) · [Input](components/input/README.md) · [Combobox](components/combobox/README.md) · [Choice](components/choice/README.md) · [Switch](components/switch/README.md) |
 | Content | [Card](components/card/README.md) · [Tag](components/tag/README.md) · [Badge](components/badge/README.md) · [Avatar](components/avatar/README.md) · [Quote](components/quote/README.md) · [Code](components/code/README.md) · [Divider](components/divider/README.md) · [Table](components/table/README.md) · [Stat](components/stat/README.md) · [Chart](components/chart/README.md) · [Icon](components/icon/README.md) |
 | Feedback | [Alert](components/alert/README.md) · [Progress](components/progress/README.md) · [Skeleton](components/skeleton/README.md) · [Empty state](components/empty-state/README.md) · [Toast](components/toast/README.md) · [Tooltip](components/tooltip/README.md) · [Dialog](components/dialog/README.md) |
 | Navigation | [Navbar](components/navbar/README.md) · [Breadcrumb](components/breadcrumb/README.md) · [Tabs](components/tabs/README.md) · [Accordion](components/accordion/README.md) · [Pagination](components/pagination/README.md) · [Steps](components/steps/README.md) · [Menu](components/menu/README.md) |
@@ -128,6 +131,7 @@ This repo is written to be machine-consumable, not just human-readable. If you'r
 |---|---|
 | [`llms.txt`](llms.txt) | The index and the rules, in one short file. The live site also serves `llms-full.txt` (every component doc inlined). |
 | [`components/manifest.json`](components/manifest.json) | The exact API: valid classes, the only allowed `data-*` values, styled states, component tokens, and copyable HTML per component. |
+| [`components/membrane.d.ts`](components/membrane.d.ts) | The same API as TypeScript types, when generating framework code. |
 | [`examples/starter.html`](examples/starter.html) | A complete, correct page to start from. |
 | [`DESIGN-SYSTEM.md` §11.4](DESIGN-SYSTEM.md#114-ai-agent-configuration) | A copy-pasteable visual + UI + voice constraint block. |
 | [`BRAND-VOICE.md`](BRAND-VOICE.md) | Tone and vocabulary for any copy you write alongside the UI. |
@@ -148,7 +152,7 @@ Everything an agent reads is **generated from the source and linted**: the build
 <link rel="stylesheet"
   href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css">
 
-<!-- Optional: Tabs keyboard behavior, tooltip Escape, dialog fallbacks -->
+<!-- Needed for Tabs, Menu, Combobox and Toast; adds tooltip Escape and dialog fallbacks -->
 <script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js" defer></script>
 
 ```
@@ -177,6 +181,20 @@ Load `tokens/design-tokens.css` on the page too (the utilities reference its cus
 
 `bg-blue-500`, `text-white` or `rounded-md` simply don't compile, which keeps hand-written and agent-written utility code on-brand. Spacing (`p-4` = `--space-4`) and breakpoints already match.
 
+### Using it from a framework
+
+The library is CSS plus attributes, so it works unchanged in React, Vue, Svelte or Astro. Write the same classes and `data-*` options. For type safety, import the generated types:
+
+```tsx
+import type { MpAttrs, MpStyle } from "…/components/membrane.d.ts";
+
+const save: MpAttrs<"button"> = { "data-variant": "secondary", "data-size": "sm" };
+<button className="mp-button" {...save}>Save draft</button>
+// { "data-variant": "primary" } fails to compile: the CSS has no such option.
+```
+
+Boolean options (`data-icon-only`, `data-full-width`…) are presence attributes: pass `true` to set them and leave them out to unset them.
+
 ### Option C — Copy the files
 
 Download `membrane.css` (and `components/membrane.js` if you need it) into your project. Regenerate with `npm run build:system` when you fork and modify the sources.
@@ -194,11 +212,12 @@ npm install
 npm run dev          # builds everything, then serves the showcase at localhost:3456
 ```
 
-To run the checks (html-validate, axe-core in both themes, phone overflow, links, keyboard, motion under full/reduced/touch):
+To run the checks (html-validate, the TypeScript check, then in three browser engines: axe-core in both themes, phone overflow, links, keyboard, motion under full/reduced/touch; plus Chromium visual baselines):
 
 ```bash
-npx playwright install chromium   # once
+npx playwright install --with-deps chromium firefox webkit   # once
 npm test                          # builds, serves dist/, runs tests/*.spec.mjs
+npx playwright test tests/visual.spec.mjs --update-snapshots   # after an intended visual change
 ```
 
 To modify tokens or components and rebuild:
@@ -386,7 +405,7 @@ Because each token resolves `light-dark()` where it's used, `data-theme` works o
 
 ```
 The-Membrane-Palette/
-├── membrane.css               ← Generated — the one stylesheet (tokens + base + components)
+├── membrane.css               ← Generated — the one stylesheet (fonts + tokens + base + components)
 ├── llms.txt                   ← Generated — agent index
 ├── tokens/
 │   ├── membrane.tokens.json   ← Source of truth for values (edit this)
@@ -399,14 +418,19 @@ The-Membrane-Palette/
 │   ├── <name>/README.md       ← Docs + examples (edit; the API section is generated)
 │   ├── membrane.js            ← Optional behaviors (hand-written)
 │   ├── membrane-components.css← Generated bundle
-│   └── manifest.json          ← Generated machine-readable API
+│   ├── manifest.json          ← Generated machine-readable API
+│   └── membrane.d.ts          ← Generated TypeScript types
+├── fonts/                     ← Self-hosted woff2 + OFL licenses; fonts.json (source) → fonts.css (generated)
+├── brand/                     ← Outlined brand marks (SVG)
 ├── examples/                  ← Pattern pages (starter, article, dashboard), linted
-├── tests/                     ← Playwright + axe browser tests
+├── tests/                     ← Playwright (3 engines) + axe, visual baselines, type check
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)
 │   ├── build-components.mjs   ← Component linter + bundler + manifest/docs generator
 │   ├── build-cloudflare-pages.mjs ← Assembles dist/ for Pages deploy
-│   └── render-social-image.mjs ← Renders the og:image from the tokens (manual)
+│   ├── render-social-image.mjs ← Renders the og:image and touch icon (manual)
+│   ├── measure-fonts.py       ← Measures fallback-font overrides (manual)
+│   └── render-brand-marks.py  ← Outlines the brand marks (manual)
 ├── showcase/                  ← Living reference (index.html; gallery, tables generated), 404.html, _headers, assets/
 ├── docs/AUDIT-2026-10.md      ← The v2.1 assessment: findings and what changed
 ├── docs/RELEASING.md          ← Release checklist

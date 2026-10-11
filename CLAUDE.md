@@ -9,8 +9,9 @@ npm run build:tokens      # Regenerate tokens/design-tokens.css + tokens/base.cs
 npm run build:components  # Lint components + README examples, then write components/membrane-components.css, membrane.css, components/manifest.json, llms.txt and the generated doc/showcase regions
 npm run build:system      # Both of the above, in order — run this after any source change
 npm run build             # Cloudflare Pages build: build:system, then assembles dist/ (adds llms-full.txt)
-npm test                  # Build, html-validate dist/, serve it, run Playwright: axe-core on every page in both themes, phone-width overflow, link integrity, keyboard/focus/ARIA, motion (full/reduced/touch)
-npm run render:social     # Re-render showcase/assets/idcesares-social-design-system-og.png from the tokens (manual; commit the PNG)
+npm test                  # Build, html-validate dist/, type-check membrane.d.ts, serve dist/, run Playwright in Chromium/Firefox/WebKit: axe-core on every page in both themes, phone-width overflow, link integrity + self-containment, keyboard/focus/ARIA, motion (full/reduced/touch); Chromium visual baselines of every gallery example
+npx playwright test tests/visual.spec.mjs --update-snapshots  # Refresh visual baselines after an INTENDED visual change (review the diff first)
+npm run render:social     # Re-render the og:image and apple-touch icon in showcase/assets/ (manual; commit the PNGs)
 npm run dev               # Build, then start local dev server at localhost:3456
 npm run preview           # Alias of dev
 npm run deploy            # npx wrangler deploy — pushes dist/ to Cloudflare Pages per wrangler.toml (releases: docs/RELEASING.md)
@@ -25,9 +26,11 @@ A **token-based design system with a framework-free CSS component library**:
 - `tokens/membrane.tokens.json` — **Source of truth for values.** DTCG-flavored JSON (custom `$type`s: `tint` = alpha wash, `mix` = oklab mix of two tokens, `cssValue`). Edit this; never hand-edit generated CSS.
 - `components/<name>/<name>.css` — **Component source.** Plain CSS; the bundler wraps it in `@layer components`.
 - `components/<name>/README.md` — **Component docs.** Frontmatter (`name`, `category`, `status`, `summary`), `## Examples` with `### Title` + ```` ```html ```` blocks (rendered in the showcase and copied into the manifest), and a generated `## API` section between `<!-- GENERATED:API -->` markers.
-- `components/membrane.js` — hand-written optional behaviors (tabs keys, tooltip Escape, dialog invoker fallback).
+- `components/membrane.js` — hand-written behaviors: tabs, menu and combobox keyboard patterns, toast API, tooltip Escape, dialog invoker fallback.
+- `fonts/fonts.json` — **source for the self-hosted fonts** (files, unicode ranges, measured fallback overrides). `build:tokens` writes `fonts/fonts.css`; `build:components` inlines it at the top of `membrane.css` with `fonts/` URLs. Pages need no Google Fonts link; a test fails on any third-party request. After replacing a font file, rerun `scripts/measure-fonts.py` (needs Python fontTools).
+- `brand/` — outlined brand-mark SVGs from `scripts/render-brand-marks.py` (needs fontTools + uharfbuzz and the full Fraunces variable font). Never hand-edit the paths.
 - `scripts/build-tokens.mjs` / `scripts/build-components.mjs` — the two builds (see Commands).
-- **Generated, committed, never hand-edited:** `tokens/design-tokens.css`, `tokens/base.css` (includes `:where()`-level page defaults for `body`), `tokens/membrane-tailwind.css` (Tailwind v4 theme), `tokens/tokens.resolved.json`, `components/membrane-components.css`, `components/manifest.json`, `membrane.css`, `llms.txt`, and the `GENERATED:*` marker regions in `showcase/index.html`, `DESIGN-SYSTEM.md` and each component README.
+- **Generated, committed, never hand-edited:** `fonts/fonts.css`, `components/membrane.d.ts` (TypeScript types from the manifest), `tests/visual.spec.mjs-snapshots/` (refresh with `--update-snapshots`, never edit), `tokens/design-tokens.css`, `tokens/base.css` (includes `:where()`-level page defaults for `body`), `tokens/membrane-tailwind.css` (Tailwind v4 theme), `tokens/tokens.resolved.json`, `components/membrane-components.css`, `components/manifest.json`, `membrane.css`, `llms.txt`, and the `GENERATED:*` marker regions in `showcase/index.html`, `DESIGN-SYSTEM.md` and each component README.
 - `showcase/index.html` — static reference site; its gallery, token table and contrast matrix are generated.
 - `DESIGN-SYSTEM.md` — authoritative specification (§6 = component conventions).
 - `examples/*.html` — complete pages (starter, article, dashboard) built only from the library; linted by `build:components` exactly like README examples.
@@ -36,9 +39,9 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 
 **Changing a token value:** edit the JSON, run `npm run build:system`. A new color pairing that UI depends on also gets a `GATE` entry in `scripts/build-tokens.mjs`.
 
-**Changing or adding a component:** edit/create `components/<name>/<name>.css` + `README.md`, add new names to `ORDER` in `scripts/build-components.mjs`, run `npm run build:system`. The component lint rejects: raw colors (hex/rgb/oklch/white/black), unknown or deprecated tokens, Tier 1 primitives (`--color-terracotta`, `--color-neutral-*`, alpha tints), and custom properties not named `--mp-*`. The docs lint rejects README examples that use classes, `data-*` attributes or values the CSS doesn't implement, duplicate ids across all examples, icon-only buttons without `aria-label`, and `<img>` without `alt`. The coverage lint requires every class and every `data-*` value the CSS implements to appear in at least one README example (so the showcase renders it); a README can opt an attribute or class out with a frontmatter line such as `exempt: data-gap, .mp-skip-link`, which should be reserved for token scales and runtime-only state.
+**Changing or adding a component:** edit/create `components/<name>/<name>.css` + `README.md`, add new names to `ORDER` in `scripts/build-components.mjs`, run `npm run build:system`, then `npm test` (a new or changed example needs its visual baseline written with `--update-snapshots`). The component lint rejects: raw colors (hex/rgb/oklch/white/black), unknown or deprecated tokens, Tier 1 primitives (`--color-terracotta`, `--color-neutral-*`, alpha tints), and custom properties not named `--mp-*`. The docs lint rejects README examples that use classes, `data-*` attributes or values the CSS doesn't implement, duplicate ids across all examples, icon-only buttons without `aria-label`, and `<img>` without `alt`. The coverage lint requires every class and every `data-*` value the CSS implements to appear in at least one README example (so the showcase renders it); a README can opt an attribute or class out with a frontmatter line such as `exempt: data-gap, .mp-skip-link`, which should be reserved for token scales and runtime-only state.
 
-**Behavior hooks:** `data-mp-*` attributes (e.g. `data-mp-toast`) are read by `membrane.js` and are valid on any element. `window.MembranePalette.toast()` is the only JS API; it renders text with `textContent`, never HTML.
+**Behavior hooks:** `data-mp-*` attributes (e.g. `data-mp-toast`, `data-mp-value` on a combobox option) are read by `membrane.js` and are valid on any element. `window.MembranePalette.toast()` is the only JS API; it renders text with `textContent`, never HTML.
 
 **Charts:** series colors are `--color-chart-1…6`, a palette validated for color-blind separation; assign in order, never cycle, max 2 series in scatter-type charts.
 
@@ -56,7 +59,7 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 | The Membrane | Translation zone (canvas) | Warm Cream `#FAF6EE`, Warm Gray |
 | Digital | Precision, depth, code | Deep Teal `#1B756D`, Charcoal `#1A1B1F` (Steel Blue exists only as chart color `--color-chart-5`) |
 
-**Typography:**
+**Typography:** self-hosted (`fonts/`), each with a metric-matched `"<Family> Fallback"` face in the font stack.
 - `Fraunces` (variable serif) = human/heading register
 - `Instrument Sans` = digital/body register
 - `JetBrains Mono` = builder/code register

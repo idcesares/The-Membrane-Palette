@@ -25,7 +25,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - `scripts/build-components.mjs` (`npm run build:components`) — **lints** every component (no raw colors, no unknown/deprecated tokens, no Tier 1 primitives, knobs must be `--mp-*`) and every README example (no classes, attributes or values the CSS doesn't implement; unique ids; labelled icon-only buttons; `alt` on images), then writes the bundles, the manifest, `llms.txt`, each README's API section and the showcase gallery.
 - **Coverage lint:** every class and `data-*` value a component implements must be demonstrated in its README examples, so the showcase is guaranteed to render all of them (token scales and runtime state can opt out via an `exempt:` frontmatter line).
 - `npm run build:system` runs both builds in order.
-- **Nine more components** (34 in total): Text (tone + reading measure, so pages need no inline styles), Chart (figure, legend, single/stacked bar list), Icon (Lucide-style line icons sized by `--size-icon-*`), Skeleton, Empty state, Toast (`MembranePalette.toast()` + `data-mp-toast`), Pagination, Steps (course progress) and Menu (native `popover`, anchor-positioned, WAI-ARIA menu keys).
+- **Ten more components** (35 in total): Combobox (WAI-ARIA list autocomplete, accent-insensitive filtering, live result count), Text (tone + reading measure, so pages need no inline styles), Chart (figure, legend, single/stacked bar list), Icon (Lucide-style line icons sized by `--size-icon-*`), Skeleton, Empty state, Toast (`MembranePalette.toast()` + `data-mp-toast`), Pagination, Steps (course progress) and Menu (native `popover`, anchor-positioned, WAI-ARIA menu keys).
 - **Page patterns:** `examples/article.html` and `examples/dashboard.html` next to the starter; all `examples/*.html` are linted by the component build like README examples.
 
 ### Added — data visualization
@@ -59,6 +59,18 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - Token types `mix` (oklab color-mix of two tokens, resolved exactly by the gate) and `tint` on semantic tokens.
 - Descriptions on every semantic token (they feed the manifest and the spec table).
 
+### Added — fonts, brand marks and types
+
+- **Self-hosted fonts.** Fraunces, Instrument Sans and JetBrains Mono ship in `fonts/` as variable woff2 files (SIL OFL), latin and latin-ext subsets, declared with `unicode-range` and `font-display: swap`. `membrane.css` includes them, so pages drop the Google Fonts link and make no third-party requests (a test enforces it). `fonts/fonts.css` serves the split-file setup.
+- **Metric-matched fallbacks:** `"Fraunces Fallback"`, `"Instrument Sans Fallback"` and `"JetBrains Mono Fallback"` are local Times New Roman, Arial and Courier New with `size-adjust` and ascent/descent overrides measured by `scripts/measure-fonts.py`, so the swap barely moves the layout. The `--font-*` stacks include them.
+- **Brand marks** in `brand/`: the wordmark, compact wordmark and `dc` monogram (primary and reversed), plus light and dark app icons. They're set in Fraunces 700 with WONK=1, kerned with HarfBuzz and outlined to SVG paths (`scripts/render-brand-marks.py`). The showcase favicon and apple-touch icon use them, and a new Brand marks section offers each file for download. Spec §10.3 lists the files.
+- **TypeScript types** in `components/membrane.d.ts`, generated from the manifest:
+  - `MpAttrs<"button">` (each component's allowed options);
+  - `MpClass`, `MpToken` (public tokens only), `MpKnob` and `MpStyle`;
+  - `window.MembranePalette`.
+
+  Boolean options are typed as presence-only, so a framework can't render `data-x="false"`. `npm run lint:types` proves invalid values fail to compile.
+
 ### Added — motion & user preferences
 
 - `--transition-enter` (normal + ease-out), `--transition-exit` (fast + ease-in), `--transition-state` (fast + ease-in-out). Dialog, backdrop, menu, tooltip and toast now enter slowly and leave quickly, as §8.1 always specified. Toasts animate out: `membrane.js` sets a runtime `data-leaving` attribute and removes the element after the exit.
@@ -80,13 +92,14 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
   - `nosniff`, referrer and permissions policies, and frame protection;
   - CORS on `llms.txt`, the manifest, the tokens and `membrane.css`, so agents and tools can fetch them cross-origin;
   - short cache lifetimes on unversioned files.
+- **Cross-browser:** the Playwright suite runs in Chromium, Firefox and WebKit. **Visual regression:** every gallery example is compared, in both themes, with committed Chromium baselines.
 - `npm run lint:html` (html-validate) on every built page, plus link-integrity tests: every same-origin URL and `#fragment` on the site resolves, and every relative link in the Markdown points at a file. Both are part of `npm test`.
 - The sitemap lists the example pages.
 - [`docs/RELEASING.md`](docs/RELEASING.md) — the release checklist: tag, pinned `@2` CDN URLs, jsDelivr purge, deploy and smoke test.
 
 ### Changed
 
-- **Contrast gate: 20 → 78 pairs (156 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
+- **Contrast gate: 20 → 81 pairs (162 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
 - `DESIGN-SYSTEM.md` §6 replaced: the prose recipes are superseded by the library; §6 now documents conventions, catalog, brand rules and how to contribute a component. §2.3 (semantic colors) and §13.1 (contrast) tables are **generated** from the token source, so they can no longer drift. Added §13.4 (component accessibility); corrected the touch-target citation (2.5.5 is AAA; 2.5.8 AA is 24px).
 - Showcase structure: foundations first (Palette → Typography → Rhythm), then Components, then Reference. The component gallery has a sticky index that tracks the current component, an "API at a glance" row generated from each component's CSS, and a "View HTML" disclosure with a copy button on every example. The type specimen shows the full scale with its tokens. The hero register map no longer breaks token names mid-word, and the hero stacks below 1200px.
 - Showcase rebuilt on the library (navbar, buttons, inputs, tables, code blocks), with a generated component gallery, a composed specimen, and dark-mode previews that use real `data-theme` subtrees instead of hard-coded hex. Theme is applied before first paint and follows the OS until toggled. Skip link added; mobile horizontal overflow fixed.

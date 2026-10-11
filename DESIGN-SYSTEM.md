@@ -483,7 +483,7 @@ No framework, no build step for consumers; `tokens/base.css` (inside `membrane.c
 |---|---|
 | Layout | [Layout](components/layout/README.md) (container, stack, cluster, grid, section, surface), [Text](components/text/README.md), [Prose](components/prose/README.md) |
 | Actions | [Button](components/button/README.md), [Link](components/link/README.md) (incl. skip link) |
-| Forms | [Field](components/field/README.md) (incl. fieldset), [Input](components/input/README.md) (input, textarea, select), [Choice](components/choice/README.md) (checkbox, radio), [Switch](components/switch/README.md) |
+| Forms | [Field](components/field/README.md) (incl. fieldset), [Input](components/input/README.md) (input, textarea, select), [Combobox](components/combobox/README.md), [Choice](components/choice/README.md) (checkbox, radio), [Switch](components/switch/README.md) |
 | Content | [Card](components/card/README.md), [Tag](components/tag/README.md), [Badge](components/badge/README.md), [Avatar](components/avatar/README.md), [Quote](components/quote/README.md), [Code](components/code/README.md), [Divider](components/divider/README.md), [Table](components/table/README.md), [Stat](components/stat/README.md), [Chart](components/chart/README.md), [Icon](components/icon/README.md) |
 | Feedback | [Alert](components/alert/README.md), [Progress](components/progress/README.md) (incl. spinner), [Skeleton](components/skeleton/README.md), [Empty state](components/empty-state/README.md), [Toast](components/toast/README.md), [Tooltip](components/tooltip/README.md), [Dialog](components/dialog/README.md) |
 | Navigation | [Navbar](components/navbar/README.md), [Breadcrumb](components/breadcrumb/README.md), [Tabs](components/tabs/README.md), [Accordion](components/accordion/README.md), [Pagination](components/pagination/README.md), [Steps](components/steps/README.md), [Menu](components/menu/README.md) |
@@ -635,6 +635,7 @@ Because a transition runs with the timing of the state it is heading *to*, an ov
 | Accordion | Chevron rotates (`state`); panel height (`enter`, where supported) | Instant |
 | Dialog | Fade + `8px` rise and backdrop fade: enter `normal`/`ease-out`, exit `fast`/`ease-in` | Instant |
 | Menu | Fade + `4px` drop, same enter/exit split | Instant |
+| Combobox | List fades + `4px` drop on open, quicker exit; chevron flips | Instant, no drop |
 | Tooltip | Fade + `4px` shift in after a `fast` delay (so passing the pointer over doesn't flash it), out at `fast` | Instant |
 | Toast | Fade + rise in; fade + fall out (`data-leaving`, set by `membrane.js`, removes after the exit) | Instant |
 | Progress (indeterminate) | Bar sweeps once per `loop` | Bar holds in the middle and pulses |

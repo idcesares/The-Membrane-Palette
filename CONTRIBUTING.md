@@ -12,14 +12,14 @@ The system has two kinds of files: **sources** you edit, and **generated** files
 
 ```bash
 npm install
-npx playwright install chromium   # once, for npm test
+npx playwright install --with-deps chromium firefox webkit   # once, for npm test
 ```
 
 ## The loop
 
 ```bash
 npm run build:system   # tokens (contrast gate) → components (lint + coverage) → generated docs
-npm test               # build dist/, html-validate, axe in both themes, overflow, links, keyboard + motion behavior
+npm test               # build dist/, html-validate, type check, then 3 browsers: axe, overflow, links, keyboard + motion; Chromium visual baselines
 npm run dev            # look at it: http://localhost:3456
 ```
 
@@ -42,7 +42,7 @@ Commit the regenerated files together with your source change. CI runs all three
    - a class or `data-*` value the CSS implements is never shown in an example (coverage). Use `exempt:` only for token scales and runtime-only state, and say why in the README.
 5. If it needs behavior, add it to `components/membrane.js` (event delegation, no init call, no `innerHTML` with data) and a test to `tests/behavior.spec.mjs`.
    If it moves, follow `DESIGN-SYSTEM.md` §8: exit timing on the closed state, enter timing on the open state, hover effects inside `@media (hover: hover)`, and a reduced-motion rule that removes movement (loaders pulse instead). Cover it in `tests/motion.spec.mjs`.
-6. `npm test`. axe runs on the showcase, which renders every README example.
+6. `npm test`. axe runs on the showcase, which renders every README example. A new or changed example has no matching visual baseline yet: run `npx playwright test tests/visual.spec.mjs --update-snapshots`, open the new PNGs in `tests/visual.spec.mjs-snapshots/` to check they look right, and commit them. Refresh baselines only for changes you intended. A diff you didn't expect is the bug the test exists to catch.
 
 ## Writing
 
