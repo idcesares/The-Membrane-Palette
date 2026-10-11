@@ -45,7 +45,8 @@
     "tokens/tokens.resolved.json",
     "components/",
     "llms.txt",
-    "fonts/"
+    "fonts/",
+    "brand/"
   ],
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",

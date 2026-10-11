@@ -27,7 +27,8 @@
   <meta name="twitter:description" content="Explore The Membrane Palette, typography, components, dark mode, and accessibility patterns.">
 
   <title>Isaac D'Césares Design System | The Membrane Palette</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23FAF6EE'/%3E%3Ctext x='12' y='43' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%23B35530'%3Ed%3C/text%3E%3Ctext x='32' y='43' font-family='Georgia,serif' font-size='28' font-weight='700' fill='%231B756D'%3Ec%3C/text%3E%3C/svg%3E">
+  <link rel="icon" href="../brand/idcesares-icon-monogram-light.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/idcesares-icon-monogram-touch.png">
   <link rel="alternate" type="text/plain" href="../llms.txt" title="llms.txt">
 
   <script type="application/ld+json">
@@ -130,6 +131,55 @@
       font-weight: var(--weight-semibold);
       letter-spacing: 0;
     }
+
+    /* Brand marks (section 06). Each tile is a real data-theme surface. */
+    .brand-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));
+      gap: var(--space-4);
+    }
+
+    .brand-tile {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      margin: 0;
+      overflow: hidden;
+      border: var(--border-default);
+      border-radius: var(--radius-lg);
+    }
+
+    .brand-tile--wide { grid-column: 1 / -1; }
+
+    .brand-tile__art {
+      display: grid;
+      place-items: center;
+      min-height: 10rem;
+      padding: var(--space-10) var(--space-8);
+    }
+
+    .brand-tile__art img {
+      display: block;
+      width: 100%;
+      max-width: 34rem;
+      height: auto;
+      max-height: 4.5rem;
+    }
+
+    .brand-tile__art--icon img {
+      width: 5rem;
+      max-height: none;
+    }
+
+    .brand-tile__caption {
+      display: grid;
+      gap: var(--space-1);
+      padding: var(--space-4) var(--space-5);
+      border-block-start: var(--border-default);
+      font-size: var(--text-small);
+      line-height: var(--leading-small);
+    }
+
+    .brand-tile__caption span { color: var(--color-text-secondary); }
 
     /* Theme switch crossfade (see the toggle script). */
     ::view-transition-old(root),
@@ -953,6 +1003,7 @@
           <li><a class="mp-navbar__link" href="#rhythm">Rhythm</a></li>
           <li><a class="mp-navbar__link" href="#components">Components</a></li>
           <li><a class="mp-navbar__link" href="#reference">Reference</a></li>
+          <li><a class="mp-navbar__link" href="#brand">Brand</a></li>
         </ul>
       </nav>
       <div class="mp-navbar__actions">
@@ -6388,6 +6439,85 @@
               </table>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band--secondary" id="brand">
+      <div class="mp-container">
+        <div class="section-heading">
+          <div>
+            <p class="label">06 / Brand marks</p>
+            <h2>The name, outlined.</h2>
+          </div>
+          <p>Set in Fraunces 700 with <code>WONK</code>, shaped with real kerning and converted to paths, so the files need no font. Leave clear space equal to the height of the lowercase <em>d</em> on every side. Use the file — never retype, recolor or stretch the mark.</p>
+        </div>
+
+        <div class="brand-grid">
+          <figure class="brand-tile mp-surface brand-tile--wide" data-theme="light">
+            <div class="brand-tile__art"><img src="../brand/idcesares-logo-wordmark-primary.svg" alt="Isaac D'Césares"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>Wordmark</strong>
+              <span>Full formal: presentations, articles, institutional use.</span>
+              <a class="mp-link" href="../brand/idcesares-logo-wordmark-primary.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface brand-tile--wide" data-theme="dark">
+            <div class="brand-tile__art"><img src="../brand/idcesares-logo-wordmark-reversed.svg" alt="Isaac D'Césares"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>Wordmark, reversed</strong>
+              <span>Cream on charcoal, teal or terracotta.</span>
+              <a class="mp-link" href="../brand/idcesares-logo-wordmark-reversed.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface" data-theme="light">
+            <div class="brand-tile__art"><img src="../brand/idcesares-logo-compact-primary.svg" alt="D'Césares"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>Compact</strong>
+              <span>Navigation, footers, watermarks.</span>
+              <a class="mp-link" href="../brand/idcesares-logo-compact-primary.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface" data-theme="dark">
+            <div class="brand-tile__art"><img src="../brand/idcesares-logo-compact-reversed.svg" alt="D'Césares"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>Compact, reversed</strong>
+              <span>Cream on dark surfaces.</span>
+              <a class="mp-link" href="../brand/idcesares-logo-compact-reversed.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface" data-theme="light">
+            <div class="brand-tile__art"><img src="../brand/idcesares-logo-monogram-primary.svg" alt="dc"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>Monogram</strong>
+              <span>Terracotta d, teal c: the two registers meeting.</span>
+              <a class="mp-link" href="../brand/idcesares-logo-monogram-primary.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface" data-theme="dark">
+            <div class="brand-tile__art"><img src="../brand/idcesares-logo-monogram-reversed.svg" alt="dc"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>Monogram, reversed</strong>
+              <span>Single color on dark surfaces.</span>
+              <a class="mp-link" href="../brand/idcesares-logo-monogram-reversed.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface" data-theme="light">
+            <div class="brand-tile__art brand-tile__art--icon"><img src="../brand/idcesares-icon-monogram-light.svg" alt="dc"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>App icon</strong>
+              <span>Favicon, avatar, app contexts — background included.</span>
+              <a class="mp-link" href="../brand/idcesares-icon-monogram-light.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
+          <figure class="brand-tile mp-surface" data-theme="dark">
+            <div class="brand-tile__art brand-tile__art--icon"><img src="../brand/idcesares-icon-monogram-dark.svg" alt="dc"></div>
+            <figcaption class="brand-tile__caption">
+              <strong>App icon, dark</strong>
+              <span>For dark home screens and dark social avatars.</span>
+              <a class="mp-link" href="../brand/idcesares-icon-monogram-dark.svg" download>Download SVG</a>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>

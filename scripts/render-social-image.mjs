@@ -1,6 +1,7 @@
 /**
  * Renders the 1200×630 social preview (og:image) from the live tokens and
- * components, so the card always matches the system. Not part of the build:
+ * components, so the card always matches the system, and the apple-touch
+ * icon from the outlined monogram in brand/. Not part of the build:
  * run `npm run render:social` after a visual change and commit the PNG.
  */
 import { chromium } from "@playwright/test";
@@ -55,5 +56,15 @@ const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
 await page.goto(pathToFileURL(card).href, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
 await writeFile(OUT, await page.screenshot({ type: "png" }));
-await browser.close();
 console.log(`✓ Wrote ${path.relative(root, OUT)}`);
+
+// Apple touch icon: full-bleed 180×180 (iOS rounds the corners itself).
+const TOUCH = path.join(root, "showcase", "assets", "idcesares-icon-monogram-touch.png");
+const monogram = pathToFileURL(path.join(root, "brand", "idcesares-logo-monogram-primary.svg")).href;
+const icon = path.join(path.dirname(card), "icon.html");
+await writeFile(icon, `<!DOCTYPE html><html><body style="margin:0;width:180px;height:180px;display:grid;place-items:center;background:#FAF6EE"><img src="${monogram}" alt="" style="width:62%"></body></html>`);
+await page.setViewportSize({ width: 180, height: 180 });
+await page.goto(pathToFileURL(icon).href, { waitUntil: "networkidle" });
+await writeFile(TOUCH, await page.screenshot({ type: "png" }));
+console.log(`✓ Wrote ${path.relative(root, TOUCH)}`);
+await browser.close();
