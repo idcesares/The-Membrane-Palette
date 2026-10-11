@@ -832,10 +832,51 @@ if (gateFailures.length > 0) {
   process.exit(1);
 }
 
+/* ------------------------------------------------------------------ *
+ *  Self-hosted fonts → fonts/fonts.css
+ *  (build-components.mjs inlines it into membrane.css with fonts/ URLs)
+ * ------------------------------------------------------------------ */
+
+const fontConfig = JSON.parse(await readFile(path.join(root, "fonts", "fonts.json"), "utf8"));
+const fontFaces = fontConfig.families.flatMap((fam) => [
+  ...fam.faces.map((face) => `@font-face {
+  font-family: "${fam.family}";
+  font-style: ${face.style};
+  font-weight: ${face.weight};
+  font-display: ${fontConfig.display};
+  src: url("${face.file}") format("woff2");
+  unicode-range: ${fontConfig.unicodeRanges[face.subset]};
+}`),
+  `/* Metric-matched stand-in while ${fam.family} loads (scripts/measure-fonts.py). */
+@font-face {
+  font-family: "${fam.fallback.family}";
+  src: ${fam.fallback.local.map((name) => `local("${name}")`).join(", ")};
+${Object.entries(fam.fallback.overrides).map(([k, v]) => `  ${k}: ${v};`).join("\n")}
+}`,
+]);
+const fontsCss = `/* ============================================================
+   The Membrane Palette — self-hosted fonts
+   Version ${pkg.version}
+
+   GENERATED FILE — do not edit by hand.
+   Source of truth:  fonts/fonts.json
+   Regenerate with:  npm run build:tokens
+
+   ${fontConfig.families.map((f) => f.family).join(", ")} (SIL Open Font
+   License 1.1, see fonts/OFL-*.txt), latin + latin-ext subsets,
+   variable weight. unicode-range means a page only downloads the
+   files its text actually uses. Already in membrane.css; link this
+   file only when you use the split stylesheets.
+   ============================================================ */
+
+${fontFaces.join("\n\n")}
+`;
+
+await writeFile(path.join(root, "fonts", "fonts.css"), fontsCss);
 await writeFile(path.join(root, "tokens", "design-tokens.css"), header);
 await writeFile(path.join(root, "tokens", "base.css"), baseCss);
 console.log(`\n✓ All ${GATE.length * 2} contrast checks (${GATE.length} pairs × light/dark) pass; all colors round-trip through OKLCH.`);
-console.log("✓ Wrote tokens/design-tokens.css, tokens/base.css, tokens/membrane-tailwind.css, tokens/tokens.resolved.json");
+console.log("✓ Wrote tokens/design-tokens.css, tokens/base.css, tokens/membrane-tailwind.css, tokens/tokens.resolved.json, fonts/fonts.css");
 
 /* ------------------------------------------------------------------ *
  *  Platform exports

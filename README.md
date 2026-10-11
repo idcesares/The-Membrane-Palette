@@ -151,11 +151,11 @@ Everything an agent reads is **generated from the source and linted**: the build
 <!-- Optional: Tabs keyboard behavior, tooltip Escape, dialog fallbacks -->
 <script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js" defer></script>
 
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 ```
 
-Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/base.css`) instead — the component bundle is a separate file, `components/membrane-components.css`.
+The fonts come with it: `membrane.css` declares self-hosted Fraunces, Instrument Sans and JetBrains Mono (variable, latin + latin-ext, `font-display: swap`) with size-matched fallbacks, so there is no Google Fonts link to add and almost no layout shift while they load. To start downloading the body font sooner, preload it: `<link rel="preload" href="…/fonts/instrument-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>`.
+
+Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/base.css`) instead — the component bundle is a separate file, `components/membrane-components.css`, and the fonts are `fonts/fonts.css`.
 
 > **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. These URLs have no version pin, so they serve the latest commit on the default branch; pin to a release tag once one exists if you need a stable reference.
 

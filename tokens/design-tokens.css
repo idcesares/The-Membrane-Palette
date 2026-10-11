@@ -157,9 +157,9 @@
     /* --------------------------------------------------------
        8. TYPOGRAPHY — Font Stacks
        -------------------------------------------------------- */
-    --font-serif:  'Fraunces', 'Georgia', 'Times New Roman', serif;
-    --font-sans:   'Instrument Sans', 'Inter', 'Helvetica Neue', sans-serif;
-    --font-mono:   'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --font-serif:  'Fraunces', 'Fraunces Fallback', 'Georgia', 'Times New Roman', serif;
+    --font-sans:   'Instrument Sans', 'Instrument Sans Fallback', 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+    --font-mono:   'JetBrains Mono', 'JetBrains Mono Fallback', 'Fira Code', 'Consolas', monospace;
 
     /* --------------------------------------------------------
        9. TYPOGRAPHY — Scale (fluid; ratio ≈1.2 small steps → ≈1.375 at display)

@@ -33,3 +33,8 @@
 
 /assets/*
   Cache-Control: public, max-age=86400
+
+# Fonts change rarely (and keep their names when they do): cache for 30 days.
+/fonts/*.woff2
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=2592000

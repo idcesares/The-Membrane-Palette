@@ -33,7 +33,8 @@
     "./manifest.json": "./components/manifest.json",
     "./tokens.json": "./tokens/membrane.tokens.json",
     "./tailwind": "./tokens/membrane-tailwind.css",
-    "./tokens.resolved.json": "./tokens/tokens.resolved.json"
+    "./tokens.resolved.json": "./tokens/tokens.resolved.json",
+    "./fonts.css": "./fonts/fonts.css"
   },
   "files": [
     "membrane.css",
@@ -43,7 +44,8 @@
     "tokens/membrane-tailwind.css",
     "tokens/tokens.resolved.json",
     "components/",
-    "llms.txt"
+    "llms.txt",
+    "fonts/"
   ],
   "scripts": {
     "build:tokens": "node scripts/build-tokens.mjs",

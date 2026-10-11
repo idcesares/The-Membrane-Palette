@@ -1,0 +1,149 @@
+{
+  "$description": "Self-hosted fonts (SIL OFL 1.1, from Fontsource 5.3.0 variable builds). Source for the generated @font-face rules in fonts/fonts.css and membrane.css. Fallback overrides are measured by scripts/measure-fonts.py.",
+  "display": "swap",
+  "unicodeRanges": {
+    "latin": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD",
+    "latin-ext": "U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF"
+  },
+  "families": [
+    {
+      "family": "Fraunces",
+      "license": "OFL-Fraunces.txt",
+      "faces": [
+        {
+          "file": "fraunces-latin-opsz-normal.woff2",
+          "style": "normal",
+          "weight": "100 900",
+          "subset": "latin"
+        },
+        {
+          "file": "fraunces-latin-ext-opsz-normal.woff2",
+          "style": "normal",
+          "weight": "100 900",
+          "subset": "latin-ext"
+        },
+        {
+          "file": "fraunces-latin-opsz-italic.woff2",
+          "style": "italic",
+          "weight": "100 900",
+          "subset": "latin"
+        },
+        {
+          "file": "fraunces-latin-ext-opsz-italic.woff2",
+          "style": "italic",
+          "weight": "100 900",
+          "subset": "latin-ext"
+        }
+      ],
+      "measureAt": {
+        "wght": 600,
+        "opsz": 36
+      },
+      "fallback": {
+        "family": "Fraunces Fallback",
+        "local": [
+          "Times New Roman",
+          "Liberation Serif"
+        ],
+        "overrides": {
+          "size-adjust": "116.63%",
+          "ascent-override": "83.86%",
+          "descent-override": "21.86%",
+          "line-gap-override": "0.00%"
+        }
+      }
+    },
+    {
+      "family": "Instrument Sans",
+      "license": "OFL-Instrument-Sans.txt",
+      "faces": [
+        {
+          "file": "instrument-sans-latin-wght-normal.woff2",
+          "style": "normal",
+          "weight": "400 700",
+          "subset": "latin"
+        },
+        {
+          "file": "instrument-sans-latin-ext-wght-normal.woff2",
+          "style": "normal",
+          "weight": "400 700",
+          "subset": "latin-ext"
+        },
+        {
+          "file": "instrument-sans-latin-wght-italic.woff2",
+          "style": "italic",
+          "weight": "400 700",
+          "subset": "latin"
+        },
+        {
+          "file": "instrument-sans-latin-ext-wght-italic.woff2",
+          "style": "italic",
+          "weight": "400 700",
+          "subset": "latin-ext"
+        }
+      ],
+      "measureAt": {
+        "wght": 400
+      },
+      "fallback": {
+        "family": "Instrument Sans Fallback",
+        "local": [
+          "Arial",
+          "Liberation Sans"
+        ],
+        "overrides": {
+          "size-adjust": "102.26%",
+          "ascent-override": "94.85%",
+          "descent-override": "24.45%",
+          "line-gap-override": "0.00%"
+        }
+      }
+    },
+    {
+      "family": "JetBrains Mono",
+      "license": "OFL-JetBrains-Mono.txt",
+      "faces": [
+        {
+          "file": "jetbrains-mono-latin-wght-normal.woff2",
+          "style": "normal",
+          "weight": "100 800",
+          "subset": "latin"
+        },
+        {
+          "file": "jetbrains-mono-latin-ext-wght-normal.woff2",
+          "style": "normal",
+          "weight": "100 800",
+          "subset": "latin-ext"
+        },
+        {
+          "file": "jetbrains-mono-latin-wght-italic.woff2",
+          "style": "italic",
+          "weight": "100 800",
+          "subset": "latin"
+        },
+        {
+          "file": "jetbrains-mono-latin-ext-wght-italic.woff2",
+          "style": "italic",
+          "weight": "100 800",
+          "subset": "latin-ext"
+        }
+      ],
+      "measureAt": {
+        "wght": 400
+      },
+      "fallback": {
+        "family": "JetBrains Mono Fallback",
+        "local": [
+          "Courier New",
+          "Liberation Mono"
+        ],
+        "overrides": {
+          "size-adjust": "99.98%",
+          "ascent-override": "102.02%",
+          "descent-override": "30.00%",
+          "line-gap-override": "0.00%"
+        }
+      }
+    }
+  ]
+}

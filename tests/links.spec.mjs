@@ -44,6 +44,24 @@ for (const pagePath of PAGES) {
   });
 }
 
+for (const pagePath of PAGES) {
+  test(`self-contained: no third-party requests, fonts load: ${pagePath}`, async ({ page, baseURL }) => {
+    const origin = new URL(baseURL).origin;
+    const external = [];
+    page.on("request", (req) => {
+      const url = new URL(req.url());
+      if (url.protocol.startsWith("http") && url.origin !== origin) external.push(req.url());
+    });
+    await page.goto(pagePath, { waitUntil: "networkidle" });
+    await page.evaluate(() => document.fonts.ready);
+    expect(external, external.join("\n")).toEqual([]);
+    const loaded = await page.evaluate(() =>
+      [...document.fonts].filter((f) => f.status === "loaded").map((f) => f.family.replace(/"/g, ""))
+    );
+    expect(loaded).toContain("Instrument Sans");
+  });
+}
+
 test("missing paths get the 404 page", async ({ page }) => {
   const res = await page.goto("/no-such-page");
   expect(res.status()).toBe(404);

@@ -140,9 +140,9 @@
 
   "font": {
     "$extensions": { "cssPrefix": "--font-" },
-    "serif": { "$type": "fontFamily", "$value": ["Fraunces", "Georgia", "Times New Roman", "serif"] },
-    "sans":  { "$type": "fontFamily", "$value": ["Instrument Sans", "Inter", "Helvetica Neue", "sans-serif"] },
-    "mono":  { "$type": "fontFamily", "$value": ["JetBrains Mono", "Fira Code", "Consolas", "monospace"] }
+    "serif": { "$type": "fontFamily", "$value": ["Fraunces", "Fraunces Fallback", "Georgia", "Times New Roman", "serif"] },
+    "sans":  { "$type": "fontFamily", "$value": ["Instrument Sans", "Instrument Sans Fallback", "Inter", "Helvetica Neue", "Arial", "sans-serif"] },
+    "mono":  { "$type": "fontFamily", "$value": ["JetBrains Mono", "JetBrains Mono Fallback", "Fira Code", "Consolas", "monospace"] }
   },
 
   "text": {

@@ -4,13 +4,13 @@
  * run `npm run render:social` after a visual change and commit the PNG.
  */
 import { chromium } from "@playwright/test";
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdtemp, readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(root, "showcase", "assets", "idcesares-social-design-system-og.png");
-const css = await readFile(path.join(root, "membrane.css"), "utf8");
 const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8"));
 
 const swatches = ["--color-terracotta", "--color-amber", "--color-burgundy", "--color-neutral-300", "--color-teal", "--color-charcoal"];
@@ -19,8 +19,7 @@ const html = `<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Instrument+Sans:wght@400;600&family=JetBrains+Mono:wght@500&display=block" rel="stylesheet">
-<style>${css}</style>
+<link rel="stylesheet" href="${pathToFileURL(path.join(root, "membrane.css")).href}">
 <style>
   html, body { width: 1200px; height: 630px; margin: 0; }
   body { display: grid; grid-template-rows: 1fr auto; padding: 72px 80px 64px; box-sizing: border-box;
@@ -48,9 +47,12 @@ const html = `<!DOCTYPE html>
 </body>
 </html>`;
 
-const browser = await chromium.launch();
+// A file:// page so membrane.css can load the self-hosted fonts beside it.
+const card = path.join(await mkdtemp(path.join(tmpdir(), "mp-social-")), "card.html");
+await writeFile(card, html);
+const browser = await chromium.launch({ args: ["--allow-file-access-from-files"] });
 const page = await browser.newPage({ viewport: { width: 1200, height: 630 } });
-await page.setContent(html, { waitUntil: "networkidle" });
+await page.goto(pathToFileURL(card).href, { waitUntil: "networkidle" });
 await page.evaluate(() => document.fonts.ready);
 await writeFile(OUT, await page.screenshot({ type: "png" }));
 await browser.close();

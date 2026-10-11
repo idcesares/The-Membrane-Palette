@@ -643,17 +643,17 @@
     "--font-serif": {
       "path": "font.serif",
       "type": "fontFamily",
-      "css": "'Fraunces', 'Georgia', 'Times New Roman', serif"
+      "css": "'Fraunces', 'Fraunces Fallback', 'Georgia', 'Times New Roman', serif"
     },
     "--font-sans": {
       "path": "font.sans",
       "type": "fontFamily",
-      "css": "'Instrument Sans', 'Inter', 'Helvetica Neue', sans-serif"
+      "css": "'Instrument Sans', 'Instrument Sans Fallback', 'Inter', 'Helvetica Neue', 'Arial', sans-serif"
     },
     "--font-mono": {
       "path": "font.mono",
       "type": "fontFamily",
-      "css": "'JetBrains Mono', 'Fira Code', 'Consolas', monospace"
+      "css": "'JetBrains Mono', 'JetBrains Mono Fallback', 'Fira Code', 'Consolas', monospace"
     },
     "--text-display": {
       "path": "text.display",

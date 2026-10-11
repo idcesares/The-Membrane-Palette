@@ -27,7 +27,7 @@ await writeFile(path.join(dist, "404.html"), notFoundHtml.replace(/(href|src)="\
 await cp(path.join(root, "showcase", "_headers"), path.join(dist, "_headers"));
 await cp(path.join(root, "showcase", "assets"), path.join(dist, "assets"), { recursive: true });
 
-for (const dir of ["tokens", "components", "examples"]) {
+for (const dir of ["tokens", "components", "examples", "fonts"]) {
   await cp(path.join(root, dir), path.join(dist, dir), { recursive: true });
 }
 for (const file of ["membrane.css", "llms.txt", "DESIGN-SYSTEM.md", "BRAND-VOICE.md", "CHANGELOG.md"]) {

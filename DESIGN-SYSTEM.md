@@ -247,7 +247,12 @@ This triad mirrors the brand identity triad: **Researcher (Fraunces) · Educator
 --font-mono:     'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
 ```
 
-**Loading strategy:** Fraunces and Instrument Sans via Google Fonts with `display=swap`. JetBrains Mono self-hosted or via Google Fonts.
+**Loading strategy:** all three families are self-hosted in `fonts/` (SIL OFL 1.1) as variable woff2 files, latin and latin-ext subsets, and declared in `fonts/fonts.css` (also inlined at the top of `membrane.css`). `unicode-range` means a page downloads only the subsets its text uses, and the italic files only when italics render.
+
+- `font-display: swap`: text is never invisible.
+- Each family has a **metric-matched fallback** (`"Fraunces Fallback"` = local Times New Roman, `"Instrument Sans Fallback"` = Arial, `"JetBrains Mono Fallback"` = Courier New) with `size-adjust` and ascent/descent overrides measured by `scripts/measure-fonts.py`. The fallback occupies the same space as the web font, so the swap barely moves the layout.
+- Pages preload the body face (`instrument-sans-latin-wght-normal.woff2`) and, when headings are above the fold, `fraunces-latin-opsz-normal.woff2`.
+- No third-party font requests: nothing about a visitor reaches Google.
 
 **Variable font axes (Fraunces):**
 - `wght`: 400–700 (use 400 for body, 600 for emphasis, 700 for display)

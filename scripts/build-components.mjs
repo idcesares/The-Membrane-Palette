@@ -327,14 +327,17 @@ await writeFile(rel("components", "membrane-components.css"), bundle);
 
 const tokensCss = await readFile(rel("tokens", "design-tokens.css"), "utf8");
 const baseCss = await readFile(rel("tokens", "base.css"), "utf8");
+// fonts.css sits next to its files; membrane.css sits one level up.
+const fontsCss = (await readFile(rel("fonts", "fonts.css"), "utf8")).replace(/url\("(?!fonts\/)/g, 'url("fonts/');
 const allInOne = `${banner(
   "The Membrane Palette — all-in-one stylesheet",
   `
-   tokens/design-tokens.css + tokens/base.css +
+   fonts/fonts.css + tokens/design-tokens.css + tokens/base.css +
    components/membrane-components.css, concatenated.
-   One <link> gives you the whole system.
+   One <link> gives you the whole system, fonts included.
 `
 )}
+${fontsCss}
 ${tokensCss}
 ${baseCss}
 ${bundle}`;
