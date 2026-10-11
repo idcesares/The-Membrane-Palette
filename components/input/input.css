@@ -90,3 +90,8 @@ select.mp-input:not([multiple]) {
     background-image: none;
   }
 }
+
+/* Touch screens: the compact size grows to the 44px touch target. */
+@media (pointer: coarse) {
+  .mp-input[data-size="sm"] { --mp-input-height: var(--size-touch-target); }
+}

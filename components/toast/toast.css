@@ -112,3 +112,8 @@
   width: auto;
   max-width: 24rem;
 }
+
+/* Touch screens: the close button grows to the 44px touch target. */
+@media (pointer: coarse) {
+  .mp-toast__close { width: var(--size-touch-target); height: var(--size-touch-target); }
+}

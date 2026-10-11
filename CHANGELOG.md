@@ -17,15 +17,15 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 
 ### Added — component library
 
-- **25 framework-free CSS components** in `components/<name>/`: Layout (container, stack, cluster, grid, section, surface, visually-hidden), Prose, Button, Link (+ skip link), Field (+ fieldset), Input (input/textarea/select), Choice (checkbox/radio), Switch, Card, Tag, Badge, Avatar, Quote, Code (+ kbd, code block, Prism/highlight.js mappings), Divider, Table, Stat, Alert, Progress (+ spinner), Tooltip, Dialog, Navbar, Breadcrumb, Tabs, Accordion.
+- **35 framework-free CSS components** in `components/<name>/`. The first 25: Layout (container, stack, cluster, grid, section, surface, visually-hidden), Prose, Button, Link (+ skip link), Field (+ fieldset), Input (input/textarea/select), Choice (checkbox/radio), Switch, Card, Tag, Badge, Avatar, Quote, Code (+ kbd, code block, Prism/highlight.js mappings), Divider, Table, Stat, Alert, Progress (+ spinner), Tooltip, Dialog, Navbar, Breadcrumb, Tabs, Accordion.
 - **One API convention:** `mp-` root class, BEM parts, options as `data-*` attributes with closed value sets, and **state from native attributes/ARIA** (`aria-invalid`, `aria-current`, `aria-selected`, `aria-pressed`, `aria-busy`, `disabled`, `[open]`) so visuals and assistive tech can't disagree. All components live in `@layer components`.
 - **Tier 3 component tokens:** each component exposes `--mp-<name>-*` knobs that default to semantic tokens; variants only reassign knobs.
 - `membrane.css` — one generated stylesheet with tokens + base + components. `components/membrane-components.css` — components only.
-- `components/membrane.js` — optional behaviors (~5 KB gzipped): WAI-ARIA tabs (click, arrows, Home/End, RTL), tooltip Escape-dismiss (WCAG 1.4.13), fallbacks for dialog invoker commands and `closedby="any"`.
+- `components/membrane.js` — behaviors (~5 KB gzipped): WAI-ARIA tabs (click, arrows, Home/End, RTL), menu keys and positioning, combobox filtering and keys, the toast API, tooltip Escape-dismiss (WCAG 1.4.13), and fallbacks for dialog invoker commands and `closedby="any"`. Tabs, Menu, Combobox and Toast need it; everything else works without it.
 - `scripts/build-components.mjs` (`npm run build:components`) — **lints** every component (no raw colors, no unknown/deprecated tokens, no Tier 1 primitives, knobs must be `--mp-*`) and every README example (no classes, attributes or values the CSS doesn't implement; unique ids; labelled icon-only buttons; `alt` on images), then writes the bundles, the manifest, `llms.txt`, each README's API section and the showcase gallery.
 - **Coverage lint:** every class and `data-*` value a component implements must be demonstrated in its README examples, so the showcase is guaranteed to render all of them (token scales and runtime state can opt out via an `exempt:` frontmatter line).
 - `npm run build:system` runs both builds in order.
-- **Ten more components** (35 in total): Combobox (WAI-ARIA list autocomplete, accent-insensitive filtering, live result count), Text (tone + reading measure, so pages need no inline styles), Chart (figure, legend, single/stacked bar list), Icon (Lucide-style line icons sized by `--size-icon-*`), Skeleton, Empty state, Toast (`MembranePalette.toast()` + `data-mp-toast`), Pagination, Steps (course progress) and Menu (native `popover`, anchor-positioned, WAI-ARIA menu keys).
+- **And ten more:** Combobox (WAI-ARIA list autocomplete, accent-insensitive filtering, live result count), Text (tone + reading measure, so pages need no inline styles), Chart (figure, legend, single/stacked bar list), Icon (Lucide-style line icons sized by `--size-icon-*`), Skeleton, Empty state, Toast (`MembranePalette.toast()` + `data-mp-toast`), Pagination, Steps (course progress) and Menu (native `popover`, anchor-positioned, WAI-ARIA menu keys).
 - **Page patterns:** `examples/article.html` and `examples/dashboard.html` next to the starter; all `examples/*.html` are linted by the component build like README examples.
 
 ### Added — data visualization
@@ -37,7 +37,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 
 - `tokens/membrane-tailwind.css` — a Tailwind v4 theme generated from the tokens. Tailwind namespaces that collide with the system's own names (`--radius-md`, `--text-sm`, `--shadow-sm`, `--ease-in`…) are reset so load order can never override the system; the system is exposed as `mp-` utilities and the default palette is removed, so off-brand classes don't compile. Verified against Tailwind 4.1.
 - `tokens/tokens.resolved.json` — every token's resolved light/dark value (hex for colors) for charting libraries, native apps and tools.
-- `npm test` — Playwright + axe-core: every page in both themes, phone-width overflow, and keyboard/focus/ARIA behavior of tabs, dialog, tooltip, menu, toast, skip link and forms. Runs as a second CI job. It found two real bugs on its first run (an unfocusable scrolling code block, two regions with the same name) — both fixed.
+- `npm test` — Playwright + axe-core: every page in both themes, phone-width overflow, and keyboard/focus/ARIA behavior of tabs, dialog, tooltip, menu, combobox, toast, skip link and forms. Runs as a second CI job. It found two real bugs on its first run (an unfocusable scrolling code block, two regions with the same name) — both fixed.
 - `CONTRIBUTING.md` — sources vs generated files, the build loop, adding a token or component.
 - `DESIGN-SYSTEM.md` §16 — interface writing rules, pt-BR localization (expansion, `Intl` formatting, `lang` on mixed-language phrases, RTL), and the page-pattern index.
 
@@ -107,7 +107,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - `tokens/base.css` now sets page defaults — `box-sizing: border-box`, `body` canvas/text/font/margin, text-size-adjust — all wrapped in `:where()` (zero specificity), so a page linking `membrane.css` needs no CSS of its own and any rule you write still wins. If you relied on the browser's 8px body margin with `base.css` loaded, set it back explicitly.
 - The digital register no longer lists colors that don't exist: "Slate" was never a token (Charcoal is the dark anchor) and Steel Blue now exists only as data color `--color-chart-5`.
 - CI runs both builds and fails if **any** generated file is stale (previously only the two token CSS files were checked).
-- `package.json` `exports` now maps `.` to `membrane.css` and adds `./components`, `./components.js`, `./manifest.json` (npm is still not a supported channel; no published consumers).
+- `package.json` `exports` now maps `.` to `membrane.css` and adds `./components`, `./components.js`, `./manifest.json`, `./tailwind`, `./tokens.resolved.json`, `./fonts.css` and `./types` (npm is still not a supported channel; no published consumers).
 - `package.json` name changed from `@idcesares/design-system` (a scope/name that was never published and didn't match the repository) to `@idcesares/the-membrane-palette`. `package-lock.json` regenerated to match.
 - Removed npm as a documented delivery path for now — the jsDelivr CDN link is the only supported integration path until npm distribution is set up.
 
@@ -124,7 +124,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - Spec §6.5 tag recipe (`--color-action-primary` text on `--color-terracotta-10`) was never contrast-checked; tags now use gate-checked register pairs.
 - The jsDelivr CDN URL in `README.md` dropped its `@2` version pin (no matching release tag exists).
 - Spec §15 referenced `--color-tint-*` tokens that never existed.
-- Spec §8.5 claimed reduced motion disabled transform animations; nothing did. The base.css reduced-motion safety net now skips library classes (which handle reduced motion themselves) instead of freezing their loaders.
+- The former spec §8.5 claimed reduced motion disabled transform animations; nothing did. The base.css reduced-motion safety net now skips library classes (which handle reduced motion themselves) instead of freezing their loaders.
 - The showcase's register map and neutral rail had `aria-label` on role-less `<div>`s, which screen readers ignore; they are now labelled groups.
 - The starter page's "Writing" nav link pointed at a section that didn't exist.
 

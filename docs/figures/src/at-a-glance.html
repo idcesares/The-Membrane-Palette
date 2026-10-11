@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>At a glance</title>
+<link rel="stylesheet" href="../../../membrane.css">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-4); }
+  .stats .mp-stat { padding: var(--space-5) var(--space-6); border: var(--border-default); border-radius: var(--radius-lg); background: var(--color-bg-secondary); }
+</style>
+</head>
+<body>
+<figure class="fig" style="margin:0">
+  <p class="fig__kicker">Release 2.0 → 2.1</p>
+  <h1 class="fig__title">What the revamp changed</h1>
+  <p class="fig__lede">v2.0 had a careful token pipeline and nothing built on top of it. v2.1 extends the same rule — one source, generated output, checks that fail the build — to components, docs, fonts and tests.</p>
+  <div class="stats">
+    <div class="mp-stat">
+      <p class="mp-stat__label">Components</p>
+      <p class="mp-stat__value">35</p>
+      <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">from 0 — prose recipes only</p>
+    </div>
+    <div class="mp-stat">
+      <p class="mp-stat__label">Contrast checks per build</p>
+      <p class="mp-stat__value">162</p>
+      <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">from 40 — 81 pairs × 2 modes</p>
+    </div>
+    <div class="mp-stat">
+      <p class="mp-stat__label">Browser tests</p>
+      <p class="mp-stat__value">223</p>
+      <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">from 0 — 3 browser engines</p>
+    </div>
+    <div class="mp-stat">
+      <p class="mp-stat__label">Visual baselines</p>
+      <p class="mp-stat__value">130</p>
+      <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">every example, both themes</p>
+    </div>
+    <div class="mp-stat">
+      <p class="mp-stat__label">Outputs for agents and tools</p>
+      <p class="mp-stat__value">5</p>
+      <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">manifest, llms.txt, types, +2</p>
+    </div>
+    <div class="mp-stat">
+      <p class="mp-stat__label">Third-party requests</p>
+      <p class="mp-stat__value">0</p>
+      <p class="mp-stat__delta" data-trend="down" data-sentiment="positive">fonts now self-hosted</p>
+    </div>
+  </div>
+</figure>
+</body>
+</html>

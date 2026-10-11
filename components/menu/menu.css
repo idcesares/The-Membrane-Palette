@@ -113,3 +113,8 @@
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
 }
+
+/* Touch screens: items grow to the 44px touch target. */
+@media (pointer: coarse) {
+  .mp-menu__item { min-height: var(--size-touch-target); }
+}

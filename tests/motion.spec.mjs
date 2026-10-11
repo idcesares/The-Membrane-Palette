@@ -100,6 +100,15 @@ test.describe("touch screens", () => {
     expect(await style(button, "background-color")).toBe(rest);
   });
 
+  test("compact inputs and pill tabs grow to the 44px touch target", async ({ page }) => {
+    await page.goto("/");
+    for (const selector of ['.mp-input[data-size="sm"]', '.mp-tabs[data-variant="pill"] .mp-tabs__tab']) {
+      const control = page.locator(`#components ${selector}`).first();
+      await control.scrollIntoViewIfNeeded();
+      expect((await control.boundingBox()).height, selector).toBeGreaterThanOrEqual(44);
+    }
+  });
+
   test("compact buttons grow to the 44px touch target", async ({ page }) => {
     await page.goto("/");
     const small = page.getByRole("button", { name: "Small", exact: true }).first();

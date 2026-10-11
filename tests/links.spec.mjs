@@ -78,9 +78,13 @@ test("relative links in Markdown point at files that exist", () => {
   ];
   const broken = [];
   for (const file of files) {
-    // Drop fenced code so example snippets aren't read as links.
-    const text = readFileSync(path.join(root, file), "utf8").replace(/```[\s\S]*?```/g, "");
-    for (const [, href] of text.matchAll(/\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
+    // Drop fenced and inline code so example snippets aren't read as links.
+    const text = readFileSync(path.join(root, file), "utf8").replace(/```[\s\S]*?```/g, "").replace(/`[^`\n]*`/g, "");
+    const refs = [
+      ...[...text.matchAll(/\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)].map((m) => m[1]),
+      ...[...text.matchAll(/\b(?:src|srcset)="([^"\s]+)/g)].map((m) => m[1]),
+    ];
+    for (const href of refs) {
       if (/^(?:[a-z]+:|#|\/\/)/i.test(href)) continue;
       const target = path.resolve(path.dirname(path.join(root, file)), decodeURIComponent(href.split("#")[0]));
       if (!existsSync(target)) broken.push(`${file}: ${href}`);

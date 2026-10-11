@@ -43,7 +43,7 @@ Uses the native `<progress>` element, so value, max and the indeterminate state 
 
 - Label every progress bar (`<label for>` or `aria-label`); include the number in the label when it matters.
 - A spinner is decorative — announce the wait with visible text in a `role="status"` element.
-- Under reduced motion (with `tokens/base.css`), animations stop; the indeterminate bar and spinner still render as static indicators.
+- Under reduced motion the indeterminate bar holds in the middle and the spinner becomes a full ring; both pulse in place (`--duration-loop`), so the wait never looks frozen.
 
 ## API
 

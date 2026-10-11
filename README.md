@@ -10,6 +10,10 @@
 
 <br>
 
+<p align="center">
+  <img src="brand/idcesares-logo-monogram-primary.svg" width="72" alt="dc monogram">
+</p>
+
 <h1 align="center">
   <strong>The Membrane Palette</strong>
 </h1>
@@ -33,6 +37,7 @@
   <a href="#components">Components</a> &nbsp;•&nbsp;
   <a href="#for-ai-agents">For AI Agents</a> &nbsp;•&nbsp;
   <a href="#token-architecture">Architecture</a> &nbsp;•&nbsp;
+  <a href="docs/AUDIT-2026-10.md">Assessment report</a> &nbsp;•&nbsp;
   <a href="#deployment">Deployment</a> &nbsp;•&nbsp;
   <a href="#contributing">Contributing</a>
 </p>
@@ -49,17 +54,12 @@ Every design system makes trade-offs. This one makes a specific bet: **the best 
 
 The **Membrane Palette** is organized around a central metaphor — the translation zone between registers:
 
-```
- HUMAN REGISTER          THE MEMBRANE           DIGITAL REGISTER
- (warmth, earth,    →    (where they      ←    (technology, depth,
-  hands, pedagogy)        translate)             precision, code)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/idcesares-figure-membrane-dark.png">
+  <img src="docs/figures/idcesares-figure-membrane-light.png" alt="Three columns. Human register: warm, pedagogical, tactile; Fraunces; terracotta, amber, burgundy. The membrane: the canvas; Instrument Sans; warm cream and warm gray. Digital register: precise, deep, code; JetBrains Mono; deep teal and charcoal. Below, a row of real components: a terracotta primary button, a human tag, a digital tag and a teal secondary button.">
+</picture>
 
-   Terracotta              Warm Cream              Deep Teal
-   Amber Gold              Warm Gray               Steel Blue*
-   Burgundy                                        Charcoal
-```
-
-\* Steel Blue exists only as a data color (`--color-chart-5`); it never appears in UI chrome. Earlier versions also listed a "Slate" that was never defined — the digital register's dark anchor is Charcoal.
+Steel Blue exists only as a data color (`--color-chart-5`); it never appears in UI chrome.
 
 When a design element relates to the human side — education, community, ethics — it gravitates toward warm tones. When it relates to the digital side — code, AI, systems — it gravitates toward cool tones. When it bridges both (which is most of the time), it uses the neutral membrane colors with accents from either register.
 
@@ -71,13 +71,13 @@ A **design system with a framework-free CSS component library**. Link one styles
 
 | File | Purpose |
 |------|---------|
-| [`membrane.css`](membrane.css) | **The one link.** Generated: tokens + base + all components. |
+| [`membrane.css`](membrane.css) | **The one link.** Generated: fonts + tokens + base + all components. |
 | [`components/`](components/) | **Component library.** One folder per component: `<name>.css` (source) + `README.md` (docs, examples, generated API). Bundled into `components/membrane-components.css`. |
 | [`components/manifest.json`](components/manifest.json) | **Machine-readable API.** Every component's classes, allowed `data-*` values, states, knobs, tokens and HTML examples. Generated. |
 | [`components/membrane.d.ts`](components/membrane.d.ts) | **TypeScript types.** Generated from the manifest: class names, each component's allowed options, public tokens and knobs. Types only, for React/Vue/Svelte/Astro. |
-| [`components/membrane.js`](components/membrane.js) | **Optional behaviors** (~5 KB gzipped): tabs, menu and combobox keyboard patterns, toasts, tooltip Escape-dismiss, dialog invoker fallback. |
+| [`components/membrane.js`](components/membrane.js) | **Behaviors** (~5 KB gzipped): needed by Tabs, Menu, Combobox and Toast; adds tooltip Escape-dismiss and dialog invoker fallbacks. |
 | [`tokens/membrane.tokens.json`](tokens/membrane.tokens.json) | **Single source of truth for values.** DTCG-flavored JSON. Edit this; never edit the CSS. |
-| [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Custom properties — 3 tiers, OKLCH colors, `light-dark()`, `@layer tokens`. |
+| [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Custom properties — Tier 1 primitives and Tier 2 semantic tokens (Tier 3 knobs live in the component CSS), OKLCH colors, `light-dark()`, `@layer tokens`. |
 | [`tokens/base.css`](tokens/base.css) | **Generated.** Page defaults (canvas, text, font, `box-sizing`, all zero-specificity), `::selection`, focus ring, reduced motion, `.type-*` composites. |
 | [`tokens/membrane-tailwind.css`](tokens/membrane-tailwind.css) | **Generated.** Tailwind v4 theme: only `mp-` utilities mapped to the tokens; default palette removed. |
 | [`tokens/tokens.resolved.json`](tokens/tokens.resolved.json) | **Generated.** Every token's light and dark value as plain hex, for charting libraries, native apps and tools. |
@@ -86,7 +86,7 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
-| [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; Chromium visual baselines of every example; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
+| [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; Chromium visual baselines of every component gallery example; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
 | [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
 <br>
@@ -97,10 +97,12 @@ A **design system with a framework-free CSS component library**. Link one styles
 |---|---|
 | Layout | [Layout](components/layout/README.md) — container, stack, cluster, grid, section, surface · [Text](components/text/README.md) · [Prose](components/prose/README.md) |
 | Actions | [Button](components/button/README.md) · [Link](components/link/README.md) |
-| Forms | [Field](components/field/README.md) · [Input](components/input/README.md) · [Combobox](components/combobox/README.md) · [Choice](components/choice/README.md) · [Switch](components/switch/README.md) |
-| Content | [Card](components/card/README.md) · [Tag](components/tag/README.md) · [Badge](components/badge/README.md) · [Avatar](components/avatar/README.md) · [Quote](components/quote/README.md) · [Code](components/code/README.md) · [Divider](components/divider/README.md) · [Table](components/table/README.md) · [Stat](components/stat/README.md) · [Chart](components/chart/README.md) · [Icon](components/icon/README.md) |
-| Feedback | [Alert](components/alert/README.md) · [Progress](components/progress/README.md) · [Skeleton](components/skeleton/README.md) · [Empty state](components/empty-state/README.md) · [Toast](components/toast/README.md) · [Tooltip](components/tooltip/README.md) · [Dialog](components/dialog/README.md) |
-| Navigation | [Navbar](components/navbar/README.md) · [Breadcrumb](components/breadcrumb/README.md) · [Tabs](components/tabs/README.md) · [Accordion](components/accordion/README.md) · [Pagination](components/pagination/README.md) · [Steps](components/steps/README.md) · [Menu](components/menu/README.md) |
+| Forms | [Field](components/field/README.md) · [Input](components/input/README.md) · [Combobox](components/combobox/README.md)<sup>β</sup> · [Choice](components/choice/README.md) · [Switch](components/switch/README.md) |
+| Content | [Card](components/card/README.md) · [Tag](components/tag/README.md) · [Badge](components/badge/README.md) · [Avatar](components/avatar/README.md) · [Quote](components/quote/README.md) · [Code](components/code/README.md) · [Divider](components/divider/README.md) · [Table](components/table/README.md) · [Stat](components/stat/README.md) · [Chart](components/chart/README.md)<sup>β</sup> · [Icon](components/icon/README.md) |
+| Feedback | [Alert](components/alert/README.md) · [Progress](components/progress/README.md) · [Skeleton](components/skeleton/README.md) · [Empty state](components/empty-state/README.md) · [Toast](components/toast/README.md)<sup>β</sup> · [Tooltip](components/tooltip/README.md) · [Dialog](components/dialog/README.md) |
+| Navigation | [Navbar](components/navbar/README.md) · [Breadcrumb](components/breadcrumb/README.md) · [Tabs](components/tabs/README.md) · [Accordion](components/accordion/README.md) · [Pagination](components/pagination/README.md) · [Steps](components/steps/README.md) · [Menu](components/menu/README.md)<sup>β</sup> |
+
+<sup>β</sup> Beta: newer components whose API may still grow. Removals and renames still follow the deprecation policy (status is in each README's frontmatter and in the manifest).
 
 **The API in one paragraph.** A class names the component (`mp-button`), a BEM element names a part (`mp-card__title`), a `data-*` attribute picks an option from a closed set (`data-variant="secondary"`, `data-size="sm"`, `data-tone="human"`), and **native attributes and ARIA drive state** (`disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-busy="true"`) — so what you see and what a screen reader hears can't disagree.
 
@@ -170,7 +172,7 @@ Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/ba
 @import "./membrane-tailwind.css";   /* from tokens/ */
 ```
 
-Load `tokens/design-tokens.css` on the page too (the utilities reference its custom properties). Tailwind's default palette is removed, so only on-brand utilities exist:
+Load `tokens/design-tokens.css` and `fonts/fonts.css` on the page too (the utilities reference the token custom properties, and `font-mp-*` needs the font faces). Tailwind's default palette is removed, so only on-brand utilities exist:
 
 ```html
 <button class="bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent rounded-full px-6 py-2">Let's co-create</button>
@@ -186,7 +188,7 @@ Load `tokens/design-tokens.css` on the page too (the utilities reference its cus
 The library is CSS plus attributes, so it works unchanged in React, Vue, Svelte or Astro. Write the same classes and `data-*` options. For type safety, import the generated types:
 
 ```tsx
-import type { MpAttrs, MpStyle } from "…/components/membrane.d.ts";
+import type { MpAttrs } from "…/components/membrane.d.ts";
 
 const save: MpAttrs<"button"> = { "data-variant": "secondary", "data-size": "sm" };
 <button className="mp-button" {...save}>Save draft</button>
@@ -197,7 +199,7 @@ Boolean options (`data-icon-only`, `data-full-width`…) are presence attributes
 
 ### Option C — Copy the files
 
-Download `membrane.css` (and `components/membrane.js` if you need it) into your project. Regenerate with `npm run build:system` when you fork and modify the sources.
+Copy `membrane.css` **and the `fonts/` folder next to it**: the stylesheet loads its fonts from `fonts/*.woff2`, and the folder's `OFL-*.txt` files are the font licenses, which must travel with the fonts. Add `components/membrane.js` if you use Tabs, Menu, Combobox or Toast. Regenerate with `npm run build:system` when you fork and modify the sources.
 
 npm distribution isn't set up for now — the CDN link above is the supported integration path until that changes.
 
@@ -236,13 +238,13 @@ npm run build:system      # both, in order
 The showcase site is the only thing this repo deploys right now. Token distribution is the CDN link from [Quick Start](#quick-start) — there's no publish step to run.
 
 ```bash
-npm run build     # regenerates everything, assembles dist/ (showcase, 404, _headers, tokens/, components/, membrane.css, llms.txt, llms-full.txt, docs)
-npm run deploy    # npx wrangler deploy — pushes dist/ per wrangler.toml
+npm run build     # regenerates everything, assembles dist/ (showcase, 404, _headers, assets/, tokens/, components/, examples/, fonts/, brand/, membrane.css, llms.txt, llms-full.txt, robots.txt, sitemap.xml and the Markdown docs)
+npm run deploy    # builds, then `wrangler pages deploy` uploads dist/ to Cloudflare Pages
 ```
 
 `dist/` is gitignored — it's rebuilt fresh on every deploy and every CI run, never committed. Live at [membrane-palette.dcesares.dev](https://membrane-palette.dcesares.dev/). Cutting a version (tag, pinned CDN URLs, deploy, smoke test) follows [`docs/RELEASING.md`](docs/RELEASING.md).
 
-A token rename or removal is still a breaking change regardless of distribution channel: bump the version per [`CHANGELOG.md`](CHANGELOG.md)'s semantic conventions and add a migration note (see the [2.0.0 migration guide](CHANGELOG.md#migration-guide) for the shape that should take).
+A token rename or removal is still a breaking change regardless of distribution channel: bump the version per [`CHANGELOG.md`](CHANGELOG.md)'s semantic conventions and add a migration note (see the [2.0.0 migration guide](CHANGELOG.md#migration-guide-1) for the shape that should take).
 
 <br>
 
@@ -250,17 +252,19 @@ A token rename or removal is still a breaking change regardless of distribution 
 
 A **three-tier architecture**. Values live in `tokens/membrane.tokens.json`; components live in `components/`; everything else is generated.
 
-```
-tokens/membrane.tokens.json        components/<name>/<name>.css + README.md
-        │                                   │
-        └─ npm run build:tokens             └─ npm run build:components
-           (OKLCH + contrast gate)             (token lint + docs lint)
-                │                                   │
-                ├─ tokens/design-tokens.css         ├─ components/membrane-components.css
-                └─ tokens/base.css                  ├─ components/manifest.json
-                                                    ├─ llms.txt, README API sections
-                                                    └─ membrane.css  (all three layers)
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/idcesares-figure-architecture-dark.png">
+  <img src="docs/figures/idcesares-figure-architecture-light.png" alt="Tier 1 primitives (33 immutable values) feed Tier 2 semantic tokens (181 roles and scales, themed with light-dark and guarded by 162 contrast checks), which feed Tier 3 component knobs (56), which style 35 components. One value is traced from #B35530 or #D4724F through --color-terracotta, --color-action-primary and --mp-button-bg to a rendered button.">
+</picture>
+
+How a change travels from source to CDN, and which checks can stop it:
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/figures/idcesares-figure-pipeline-dark.png">
+  <img src="docs/figures/idcesares-figure-pipeline-light.png" alt="Six stages in two lanes: edit sources; build:tokens gate (OKLCH round-trip, 162 contrast checks); build:components gate (token, docs and coverage lints); generated and committed outputs; npm test gate (html-validate, TypeScript, axe, links, keyboard and motion in three engines, 130 visual baselines); CI and ship gate.">
+</picture>
+
+The full assessment behind v2.1, with findings and figures, is in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-10.md).
 
 Cascade layers are declared once, in order: `@layer tokens, base, components;` — unlayered consumer CSS beats all three.
 
@@ -370,7 +374,7 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 - Focus states use a visible `2px solid` ring from `--focus-ring`, with a dedicated `--color-focus` semantic token that remaps to a higher-contrast value in dark mode. Form inputs keep the ring — the border color change alone is not the indicator.
 - `prefers-reduced-motion: reduce` removes movement without freezing state: transitions become instant and loaders pulse in place. Hover effects only apply on devices that can hover.
 - Interactive targets respect the 44px minimum via `--size-touch-target`.
-- `prefers-contrast: more` boosts text-secondary and text-tertiary to primary contrast, strengthens input borders and thickens the focus ring.
+- `prefers-contrast: more` raises secondary text to primary, darkens tertiary text, strengthens borders and input borders, and thickens the focus ring.
 - Print styles: light scheme, site chrome hidden, and external link targets printed in prose.
 - `forced-colors: active` strips decorative glows, and custom-drawn controls (checkbox, radio, switch, select) fall back to native rendering so Windows High Contrast mode keeps their state visible.
 - Native elements first: `<dialog>`, `<details>`, `<progress>` provide focus management and keyboard support without script.
@@ -430,9 +434,10 @@ The-Membrane-Palette/
 │   ├── build-cloudflare-pages.mjs ← Assembles dist/ for Pages deploy
 │   ├── render-social-image.mjs ← Renders the og:image and touch icon (manual)
 │   ├── measure-fonts.py       ← Measures fallback-font overrides (manual)
-│   └── render-brand-marks.py  ← Outlines the brand marks (manual)
+│   ├── render-brand-marks.py  ← Outlines the brand marks (manual)
+│   └── render-doc-figures.mjs ← Renders the report figures (manual)
 ├── showcase/                  ← Living reference (index.html; gallery, tables generated), 404.html, _headers, assets/
-├── docs/AUDIT-2026-10.md      ← The v2.1 assessment: findings and what changed
+├── docs/AUDIT-2026-10.md      ← The v2.1 assessment report (figures in docs/figures/, built from the system)
 ├── docs/RELEASING.md          ← Release checklist
 ├── .github/workflows/ci.yml   ← Gate + lint + freshness check on every push/PR
 ├── DESIGN-SYSTEM.md           ← Specification

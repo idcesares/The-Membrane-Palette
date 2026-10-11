@@ -7,6 +7,9 @@ The system has two kinds of files: **sources** you edit, and **generated** files
 | `tokens/membrane.tokens.json` | `tokens/design-tokens.css`, `tokens/base.css`, `tokens/membrane-tailwind.css`, `tokens/tokens.resolved.json` |
 | `components/<name>/<name>.css`, `components/<name>/README.md` (outside the `GENERATED:API` markers), `components/membrane.js` | `components/membrane-components.css`, `components/manifest.json`, `membrane.css`, `llms.txt` |
 | `showcase/index.html`, `DESIGN-SYSTEM.md` (outside `GENERATED:*` markers), `examples/*.html`, `tests/*.spec.mjs`, `scripts/*` | everything between `<!-- GENERATED:… -->` markers; `dist/` |
+| `fonts/fonts.json` (and the woff2 files it lists) | `fonts/fonts.css` |
+| `scripts/render-brand-marks.py`, `scripts/render-social-image.mjs`, `docs/figures/src/*.html` (run the script, commit its output) | `brand/*.svg`, `showcase/assets/*.png`, `docs/figures/*.png`, `components/membrane.d.ts` |
+| — | `tests/visual.spec.mjs-snapshots/`: refresh with `--update-snapshots` after an intended visual change, never by hand |
 
 ## Setup
 

@@ -65,8 +65,8 @@ This is not arbitrary. When a design element relates to the human side of the br
 
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
-| `--color-terracotta` | Terracotta | `#B35530` | `15, 58%, 44%` | **Primary brand color.** The human register made visible. Earth, hands, making, Brazilian clay. Used for primary CTAs, key highlights, the signature accent. *Adjusted for WCAG AA compliance.* |
-| `--color-teal` | Deep Teal | `#1B756D` | `174, 63%, 28%` | **Secondary brand color.** The digital register. Technology, depth, Rio's ocean. Used for secondary actions, links, code accents, digital-context elements. |
+| `--color-terracotta` | Terracotta | `#B35530` | `17, 58%, 45%` | **Primary brand color.** The human register made visible. Earth, hands, making, Brazilian clay. Used for primary CTAs, key highlights, the signature accent. *Adjusted for WCAG AA compliance.* |
+| `--color-teal` | Deep Teal | `#1B756D` | `175, 62%, 28%` | **Secondary brand color.** The digital register. Technology, depth, Rio's ocean. Used for secondary actions, links, code accents, digital-context elements. |
 
 #### Derived Tints
 
@@ -83,30 +83,32 @@ Alpha washes of the palette, computed with `color-mix()` and mode-aware (dark mo
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
 | `--color-cream` | Warm Cream | `#FAF6EE` | `40, 55%, 96%` | **Light canvas.** The membrane surface. Never pure white — warmth is baked into the ground. Primary background for light mode. |
-| `--color-charcoal` | Rich Charcoal | `#1A1B1F` | `228, 10%, 11%` | **Dark canvas.** Depth and sophistication. Primary background for dark mode. Slightly cool to create contrast with warm accents. |
+| `--color-charcoal` | Rich Charcoal | `#1A1B1F` | `228, 9%, 11%` | **Dark canvas.** Depth and sophistication. Primary background for dark mode. Slightly cool to create contrast with warm accents. |
 
 #### Accent Colors
 
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
-| `--color-amber` | Amber Gold | `#D49A3A` | `37, 62%, 53%` | **Builder energy.** Making, creation, sunlight, optimism. Used sparingly for highlights, badges, "new" indicators, callout borders. |
+| `--color-amber` | Amber Gold | `#D49A3A` | `37, 64%, 53%` | **Builder energy.** Making, creation, sunlight, optimism. Used sparingly for highlights, badges, "new" indicators, callout borders. |
 | `--color-burgundy` | Burgundy | `#7A3345` | `345, 41%, 34%` | **Heritage depth.** The D'Césares lineage, intellectual depth, gravitas. Used for deep emphasis, footnotes, premium contexts. |
-| `--color-sage` | Sage Green | `#5A8A6E` | `147, 21%, 45%` | **Growth.** Education, nature, Rio's vegetation, development. Used for success states, growth metrics, educational contexts. |
+| `--color-sage` | Sage Green | `#5A8A6E` | `145, 21%, 45%` | **Growth.** Education, nature, Rio's vegetation, development. Used for success states, growth metrics, educational contexts. |
 
 #### Neutral Scale
 
 | Token | Hex | Usage |
 |-------|-----|-------|
 | `--color-neutral-50` | `#FAF6EE` | = Warm Cream (lightest) |
-| `--color-neutral-100` | `#F0EBE1` | Subtle backgrounds, cards on cream |
-| `--color-neutral-200` | `#E2DCD2` | Borders, dividers (light mode) |
-| `--color-neutral-300` | `#C8C1B5` | Disabled states, placeholder text |
-| `--color-neutral-400` | `#A39D93` | Secondary text (light mode) |
-| `--color-neutral-500` | `#7D776E` | Tertiary text, captions |
-| `--color-neutral-600` | `#5C564E` | Body text (light mode) |
-| `--color-neutral-700` | `#3D3832` | Headings (light mode), body text (dark mode) |
-| `--color-neutral-800` | `#2A2622` | Deep emphasis (light mode) |
+| `--color-neutral-100` | `#F0EBE1` | Cards and alternating sections (`--color-bg-secondary`); primary text in dark mode |
+| `--color-neutral-200` | `#E2DCD2` | Default borders and nested fills in light mode (`--color-border-default`, `--color-bg-tertiary`) |
+| `--color-neutral-300` | `#C8C1B5` | Emphasized borders in light mode (`--color-border-emphasis`) |
+| `--color-neutral-400` | `#A39D93` | Secondary text in **dark** mode (too light for text on cream) |
+| `--color-neutral-500` | `#7D776E` | Form-control boundaries in both modes (`--color-border-input`, ≥3:1); not for text, which uses the darker `#6E685F` |
+| `--color-neutral-600` | `#5C564E` | Secondary text in light mode; emphasized borders in dark mode |
+| `--color-neutral-700` | `#3D3832` | Tertiary text under `prefers-contrast: more` (light) |
+| `--color-neutral-800` | `#2A2622` | Primary text and headings in light mode (`--color-text-primary`) |
 | `--color-neutral-900` | `#1A1B1F` | = Rich Charcoal (darkest) |
+
+> Components never use these directly: they consume the semantic roles in parentheses (§2.3).
 
 > **Note:** The neutral scale is intentionally warm. Every gray carries a subtle amber undertone (shifting toward `hsl(35, 8%, x%)`) rather than being purely achromatic. This ensures that even structural elements (borders, backgrounds, disabled states) contribute to the warmth principle.
 
@@ -217,13 +219,13 @@ Code blocks are always dark, even in light mode. These tokens control syntax hig
 | `--code-bg` | `#1E1F26` | Code block background |
 | `--code-text` | `#E2DCD2` | Default code text |
 | `--code-border` | `rgba(255, 255, 255, 0.06)` | Subtle border |
-
-Every syntax color is gate-checked at ≥4.5:1 on `--code-bg` (§13.1).
 | `--code-keyword` | `#E07050` | Language keywords |
 | `--code-string` | `#7BC494` | String literals |
 | `--code-function` | `#E8B44A` | Function names |
 | `--code-comment` | `#958F84` | Comments (v2.1: was `#7D776E`, 3.7:1 — now 5.2:1) |
 | `--code-number` | `#5AC8C0` | Numeric values |
+
+Every syntax color is gate-checked at ≥4.5:1 on `--code-bg` (§13.1).
 
 ---
 
@@ -242,26 +244,26 @@ This triad mirrors the brand identity triad: **Researcher (Fraunces) · Educator
 ### 3.2 Font Stack
 
 ```css
---font-serif:    'Fraunces', 'Georgia', 'Times New Roman', serif;
---font-sans:     'Instrument Sans', 'Inter', 'Helvetica Neue', sans-serif;
---font-mono:     'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+--font-serif:    'Fraunces', 'Fraunces Fallback', 'Georgia', 'Times New Roman', serif;
+--font-sans:     'Instrument Sans', 'Instrument Sans Fallback', 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+--font-mono:     'JetBrains Mono', 'JetBrains Mono Fallback', 'Fira Code', 'Consolas', monospace;
 ```
 
 **Loading strategy:** all three families are self-hosted in `fonts/` (SIL OFL 1.1) as variable woff2 files, latin and latin-ext subsets, and declared in `fonts/fonts.css` (also inlined at the top of `membrane.css`). `unicode-range` means a page downloads only the subsets its text uses, and the italic files only when italics render.
 
 - `font-display: swap`: text is never invisible.
 - Each family has a **metric-matched fallback** (`"Fraunces Fallback"` = local Times New Roman, `"Instrument Sans Fallback"` = Arial, `"JetBrains Mono Fallback"` = Courier New) with `size-adjust` and ascent/descent overrides measured by `scripts/measure-fonts.py`. The fallback occupies the same space as the web font, so the swap barely moves the layout.
-- Pages preload the body face (`instrument-sans-latin-wght-normal.woff2`) and, when headings are above the fold, `fraunces-latin-opsz-normal.woff2`.
+- Recommended: preload the body face (`instrument-sans-latin-wght-normal.woff2`) and, when headings are above the fold, `fraunces-latin-opsz-normal.woff2` (the showcase does both).
 - No third-party font requests: nothing about a visitor reaches Google.
 
-**Variable font axes (Fraunces):**
-- `wght`: 400–700 (use 400 for body, 600 for emphasis, 700 for display)
-- `opsz`: 9–144 (optical sizing — let the browser handle this automatically)
-- `WONK`: 0–1 (set to 1 for display headings to activate the softer, more characterful forms)
+**Variable font axes (Fraunces, as shipped in `fonts/`):**
+- `wght`: 100–900 in the file; the system uses 400 (body), 600 (emphasis) and 700 (display).
+- `opsz`: 9–144 (optical sizing — let the browser handle this automatically).
+- `WONK` and `SOFT` are **not** in the web files (they would roughly double the download). Only the outlined brand marks use `WONK` 1 (§10.3); `font-variation-settings: "WONK" 1` in CSS does nothing.
 
 ### 3.3 Type Scale
 
-The scale uses a **variable ratio** — approximately 1.20 between small steps, widening to approximately 1.375 at display sizes. All sizes use `clamp()` for fluid responsive behavior.
+The scale uses a **variable ratio** — approximately 1.20 between small steps, widening to approximately 1.375 at display sizes. Display through body sizes use `clamp()` for fluid responsive behavior; `small` and `xs` are fixed so metadata stays legible at every width.
 
 | Token | Min (mobile) | Preferred | Max (desktop) | Weight | Font | Usage |
 |-------|-------------|-----------|---------------|--------|------|-------|
@@ -423,7 +425,7 @@ Custom properties can't be used inside `@media`, so breakpoints are emitted as c
 | `--radius-xl` | `16px` | Hero cards, prominent containers |
 | `--radius-full` | `999px` | Pills, tags, avatar containers, fully-rounded buttons |
 
-> **Note:** The current website uses `999rem` for fully-rounded buttons. This carries forward. Buttons are pills — rounded, approachable, inviting. Cards are softly rounded but not pill-shaped.
+> **Note:** Fully rounded buttons use `--radius-full` (`999px`), carried forward from the original website. Buttons are pills — rounded, approachable, inviting. Cards are softly rounded but not pill-shaped.
 
 ### 5.2 Shadows
 
@@ -455,7 +457,7 @@ Shadows are warm-tinted (not pure black) to maintain the warmth principle.
 
 ```html
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css">
-<!-- Only needed for Tabs behavior, tooltip Escape-dismiss and dialog fallbacks: -->
+<!-- Needed for Tabs, Menu, Combobox and Toast; adds tooltip Escape and dialog fallbacks: -->
 <script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js" defer></script>
 ```
 
@@ -537,7 +539,7 @@ Inspired by Anthropic's hand-crafted doodle aesthetic, adapted for Isaac's brand
 - **Style:** Outlined, 1.5px stroke, rounded caps and joins.
 - **Size grid:** 20px (inline), 24px (standard), 32px (feature), 48px (hero).
 - **Color:** Inherits text color by default. Accent icons use terracotta or teal.
-- **Source:** Use a consistent icon set (recommended: Phosphor Icons or Lucide — both have the right balance of warmth and precision).
+- **Source:** Use a consistent icon set Lucide — 24×24 stroke icons. `.mp-icon` draws with `stroke: currentColor` and no fill, so fill-based sets (Phosphor's default weights, Material) render blank; see the Icon README.
 
 ### 7.4 Data Visualization
 
@@ -710,7 +712,7 @@ The apostrophe in D'Césares is a critical brand element. It must always be rend
 | `Isaac D'Césares` | Full formal (presentations, articles, institutional) |
 | `D'Césares` | Compact formal (navigation, footer, watermark) |
 | `idcesares` | Digital/developer contexts (GitHub, terminal, social handles) |
-| `dc` | Monogram / favicon (Fraunces, 700, terracotta on cream or cream on charcoal) |
+| `dc` | Monogram / favicon (Fraunces 700: terracotta `d` + teal `c` on cream, or cream on charcoal; see §10.3) |
 
 ### 10.2 Monogram
 
@@ -749,7 +751,7 @@ Minimum clear space around any brand mark = the height of the lowercase `d` in t
 | Dark default | `--color-cream` | `--color-charcoal` |
 | Accent | `--color-cream` | `--color-terracotta` |
 | Digital | `--color-cream` | `--color-teal` |
-| Monochrome | `--color-neutral-700` | White |
+| Monochrome | `--color-neutral-700` | Light paper or single-color print (on screen, cream — never pure white) |
 
 ---
 
@@ -759,7 +761,7 @@ Minimum clear space around any brand mark = the height of the lowercase `d` in t
 
 - **Primary canvas:** Light mode (warm cream) as default, with dark mode support.
 - **Hero section:** Large Fraunces display heading, Instrument Sans body, profile photo with warm filter, terracotta primary CTA.
-- **Section backgrounds:** Alternate between cream and slightly darker cream (`--neutral-100`) to create rhythm without borders.
+- **Section backgrounds:** Alternate between `--color-bg-primary` and `--color-bg-secondary` (`.mp-section[data-tone="secondary"]`) to create rhythm without borders.
 - **Use `--gradient-warmth`** as a subtle ambient glow on key sections.
 - **Code samples** always in dark code blocks, even on light pages.
 - **Blog posts:** `--container-sm` width (640px max), Fraunces headings, Instrument Sans body, generous line height.
@@ -816,9 +818,10 @@ TYPOGRAPHY CONSTRAINTS:
 - Maximum body text width: 65 characters per line
 
 UI CONSTRAINTS (when generating HTML/CSS):
-- Load membrane.css; build from mp- components and layout primitives before writing CSS
+- Load membrane.css (fonts included: never add a Google Fonts link); build from mp- components and layout primitives before writing CSS
+- Load components/membrane.js when using Tabs, Menu, Combobox or Toast
 - Options are data-* attributes; use only values listed in components/manifest.json
-- States come from HTML/ARIA (disabled, aria-invalid, aria-current, aria-selected, aria-busy), never classes
+- States come from HTML/ARIA (disabled, aria-invalid, aria-current, aria-selected, aria-pressed, aria-busy, [open]), never classes
 - Custom CSS uses semantic tokens only (--color-text-*, --color-bg-*, --color-action-*, --space-*, --text-*)
 - At most one primary (terracotta) button per view
 
@@ -877,7 +880,7 @@ Primitives are immutable in both modes. **Never redefine a primitive inside a th
 ### 12.2 Dark Mode Rules
 
 1. **Accent colors lighten in dark mode** via each semantic token's `light-dark()` pair, to maintain WCAG AA contrast ratios (verified by the build's contrast gate — see §13.1).
-2. **Shadows deepen** in dark mode — each `--shadow-*` token carries its own darker, higher-opacity value via `light-dark()` (see §5.2). Cards do **not** swap to a border-only treatment in dark mode: `--border-default` is already present on cards in both modes (§6.2), so no separate dark-only mechanism is needed. *(v1.1 described a border-instead-of-shadow swap here; it was never implemented and was redundant with the always-on card border, so the claim has been retired rather than built.)*
+2. **Shadows deepen** in dark mode — each `--shadow-*` token carries its own darker, higher-opacity value via `light-dark()` (see §5.2). Cards do **not** swap to a border-only treatment in dark mode: `--border-default` is already present on cards in both modes (Card README), so no separate dark-only mechanism is needed. *(v1.1 described a border-instead-of-shadow swap here; it was never implemented and was redundant with the always-on card border, so the claim has been retired rather than built.)*
 3. **The membrane gradient remains the same direction** (terracotta → teal) but both endpoints lighten via `light-dark()` on `--gradient-membrane`.
 4. **Ambient glow stop-colors shift brighter** so background texture remains perceptible on dark surfaces.
 5. **Manual toggles support `[data-theme="dark"]` and the legacy `.theme-dark` class.** Both simply set `color-scheme: dark`; every semantic token's `light-dark()` pair does the rest.
@@ -992,7 +995,7 @@ Every pair below is verified by the build in both modes; a translucent backgroun
 | `--focus-ring` | `var(--border-width-medium) solid var(--color-focus)` |
 | `--focus-ring-offset` | `2px` |
 
-`--color-focus` is a dedicated semantic token, distinct from `--color-action-secondary`, so the ring's contrast can be tuned independently of the teal action color — its dark-mode value maps to `--color-teal-light` specifically because raw `--color-teal` measured 3.1:1 on charcoal (below the 3:1 WCAG 1.4.11 minimum with no margin). See §13.1 for the verified ratio.
+`--color-focus` is a dedicated semantic token, distinct from `--color-action-secondary`, so the ring's contrast can be tuned independently of the teal action color — its dark-mode value maps to `--color-teal-light` specifically because raw `--color-teal` measured 3.1:1 on charcoal: technically at the 3:1 WCAG 1.4.11 minimum, with no margin for rendering differences. See §13.1 for the verified ratio.
 
 Focus states use the following properties:
 
@@ -1008,7 +1011,7 @@ Never remove focus outlines. They are a feature, not a flaw.
 
 Target size: **44×44px** (`--size-touch-target`, WCAG 2.5.5 AAA) for buttons, inputs, tabs and nav links; never below **24×24px** (WCAG 2.5.8 AA) for anything interactive.
 
-Control heights come from `--size-control-sm` (36px), `--size-control-md` (44px) and `--size-control-lg` (52px). The compact size exists for dense, pointer-driven UI; components grow it back to 44px under `@media (pointer: coarse)`.
+Control heights come from `--size-control-sm` (36px), `--size-control-md` (44px) and `--size-control-lg` (52px). The compact size exists for dense, pointer-driven UI. Under `@media (pointer: coarse)` every compact control grows back to the 44px `--size-touch-target`: small buttons and inputs, pill tabs, menu items, combobox options and the toast close button (tested in `tests/motion.spec.mjs`).
 
 ### 13.4 Component accessibility
 
@@ -1016,7 +1019,7 @@ Control heights come from `--size-control-sm` (36px), `--size-control-md` (44px)
 - **Focus** is a 2px `--focus-ring` with a 2px offset on every interactive part. Components that live inside scroll containers (tabs, accordion summaries) draw it inset so it isn't clipped.
 - **Forced colors:** custom-drawn controls (checkbox, radio, switch, select chevron) hand rendering back to the platform under `forced-colors: active`; buttons keep a transparent border that High Contrast mode paints.
 - **Native first:** dialogs use `<dialog>` + `showModal()`, menus use `popover`, accordions use `<details>`, progress uses `<progress>` — focus trapping, keyboard handling and announcements come from the browser.
-- **Tested, not asserted:** `npm test` runs axe-core on the showcase and every pattern page in both themes, checks phone-width overflow, and drives the keyboard patterns (tabs, dialog, tooltip, menu, toast, skip link) in a real browser on every CI run.
+- **Tested, not asserted:** `npm test` runs axe-core on the showcase and every pattern page in both themes, checks phone-width overflow, and drives the keyboard patterns (tabs, dialog, tooltip, menu, combobox, toast, skip link) in Chromium, Firefox and WebKit on every CI run, and compares every gallery example with a visual baseline.
 
 ---
 
@@ -1027,13 +1030,14 @@ Consistent naming across all brand assets:
 ```
 Pattern:  idcesares-{type}-{descriptor}-{variant}.{ext}
 Examples:
-  idcesares-logo-monogram-cream.svg
+  idcesares-logo-monogram-primary.svg   (brand/, §10.3)
+  idcesares-icon-monogram-dark.svg
   idcesares-photo-profile-2026.jpg
   idcesares-card-linkedin-dark.png
   idcesares-slide-title-charcoal.pptx
 ```
 
-**Color mode suffixes:** `-light`, `-dark`, `-cream`, `-charcoal`
+**Color and mode suffixes:** `-primary` (default colors), `-reversed` (for dark backgrounds), `-light`, `-dark`, `-cream`, `-charcoal`
 **Size suffixes:** `-sm`, `-md`, `-lg`, `-xl`, `-2x`, `-3x`
 **Platform suffixes:** `-linkedin`, `-instagram`, `-github`, `-web`
 
@@ -1041,13 +1045,15 @@ Examples:
 
 ## 15. Design Token Summary
 
-All tokens are generated from `tokens/membrane.tokens.json` into `tokens/design-tokens.css` and `tokens/base.css`.
+All tokens are generated from `tokens/membrane.tokens.json` into `tokens/design-tokens.css` and `tokens/base.css`, plus a Tailwind v4 theme and a resolved-value JSON. Fonts come from `fonts/fonts.json` into `fonts/fonts.css`.
 
 ```
 tokens/
 ├── membrane.tokens.json   ← Source of truth (DTCG-flavored JSON — edit this)
 ├── design-tokens.css      ← Generated: @layer tokens — pure custom properties
-└── base.css               ← Generated: @layer base — element rules (optional)
+├── base.css               ← Generated: @layer base — element rules (optional)
+├── membrane-tailwind.css  ← Generated: Tailwind v4 theme (mp- utilities)
+└── tokens.resolved.json   ← Generated: every token's light/dark value as hex
 ```
 
 ### Token architecture

@@ -1475,6 +1475,11 @@
     }
   }
 
+  /* Touch screens: the compact size grows to the 44px touch target. */
+  @media (pointer: coarse) {
+    .mp-input[data-size="sm"] { --mp-input-height: var(--size-touch-target); }
+  }
+
   /* ---- Combobox (combobox) ---------------------------------- */
 
   /* Combobox — a text input that suggests options from a list as you type
@@ -1623,6 +1628,11 @@
     .mp-combobox__empty {
       translate: none;
     }
+  }
+
+  /* Touch screens: options grow to the 44px touch target. */
+  @media (pointer: coarse) {
+    .mp-combobox__option { min-height: var(--size-touch-target); }
   }
 
   /* ---- Choice (choice) -------------------------------------- */
@@ -3077,6 +3087,11 @@
     max-width: 24rem;
   }
 
+  /* Touch screens: the close button grows to the 44px touch target. */
+  @media (pointer: coarse) {
+    .mp-toast__close { width: var(--size-touch-target); height: var(--size-touch-target); }
+  }
+
   /* ---- Tooltip (tooltip) ------------------------------------ */
 
   /* Tooltip — a short, non-essential hint shown on hover and keyboard focus.
@@ -3554,6 +3569,11 @@
     box-shadow: var(--elevation-raised);
   }
 
+  /* Touch screens: compact pill tabs grow to the 44px touch target. */
+  @media (pointer: coarse) {
+    .mp-tabs[data-variant="pill"] .mp-tabs__tab { min-height: var(--size-touch-target); }
+  }
+
   /* ---- Accordion (accordion) -------------------------------- */
 
   /* Accordion — native <details>/<summary> disclosure. Adjacent accordions
@@ -3968,5 +3988,10 @@
     font-weight: var(--weight-semibold);
     letter-spacing: var(--tracking-label);
     text-transform: uppercase;
+  }
+
+  /* Touch screens: items grow to the 44px touch target. */
+  @media (pointer: coarse) {
+    .mp-menu__item { min-height: var(--size-touch-target); }
   }
 }

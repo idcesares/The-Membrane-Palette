@@ -6,6 +6,7 @@
     "allInOne": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css\">",
     "behaviors": "<script src=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js\" defer></script>",
     "split": [
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/fonts/fonts.css",
       "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css",
       "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/base.css",
       "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane-components.css"
@@ -524,6 +525,7 @@
         "--size-control-lg",
         "--size-control-md",
         "--size-control-sm",
+        "--size-touch-target",
         "--space-10",
         "--space-2",
         "--space-24",
@@ -596,6 +598,7 @@
         "--radius-md",
         "--radius-sm",
         "--size-control-sm",
+        "--size-touch-target",
         "--space-1",
         "--space-10",
         "--space-2",
@@ -1384,7 +1387,7 @@
         },
         {
           "title": "Stacked, with legend",
-          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-format-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-format-title\">Enrolment by format</p>\n    <ul class=\"mp-chart__legend\">\n      <li class=\"mp-chart__key\" data-series=\"1\">Online</li>\n      <li class=\"mp-chart__key\" data-series=\"2\">Hybrid</li>\n      <li class=\"mp-chart__key\" data-series=\"3\">In person</li>\n    </ul>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2024</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 40%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 25%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 35%\"></span></span><span class=\"mp-chart__value\">40 · 25 · 35%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2025</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 52%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 28%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 20%\"></span></span><span class=\"mp-chart__value\">52 · 28 · 20%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2026</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 61%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 27%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 12%\"></span></span><span class=\"mp-chart__value\">61 · 27 · 12%</span></li>\n  </ul>\n</figure>"
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-format-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-format-title\">Enrollment by format</p>\n    <ul class=\"mp-chart__legend\">\n      <li class=\"mp-chart__key\" data-series=\"1\">Online</li>\n      <li class=\"mp-chart__key\" data-series=\"2\">Hybrid</li>\n      <li class=\"mp-chart__key\" data-series=\"3\">In person</li>\n    </ul>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2024</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 40%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 25%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 35%\"></span></span><span class=\"mp-chart__value\">40 · 25 · 35%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2025</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 52%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 28%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 20%\"></span></span><span class=\"mp-chart__value\">52 · 28 · 20%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2026</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 61%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 27%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 12%\"></span></span><span class=\"mp-chart__value\">61 · 27 · 12%</span></li>\n  </ul>\n</figure>"
         },
         {
           "title": "All six series",
@@ -1575,7 +1578,7 @@
       "name": "Skeleton",
       "category": "Feedback",
       "status": "stable",
-      "summary": "Placeholder text lines, circles and blocks that hold a layout's shape while content loads; still under reduced motion.",
+      "summary": "Placeholder text lines, circles and blocks that hold a layout's shape while content loads; they pulse in place under reduced motion.",
       "docs": "components/skeleton/README.md",
       "css": "components/skeleton/skeleton.css",
       "classes": {
@@ -1734,6 +1737,7 @@
         "--radius-full",
         "--radius-md",
         "--size-control-sm",
+        "--size-touch-target",
         "--space-1",
         "--space-2",
         "--space-3",
@@ -1762,7 +1766,7 @@
       "name": "Tooltip",
       "category": "Feedback",
       "status": "stable",
-      "summary": "A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissable with membrane.js.",
+      "summary": "A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissible with membrane.js.",
       "docs": "components/tooltip/README.md",
       "css": "components/tooltip/tooltip.css",
       "classes": {
@@ -2041,6 +2045,7 @@
         "--radius-sm",
         "--size-control-md",
         "--size-control-sm",
+        "--size-touch-target",
         "--space-1",
         "--space-2",
         "--space-4",
@@ -2237,7 +2242,7 @@
         },
         {
           "title": "Horizontal",
-          "html": "<ol class=\"mp-steps\" data-orientation=\"horizontal\" aria-label=\"Enrolment\">\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Account<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Cohort<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" aria-current=\"step\"><p class=\"mp-steps__label\">Payment</p></li>\n  <li class=\"mp-steps__item\"><p class=\"mp-steps__label\">Done</p></li>\n</ol>"
+          "html": "<ol class=\"mp-steps\" data-orientation=\"horizontal\" aria-label=\"Enrollment\">\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Account<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Cohort<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" aria-current=\"step\"><p class=\"mp-steps__label\">Payment</p></li>\n  <li class=\"mp-steps__item\"><p class=\"mp-steps__label\">Done</p></li>\n</ol>"
         }
       ]
     },
@@ -2291,6 +2296,7 @@
         "--radius-sm",
         "--size-control-sm",
         "--size-icon-sm",
+        "--size-touch-target",
         "--space-1",
         "--space-2",
         "--space-3",

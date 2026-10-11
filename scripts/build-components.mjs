@@ -354,7 +354,7 @@ const manifest = {
   install: {
     allInOne: `<link rel="stylesheet" href="${CDN}membrane.css">`,
     behaviors: `<script src="${CDN}components/membrane.js" defer></script>`,
-    split: [`${CDN}tokens/design-tokens.css`, `${CDN}tokens/base.css`, `${CDN}components/membrane-components.css`],
+    split: [`${CDN}fonts/fonts.css`, `${CDN}tokens/design-tokens.css`, `${CDN}tokens/base.css`, `${CDN}components/membrane-components.css`],
   },
   conventions: {
     classPrefix: "mp-",
@@ -495,13 +495,14 @@ const llms = `# The Membrane Palette
 Rules for generating UI with this system:
 
 - Load \`${CDN}membrane.css\` (tokens + base + components). Load \`${CDN}components/membrane.js\` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
+- Don't add a Google Fonts (or any other font) link: \`membrane.css\` already declares self-hosted Fraunces, Instrument Sans and JetBrains Mono.
 - Compose from components (\`.mp-button\`, \`.mp-card\`, \`.mp-field\`…) and layout primitives (\`.mp-container\`, \`.mp-stack\`, \`.mp-cluster\`, \`.mp-grid\`) before writing CSS.
 - Options are \`data-*\` attributes (\`data-variant="secondary"\`); only the values listed in the manifest exist.
 - States come from semantic HTML/ARIA (\`disabled\`, \`aria-invalid="true"\`, \`aria-current="page"\`, \`aria-selected\`, \`aria-busy\`), never from extra classes.
 - In custom CSS use semantic tokens only (\`--color-text-primary\`, \`--color-bg-secondary\`, \`--color-action-primary\`, \`--space-6\`, \`--text-h2\`). Never hex values, never Tier 1 primitives like \`--color-terracotta\`.
 - At most one primary (terracotta) button per view. Cream not white, charcoal not black.
 - Charts use \`--color-chart-1\`…\`-6\` in order (never cycled); status meaning uses status tokens with a label.
-- Custom motion uses the composites: \`--transition-enter\` on the open state, \`--transition-exit\` on the closed one, \`--transition-state\` for toggles. Animate opacity and transforms only, put hover effects inside \`@media (hover: hover)\`, and remove movement under \`prefers-reduced-motion\`.
+- Custom motion uses the composites: \`--transition-enter\` on the open state, \`--transition-exit\` on the closed one, \`--transition-state\` for toggles. Animate opacity, transforms, colors and box-shadow (never layout properties), put hover effects inside \`@media (hover: hover)\`, and remove movement under \`prefers-reduced-motion\`.
 - Writing Tailwind? Import \`tokens/membrane-tailwind.css\` and use only \`mp-\` utilities (\`bg-mp-surface\`, \`text-mp-fg\`, \`bg-mp-primary\`); off-brand classes like \`bg-blue-500\` don't exist.
 
 ## Start here
@@ -521,7 +522,7 @@ ${CATEGORIES.map((cat) => components.filter((c) => c.meta.category === cat).map(
 
 - [Starter page](examples/starter.html): a complete landing page to copy from
 - [Article pattern](examples/article.html): long-form essay page
-- [Dashboard pattern](examples/dashboard.html): product UI with stats, chart, table, tabs, menu and toast
+- [Dashboard pattern](examples/dashboard.html): product UI with stats, a chart, a table, tabs, steps, pagination, an empty state, a menu and toasts
 - [Tailwind v4 theme](tokens/membrane-tailwind.css): mp- utilities mapped onto the semantic tokens
 - [Resolved tokens (JSON)](tokens/tokens.resolved.json): every token's light and dark value as plain hex, for charting libraries and native apps
 - [Live showcase](${SITE}): every component rendered in light and dark mode

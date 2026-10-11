@@ -2,7 +2,7 @@
 name: Tooltip
 category: Feedback
 status: stable
-summary: A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissable with membrane.js.
+summary: A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissible with membrane.js.
 exempt: data-dismissed
 ---
 
@@ -39,7 +39,7 @@ Tooltips add a short, **non-essential** hint to a control — typically to name 
 ## Accessibility
 
 - Connect with `aria-describedby` on the trigger. For icon-only buttons, the button still needs its own `aria-label` — the tooltip *describes*, the label *names*.
-- Hoverable (an invisible bridge spans the gap), persistent while hovered or focused, and dismissable with Escape when `components/membrane.js` is loaded — the three WCAG 1.4.13 requirements.
+- Hoverable (an invisible bridge spans the gap), persistent while hovered or focused, and dismissible with Escape when `components/membrane.js` is loaded — the three WCAG 1.4.13 requirements.
 - Never put focusable content inside a tooltip.
 
 ## API

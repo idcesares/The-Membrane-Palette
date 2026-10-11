@@ -87,3 +87,8 @@
   background-color: var(--color-bg-primary);
   box-shadow: var(--elevation-raised);
 }
+
+/* Touch screens: compact pill tabs grow to the 44px touch target. */
+@media (pointer: coarse) {
+  .mp-tabs[data-variant="pill"] .mp-tabs__tab { min-height: var(--size-touch-target); }
+}

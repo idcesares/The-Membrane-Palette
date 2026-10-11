@@ -223,7 +223,7 @@ export interface MpProgressAttributes {
   "data-size"?: "sm" | "lg";
 }
 
-/** Skeleton — Placeholder text lines, circles and blocks that hold a layout's shape while content loads; still under reduced motion.
+/** Skeleton — Placeholder text lines, circles and blocks that hold a layout's shape while content loads; they pulse in place under reduced motion.
  *  Docs: components/skeleton/README.md */
 export interface MpSkeletonAttributes {
   "data-variant"?: "text" | "circle" | "block";
@@ -243,7 +243,7 @@ export interface MpToastAttributes {
   "data-placement"?: "inline";
 }
 
-/** Tooltip — A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissable with membrane.js.
+/** Tooltip — A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissible with membrane.js.
  *  Docs: components/tooltip/README.md */
 export interface MpTooltipAttributes {
   "data-dismissed"?: true | "";

@@ -1,0 +1,134 @@
+/* Shared frame for the report figures (docs/figures/src/*.html).
+   Rendered to PNG by scripts/render-doc-figures.mjs in light and dark.
+   Everything inside a figure is built from membrane.css; this file only
+   lays out the frame and the diagram connectors. */
+
+html, body { margin: 0; background: transparent; }
+
+.fig {
+  box-sizing: border-box;
+  width: 880px;
+  padding: var(--space-8) var(--space-8) var(--space-10);
+  border: var(--border-default);
+  border-radius: var(--radius-xl);
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.fig__kicker {
+  margin: 0 0 var(--space-2);
+  color: var(--color-text-accent);
+  font: var(--weight-medium) var(--text-xs) / 1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fig__title {
+  margin: 0 0 var(--space-2);
+  font: var(--weight-semibold) var(--text-h3) / var(--leading-subheading) var(--font-serif);
+  letter-spacing: var(--tracking-subheading);
+}
+
+.fig__lede {
+  max-width: 62ch;
+  margin: 0 0 var(--space-8);
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+.fig__foot {
+  margin: var(--space-8) 0 0;
+  padding-top: var(--space-4);
+  border-top: var(--border-default);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  line-height: var(--leading-small);
+}
+
+/* A labelled column or stage box. */
+.box {
+  box-sizing: border-box;
+  padding: var(--space-5);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-secondary);
+}
+
+.box__label {
+  margin: 0 0 var(--space-1);
+  color: var(--color-text-secondary);
+  font: var(--weight-semibold) var(--text-xs) / 1.2 var(--font-sans);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.box__title {
+  margin: 0 0 var(--space-3);
+  font: var(--weight-semibold) var(--text-body) / var(--leading-small) var(--font-sans);
+}
+
+.box__note {
+  margin: var(--space-3) 0 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  line-height: var(--leading-small);
+}
+
+.mono, code.mono {
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+/* Connector arrow between boxes: a line with a chevron head. */
+.arrow {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  height: 2px;
+  background: var(--color-border-emphasis);
+}
+
+.arrow::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: -1px;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-top: 2px solid var(--color-border-emphasis);
+  border-right: 2px solid var(--color-border-emphasis);
+  translate: 0 -50%;
+  rotate: 45deg;
+}
+
+.swatch {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: var(--text-small);
+}
+
+.swatch i {
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, currentColor 14%, transparent);
+}
+
+.swatch small {
+  display: block;
+  color: var(--color-text-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.list {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

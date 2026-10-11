@@ -104,5 +104,5 @@ _Generated from `combobox.css` by `npm run build:components` — do not edit thi
 |---|---|
 | `--mp-combobox-max-height` | `16rem` |
 
-**Design tokens consumed** — `--border-default` `--border-width-medium` `--border-width-thick` `--color-bg-active` `--color-bg-elevated` `--color-bg-hover` `--color-focus` `--color-text-primary` `--color-text-secondary` `--duration-fast` `--duration-normal` `--elevation-overlay` `--font-sans` `--radius-md` `--radius-sm` `--size-control-sm` `--space-1` `--space-10` `--space-2` `--space-3` `--space-5` `--state-disabled-opacity` `--text-small` `--text-xs` `--transition-enter` `--transition-exit` `--z-dropdown`
+**Design tokens consumed** — `--border-default` `--border-width-medium` `--border-width-thick` `--color-bg-active` `--color-bg-elevated` `--color-bg-hover` `--color-focus` `--color-text-primary` `--color-text-secondary` `--duration-fast` `--duration-normal` `--elevation-overlay` `--font-sans` `--radius-md` `--radius-sm` `--size-control-sm` `--size-touch-target` `--space-1` `--space-10` `--space-2` `--space-3` `--space-5` `--state-disabled-opacity` `--text-small` `--text-xs` `--transition-enter` `--transition-exit` `--z-dropdown`
 <!-- /GENERATED:API -->

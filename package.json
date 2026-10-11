@@ -1,6 +1,7 @@
 {
   "name": "@idcesares/the-membrane-palette",
   "version": "2.1.0",
+  "private": true,
   "description": "The Membrane Palette — a token-based design system and framework-free CSS component library where human warmth meets digital precision.",
   "author": "Isaac D'Césares <isaac.dcesares@gmail.com>",
   "license": "MIT",
@@ -8,6 +9,9 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/idcesares/The-Membrane-Palette.git"
+  },
+  "bugs": {
+    "url": "https://github.com/idcesares/The-Membrane-Palette/issues"
   },
   "keywords": [
     "design-system",
@@ -55,10 +59,11 @@
     "build:system": "npm run build:tokens && npm run build:components",
     "build": "node scripts/build-cloudflare-pages.mjs",
     "render:social": "node scripts/render-social-image.mjs",
+    "render:figures": "node scripts/render-doc-figures.mjs",
     "lint:html": "html-validate dist/index.html dist/404.html \"dist/examples/*.html\"",
     "lint:types": "tsc --noEmit --strict --target es2022 --module nodenext --moduleResolution nodenext --allowImportingTsExtensions --lib es2022,dom tests/types/check.ts",
     "test": "npm run build && npm run lint:html && npm run lint:types && playwright test",
-    "deploy": "npx wrangler deploy",
+    "deploy": "npm run build && npx wrangler pages deploy",
     "dev": "npm run build && serve dist -l 3456",
     "preview": "npm run build && serve dist -l 3456"
   },

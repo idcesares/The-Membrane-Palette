@@ -145,3 +145,8 @@
     translate: none;
   }
 }
+
+/* Touch screens: options grow to the 44px touch target. */
+@media (pointer: coarse) {
+  .mp-combobox__option { min-height: var(--size-touch-target); }
+}

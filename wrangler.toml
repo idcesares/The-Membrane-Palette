@@ -1,7 +1,6 @@
+# Cloudflare Pages project. `npm run deploy` runs `wrangler pages deploy`,
+# which uploads pages_build_output_dir. Pages serves dist/404.html for
+# missing paths and applies dist/_headers on its own.
 name = "idcesares-design-system"
 compatibility_date = "2026-05-11"
 pages_build_output_dir = "./dist"
-
-[assets]
-directory = "./dist"
-not_found_handling = "404-page"

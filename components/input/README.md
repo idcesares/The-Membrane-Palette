@@ -82,5 +82,5 @@ _Generated from `input.css` by `npm run build:components` — do not edit this s
 | `--mp-input-height` | `var(--size-control-md)` |
 | `--mp-input-padding` | `var(--space-4)` |
 
-**Design tokens consumed** — `--border-width-thin` `--color-bg-primary` `--color-bg-secondary` `--color-border-input` `--color-error` `--color-focus` `--color-text-primary` `--color-text-secondary` `--color-text-tertiary` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-body` `--leading-small` `--radius-sm` `--size-control-lg` `--size-control-md` `--size-control-sm` `--space-10` `--space-2` `--space-24` `--space-3` `--space-4` `--space-5` `--state-disabled-opacity` `--text-body` `--text-body-lg` `--text-small` `--transition-fast`
+**Design tokens consumed** — `--border-width-thin` `--color-bg-primary` `--color-bg-secondary` `--color-border-input` `--color-error` `--color-focus` `--color-text-primary` `--color-text-secondary` `--color-text-tertiary` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-body` `--leading-small` `--radius-sm` `--size-control-lg` `--size-control-md` `--size-control-sm` `--size-touch-target` `--space-10` `--space-2` `--space-24` `--space-3` `--space-4` `--space-5` `--state-disabled-opacity` `--text-body` `--text-body-lg` `--text-small` `--transition-fast`
 <!-- /GENERATED:API -->

@@ -33,7 +33,7 @@ The learning journey made visible. Completed steps turn teal with a check, the c
 ### Horizontal
 
 ```html
-<ol class="mp-steps" data-orientation="horizontal" aria-label="Enrolment">
+<ol class="mp-steps" data-orientation="horizontal" aria-label="Enrollment">
   <li class="mp-steps__item" data-status="complete"><p class="mp-steps__label">Account<span class="mp-visually-hidden"> (completed)</span></p></li>
   <li class="mp-steps__item" data-status="complete"><p class="mp-steps__label">Cohort<span class="mp-visually-hidden"> (completed)</span></p></li>
   <li class="mp-steps__item" aria-current="step"><p class="mp-steps__label">Payment</p></li>

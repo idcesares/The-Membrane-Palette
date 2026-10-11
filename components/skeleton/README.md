@@ -2,7 +2,7 @@
 name: Skeleton
 category: Feedback
 status: stable
-summary: Placeholder text lines, circles and blocks that hold a layout's shape while content loads; still under reduced motion.
+summary: Placeholder text lines, circles and blocks that hold a layout's shape while content loads; they pulse in place under reduced motion.
 ---
 
 # Skeleton
@@ -33,7 +33,7 @@ Use skeletons when you know the **shape** of what's coming (a card, a list, a pr
 
 - Skeleton shapes are `aria-hidden="true"`; the loading region has `aria-busy="true"` and a visually hidden `role="status"` message.
 - Remove `aria-busy` (and the skeletons) in the same update that inserts the content.
-- The shimmer stops under `prefers-reduced-motion`.
+- Under `prefers-reduced-motion` the sweeping shimmer becomes a slow in-place pulse, so the placeholder never looks finished.
 
 ## API
 

@@ -7,7 +7,7 @@ summary: A figure shell (title, legend, caption) and a CSS bar list — single, 
 
 # Chart
 
-Most numbers in an education product are "one value per category": completion by cohort, enrolment by format. `.mp-chart` renders those as horizontal bars from plain HTML — no library, no canvas, readable by screen readers as a list — and gives any richer chart (from a charting library) the same frame: title, legend and caption.
+Most numbers in an education product are "one value per category": completion by cohort, enrollment by format. `.mp-chart` renders those as horizontal bars from plain HTML — no library, no canvas, readable by screen readers as a list — and gives any richer chart (from a charting library) the same frame: title, legend and caption.
 
 ## Color rules
 
@@ -52,7 +52,7 @@ The six series colors are a **validated categorical palette**, not picks: each l
 ```html
 <figure class="mp-chart" aria-labelledby="chart-format-title">
   <div class="mp-chart__header">
-    <p class="mp-chart__title" id="chart-format-title">Enrolment by format</p>
+    <p class="mp-chart__title" id="chart-format-title">Enrollment by format</p>
     <ul class="mp-chart__legend">
       <li class="mp-chart__key" data-series="1">Online</li>
       <li class="mp-chart__key" data-series="2">Hybrid</li>

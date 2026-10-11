@@ -1,10 +1,11 @@
 /* ============================================================
-   The Membrane Palette — optional component behaviors
+   The Membrane Palette — component behaviors
 
-   Hand-written, dependency-free, ~5 KB gzipped. Every component renders
-   correctly without this file; it only adds keyboard behavior that
-   CSS cannot express. Uses document-level event delegation, so it
-   needs no init call and works for markup added later.
+   Hand-written, dependency-free, ~5 KB gzipped. Tabs, Menu, Combobox
+   and Toast need this file (switching panels, menu keys, filtering,
+   rendering toasts); every other component works without it, and this
+   only adds what CSS cannot express. Uses document-level event
+   delegation, so it needs no init call and works for markup added later.
 
    - Tabs     click + Arrow/Home/End keys (WAI-ARIA tabs pattern,
               automatic activation, RTL-aware).

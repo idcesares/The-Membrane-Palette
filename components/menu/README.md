@@ -62,5 +62,5 @@ _Generated from `menu.css` by `npm run build:components` — do not edit this se
 
 **States styled** — `:disabled` `:focus-visible` `:hover` `:popover-open` `[aria-disabled="true"]`
 
-**Design tokens consumed** — `--border-default` `--border-width-medium` `--border-width-thin` `--color-bg-elevated` `--color-bg-hover` `--color-border-default` `--color-error-text` `--color-text-primary` `--color-text-tertiary` `--duration-fast` `--duration-normal` `--elevation-overlay` `--focus-ring` `--font-sans` `--radius-md` `--radius-sm` `--size-control-sm` `--size-icon-sm` `--space-1` `--space-2` `--space-3` `--state-disabled-opacity` `--text-small` `--text-xs` `--tracking-label` `--transition-enter` `--transition-exit` `--weight-semibold`
+**Design tokens consumed** — `--border-default` `--border-width-medium` `--border-width-thin` `--color-bg-elevated` `--color-bg-hover` `--color-border-default` `--color-error-text` `--color-text-primary` `--color-text-tertiary` `--duration-fast` `--duration-normal` `--elevation-overlay` `--focus-ring` `--font-sans` `--radius-md` `--radius-sm` `--size-control-sm` `--size-icon-sm` `--size-touch-target` `--space-1` `--space-2` `--space-3` `--state-disabled-opacity` `--text-small` `--text-xs` `--tracking-label` `--transition-enter` `--transition-exit` `--weight-semibold`
 <!-- /GENERATED:API -->
