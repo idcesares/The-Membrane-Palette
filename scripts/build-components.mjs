@@ -402,6 +402,7 @@ Rules for generating UI with this system:
 - In custom CSS use semantic tokens only (\`--color-text-primary\`, \`--color-bg-secondary\`, \`--color-action-primary\`, \`--space-6\`, \`--text-h2\`). Never hex values, never Tier 1 primitives like \`--color-terracotta\`.
 - At most one primary (terracotta) button per view. Cream not white, charcoal not black.
 - Charts use \`--color-chart-1\`…\`-6\` in order (never cycled); status meaning uses status tokens with a label.
+- Custom motion uses the composites: \`--transition-enter\` on the open state, \`--transition-exit\` on the closed one, \`--transition-state\` for toggles. Animate opacity and transforms only, put hover effects inside \`@media (hover: hover)\`, and remove movement under \`prefers-reduced-motion\`.
 - Writing Tailwind? Import \`tokens/membrane-tailwind.css\` and use only \`mp-\` utilities (\`bg-mp-surface\`, \`text-mp-fg\`, \`bg-mp-primary\`); off-brand classes like \`bg-blue-500\` don't exist.
 
 ## Start here

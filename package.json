@@ -50,7 +50,9 @@
     "build:components": "node scripts/build-components.mjs",
     "build:system": "npm run build:tokens && npm run build:components",
     "build": "node scripts/build-cloudflare-pages.mjs",
-    "test": "npm run build && playwright test",
+    "render:social": "node scripts/render-social-image.mjs",
+    "lint:html": "html-validate dist/index.html dist/404.html \"dist/examples/*.html\"",
+    "test": "npm run build && npm run lint:html && playwright test",
     "deploy": "npx wrangler deploy",
     "dev": "npm run build && serve dist -l 3456",
     "preview": "npm run build && serve dist -l 3456"
@@ -59,6 +61,7 @@
   "devDependencies": {
     "@playwright/test": "1.56.1",
     "axe-core": "4.10.3",
+    "html-validate": "11.16.0",
     "serve": "^14.2.6"
   }
 }

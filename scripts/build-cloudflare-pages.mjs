@@ -21,6 +21,12 @@ const showcaseHtml = await readFile(path.join(root, "showcase", "index.html"), "
 const deployedHtml = showcaseHtml.replace(/(href|src)="\.\.\//g, '$1="');
 await writeFile(path.join(dist, "index.html"), deployedHtml);
 
+// Served for any missing path, so its links must be root-relative.
+const notFoundHtml = await readFile(path.join(root, "showcase", "404.html"), "utf8");
+await writeFile(path.join(dist, "404.html"), notFoundHtml.replace(/(href|src)="\.\.\//g, '$1="/'));
+await cp(path.join(root, "showcase", "_headers"), path.join(dist, "_headers"));
+await cp(path.join(root, "showcase", "assets"), path.join(dist, "assets"), { recursive: true });
+
 for (const dir of ["tokens", "components", "examples"]) {
   await cp(path.join(root, dir), path.join(dist, dir), { recursive: true });
 }
@@ -46,8 +52,10 @@ await writeFile(
   path.join(dist, "robots.txt"),
   `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`
 );
+const examplePages = (await readdir(path.join(root, "examples"))).filter((f) => f.endsWith(".html")).sort();
+const urls = [siteUrl, ...examplePages.map((f) => `${siteUrl}examples/${f}`)];
 await writeFile(
   path.join(dist, "sitemap.xml"),
-  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n  <url>\n    <loc>${siteUrl}</loc>\n  </url>\n</urlset>\n`
+  `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n  </url>\n`).join("")}</urlset>\n`
 );
-console.log("✓ Assembled dist/ (showcase, tokens, components, examples, membrane.css, llms.txt, llms-full.txt)");
+console.log("✓ Assembled dist/ (showcase, 404, _headers, assets, tokens, components, examples, membrane.css, llms.txt, llms-full.txt)");

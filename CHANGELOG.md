@@ -59,9 +59,34 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - Token types `mix` (oklab color-mix of two tokens, resolved exactly by the gate) and `tint` on semantic tokens.
 - Descriptions on every semantic token (they feed the manifest and the spec table).
 
+### Added — motion & user preferences
+
+- `--transition-enter` (normal + ease-out), `--transition-exit` (fast + ease-in), `--transition-state` (fast + ease-in-out). Dialog, backdrop, menu, tooltip and toast now enter slowly and leave quickly, as §8.1 always specified. Toasts animate out: `membrane.js` sets a runtime `data-leaving` attribute and removes the element after the exit.
+- `--duration-loop` (1600ms) for indefinite loaders, kept under reduced motion.
+- **Reduced motion reduces instead of removing.** Spinner, indeterminate progress and skeleton pulse in place instead of freezing on a frame. Card lift, standalone-link nudge and button press offset are removed.
+- Hover-only effects are gated on `@media (hover: hover)`, so a tap no longer leaves a button filled or a card lifted on touch screens.
+- `prefers-contrast: more` also strengthens input borders and thickens the focus ring.
+- Print: light scheme, no page background, navbar/skip link/toast region hidden, exact component colors, and `mp-prose` prints external link targets.
+- Pages with a navbar get `scroll-padding-top`, so anchored headings aren't hidden under it.
+- Showcase theme switch crossfades with a view transition (`--duration-slower`), skipped under reduced motion.
+- `DESIGN-SYSTEM.md` §8 rewritten: composites, the enter/exit pattern, a per-component recipe table, loading thresholds, reduced-motion behavior, a page-transition recipe and other user preferences.
+- `tests/motion.spec.mjs` covers full motion, reduced motion and touch emulation.
+
+### Added — publishing
+
+- A 1200×630 social preview rendered from the live tokens (`npm run render:social`), with `og:image` and a `summary_large_image` Twitter card.
+- A 404 page, built only from library components; Cloudflare serves it for missing paths.
+- `_headers`:
+  - `nosniff`, referrer and permissions policies, and frame protection;
+  - CORS on `llms.txt`, the manifest, the tokens and `membrane.css`, so agents and tools can fetch them cross-origin;
+  - short cache lifetimes on unversioned files.
+- `npm run lint:html` (html-validate) on every built page, plus link-integrity tests: every same-origin URL and `#fragment` on the site resolves, and every relative link in the Markdown points at a file. Both are part of `npm test`.
+- The sitemap lists the example pages.
+- [`docs/RELEASING.md`](docs/RELEASING.md) — the release checklist: tag, pinned `@2` CDN URLs, jsDelivr purge, deploy and smoke test.
+
 ### Changed
 
-- **Contrast gate: 20 → 63 pairs (126 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
+- **Contrast gate: 20 → 78 pairs (156 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
 - `DESIGN-SYSTEM.md` §6 replaced: the prose recipes are superseded by the library; §6 now documents conventions, catalog, brand rules and how to contribute a component. §2.3 (semantic colors) and §13.1 (contrast) tables are **generated** from the token source, so they can no longer drift. Added §13.4 (component accessibility); corrected the touch-target citation (2.5.5 is AAA; 2.5.8 AA is 24px).
 - Showcase structure: foundations first (Palette → Typography → Rhythm), then Components, then Reference. The component gallery has a sticky index that tracks the current component, an "API at a glance" row generated from each component's CSS, and a "View HTML" disclosure with a copy button on every example. The type specimen shows the full scale with its tokens. The hero register map no longer breaks token names mid-word, and the hero stacks below 1200px.
 - Showcase rebuilt on the library (navbar, buttons, inputs, tables, code blocks), with a generated component gallery, a composed specimen, and dark-mode previews that use real `data-theme` subtrees instead of hard-coded hex. Theme is applied before first paint and follows the OS until toggled. Skip link added; mobile horizontal overflow fixed.
@@ -86,6 +111,9 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - Spec §6.5 tag recipe (`--color-action-primary` text on `--color-terracotta-10`) was never contrast-checked; tags now use gate-checked register pairs.
 - The jsDelivr CDN URL in `README.md` dropped its `@2` version pin (no matching release tag exists).
 - Spec §15 referenced `--color-tint-*` tokens that never existed.
+- Spec §8.5 claimed reduced motion disabled transform animations; nothing did. The base.css reduced-motion safety net now skips library classes (which handle reduced motion themselves) instead of freezing their loaders.
+- The showcase's register map and neutral rail had `aria-label` on role-less `<div>`s, which screen readers ignore; they are now labelled groups.
+- The starter page's "Writing" nav link pointed at a section that didn't exist.
 
 ### Deprecated
 

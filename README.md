@@ -83,7 +83,7 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
-| [`tests/`](tests/) | **Browser tests** — axe-core in both themes, overflow, keyboard behavior (`npm test`). |
+| [`tests/`](tests/) | **Browser tests** — axe-core in both themes, overflow, link integrity, keyboard and motion behavior (`npm test`, after an html-validate pass). |
 | [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
 <br>
@@ -194,7 +194,7 @@ npm install
 npm run dev          # builds everything, then serves the showcase at localhost:3456
 ```
 
-To run the browser tests (axe-core in both themes, phone overflow, keyboard behavior):
+To run the checks (html-validate, axe-core in both themes, phone overflow, links, keyboard, motion under full/reduced/touch):
 
 ```bash
 npx playwright install chromium   # once
@@ -217,11 +217,11 @@ npm run build:system      # both, in order
 The showcase site is the only thing this repo deploys right now. Token distribution is the CDN link from [Quick Start](#quick-start) — there's no publish step to run.
 
 ```bash
-npm run build     # regenerates everything, assembles dist/ (showcase, tokens/, components/, membrane.css, llms.txt, llms-full.txt, docs)
+npm run build     # regenerates everything, assembles dist/ (showcase, 404, _headers, tokens/, components/, membrane.css, llms.txt, llms-full.txt, docs)
 npm run deploy    # npx wrangler deploy — pushes dist/ per wrangler.toml
 ```
 
-`dist/` is gitignored — it's rebuilt fresh on every deploy and every CI run, never committed. Live at [membrane-palette.dcesares.dev](https://membrane-palette.dcesares.dev/).
+`dist/` is gitignored — it's rebuilt fresh on every deploy and every CI run, never committed. Live at [membrane-palette.dcesares.dev](https://membrane-palette.dcesares.dev/). Cutting a version (tag, pinned CDN URLs, deploy, smoke test) follows [`docs/RELEASING.md`](docs/RELEASING.md).
 
 A token rename or removal is still a breaking change regardless of distribution channel: bump the version per [`CHANGELOG.md`](CHANGELOG.md)'s semantic conventions and add a migration note (see the [2.0.0 migration guide](CHANGELOG.md#migration-guide) for the shape that should take).
 
@@ -326,7 +326,7 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 
 - **4px base unit** — `--space-1` (0.25rem) through `--space-32` (8rem)
 - **Warm-tinted shadows** — each stop uses `light-dark()` for automatic dark-mode adaptation
-- **Motion** — respects `prefers-reduced-motion`; `--duration-fast/normal/slow` fall to 0ms (`--duration-slower` keeps 150ms for essential feedback)
+- **Motion** — enter (`--transition-enter`, ease-out), exit (`--transition-exit`, faster, ease-in) and state (`--transition-state`) composites. Under `prefers-reduced-motion` transitions drop to 0ms and loaders pulse in place instead of moving (`--duration-loop` is kept)
 - **Controls** — `--size-control-sm/md/lg` (36/44/52px); compact controls grow to 44px on touch screens
 - **States** — explicit `-hover` fills that mix toward `--color-text-primary` (darker in light mode, lighter in dark mode, so label contrast always rises), translucent `--color-bg-hover` / `--color-bg-active` washes, and `--state-disabled-opacity`
 
@@ -349,9 +349,10 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 - **State via ARIA:** component states are styled from `aria-*` and native attributes, so every visual state is also announced.
 - All primary/secondary color pairings meet **WCAG AA** contrast requirements; primary text pairs target **AAA**.
 - Focus states use a visible `2px solid` ring from `--focus-ring`, with a dedicated `--color-focus` semantic token that remaps to a higher-contrast value in dark mode. Form inputs keep the ring — the border color change alone is not the indicator.
-- Motion tokens respect `prefers-reduced-motion: reduce`.
+- `prefers-reduced-motion: reduce` removes movement without freezing state: transitions become instant and loaders pulse in place. Hover effects only apply on devices that can hover.
 - Interactive targets respect the 44px minimum via `--size-touch-target`.
-- `prefers-contrast: more` boosts text-secondary and text-tertiary to primary contrast.
+- `prefers-contrast: more` boosts text-secondary and text-tertiary to primary contrast, strengthens input borders and thickens the focus ring.
+- Print styles: light scheme, site chrome hidden, and external link targets printed in prose.
 - `forced-colors: active` strips decorative glows, and custom-drawn controls (checkbox, radio, switch, select) fall back to native rendering so Windows High Contrast mode keeps their state visible.
 - Native elements first: `<dialog>`, `<details>`, `<progress>` provide focus management and keyboard support without script.
 
@@ -404,9 +405,11 @@ The-Membrane-Palette/
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)
 │   ├── build-components.mjs   ← Component linter + bundler + manifest/docs generator
-│   └── build-cloudflare-pages.mjs ← Assembles dist/ for Pages deploy
-├── showcase/index.html        ← Living reference (gallery, tables generated)
+│   ├── build-cloudflare-pages.mjs ← Assembles dist/ for Pages deploy
+│   └── render-social-image.mjs ← Renders the og:image from the tokens (manual)
+├── showcase/                  ← Living reference (index.html; gallery, tables generated), 404.html, _headers, assets/
 ├── docs/AUDIT-2026-10.md      ← The v2.1 assessment: findings and what changed
+├── docs/RELEASING.md          ← Release checklist
 ├── .github/workflows/ci.yml   ← Gate + lint + freshness check on every push/PR
 ├── DESIGN-SYSTEM.md           ← Specification
 ├── BRAND-VOICE.md             ← Verbal identity guidelines

@@ -1,0 +1,35 @@
+# Cloudflare headers for the deployed site (copied into dist/ by
+# scripts/build-cloudflare-pages.mjs). Paths are as served from dist/.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN
+
+# Machine-readable files: let tools and agents fetch them from any origin.
+/llms.txt
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+
+/llms-full.txt
+  Access-Control-Allow-Origin: *
+  Content-Type: text/plain; charset=utf-8
+
+/components/manifest.json
+  Access-Control-Allow-Origin: *
+
+/tokens/*
+  Access-Control-Allow-Origin: *
+
+# Unversioned URLs change on every deploy: cache briefly. Pin a version on
+# jsDelivr (see docs/RELEASING.md) for long-lived caching.
+/membrane.css
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=600
+
+/components/*
+  Cache-Control: public, max-age=600
+
+/assets/*
+  Cache-Control: public, max-age=86400

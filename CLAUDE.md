@@ -9,10 +9,11 @@ npm run build:tokens      # Regenerate tokens/design-tokens.css + tokens/base.cs
 npm run build:components  # Lint components + README examples, then write components/membrane-components.css, membrane.css, components/manifest.json, llms.txt and the generated doc/showcase regions
 npm run build:system      # Both of the above, in order — run this after any source change
 npm run build             # Cloudflare Pages build: build:system, then assembles dist/ (adds llms-full.txt)
-npm test                  # Build, serve dist/, run Playwright: axe-core on every page in both themes, phone-width overflow, keyboard/focus/ARIA behavior
+npm test                  # Build, html-validate dist/, serve it, run Playwright: axe-core on every page in both themes, phone-width overflow, link integrity, keyboard/focus/ARIA, motion (full/reduced/touch)
+npm run render:social     # Re-render showcase/assets/idcesares-social-design-system-og.png from the tokens (manual; commit the PNG)
 npm run dev               # Build, then start local dev server at localhost:3456
 npm run preview           # Alias of dev
-npm run deploy            # npx wrangler deploy — pushes dist/ to Cloudflare Pages per wrangler.toml
+npm run deploy            # npx wrangler deploy — pushes dist/ to Cloudflare Pages per wrangler.toml (releases: docs/RELEASING.md)
 ```
 
 Three layers of checks, all in CI (`.github/workflows/ci.yml`): the contrast gate (`build:tokens`), the component/docs/coverage lint (`build:components`), and the browser suite (`npm test`, `tests/*.spec.mjs`). CI also fails if any committed generated file differs from a fresh build. Run `npm test` after changing component CSS, `membrane.js`, the showcase or an example page. `dist/` is gitignored and fully generated — never commit it or hand-edit it.
@@ -68,7 +69,7 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 
 **Controls:** `--size-control-sm/md/lg` = 36/44/52px; `--size-touch-target` = 44px. Compact controls grow to 44px on coarse pointers.
 
-**Motion:** Respects `prefers-reduced-motion`. `--duration-fast/normal/slow` fall back to `0ms`; `--duration-slower` falls back to `150ms` (kept nonzero for essential feedback).
+**Motion (spec §8):** Overlays use `--transition-exit` on the closed state and `--transition-enter` on the open state (`--transition-state` for in-place toggles); animate only opacity/transforms/colors. Hover-only effects go inside `@media (hover: hover)`. Under `prefers-reduced-motion` the `--duration-*`/`--transition-*` tokens become `0ms` (`--duration-slower` keeps `150ms`); `--duration-loop` is kept so loaders pulse in place instead of freezing — any new loader needs a reduced-motion pulse, and any movement (lift, nudge, slide) needs removing under reduced motion.
 
 ## Asset Naming Convention
 

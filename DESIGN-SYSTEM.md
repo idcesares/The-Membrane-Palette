@@ -561,44 +561,117 @@ The HTML/CSS implementation is [`components/chart`](components/chart/README.md);
 
 1. **Purposeful, not performative.** Every animation should communicate something: a state change, spatial relationship, or hierarchy. No animation for decoration.
 2. **Warm pacing.** Slightly slower than typical tech-brand animations. The brand is not in a rush. Standard duration is `250ms`, not `150ms`.
-3. **Ease with intention.** Use `ease-out` for elements entering (welcoming), `ease-in` for elements leaving (respectful exit), `ease-in-out` for state changes.
+3. **Ease with intention.** `ease-out` for elements entering (welcoming), `ease-in` for elements leaving (respectful exit), `ease-in-out` for state changes. Each has a composite token (§8.4) so components don't pick by hand.
+4. **Exits are quicker than entrances.** Something the user dismissed should get out of the way: enter at `normal`, leave at `fast`.
+5. **Small distances.** Movement accompanies a fade and stays within `--space-2` (8px); a lift is `2px`. Nothing slides across the screen.
+6. **Cheap properties.** Animate `opacity`, `transform`/`translate`/`scale`/`rotate`, colors and `box-shadow`. Never `width`, `top`/`left` or `margin` — the one exception is the accordion's `block-size`, which only runs where the browser supports `interpolate-size`.
 
 ### 8.2 Duration Scale
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--duration-fast` | `150ms` | Micro-interactions: hover color changes, opacity shifts |
-| `--duration-normal` | `250ms` | Standard transitions: hover effects, active states |
-| `--duration-slow` | `400ms` | Larger transitions: card hover lift, section reveals |
-| `--duration-slower` | `600ms` | Page transitions, hero entrance animations |
+| `--duration-fast` | `150ms` | Hover colors, state changes, every exit |
+| `--duration-normal` | `250ms` | Entrances: dialogs, menus, toasts, tooltips, accordion panels |
+| `--duration-slow` | `400ms` | Larger surfaces: card hover lift, section reveals |
+| `--duration-slower` | `600ms` | Page-level changes: theme crossfade, view transitions. Stays `150ms` under reduced motion |
+| `--duration-loop` | `1600ms` | One cycle of an indefinite loader (shimmer, indeterminate bar; the spinner turns at half this). **Not** reduced — loaders change *what* they animate instead |
 
 ### 8.3 Easing
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--ease-default` | `cubic-bezier(0.25, 0.1, 0.25, 1)` | General purpose |
-| `--ease-out` | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Elements entering view |
-| `--ease-in` | `cubic-bezier(0.4, 0.0, 1, 1)` | Elements leaving view |
-| `--ease-in-out` | `cubic-bezier(0.4, 0.0, 0.2, 1)` | State changes (toggles, tab indicators). New in v2.1 — rule 3 above had no token. |
-| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Playful micro-interactions (use sparingly) |
+| `--ease-default` | `cubic-bezier(0.25, 0.1, 0.25, 1)` | Hover and color transitions |
+| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | Elements entering view |
+| `--ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | Elements leaving view |
+| `--ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | State changes (toggles, tab indicators, chevrons), loaders |
+| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | The switch thumb only. Overshoot reads as playful; don't spread it |
 
 ### 8.4 Transition Composites
 
-Shorthand tokens combining duration and easing for common use:
+Shorthand tokens combining duration and easing. Use them as the time part of a `transition`: `transition: opacity var(--transition-enter);`.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--transition-fast` | `150ms ease-default` | Micro-interactions |
-| `--transition-default` | `250ms ease-default` | Standard transitions |
-| `--transition-slow` | `400ms ease-default` | Larger transitions |
+| `--transition-fast` | `fast` + `ease-default` | Hover color changes |
+| `--transition-default` | `normal` + `ease-default` | General transitions |
+| `--transition-slow` | `slow` + `ease-default` | Larger surfaces |
+| `--transition-enter` | `normal` + `ease-out` | Something appearing: put it on the open state (`[open]`, `:popover-open`) |
+| `--transition-exit` | `fast` + `ease-in` | Something leaving: put it on the base (closed) state |
+| `--transition-state` | `fast` + `ease-in-out` | A control changing state in place |
 
-### 8.5 Reduced Motion
+Because a transition runs with the timing of the state it is heading *to*, an overlay declares the exit timing on its base rule and the enter timing on its open rule — that is the whole enter/exit pattern:
 
-**Always respect `prefers-reduced-motion`.** When active:
-- Set all durations to 0ms (except --duration-slower at 150ms for essential feedback).
-- Restrict transition-property to opacity, color, background-color, border-color, and box-shadow.
-- Disable all transform-based animations via `!important` override.
-- Disable parallax, scroll-triggered transforms, and auto-playing sequences.
+```css
+.mp-dialog {               /* closed: where an exit is heading */
+  opacity: 0;
+  transition: opacity var(--transition-exit),
+              overlay var(--duration-fast) allow-discrete,
+              display var(--duration-fast) allow-discrete;
+}
+.mp-dialog[open] {         /* open: where an entrance is heading */
+  opacity: 1;
+  transition: opacity var(--transition-enter),
+              overlay var(--duration-normal) allow-discrete,
+              display var(--duration-normal) allow-discrete;
+}
+@starting-style { .mp-dialog[open] { opacity: 0; } }  /* first frame of the entrance */
+```
+
+### 8.5 Component Recipes
+
+| Component | Motion | Reduced motion |
+|-----------|--------|----------------|
+| Button | Color on hover (`fast`); `translateY(1px)` on press; busy spinner turns once per `loop / 2` | No press offset; busy spinner pulses |
+| Card (`data-clickable`) | Shadow + border on hover; `-2px` lift | Shadow + border only |
+| Link (`data-standalone`) | Arrow nudges `4px` on hover | Arrow stays |
+| Checkbox / radio | Mark scales in (`state`) | Instant |
+| Switch | Thumb slides on `ease-spring` | Instant |
+| Tabs | Indicator color (`state`) | Instant |
+| Accordion | Chevron rotates (`state`); panel height (`enter`, where supported) | Instant |
+| Dialog | Fade + `8px` rise and backdrop fade: enter `normal`/`ease-out`, exit `fast`/`ease-in` | Instant |
+| Menu | Fade + `4px` drop, same enter/exit split | Instant |
+| Tooltip | Fade + `4px` shift in after a `fast` delay (so passing the pointer over doesn't flash it), out at `fast` | Instant |
+| Toast | Fade + rise in; fade + fall out (`data-leaving`, set by `membrane.js`, removes after the exit) | Instant |
+| Progress (indeterminate) | Bar sweeps once per `loop` | Bar holds in the middle and pulses |
+| Spinner | Rotates once per `loop / 2` | Full ring that pulses |
+| Skeleton | Shimmer sweeps once per `loop` | Solid shape that pulses |
+
+**Hover is a pointer thing.** Hover-only effects (button fills, card lift) sit inside `@media (hover: hover)` so a tap on a touch screen doesn't leave them stuck on. Focus styles never depend on hover.
+
+**Loading thresholds.** Show nothing for waits under ~300ms; a spinner (or `aria-busy` on the button) for short waits with no known shape; skeletons when the layout of the incoming content is known; a determinate `<progress>` whenever progress is measurable. A loader that appears should stay at least ~500ms so it doesn't flicker.
+
+### 8.6 Reduced Motion
+
+**Always respect `prefers-reduced-motion`.** Reduced means *reduce*, not *remove*: state still has to be visible, and a loader must never freeze on a frame that looks finished. When the preference is set:
+
+- **Tokens:** `fast`, `normal`, `slow` and every `--transition-*` composite resolve to `0ms`. `--duration-slower` drops to `150ms` for essential feedback. `--duration-loop` is unchanged.
+- **Library components** (anything with an `mp-` class) handle it themselves, per the table in §8.5: movement — lifts, nudges, press offsets, sweeps, rotation — is removed, and loaders switch to an in-place opacity pulse.
+- **Everything else** gets a safety net in `base.css`: animations run once in ~0ms and transitions are restricted to `opacity`, `color`, `background-color`, `border-color` and `box-shadow`. Library elements are excluded so their pulses keep running.
+- `scroll-behavior` falls back to `auto`.
+- Don't add parallax, scroll-triggered transforms or auto-playing sequences. If a product needs one, gate it behind `@media (prefers-reduced-motion: no-preference)` rather than adding it unconditionally and undoing it later.
+
+### 8.7 Page Transitions
+
+The library doesn't animate navigation. Pages that want a soft change can opt in to the browser's View Transitions with the tokens:
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-slower);
+    animation-timing-function: var(--ease-in-out);
+  }
+}
+```
+
+For in-page changes (the showcase's theme switch), wrap the DOM update in `document.startViewTransition(update)` when it exists and reduced motion is off; call `update()` directly otherwise.
+
+### 8.8 Other User Preferences
+
+- **`prefers-contrast: more`:** secondary text becomes primary, tertiary text darkens, default borders take the emphasis color, input borders strengthen, and the focus ring thickens to `--border-width-thick`.
+- **`forced-colors: active`:** components fall back to system colors; custom-drawn checkboxes and radios hand back to the platform control.
+- **Print:** `base.css` forces the light scheme and drops the page background; the navbar, skip link and toast region are hidden; component colors print exactly (`print-color-adjust: exact`); `mp-prose` prints the target of every external link after its text.
 
 ---
 

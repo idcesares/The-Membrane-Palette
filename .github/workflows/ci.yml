@@ -66,9 +66,11 @@ jobs:
       - name: Install Chromium for Playwright
         run: npx playwright install --with-deps chromium
 
-      # Builds dist/, serves it, then runs axe-core on every page in light
-      # and dark mode, a phone-width overflow check, and the keyboard /
-      # focus / ARIA behavior of tabs, dialog, tooltip, menu and toast.
+      # Builds dist/ and validates its HTML, then serves it and runs axe-core
+      # on every page in light and dark mode, a phone-width overflow check,
+      # link integrity (site + Markdown), the keyboard / focus / ARIA
+      # behavior of tabs, dialog, tooltip, menu and toast, and motion under
+      # full, reduced and touch settings.
       - name: Run tests
         run: npm test
 

@@ -19,7 +19,7 @@ npx playwright install chromium   # once, for npm test
 
 ```bash
 npm run build:system   # tokens (contrast gate) → components (lint + coverage) → generated docs
-npm test               # build dist/, axe in both themes, overflow, keyboard behavior
+npm test               # build dist/, html-validate, axe in both themes, overflow, links, keyboard + motion behavior
 npm run dev            # look at it: http://localhost:3456
 ```
 
@@ -41,6 +41,7 @@ Commit the regenerated files together with your source change. CI runs all three
    - an example uses a class, attribute or value the CSS doesn't implement, repeats an `id` used by another example, has an icon-only button without `aria-label` or an `<img>` without `alt`;
    - a class or `data-*` value the CSS implements is never shown in an example (coverage). Use `exempt:` only for token scales and runtime-only state, and say why in the README.
 5. If it needs behavior, add it to `components/membrane.js` (event delegation, no init call, no `innerHTML` with data) and a test to `tests/behavior.spec.mjs`.
+   If it moves, follow `DESIGN-SYSTEM.md` §8: exit timing on the closed state, enter timing on the open state, hover effects inside `@media (hover: hover)`, and a reduced-motion rule that removes movement (loaders pulse instead). Cover it in `tests/motion.spec.mjs`.
 6. `npm test`. axe runs on the showcase, which renders every README example.
 
 ## Writing

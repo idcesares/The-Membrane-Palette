@@ -16,8 +16,13 @@
   <meta property="og:title" content="Isaac D'Césares Design System">
   <meta property="og:description" content="A token-based visual language and CSS component library for warm, precise digital education products, built around The Membrane Palette.">
   <meta property="og:url" content="https://membrane-palette.dcesares.dev/">
+  <meta property="og:image" content="https://membrane-palette.dcesares.dev/assets/idcesares-social-design-system-og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Membrane Palette — tokens and a framework-free CSS component library, with its seven brand colors.">
 
-  <meta name="twitter:card" content="summary">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://membrane-palette.dcesares.dev/assets/idcesares-social-design-system-og.png">
   <meta name="twitter:title" content="Isaac D'Césares Design System">
   <meta name="twitter:description" content="Explore The Membrane Palette, typography, components, dark mode, and accessibility patterns.">
 
@@ -123,6 +128,13 @@
       font-size: var(--text-small);
       font-weight: var(--weight-semibold);
       letter-spacing: 0;
+    }
+
+    /* Theme switch crossfade (see the toggle script). */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: var(--duration-slower);
+      animation-timing-function: var(--ease-in-out);
     }
 
     .theme-toggle__dot {
@@ -968,7 +980,7 @@
         </figure>
       </div>
 
-      <div class="membrane-map" aria-label="Membrane palette register map">
+      <div class="membrane-map" role="group" aria-label="Membrane palette register map">
         <div class="membrane-map__grid">
           <article class="register register--human">
             <div>
@@ -1057,7 +1069,7 @@
           <article class="specimen specimen--wide">
             <p class="label">Neutral Scale</p>
             <h2>Warm grays keep structure human.</h2>
-            <div class="color-rail" aria-label="Warm neutral scale">
+            <div class="color-rail" role="group" aria-label="Warm neutral scale">
               <span class="color-step" style="background: var(--color-neutral-50);"><span>50</span></span>
               <span class="color-step" style="background: var(--color-neutral-100);"><span>100</span></span>
               <span class="color-step" style="background: var(--color-neutral-200);"><span>200</span></span>
@@ -6403,9 +6415,15 @@
 
       button.addEventListener('click', () => {
         const next = isDark() ? 'light' : 'dark';
-        root.setAttribute('data-theme', next);
-        try { localStorage.setItem('idcesares-theme', next); } catch (e) {}
-        sync();
+        const apply = () => {
+          root.setAttribute('data-theme', next);
+          try { localStorage.setItem('idcesares-theme', next); } catch (e) {}
+          sync();
+        };
+        // Crossfade the whole page where supported; an instant swap otherwise.
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (document.startViewTransition && !reduce) document.startViewTransition(apply);
+        else apply();
       });
       media.addEventListener('change', sync);
       sync();
