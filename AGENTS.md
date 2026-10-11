@@ -8,14 +8,14 @@ This file provides guidance to AI coding agents (OpenAI Codex and others that re
 npm run build:tokens      # Regenerate tokens/design-tokens.css, base.css, membrane-tailwind.css, tokens.resolved.json, fonts/fonts.css and the spec/showcase token tables; runs the WCAG contrast gate (every `GATE` pair × light/dark) and aborts on failure
 npm run build:components  # Lint components + README examples + pattern pages, then write components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt, the README API sections and the showcase gallery
 npm run build:system      # Both of the above, in order — run this after any source change
-npm run build             # Cloudflare Pages build: build:system, then assembles dist/ (adds llms-full.txt)
+npm run build             # Cloudflare build: build:system, then assembles dist/ (adds llms-full.txt)
 npm test                  # Build, html-validate dist/, type-check membrane.d.ts, serve dist/, run Playwright in Chromium/Firefox/WebKit: axe-core on every page in both themes, phone-width overflow, link integrity + self-containment, keyboard/focus/ARIA, motion (full/reduced/touch)
 npm run test:visual       # Pixel baselines of every gallery example, light + dark. Canonical only inside mcr.microsoft.com/playwright:v1.56.1-noble (CI's `visual` job). After an INTENDED visual change, commit the baselines CI uploads as the `visual-baselines` artifact, or record them in that image (command in tests/visual.spec.mjs)
 npm run render:social     # Re-render the og:image and apple-touch icon in showcase/assets/ (manual; commit the PNGs)
 npm run render:figures    # Re-render the report figures (docs/figures/src/*.html → PNG, light + dark) after a visual change (manual; commit the PNGs)
 npm run dev               # Build, then start local dev server at localhost:3456
 npm run preview           # Alias of dev
-npm run deploy            # Build, then `wrangler pages deploy` — uploads dist/ to the Cloudflare Pages project in wrangler.toml (releases: docs/RELEASING.md)
+npm run deploy            # Build, then `wrangler deploy` — uploads dist/ as Cloudflare Workers static assets per wrangler.toml. Pushes are also deployed by Cloudflare's Workers Builds integration (releases: docs/RELEASING.md)
 ```
 
 Three layers of checks, all in CI (`.github/workflows/ci.yml`): the contrast gate (`build:tokens`), the component/docs/coverage lint (`build:components`), and the browser suite (`npm test`, `tests/*.spec.mjs`). CI also fails if any committed generated file differs from a fresh build. Run `npm test` after changing component CSS, `membrane.js`, the showcase or an example page. `dist/` is gitignored and fully generated — never commit it or hand-edit it.

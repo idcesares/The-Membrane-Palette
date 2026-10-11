@@ -239,7 +239,7 @@ The showcase site is the only thing this repo deploys right now. Token distribut
 
 ```bash
 npm run build     # regenerates everything, assembles dist/ (showcase, 404, _headers, assets/, tokens/, components/, examples/, fonts/, brand/, membrane.css, llms.txt, llms-full.txt, robots.txt, sitemap.xml and the Markdown docs)
-npm run deploy    # builds, then `wrangler pages deploy` uploads dist/ to Cloudflare Pages
+npm run deploy    # builds, then `wrangler deploy` uploads dist/ as Workers static assets
 ```
 
 `dist/` is gitignored — it's rebuilt fresh on every deploy and every CI run, never committed. Live at [membrane-palette.dcesares.dev](https://membrane-palette.dcesares.dev/). Cutting a version (tag, pinned CDN URLs, deploy, smoke test) follows [`docs/RELEASING.md`](docs/RELEASING.md).
@@ -431,7 +431,7 @@ The-Membrane-Palette/
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)
 │   ├── build-components.mjs   ← Component linter + bundler + manifest/docs generator
-│   ├── build-cloudflare-pages.mjs ← Assembles dist/ for Pages deploy
+│   ├── build-cloudflare-pages.mjs ← Assembles dist/ for the Cloudflare deploy
 │   ├── render-social-image.mjs ← Renders the og:image and touch icon (manual)
 │   ├── measure-fonts.py       ← Measures fallback-font overrides (manual)
 │   ├── render-brand-marks.py  ← Outlines the brand marks (manual)
@@ -444,7 +444,7 @@ The-Membrane-Palette/
 ├── BRAND-VOICE.md             ← Verbal identity guidelines
 ├── CHANGELOG.md               ← Version history
 ├── CLAUDE.md / AGENTS.md      ← Instructions for agents editing this repo (kept in sync)
-└── dist/                      ← Generated, gitignored — Cloudflare Pages output
+└── dist/                      ← Generated, gitignored — the deployed site (Workers static assets)
 ```
 
 <br>

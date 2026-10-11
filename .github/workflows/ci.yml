@@ -53,8 +53,8 @@ jobs:
             exit 1
           fi
 
-      # Assembles dist/ the same way the Cloudflare Pages deploy does.
-      - name: Build showcase (Cloudflare Pages assembly)
+      # Assembles dist/ the same way the Cloudflare deploy does.
+      - name: Build showcase (Cloudflare assembly)
         run: npm run build
 
   test:

@@ -54,8 +54,10 @@ Append `.min.css` / `.min.js` to any file for jsDelivr's minified copy: `membran
 
 ## 4. Site
 
+Cloudflare's Workers Builds integration builds and deploys the site from the repository on push, so merging to `master` normally updates it. To deploy by hand:
+
 ```bash
-npm run deploy   # builds, then wrangler pages deploy → Cloudflare Pages (needs `wrangler login` once)
+npm run deploy   # builds, then wrangler deploy → Cloudflare Workers static assets (needs `wrangler login` once)
 ```
 
 - [ ] Check that the following work on the live site:
