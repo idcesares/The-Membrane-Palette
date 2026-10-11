@@ -2,6 +2,6 @@
   "extends": ["html-validate:recommended"],
   "rules": {
     "no-inline-style": "off",
-    "prefer-native-element": ["error", { "exclude": ["region"] }]
+    "prefer-native-element": ["error", { "exclude": ["region", "listbox"] }]
   }
 }

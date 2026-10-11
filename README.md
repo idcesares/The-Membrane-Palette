@@ -74,7 +74,7 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`membrane.css`](membrane.css) | **The one link.** Generated: tokens + base + all components. |
 | [`components/`](components/) | **Component library.** One folder per component: `<name>.css` (source) + `README.md` (docs, examples, generated API). Bundled into `components/membrane-components.css`. |
 | [`components/manifest.json`](components/manifest.json) | **Machine-readable API.** Every component's classes, allowed `data-*` values, states, knobs, tokens and HTML examples. Generated. |
-| [`components/membrane.js`](components/membrane.js) | **Optional behaviors** (~1.7 KB gzipped): tabs keyboard support, tooltip Escape-dismiss, dialog invoker fallback. |
+| [`components/membrane.js`](components/membrane.js) | **Optional behaviors** (~5 KB gzipped): tabs, menu and combobox keyboard patterns, toasts, tooltip Escape-dismiss, dialog invoker fallback. |
 | [`tokens/membrane.tokens.json`](tokens/membrane.tokens.json) | **Single source of truth for values.** DTCG-flavored JSON. Edit this; never edit the CSS. |
 | [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Custom properties — 3 tiers, OKLCH colors, `light-dark()`, `@layer tokens`. |
 | [`tokens/base.css`](tokens/base.css) | **Generated.** Page defaults (canvas, text, font, `box-sizing`, all zero-specificity), `::selection`, focus ring, reduced motion, `.type-*` composites. |

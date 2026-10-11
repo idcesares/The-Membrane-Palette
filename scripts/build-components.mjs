@@ -41,7 +41,7 @@ const SITE = "https://membrane-palette.dcesares.dev/";
 const ORDER = [
   "layout", "text", "prose",
   "button", "link",
-  "field", "input", "choice", "switch",
+  "field", "input", "combobox", "choice", "switch",
   "card", "tag", "badge", "avatar", "quote", "code", "divider", "table", "stat", "chart",
   "icon",
   "alert", "progress", "skeleton", "empty-state", "toast", "tooltip", "dialog",
@@ -398,7 +398,7 @@ const llms = `# The Membrane Palette
 
 Rules for generating UI with this system:
 
-- Load \`${CDN}membrane.css\` (tokens + base + components). Load \`${CDN}components/membrane.js\` only if you use Tabs, Tooltip Escape-dismiss, or need dialog invoker fallbacks.
+- Load \`${CDN}membrane.css\` (tokens + base + components). Load \`${CDN}components/membrane.js\` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
 - Compose from components (\`.mp-button\`, \`.mp-card\`, \`.mp-field\`…) and layout primitives (\`.mp-container\`, \`.mp-stack\`, \`.mp-cluster\`, \`.mp-grid\`) before writing CSS.
 - Options are \`data-*\` attributes (\`data-variant="secondary"\`); only the values listed in the manifest exist.
 - States come from semantic HTML/ARIA (\`disabled\`, \`aria-invalid="true"\`, \`aria-current="page"\`, \`aria-selected\`, \`aria-busy\`), never from extra classes.

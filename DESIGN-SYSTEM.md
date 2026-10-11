@@ -961,6 +961,9 @@ Every pair below is verified by the build in both modes; a translucent backgroun
 | `--color-warning-text` | `--color-bg-elevated` | 6.08 | 7.82 | 4.5 | warning toast title |
 | `--color-error-text` | `--color-bg-elevated` | 6.20 | 5.56 | 4.5 | error toast title, danger menu item |
 | `--color-text-primary` | `--color-bg-hover` | 11.31 | 11.06 | 7.0 | hovered rows on a card |
+| `--color-text-primary` | `--color-bg-active` | 11.52 | 9.39 | 7.0 | active combobox option (popup) |
+| `--color-text-secondary` | `--color-bg-elevated` | 6.73 | 5.52 | 4.5 | combobox empty message, menu labels |
+| `--color-focus` | `--color-bg-active` | 4.23 | 4.18 | 3.0 | active-option marker (popup) |
 | `--color-chart-1` | `--color-bg-primary` | 4.57 | 5.18 | 3.0 | chart series 1 on page |
 | `--color-chart-1` | `--color-bg-secondary` | 4.15 | 4.65 | 3.0 | chart series 1 on a card |
 | `--color-chart-2` | `--color-bg-primary` | 3.61 | 5.87 | 3.0 | chart series 2 on page |

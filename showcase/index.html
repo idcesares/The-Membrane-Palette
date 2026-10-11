@@ -1408,6 +1408,7 @@
     <ul class="gallery-index__list">
       <li><a class="gallery-index__link" href="#component-field">Field</a></li>
       <li><a class="gallery-index__link" href="#component-input">Input</a></li>
+      <li><a class="gallery-index__link" href="#component-combobox">Combobox</a></li>
       <li><a class="gallery-index__link" href="#component-choice">Choice</a></li>
       <li><a class="gallery-index__link" href="#component-switch">Switch</a></li>
     </ul>
@@ -1996,6 +1997,101 @@
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; aria-label=&quot;Disabled input&quot; value=&quot;Disabled&quot; disabled&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; aria-label=&quot;Read-only input&quot; value=&quot;Read-only&quot; readonly&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; aria-label=&quot;Invalid input&quot; value=&quot;Invalid&quot; aria-invalid=&quot;true&quot;&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+</article>
+<article class="gallery-item" id="component-combobox" aria-labelledby="component-combobox-title">
+  <header class="gallery-item__header">
+    <div>
+      <p class="label">Forms · beta</p>
+      <h3 class="gallery-item__title" id="component-combobox-title">Combobox</h3>
+    </div>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/combobox/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Combobox</span></a>
+  </header>
+  <p class="gallery-item__summary">A text input that suggests options as you type — accent-insensitive filtering, arrow-key navigation and a result count for screen readers, via membrane.js.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-combobox</code></dd></div></dl>
+<div class="gallery-example">
+  <p class="gallery-example__title">Topic</p>
+  <div class="gallery-example__stage">
+<div class="mp-field">
+  <label class="mp-field__label" for="combo-topic">Workshop topic</label>
+  <div class="mp-combobox">
+    <input class="mp-input mp-combobox__input" id="combo-topic" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="combo-topic-list" aria-describedby="combo-topic-hint" autocomplete="off">
+    <ul class="mp-combobox__list" id="combo-topic-list" role="listbox" aria-label="Topics" hidden>
+      <li class="mp-combobox__option" id="combo-topic-1" role="option" aria-selected="false">AI literacy for educators</li>
+      <li class="mp-combobox__option" id="combo-topic-2" role="option" aria-selected="false">Assessment design</li>
+      <li class="mp-combobox__option" id="combo-topic-3" role="option" aria-selected="false">Educação e tecnologia</li>
+      <li class="mp-combobox__option" id="combo-topic-4" role="option" aria-selected="false">Learning analytics</li>
+      <li class="mp-combobox__option" id="combo-topic-5" role="option" aria-selected="false">Prompt craft</li>
+      <li class="mp-combobox__option" id="combo-topic-6" role="option" aria-selected="false">Transformação digital</li>
+    </ul>
+    <p class="mp-combobox__empty" hidden>No topics match. You can still use what you typed.</p>
+    <p class="mp-combobox__status" role="status"></p>
+  </div>
+  <p class="mp-field__hint" id="combo-topic-hint">Start typing, or press ↓ to see every topic.</p>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Combobox · Topic</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-field&quot;&gt;
+  &lt;label class=&quot;mp-field__label&quot; for=&quot;combo-topic&quot;&gt;Workshop topic&lt;/label&gt;
+  &lt;div class=&quot;mp-combobox&quot;&gt;
+    &lt;input class=&quot;mp-input mp-combobox__input&quot; id=&quot;combo-topic&quot; type=&quot;text&quot; role=&quot;combobox&quot; aria-autocomplete=&quot;list&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;combo-topic-list&quot; aria-describedby=&quot;combo-topic-hint&quot; autocomplete=&quot;off&quot;&gt;
+    &lt;ul class=&quot;mp-combobox__list&quot; id=&quot;combo-topic-list&quot; role=&quot;listbox&quot; aria-label=&quot;Topics&quot; hidden&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-topic-1&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;AI literacy for educators&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-topic-2&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;Assessment design&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-topic-3&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;Educação e tecnologia&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-topic-4&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;Learning analytics&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-topic-5&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;Prompt craft&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-topic-6&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;Transformação digital&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p class=&quot;mp-combobox__empty&quot; hidden&gt;No topics match. You can still use what you typed.&lt;/p&gt;
+    &lt;p class=&quot;mp-combobox__status&quot; role=&quot;status&quot;&gt;&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;p class=&quot;mp-field__hint&quot; id=&quot;combo-topic-hint&quot;&gt;Start typing, or press ↓ to see every topic.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">With hints and an unavailable option</p>
+  <div class="gallery-example__stage">
+<div class="mp-field">
+  <label class="mp-field__label" for="combo-cohort">Cohort</label>
+  <div class="mp-combobox">
+    <input class="mp-input mp-combobox__input" id="combo-cohort" type="text" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="combo-cohort-list" autocomplete="off" placeholder="Rio, São Paulo, online…">
+    <ul class="mp-combobox__list" id="combo-cohort-list" role="listbox" aria-label="Cohorts" hidden>
+      <li class="mp-combobox__option" id="combo-cohort-1" role="option" aria-selected="false">Rio de Janeiro <span class="mp-combobox__hint">March</span></li>
+      <li class="mp-combobox__option" id="combo-cohort-2" role="option" aria-selected="false">São Paulo <span class="mp-combobox__hint">April</span></li>
+      <li class="mp-combobox__option" id="combo-cohort-3" role="option" aria-selected="false" aria-disabled="true">Belo Horizonte <span class="mp-combobox__hint">Full</span></li>
+      <li class="mp-combobox__option" id="combo-cohort-4" role="option" aria-selected="false" data-mp-value="Online">Online, any time zone <span class="mp-combobox__hint">Rolling</span></li>
+    </ul>
+    <p class="mp-combobox__empty" hidden>No cohort matches.</p>
+    <p class="mp-combobox__status" role="status"></p>
+  </div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Combobox · With hints and an unavailable option</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-field&quot;&gt;
+  &lt;label class=&quot;mp-field__label&quot; for=&quot;combo-cohort&quot;&gt;Cohort&lt;/label&gt;
+  &lt;div class=&quot;mp-combobox&quot;&gt;
+    &lt;input class=&quot;mp-input mp-combobox__input&quot; id=&quot;combo-cohort&quot; type=&quot;text&quot; role=&quot;combobox&quot; aria-autocomplete=&quot;list&quot; aria-expanded=&quot;false&quot; aria-controls=&quot;combo-cohort-list&quot; autocomplete=&quot;off&quot; placeholder=&quot;Rio, São Paulo, online…&quot;&gt;
+    &lt;ul class=&quot;mp-combobox__list&quot; id=&quot;combo-cohort-list&quot; role=&quot;listbox&quot; aria-label=&quot;Cohorts&quot; hidden&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-cohort-1&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;Rio de Janeiro &lt;span class=&quot;mp-combobox__hint&quot;&gt;March&lt;/span&gt;&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-cohort-2&quot; role=&quot;option&quot; aria-selected=&quot;false&quot;&gt;São Paulo &lt;span class=&quot;mp-combobox__hint&quot;&gt;April&lt;/span&gt;&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-cohort-3&quot; role=&quot;option&quot; aria-selected=&quot;false&quot; aria-disabled=&quot;true&quot;&gt;Belo Horizonte &lt;span class=&quot;mp-combobox__hint&quot;&gt;Full&lt;/span&gt;&lt;/li&gt;
+      &lt;li class=&quot;mp-combobox__option&quot; id=&quot;combo-cohort-4&quot; role=&quot;option&quot; aria-selected=&quot;false&quot; data-mp-value=&quot;Online&quot;&gt;Online, any time zone &lt;span class=&quot;mp-combobox__hint&quot;&gt;Rolling&lt;/span&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;p class=&quot;mp-combobox__empty&quot; hidden&gt;No cohort matches.&lt;/p&gt;
+    &lt;p class=&quot;mp-combobox__status&quot; role=&quot;status&quot;&gt;&lt;/p&gt;
+  &lt;/div&gt;
 &lt;/div&gt;</code></pre>
     </figure>
   </details>
@@ -5668,6 +5764,30 @@
                 </tr>
                 <tr>
                   <td>light</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-active</code></td>
+                  <td data-align="end">11.52:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">6.73:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
+                  <td><code>--color-focus</code></td>
+                  <td><code>--color-bg-active</code></td>
+                  <td data-align="end">4.23:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>light</td>
                   <td><code>--color-chart-1</code></td>
                   <td><code>--color-bg-primary</code></td>
                   <td data-align="end">4.57:1</td>
@@ -6288,6 +6408,30 @@
                   <td><code>--color-bg-hover</code></td>
                   <td data-align="end">11.06:1</td>
                   <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-active</code></td>
+                  <td data-align="end">9.39:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-text-secondary</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">5.52:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <td>dark</td>
+                  <td><code>--color-focus</code></td>
+                  <td><code>--color-bg-active</code></td>
+                  <td data-align="end">4.18:1</td>
+                  <td data-align="end">3.0:1</td>
                   <td><span class="mp-badge" data-tone="success">Pass</span></td>
                 </tr>
                 <tr>

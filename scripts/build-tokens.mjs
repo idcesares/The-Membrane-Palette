@@ -210,6 +210,7 @@ const C = "code.";
 // fifth element names another surface — before measuring. Washes are checked
 // over both page and card surfaces, because tags and alerts live on both.
 const ON_CARD = S + "bg-secondary";
+const ON_ELEVATED = S + "bg-elevated";
 const GATE = [
   // Text on surfaces
   [S + "text-primary", S + "bg-primary", 7.0, "body text, AAA target"],
@@ -276,6 +277,9 @@ const GATE = [
   [S + "warning-text", S + "bg-elevated", 4.5, "warning toast title"],
   [S + "error-text", S + "bg-elevated", 4.5, "error toast title, danger menu item"],
   [S + "text-primary", S + "bg-hover", 7.0, "hovered rows on a card", ON_CARD],
+  [S + "text-primary", S + "bg-active", 7.0, "active combobox option (popup)", ON_ELEVATED],
+  [S + "text-secondary", S + "bg-elevated", 4.5, "combobox empty message, menu labels"],
+  [S + "focus", S + "bg-active", 3.0, "active-option marker (popup)", ON_ELEVATED],
   // Data visualization — categorical series are non-text marks (WCAG 1.4.11)
   ...[1, 2, 3, 4, 5, 6].flatMap((n) => [
     [S + "chart-" + n, S + "bg-primary", 3.0, `chart series ${n} on page`],

@@ -116,3 +116,55 @@ test("primary hover fill is darker than rest (light) and label contrast rises", 
   await button.hover();
   await expect.poll(() => button.evaluate((b) => getComputedStyle(b).backgroundColor)).not.toBe(rest);
 });
+
+test("combobox: filters ignoring accents, arrows + Enter choose, Escape closes, count announced", async ({ page }) => {
+  const input = page.locator("#combo-topic");
+  const list = page.locator("#combo-topic-list");
+  await expect(list).toBeHidden();
+
+  await input.fill("");
+  await input.pressSequentially("educacao");
+  await expect(input).toHaveAttribute("aria-expanded", "true");
+  await expect(list.locator('[role="option"]:visible')).toHaveText(["Educação e tecnologia"]);
+  await expect(page.locator("#combo-topic").locator("xpath=..").locator(".mp-combobox__status")).toHaveText("1 result");
+
+  await page.keyboard.press("ArrowDown");
+  await expect(input).toHaveAttribute("aria-activedescendant", "combo-topic-3");
+  await expect(page.locator("#combo-topic-3")).toHaveAttribute("aria-selected", "true");
+  await expect(input).toBeFocused();
+  await page.keyboard.press("Enter");
+  await expect(input).toHaveValue("Educação e tecnologia");
+  await expect(list).toBeHidden();
+  await expect(input).toHaveAttribute("aria-expanded", "false");
+
+  // Escape closes an open list; a second Escape clears the field.
+  await page.keyboard.press("ArrowDown");
+  await expect(list).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(list).toBeHidden();
+  await page.keyboard.press("Escape");
+  await expect(input).toHaveValue("");
+});
+
+test("combobox: no matches shows the message; disabled options are skipped; data-mp-value submits", async ({ page }) => {
+  const input = page.locator("#combo-cohort");
+  await input.pressSequentially("xyz");
+  await expect(page.locator("#combo-cohort-list")).toBeHidden();
+  await expect(input.locator("xpath=..").locator(".mp-combobox__empty")).toBeVisible();
+
+  await input.fill("");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  await page.keyboard.press("ArrowDown");
+  // Rio → São Paulo → (Belo Horizonte is unavailable) → Online
+  await expect(input).toHaveAttribute("aria-activedescendant", "combo-cohort-4");
+  await page.keyboard.press("Enter");
+  await expect(input).toHaveValue("Online");
+
+  // Clicking an option chooses it and keeps focus in the field.
+  await input.fill("");
+  await input.click();
+  await page.locator("#combo-cohort-2").click();
+  await expect(input).toHaveValue("São Paulo");
+  await expect(input).toBeFocused();
+});

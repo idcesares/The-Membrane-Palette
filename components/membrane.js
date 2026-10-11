@@ -1,7 +1,7 @@
 /* ============================================================
    The Membrane Palette — optional component behaviors
 
-   Hand-written, dependency-free, ~1.7 KB gzipped. Every component renders
+   Hand-written, dependency-free, ~5 KB gzipped. Every component renders
    correctly without this file; it only adds keyboard behavior that
    CSS cannot express. Uses document-level event delegation, so it
    needs no init call and works for markup added later.
@@ -17,6 +17,9 @@
               positioning where CSS anchor positioning is missing.
    - Toast    MembranePalette.toast({ title, body, tone, timeout })
               and declarative <button data-mp-toast="…">.
+   - Combobox accent-insensitive filtering, ↑/↓/Enter/Escape,
+              aria-expanded / aria-activedescendant sync and a
+              live result count (WAI-ARIA list autocomplete).
 
    Load with: <script src=".../components/membrane.js" defer></script>
    ============================================================ */
@@ -141,6 +144,108 @@
     target.focus();
   }
 
+  /* Combobox ------------------------------------------------------ */
+
+  // "Educação" matches "educacao": compare without case or accents.
+  const fold = (text) => text.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+
+  function comboParts(input) {
+    const root = input.closest(".mp-combobox");
+    const list = document.getElementById(input.getAttribute("aria-controls"));
+    return {
+      root,
+      list,
+      empty: root?.querySelector(".mp-combobox__empty"),
+      status: root?.querySelector(".mp-combobox__status"),
+      options: list ? Array.from(list.querySelectorAll('[role="option"]')) : [],
+    };
+  }
+
+  const optionValue = (option) =>
+    option.dataset.mpValue ?? Array.from(option.childNodes)
+      .filter((n) => !(n instanceof Element && n.classList.contains("mp-combobox__hint")))
+      .map((n) => n.textContent).join("").trim();
+
+  const visibleOptions = (input) =>
+    comboParts(input).options.filter((o) => !o.hidden && o.getAttribute("aria-disabled") !== "true");
+
+  function setActive(input, option) {
+    for (const o of comboParts(input).options) o.setAttribute("aria-selected", String(o === option));
+    if (option) {
+      input.setAttribute("aria-activedescendant", option.id);
+      option.scrollIntoView({ block: "nearest" });
+    } else {
+      input.removeAttribute("aria-activedescendant");
+    }
+  }
+
+  let statusTimer;
+  function filterCombo(input) {
+    const { options, status } = comboParts(input);
+    const query = fold(input.value);
+    let shown = 0;
+    for (const o of options) {
+      o.hidden = query !== "" && !fold(optionValue(o) + " " + o.textContent).includes(query);
+      if (!o.hidden) shown += 1;
+    }
+    // Announce after typing settles, not on every keystroke.
+    clearTimeout(statusTimer);
+    statusTimer = setTimeout(() => {
+      if (status) status.textContent = shown === 0 ? "No results" : shown === 1 ? "1 result" : `${shown} results`;
+    }, 400);
+    return shown;
+  }
+
+  function openCombo(input) {
+    const { list, empty } = comboParts(input);
+    if (!list) return;
+    const shown = filterCombo(input);
+    list.hidden = shown === 0;
+    if (empty) empty.hidden = shown !== 0;
+    input.setAttribute("aria-expanded", String(shown !== 0));
+  }
+
+  function closeCombo(input) {
+    const { list, empty } = comboParts(input);
+    if (list) list.hidden = true;
+    if (empty) empty.hidden = true;
+    input.setAttribute("aria-expanded", "false");
+    setActive(input, null);
+  }
+
+  function chooseOption(input, option) {
+    if (!option || option.getAttribute("aria-disabled") === "true") return;
+    input.value = optionValue(option);
+    closeCombo(input);
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  function onComboKey(event, input) {
+    const open = input.getAttribute("aria-expanded") === "true";
+    const active = document.getElementById(input.getAttribute("aria-activedescendant") || "");
+    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+      event.preventDefault();
+      if (!open) openCombo(input);
+      if (event.altKey) return;
+      const options = visibleOptions(input);
+      if (!options.length) return;
+      const i = options.indexOf(active);
+      const next = event.key === "ArrowDown"
+        ? options[(i + 1) % options.length]
+        : options[i <= 0 ? options.length - 1 : i - 1];
+      setActive(input, next);
+    } else if (event.key === "Enter" && open && active) {
+      event.preventDefault(); // pick the option; don't submit the form
+      chooseOption(input, active);
+    } else if (event.key === "Escape") {
+      if (open) closeCombo(input);
+      else input.value = "";
+    } else if (event.key === "Tab") {
+      closeCombo(input);
+    }
+  }
+
   /* Toast --------------------------------------------------------- */
 
   function toastRegion() {
@@ -214,6 +319,17 @@
   /* Wiring -------------------------------------------------------- */
 
   document.addEventListener("click", (event) => {
+    const comboInput = event.target.closest?.(".mp-combobox__input");
+    if (comboInput && comboInput.getAttribute("aria-expanded") !== "true") openCombo(comboInput);
+    const comboOption = event.target.closest?.('.mp-combobox [role="option"]');
+    if (comboOption) {
+      const input = comboOption.closest(".mp-combobox")?.querySelector(".mp-combobox__input");
+      if (input) {
+        chooseOption(input, comboOption);
+        input.focus();
+      }
+    }
+
     const tab = event.target.closest?.('.mp-tabs [role="tab"]');
     if (tab && !tab.disabled) selectTab(tab);
 
@@ -248,7 +364,28 @@
     if (tab) onTabKey(event, tab);
     const menu = event.target.closest?.(".mp-menu");
     if (menu) onMenuKey(event, menu);
+    const comboInput = event.target.closest?.(".mp-combobox__input");
+    if (comboInput) onComboKey(event, comboInput);
     if (event.key === "Escape") dismissTooltips();
+  });
+
+  document.addEventListener("input", (event) => {
+    const input = event.target.closest?.(".mp-combobox__input");
+    if (input && event.isTrusted) {
+      openCombo(input);
+      setActive(input, null);
+    }
+  });
+
+  // Keep focus in the input when an option is pressed; close when focus
+  // leaves the whole combobox.
+  document.addEventListener("pointerdown", (event) => {
+    if (event.target.closest?.('.mp-combobox [role="option"]')) event.preventDefault();
+  });
+  document.addEventListener("focusout", (event) => {
+    const input = event.target.closest?.(".mp-combobox__input");
+    const root = input?.closest(".mp-combobox");
+    if (root && !root.contains(event.relatedTarget)) closeCombo(input);
   });
 
   document.addEventListener("pointerout", restoreTooltip);
