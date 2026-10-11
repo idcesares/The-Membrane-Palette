@@ -251,6 +251,21 @@ for (const c of components) {
   }
 }
 
+// Catalog lint: the hand-curated component tables in README.md and
+// DESIGN-SYSTEM.md §6.3 must list every component, and mark beta ones with
+// <sup>β</sup> (and only those), so the catalogs can't drift from the folders.
+for (const file of ["README.md", "DESIGN-SYSTEM.md"]) {
+  const text = await readFile(rel(file), "utf8");
+  for (const c of components) {
+    const link = `](components/${c.slug}/README.md)`;
+    const i = text.indexOf(link);
+    if (i === -1) { fail(file, `component catalog doesn't list ${c.meta.name} (components/${c.slug}/README.md)`); continue; }
+    const marked = text.slice(i + link.length).startsWith("<sup>β</sup>");
+    if (c.meta.status === "beta" && !marked) fail(file, `${c.meta.name} is status: beta; mark its first catalog link with <sup>β</sup>`);
+    if (c.meta.status !== "beta" && marked) fail(file, `${c.meta.name} is marked beta in the catalog but its README says status: ${c.meta.status}`);
+  }
+}
+
 if (errors.length > 0) {
   console.error(`\nCOMPONENT BUILD FAILED — ${errors.length} problem(s):`);
   for (const e of errors) console.error("  ✗ " + e);

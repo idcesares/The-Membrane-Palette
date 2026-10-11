@@ -1,10 +1,17 @@
 name: CI
 
 on:
+  # Every branch, so a change is verified on GitHub's runners before a pull
+  # request exists; pull requests into master; and on demand.
   push:
-    branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+
+# A newer push to the same ref cancels the run it supersedes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:

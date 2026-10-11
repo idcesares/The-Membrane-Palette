@@ -472,7 +472,7 @@ No framework, no build step for consumers; `tokens/base.css` (inside `membrane.c
 | Component | One root class, prefixed `mp-` | `.mp-button` |
 | Parts | BEM element of the root | `.mp-card__title` |
 | Options | `data-*` attribute with a closed set of values; omit for the default | `data-variant="secondary"`, `data-size="sm"`, `data-tone="human"` |
-| States | Native attributes and ARIA — never a state class | `disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-selected="true"`, `aria-busy="true"` |
+| States | Native attributes and ARIA — never a state class | `disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-selected="true"`, `aria-pressed="true"`, `aria-busy="true"`, `[open]` |
 | Per-instance tuning | Tier 3 component tokens, `--mp-<component>-*` | `style="--mp-button-padding: var(--space-10)"` |
 | Theming a subtree | `data-theme="dark"` (or `light`) + `.mp-surface` to paint the background | `<section class="mp-section mp-surface" data-theme="dark">` |
 | Cascade | Everything in `@layer components`; unlayered CSS wins without `!important` | — |
@@ -485,10 +485,12 @@ No framework, no build step for consumers; `tokens/base.css` (inside `membrane.c
 |---|---|
 | Layout | [Layout](components/layout/README.md) (container, stack, cluster, grid, section, surface), [Text](components/text/README.md), [Prose](components/prose/README.md) |
 | Actions | [Button](components/button/README.md), [Link](components/link/README.md) (incl. skip link) |
-| Forms | [Field](components/field/README.md) (incl. fieldset), [Input](components/input/README.md) (input, textarea, select), [Combobox](components/combobox/README.md), [Choice](components/choice/README.md) (checkbox, radio), [Switch](components/switch/README.md) |
-| Content | [Card](components/card/README.md), [Tag](components/tag/README.md), [Badge](components/badge/README.md), [Avatar](components/avatar/README.md), [Quote](components/quote/README.md), [Code](components/code/README.md), [Divider](components/divider/README.md), [Table](components/table/README.md), [Stat](components/stat/README.md), [Chart](components/chart/README.md), [Icon](components/icon/README.md) |
-| Feedback | [Alert](components/alert/README.md), [Progress](components/progress/README.md) (incl. spinner), [Skeleton](components/skeleton/README.md), [Empty state](components/empty-state/README.md), [Toast](components/toast/README.md), [Tooltip](components/tooltip/README.md), [Dialog](components/dialog/README.md) |
-| Navigation | [Navbar](components/navbar/README.md), [Breadcrumb](components/breadcrumb/README.md), [Tabs](components/tabs/README.md), [Accordion](components/accordion/README.md), [Pagination](components/pagination/README.md), [Steps](components/steps/README.md), [Menu](components/menu/README.md) |
+| Forms | [Field](components/field/README.md) (incl. fieldset), [Input](components/input/README.md) (input, textarea, select), [Combobox](components/combobox/README.md)<sup>β</sup>, [Choice](components/choice/README.md) (checkbox, radio), [Switch](components/switch/README.md) |
+| Content | [Card](components/card/README.md), [Tag](components/tag/README.md), [Badge](components/badge/README.md), [Avatar](components/avatar/README.md), [Quote](components/quote/README.md), [Code](components/code/README.md), [Divider](components/divider/README.md), [Table](components/table/README.md), [Stat](components/stat/README.md), [Chart](components/chart/README.md)<sup>β</sup>, [Icon](components/icon/README.md) |
+| Feedback | [Alert](components/alert/README.md), [Progress](components/progress/README.md) (incl. spinner), [Skeleton](components/skeleton/README.md), [Empty state](components/empty-state/README.md), [Toast](components/toast/README.md)<sup>β</sup>, [Tooltip](components/tooltip/README.md), [Dialog](components/dialog/README.md) |
+| Navigation | [Navbar](components/navbar/README.md), [Breadcrumb](components/breadcrumb/README.md), [Tabs](components/tabs/README.md), [Accordion](components/accordion/README.md), [Pagination](components/pagination/README.md), [Steps](components/steps/README.md), [Menu](components/menu/README.md)<sup>β</sup> |
+
+<sup>β</sup> Beta: newer components whose API may still grow. Removals and renames still follow the deprecation policy (§15). The build fails if this table or the README's misses a component or misstates its status.
 
 ### 6.4 Brand rules the components encode
 
@@ -797,7 +799,7 @@ Minimum clear space around any brand mark = the height of the lowercase `d` in t
 
 - **Headings:** Fraunces (or Georgia as fallback for email clients)
 - **Body:** Instrument Sans (or Helvetica Neue as fallback)
-- **Accent color in emails:** Use terracotta `#B35530` for links and CTAs (high contrast, warm, identifiable)
+- **Color in emails:** the same rule as on screen (§2.4): links are teal `#1B756D`, and the one call to action per email is a terracotta `#B35530` button. Two terracotta elements would compete, exactly as two primary buttons would.
 - **Email signature:** Name in semibold, title in regular weight, `dcesares.dev` as a teal link.
 
 ### 11.4 AI Agent Configuration

@@ -73,7 +73,7 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 
 **Controls:** `--size-control-sm/md/lg` = 36/44/52px; `--size-touch-target` = 44px. Compact controls grow to 44px on coarse pointers.
 
-**Motion (spec §8):** Overlays use `--transition-exit` on the closed state and `--transition-enter` on the open state (`--transition-state` for in-place toggles); animate only opacity/transforms/colors. Hover-only effects go inside `@media (hover: hover)`. Under `prefers-reduced-motion` the `--duration-*`/`--transition-*` tokens become `0ms` (`--duration-slower` keeps `150ms`); `--duration-loop` is kept so loaders pulse in place instead of freezing — any new loader needs a reduced-motion pulse, and any movement (lift, nudge, slide) needs removing under reduced motion.
+**Motion (spec §8):** Overlays use `--transition-exit` on the closed state and `--transition-enter` on the open state (`--transition-state` for in-place toggles); animate only opacity, transforms, colors and box-shadow, never layout properties (the accordion's `block-size`, behind `interpolate-size`, is the one exception). Hover-only effects go inside `@media (hover: hover)`. Under `prefers-reduced-motion` the `--duration-*`/`--transition-*` tokens become `0ms` (`--duration-slower` keeps `150ms`); `--duration-loop` is kept so loaders pulse in place instead of freezing — any new loader needs a reduced-motion pulse, and any movement (lift, nudge, slide) needs removing under reduced motion.
 
 ## Asset Naming Convention
 
