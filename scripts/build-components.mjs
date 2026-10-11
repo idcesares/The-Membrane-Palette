@@ -389,6 +389,102 @@ const manifest = {
 await writeFile(rel("components", "manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
 /* ------------------------------------------------------------------ *
+ *  TypeScript types (for React/Vue/Svelte/Astro users and wrappers)
+ * ------------------------------------------------------------------ */
+
+const pascal = (slug) => slug.replace(/(^|-)(\w)/g, (_, __, c) => c.toUpperCase());
+const literal = (v) => JSON.stringify(v);
+const union = (values) => (values.length ? values.map(literal).join(" | ") : "never");
+const wrap = (items, per = 4) => {
+  const lines = [];
+  for (let i = 0; i < items.length; i += per) lines.push(items.slice(i, i + per).join(" | "));
+  return lines.join("\n  | ");
+};
+const publicTokens = [...tokens].filter(([, t]) => t.tier !== "primitive" && !t.deprecated).map(([name]) => name);
+const knobs = [...new Set(manifest.components.flatMap((c) => Object.keys(c.componentTokens)))].sort();
+const typeClasses = [...new Set(manifest.components.flatMap((c) => [...c.classes.roots, ...c.classes.parts]))].sort();
+
+const attrInterfaces = manifest.components.map((c) => {
+  const entries = Object.entries(c.attributes);
+  const body = entries.length
+    ? entries.map(([attr, values]) =>
+        `  ${literal(attr)}?: ${values === "boolean" ? 'true | ""' : union(values)};`).join("\n")
+    : "  // No options: this component is styled by class and native state only.";
+  return `/** ${c.name} — ${c.summary.replace(/\*\//g, "*\\/")}\n *  Docs: ${c.docs} */\nexport interface Mp${pascal(c.slug)}Attributes {\n${body}\n}`;
+});
+
+const dts = `/* ============================================================
+   The Membrane Palette — TypeScript types
+   Version ${pkg.version}
+
+   GENERATED FILE — do not edit by hand.
+   Source:          components/manifest.json (from the component CSS)
+   Regenerate with: npm run build:components
+
+   Types only, no runtime. They let a framework catch an option the
+   CSS doesn't implement (data-variant="primary") at compile time:
+
+     import type { MpAttrs } from "…/components/membrane.d.ts";
+     const save: MpAttrs<"button"> = { "data-variant": "secondary" };
+     <button className="mp-button" {...save}>Save</button>
+
+   Boolean options are presence attributes: pass true (or "") to set
+   them and leave them out to unset them. Never pass false, because a
+   framework renders it as data-x="false" and the attribute still
+   matches.
+   ============================================================ */
+
+/** Every component class (roots and parts). */
+export type MpClass =
+  | ${wrap(typeClasses.map(literal), 3)};
+
+${attrInterfaces.join("\n\n")}
+
+/** Option attributes by component slug. */
+export interface MpComponentAttributes {
+${manifest.components.map((c) => `  ${literal(c.slug)}: Mp${pascal(c.slug)}Attributes;`).join("\n")}
+}
+
+export type MpComponent = keyof MpComponentAttributes;
+
+/** The option attributes one component accepts. */
+export type MpAttrs<C extends MpComponent> = MpComponentAttributes[C];
+
+/** Design tokens you may consume in your own CSS (semantic and scale
+ *  tokens; Tier 1 primitives and deprecated aliases are left out). */
+export type MpToken =
+  | ${wrap(publicTokens.map(literal), 3)};
+
+/** Tier 3 component knobs, each declared on its component's root. */
+export type MpKnob =
+  | ${wrap(knobs.map(literal), 3)};
+
+/** A style object that can set knobs and read tokens:
+ *  const style: MpStyle = { "--mp-button-bg": "var(--color-action-secondary)" }; */
+export type MpStyle = { [K in MpKnob]?: \`var(\${MpToken})\` | (string & {}) };
+
+/** window.MembranePalette, present when components/membrane.js is loaded. */
+export interface MpToastOptions {
+  title: string;
+  body?: string;
+  tone?: "info" | "success" | "warning" | "error";
+  /** Milliseconds; 0 keeps it until dismissed. Default 6000, errors 0. */
+  timeout?: number;
+}
+
+export interface MembranePaletteApi {
+  toast(options: MpToastOptions): { element: HTMLElement; dismiss(): void };
+}
+
+declare global {
+  interface Window {
+    MembranePalette?: MembranePaletteApi;
+  }
+}
+`;
+await writeFile(rel("components", "membrane.d.ts"), dts);
+
+/* ------------------------------------------------------------------ *
  *  llms.txt — https://llmstxt.org
  * ------------------------------------------------------------------ */
 
@@ -505,5 +601,5 @@ await writeFile(SHOWCASE, html);
 
 const exampleCount = components.reduce((n, c) => n + c.examples.length, 0);
 console.log(`✓ Linted ${components.length} components, ${exampleCount} documented examples and ${examplePages.length} pattern pages against ${tokens.size} tokens`);
-console.log("✓ Wrote components/membrane-components.css, membrane.css, components/manifest.json, llms.txt");
+console.log("✓ Wrote components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt");
 console.log(`✓ Regenerated API sections in ${components.length} READMEs and the showcase component gallery`);
