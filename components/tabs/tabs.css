@@ -1,0 +1,88 @@
+/* Tabs — the WAI-ARIA tabs pattern. Visual state follows aria-selected;
+   components/membrane.js supplies click and arrow-key behavior. */
+
+.mp-tabs {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+  font-family: var(--font-sans);
+}
+
+.mp-tabs__list {
+  display: flex;
+  gap: var(--space-1);
+  overflow-x: auto;
+  border-block-end: var(--border-default);
+  scrollbar-width: thin;
+}
+
+.mp-tabs__tab {
+  box-sizing: border-box;
+  appearance: none;
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--size-control-md);
+  margin: 0 0 calc(-1 * var(--border-width-thin));
+  padding: 0 var(--space-4);
+  border: 0;
+  border-block-end: var(--border-width-medium) solid transparent;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.mp-tabs__tab:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.mp-tabs__tab[aria-selected="true"] {
+  border-block-end-color: var(--color-action-primary);
+  color: var(--color-text-primary);
+}
+
+/* Inset ring: the scrolling tab list would clip an outside outline. */
+.mp-tabs__tab:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--border-width-medium));
+}
+
+.mp-tabs__panel {
+  min-width: 0;
+  border-radius: var(--radius-sm);
+}
+
+.mp-tabs__panel:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Segmented-control look for switching views of the same content. */
+.mp-tabs[data-variant="pill"] .mp-tabs__list {
+  width: fit-content;
+  max-width: 100%;
+  padding: var(--space-1);
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-tertiary);
+}
+
+.mp-tabs[data-variant="pill"] .mp-tabs__tab {
+  min-height: var(--size-control-sm);
+  margin: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+}
+
+.mp-tabs[data-variant="pill"] .mp-tabs__tab[aria-selected="true"] {
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--elevation-raised);
+}

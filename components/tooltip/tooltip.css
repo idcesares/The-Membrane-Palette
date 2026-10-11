@@ -1,0 +1,66 @@
+/* Tooltip — a short, non-essential hint shown on hover and keyboard focus.
+   Pure CSS; components/membrane.js adds Escape-to-dismiss (WCAG 1.4.13). */
+
+.mp-tooltip {
+  position: relative;
+  display: inline-flex;
+}
+
+.mp-tooltip__content {
+  --mp-tooltip-gap: var(--space-2);
+
+  box-sizing: border-box;
+  position: absolute;
+  inset-block-end: calc(100% + var(--mp-tooltip-gap));
+  inset-inline-start: 50%;
+  z-index: var(--z-tooltip);
+  width: max-content;
+  max-width: 16rem;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-inverse);
+  box-shadow: var(--elevation-overlay);
+  color: var(--color-text-inverse);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-small);
+  text-align: center;
+  opacity: 0;
+  translate: -50% var(--space-1);
+  visibility: hidden;
+  transition:
+    opacity var(--transition-fast),
+    translate var(--transition-fast),
+    visibility var(--transition-fast);
+}
+
+/* Invisible bridge across the gap, so the pointer can travel from the
+   trigger onto the tooltip without it closing (WCAG 1.4.13 "hoverable"). */
+.mp-tooltip__content::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 100%;
+  height: var(--mp-tooltip-gap);
+}
+
+.mp-tooltip:not([data-dismissed]):is(:hover, :has(:focus-visible)) > .mp-tooltip__content {
+  opacity: 1;
+  translate: -50% 0;
+  visibility: visible;
+  transition-delay: var(--duration-fast);
+}
+
+.mp-tooltip[data-placement="bottom"] > .mp-tooltip__content {
+  inset-block: calc(100% + var(--mp-tooltip-gap)) auto;
+  translate: -50% calc(-1 * var(--space-1));
+}
+
+.mp-tooltip[data-placement="bottom"]:not([data-dismissed]):is(:hover, :has(:focus-visible)) > .mp-tooltip__content {
+  translate: -50% 0;
+}
+
+.mp-tooltip[data-placement="bottom"] > .mp-tooltip__content::before {
+  inset-block: auto 100%;
+}

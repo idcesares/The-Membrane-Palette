@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starter page · The Membrane Palette</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- In your project, use the CDN instead of the relative paths:
+       https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css
+       https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js -->
+  <link rel="stylesheet" href="../membrane.css">
+  <script src="../components/membrane.js" defer></script>
+
+  <!-- Page defaults the system leaves to you: canvas, body type, box sizing. -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+      font-size: var(--text-body);
+      line-height: var(--leading-body);
+    }
+  </style>
+</head>
+<body>
+  <a class="mp-skip-link" href="#main">Skip to content</a>
+
+  <header class="mp-navbar">
+    <div class="mp-navbar__inner">
+      <a class="mp-navbar__brand" href="#main">D'Césares</a>
+      <nav class="mp-navbar__nav" aria-label="Primary">
+        <ul class="mp-navbar__links">
+          <li><a class="mp-navbar__link" href="#workshops" aria-current="page">Workshops</a></li>
+          <li><a class="mp-navbar__link" href="#writing">Writing</a></li>
+          <li><a class="mp-navbar__link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="mp-section">
+      <div class="mp-container" data-size="lg">
+        <div class="mp-stack" data-gap="6">
+          <nav class="mp-breadcrumb" aria-label="Breadcrumb">
+            <ol class="mp-breadcrumb__list">
+              <li class="mp-breadcrumb__item"><a class="mp-breadcrumb__link" href="#main">Home</a></li>
+              <li class="mp-breadcrumb__item"><a class="mp-breadcrumb__link" href="#workshops" aria-current="page">Workshops</a></li>
+            </ol>
+          </nav>
+          <h1 class="type-display">Learning that holds both registers.</h1>
+          <p class="type-body-lg" style="max-width: var(--measure); color: var(--color-text-secondary);">Workshops for educators who want to use AI with intention — warm in how we teach, precise in how we build.</p>
+          <div class="mp-cluster">
+            <a class="mp-button" href="#contact" data-size="lg">Let's co-create</a>
+            <a class="mp-button" href="#workshops" data-variant="secondary" data-size="lg">See workshops</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mp-section" data-tone="secondary" id="workshops">
+      <div class="mp-container" data-size="lg">
+        <div class="mp-stack" data-gap="8">
+          <h2 class="type-h1">Workshops</h2>
+          <div class="mp-grid">
+            <article class="mp-card" data-variant="featured">
+              <p class="mp-card__overline">Six weeks</p>
+              <h3 class="mp-card__title"><a class="mp-card__link" href="#contact">AI Literacy for Educators</a></h3>
+              <p class="mp-card__body">Build a classroom assistant around one real problem you bring.</p>
+              <div class="mp-card__footer">
+                <span class="mp-tag" data-tone="human">Pedagogy</span>
+                <span class="mp-badge" data-tone="success">Enrolling</span>
+              </div>
+            </article>
+            <article class="mp-card" data-tone="digital">
+              <p class="mp-card__overline">Two days</p>
+              <h3 class="mp-card__title"><a class="mp-card__link" href="#contact">Builders' Lab</a></h3>
+              <p class="mp-card__body">From prompt to deployed tool, with the people who'll use it in the room.</p>
+              <div class="mp-card__footer">
+                <span class="mp-tag" data-tone="digital">TypeScript</span>
+                <span class="mp-badge">Waitlist</span>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mp-section" id="contact">
+      <div class="mp-container" data-size="sm">
+        <form class="mp-stack" data-gap="5" action="#" method="post">
+          <h2 class="type-h1">Vamos cocriar?</h2>
+          <div class="mp-field">
+            <label class="mp-field__label" for="starter-email">Email</label>
+            <input class="mp-input" id="starter-email" type="email" autocomplete="email" required aria-describedby="starter-email-hint">
+            <p class="mp-field__hint" id="starter-email-hint">One message a month, at most.</p>
+          </div>
+          <div class="mp-field">
+            <label class="mp-field__label" for="starter-message">What are you working on?</label>
+            <textarea class="mp-input" id="starter-message" rows="4"></textarea>
+          </div>
+          <div class="mp-cluster">
+            <button class="mp-button" type="submit">Send</button>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="mp-section mp-surface" data-size="sm" data-theme="dark">
+    <div class="mp-container">
+      <p class="type-small" style="margin: 0; color: var(--color-text-secondary);">Built at the membrane between the human and the digital.</p>
+    </div>
+  </footer>
+</body>
+</html>

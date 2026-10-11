@@ -1,7 +1,7 @@
 {
   "name": "@idcesares/the-membrane-palette",
-  "version": "2.0.0",
-  "description": "The Membrane Palette — a token-based design system where human warmth meets digital precision.",
+  "version": "2.1.0",
+  "description": "The Membrane Palette — a token-based design system and framework-free CSS component library where human warmth meets digital precision.",
   "author": "Isaac D'Césares <isaac.dcesares@gmail.com>",
   "license": "MIT",
   "homepage": "https://membrane-palette.dcesares.dev/",
@@ -13,30 +13,42 @@
     "design-system",
     "design-tokens",
     "dtcg",
+    "component-library",
+    "css-components",
     "css-custom-properties",
     "membrane-palette",
     "dark-mode",
     "accessibility",
     "wcag",
-    "oklch"
+    "oklch",
+    "llms-txt"
   ],
   "exports": {
-    ".":              "./tokens/design-tokens.css",
-    "./tokens":       "./tokens/design-tokens.css",
-    "./base":         "./tokens/base.css",
-    "./tokens.json":  "./tokens/membrane.tokens.json"
+    ".": "./membrane.css",
+    "./membrane.css": "./membrane.css",
+    "./tokens": "./tokens/design-tokens.css",
+    "./base": "./tokens/base.css",
+    "./components": "./components/membrane-components.css",
+    "./components.js": "./components/membrane.js",
+    "./manifest.json": "./components/manifest.json",
+    "./tokens.json": "./tokens/membrane.tokens.json"
   },
   "files": [
+    "membrane.css",
     "tokens/design-tokens.css",
     "tokens/base.css",
-    "tokens/membrane.tokens.json"
+    "tokens/membrane.tokens.json",
+    "components/",
+    "llms.txt"
   ],
   "scripts": {
-    "build:tokens":  "node scripts/build-tokens.mjs",
-    "build":         "node scripts/build-cloudflare-pages.mjs",
-    "deploy":        "npx wrangler deploy",
-    "dev":           "npm run build && serve dist -l 3456",
-    "preview":       "npm run build && serve dist -l 3456"
+    "build:tokens": "node scripts/build-tokens.mjs",
+    "build:components": "node scripts/build-components.mjs",
+    "build:system": "npm run build:tokens && npm run build:components",
+    "build": "node scripts/build-cloudflare-pages.mjs",
+    "deploy": "npx wrangler deploy",
+    "dev": "npm run build && serve dist -l 3456",
+    "preview": "npm run build && serve dist -l 3456"
   },
   "type": "commonjs",
   "devDependencies": {

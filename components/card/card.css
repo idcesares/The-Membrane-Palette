@@ -1,0 +1,143 @@
+/* Card — a contained unit of content: optional media, overline, title,
+   body, footer. Becomes fully clickable when it contains .mp-card__link. */
+
+.mp-card {
+  --mp-card-padding: var(--space-6);
+  --mp-card-bg: var(--color-bg-secondary);
+  --mp-card-shadow: var(--elevation-raised);
+  --mp-card-accent: var(--color-action-primary);
+  --mp-card-overline: var(--color-human-text);
+
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: var(--mp-card-padding);
+  border: var(--border-default);
+  border-radius: var(--radius-lg);
+  background-color: var(--mp-card-bg);
+  box-shadow: var(--mp-card-shadow);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  transition:
+    box-shadow var(--transition-slow),
+    transform var(--transition-slow),
+    border-color var(--transition-slow);
+}
+
+.mp-card[data-tone="digital"] {
+  --mp-card-accent: var(--color-action-secondary);
+  --mp-card-overline: var(--color-digital-text);
+}
+
+.mp-card[data-variant="featured"] {
+  --mp-card-padding: var(--space-8);
+  --mp-card-shadow: var(--elevation-overlay);
+  border-inline-start: var(--border-width-thick) solid var(--mp-card-accent);
+}
+
+.mp-card[data-variant="flat"] {
+  --mp-card-bg: transparent;
+  --mp-card-shadow: none;
+}
+
+.mp-card__media {
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  margin:
+    calc(-1 * var(--mp-card-padding))
+    calc(-1 * var(--mp-card-padding))
+    var(--space-3);
+  border-radius: calc(var(--radius-lg) - var(--border-width-thin)) calc(var(--radius-lg) - var(--border-width-thin)) 0 0;
+  background-color: var(--color-bg-tertiary);
+}
+
+.mp-card__media > :is(img, video, picture) {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--photo-warmth);
+}
+
+.mp-card__overline {
+  margin: 0;
+  color: var(--mp-card-overline);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+.mp-card__title {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-serif);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-subheading);
+}
+
+.mp-card__body {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.mp-card__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: auto;
+  padding-top: var(--space-4);
+  color: var(--color-text-tertiary);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+/* Clickable card: the title link's ::after stretches over the whole card,
+   so there is one link in the accessibility tree, not a wrapping <a>. */
+.mp-card__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mp-card__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+}
+
+.mp-card__link:hover {
+  text-decoration: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-underline-offset: 0.2em;
+}
+
+.mp-card__link:focus-visible {
+  outline: none;
+}
+
+.mp-card__link:focus-visible::after {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-card:has(.mp-card__link):hover {
+  --mp-card-shadow: var(--elevation-overlay);
+  border-color: var(--color-border-emphasis);
+  transform: translateY(-2px);
+}
+
+/* Secondary controls inside a clickable card sit above the stretched link. */
+.mp-card:has(.mp-card__link) :is(a, button, input, select, textarea):not(.mp-card__link) {
+  position: relative;
+  z-index: 1;
+}

@@ -1,0 +1,53 @@
+/* Avatar — a person or entity as a photo or initials. */
+
+.mp-avatar {
+  --mp-avatar-size: 2.5rem;
+
+  box-sizing: border-box;
+  display: inline-grid;
+  flex: none;
+  place-items: center;
+  width: var(--mp-avatar-size);
+  height: var(--mp-avatar-size);
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  background-color: var(--color-human-bg);
+  color: var(--color-human-text);
+  font-family: var(--font-serif);
+  font-size: calc(var(--mp-avatar-size) * 0.4);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  user-select: none;
+  vertical-align: middle;
+}
+
+.mp-avatar > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: var(--photo-warmth);
+}
+
+.mp-avatar[data-size="sm"] { --mp-avatar-size: 2rem; }
+.mp-avatar[data-size="lg"] { --mp-avatar-size: 3.5rem; }
+.mp-avatar[data-size="xl"] { --mp-avatar-size: 5rem; }
+
+.mp-avatar[data-tone="digital"] {
+  background-color: var(--color-digital-bg);
+  color: var(--color-digital-text);
+  font-family: var(--font-mono);
+}
+
+/* Overlapping row of avatars, each ringed in the page color. */
+.mp-avatar-group {
+  display: flex;
+  align-items: center;
+}
+
+.mp-avatar-group > .mp-avatar {
+  box-shadow: 0 0 0 var(--border-width-medium) var(--color-bg-primary);
+}
+
+.mp-avatar-group > .mp-avatar + .mp-avatar {
+  margin-inline-start: calc(var(--mp-avatar-size) * -0.25);
+}

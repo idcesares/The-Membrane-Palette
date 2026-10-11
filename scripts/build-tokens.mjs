@@ -75,6 +75,15 @@ function refsToVars(str) {
 /** Resolve a token path/ref to its concrete literal value for a given mode. */
 function resolveLiteral(ref, mode) {
   const { token } = entryOf(ref);
+  if (token.$type === "tint") {
+    const { light, dark, amount } = token.$value;
+    const c = parseColor(resolveLiteral(mode === "dark" ? dark : light, mode));
+    return `rgba(${c.r}, ${c.g}, ${c.b}, ${amount})`;
+  }
+  if (token.$type === "mix") {
+    const { base, with: other, amount } = token.$value;
+    return mixOklab(resolveLiteral(base, mode), resolveLiteral(other, mode), amount);
+  }
   let value = token.$value;
   if (mode === "dark" && token.$extensions?.mode?.dark !== undefined) {
     value = token.$extensions.mode.dark;
@@ -136,6 +145,22 @@ function oklchToRgb({ L, C, H }) {
   return { r: to255(lr), g: to255(lg), b: to255(lb) };
 }
 
+const toHex = ({ r, g, b }) => "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("").toUpperCase();
+
+/** color-mix(in oklab, a, b amount) for opaque sRGB literals — mirrors what the browser computes. */
+function mixOklab(aStr, bStr, amount) {
+  const lab = (str) => {
+    const { L, C, H } = rgbToOklch(parseColor(str));
+    const hr = (H * Math.PI) / 180;
+    return [L, C * Math.cos(hr), C * Math.sin(hr)];
+  };
+  const [a, b] = [lab(aStr), lab(bStr)];
+  const [L, A, B] = a.map((v, i) => v * (1 - amount) + b[i] * amount);
+  const C = Math.hypot(A, B);
+  const H = ((Math.atan2(B, A) * 180) / Math.PI + 360) % 360;
+  return toHex(oklchToRgb({ L, C, H }));
+}
+
 const roundTripFailures = [];
 
 /** Convert a hex/rgba literal to an oklch() string, verifying the round trip is exact. */
@@ -166,8 +191,9 @@ function composite(fg, bg) {
   return { r: mix(fg.r, bg.r), g: mix(fg.g, bg.g), b: mix(fg.b, bg.b), a: 1 };
 }
 
-function contrast(fgStr, bgStr) {
-  const bg = parseColor(bgStr);
+function contrast(fgStr, bgStr, backdropStr) {
+  let bg = parseColor(bgStr);
+  if (bg.a !== 1) bg = composite(bg, parseColor(backdropStr));
   const fg = composite(parseColor(fgStr), bg);
   const [l1, l2] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
   return (l1 + 0.05) / (l2 + 0.05);
@@ -178,42 +204,97 @@ function contrast(fgStr, bgStr) {
  * ------------------------------------------------------------------ */
 
 const S = "color.semantic.";
+const C = "code.";
+// [foreground, background, minimum ratio, note, backdrop?]. A translucent
+// background (tint) is composited over the backdrop — bg-primary unless a
+// fifth element names another surface — before measuring. Washes are checked
+// over both page and card surfaces, because tags and alerts live on both.
+const ON_CARD = S + "bg-secondary";
 const GATE = [
-  // [foreground, background, minimum ratio, note]
+  // Text on surfaces
   [S + "text-primary", S + "bg-primary", 7.0, "body text, AAA target"],
   [S + "text-primary", S + "bg-secondary", 7.0, "body text on cards"],
+  [S + "text-primary", S + "bg-elevated", 7.0, "body text in dialogs/popovers"],
+  [S + "text-primary", S + "bg-active", 7.0, "selected rows/items"],
   [S + "text-secondary", S + "bg-primary", 4.5, "supporting text"],
   [S + "text-secondary", S + "bg-secondary", 4.5, "supporting text on cards"],
+  [S + "text-secondary", S + "bg-tertiary", 4.5, "neutral tags"],
+  [S + "text-secondary", S + "bg-elevated", 4.5, "supporting text in dialogs"],
+  [S + "text-secondary", S + "bg-hover", 4.5, "hovered nav links / ghost buttons"],
   [S + "text-tertiary", S + "bg-primary", 4.5, "metadata/placeholder"],
   [S + "text-tertiary", S + "bg-secondary", 4.5, "metadata on cards"],
+  [S + "text-tertiary", S + "bg-elevated", 4.5, "metadata in dialogs"],
   [S + "text-accent", S + "bg-primary", 4.5, "links"],
-  [S + "text-on-accent", S + "action-primary", 4.5, "button labels"],
+  [S + "text-accent", S + "bg-secondary", 4.5, "links on cards"],
+  [S + "text-inverse", S + "bg-inverse", 4.5, "tooltips"],
+  // Actions
+  [S + "text-on-accent", S + "action-primary", 4.5, "primary button label"],
+  [S + "text-on-accent", S + "action-primary-hover", 4.5, "primary button label, hover"],
+  [S + "text-on-accent", S + "action-secondary", 4.5, "secondary button label, hover fill"],
+  [S + "text-on-accent", S + "action-secondary-hover", 4.5, "checked controls, pressed secondary"],
+  [S + "text-on-accent", S + "error", 4.5, "danger button label"],
+  [S + "text-on-accent", S + "error-hover", 4.5, "danger button label, hover"],
   [S + "action-primary", S + "bg-primary", 3.0, "primary action affordance"],
   [S + "action-secondary", S + "bg-primary", 3.0, "secondary action affordance"],
+  [S + "action-secondary", S + "bg-secondary", 3.0, "secondary action on cards"],
+  [S + "action-secondary", S + "bg-tertiary", 3.0, "progress value vs track"],
+  // Non-text UI (WCAG 1.4.11)
+  [S + "border-input", S + "bg-primary", 3.0, "form control boundary"],
+  [S + "border-input", S + "bg-secondary", 3.0, "form control boundary on cards"],
+  [S + "border-input", S + "bg-elevated", 3.0, "form control boundary in dialogs"],
   [S + "focus", S + "bg-primary", 3.0, "focus ring (WCAG 1.4.11)"],
   [S + "focus", S + "bg-secondary", 3.0, "focus ring on cards"],
+  [S + "focus", S + "bg-elevated", 3.0, "focus ring in dialogs"],
+  // Registers
+  [S + "human-text", S + "bg-primary", 4.5, "human-register text"],
+  [S + "human-text", S + "bg-secondary", 4.5, "human-register text on cards"],
+  [S + "human-text", S + "human-bg", 4.5, "human tag / callout"],
+  [S + "human-text", S + "human-bg", 4.5, "human tag on a card", ON_CARD],
+  [S + "digital-text", S + "bg-primary", 4.5, "digital-register text"],
+  [S + "digital-text", S + "bg-secondary", 4.5, "digital-register text on cards"],
+  [S + "digital-text", S + "digital-bg", 4.5, "digital tag / callout"],
+  [S + "digital-text", S + "digital-bg", 4.5, "digital tag on a card", ON_CARD],
+  // Status
   [S + "success", S + "bg-primary", 3.0, "success icon/fill"],
   [S + "success-text", S + "bg-primary", 4.5, "success text"],
   [S + "success-text", S + "bg-secondary", 4.5, "success text on cards"],
+  [S + "success-text", S + "success-bg", 4.5, "success alert/badge"],
+  [S + "success-text", S + "success-bg", 4.5, "success badge on a card", ON_CARD],
   [S + "warning-text", S + "bg-primary", 4.5, "warning text"],
   [S + "warning-text", S + "bg-secondary", 4.5, "warning text on cards"],
-  [S + "error", S + "bg-primary", 3.0, "error icon/fill"],
+  [S + "warning-text", S + "warning-bg", 4.5, "warning alert/badge"],
+  [S + "warning-text", S + "warning-bg", 4.5, "warning badge on a card", ON_CARD],
+  [S + "error", S + "bg-primary", 3.0, "error icon/fill, invalid border"],
   [S + "error-text", S + "bg-primary", 4.5, "error text"],
   [S + "error-text", S + "bg-secondary", 4.5, "error text on cards"],
+  [S + "error-text", S + "error-bg", 4.5, "error alert/badge"],
+  [S + "error-text", S + "error-bg", 4.5, "error badge on a card", ON_CARD],
+  [S + "info-text", S + "bg-primary", 4.5, "info text"],
+  [S + "info-text", S + "info-bg", 4.5, "info alert/badge"],
+  [S + "info-text", S + "info-bg", 4.5, "info badge on a card", ON_CARD],
+  [S + "text-primary", S + "bg-hover", 7.0, "hovered rows on a card", ON_CARD],
+  // Code blocks (always dark)
+  [C + "text", C + "bg", 4.5, "code text"],
+  [C + "keyword", C + "bg", 4.5, "syntax: keyword"],
+  [C + "string", C + "bg", 4.5, "syntax: string"],
+  [C + "function", C + "bg", 4.5, "syntax: function"],
+  [C + "comment", C + "bg", 4.5, "syntax: comment"],
+  [C + "number", C + "bg", 4.5, "syntax: number"],
 ];
 
+const short = (p) => entryOf(`{${p}}`).cssName;
 const gateFailures = [];
 const gateReport = [];
-const gateRows = []; // structured rows for the generated showcase contrast matrix
+const gateRows = []; // structured rows for the showcase matrix and the spec table
 for (const mode of ["light", "dark"]) {
-  for (const [fg, bg, min, note] of GATE) {
+  for (const [fg, bg, min, note, on = S + "bg-primary"] of GATE) {
     const fgV = resolveLiteral(`{${fg}}`, mode);
     const bgV = resolveLiteral(`{${bg}}`, mode);
-    const ratio = contrast(fgV, bgV);
-    const line = `${mode.padEnd(5)} ${fg.replace(S, "").padEnd(16)} on ${bg.replace(S, "").padEnd(13)} ${ratio.toFixed(2).padStart(6)} (min ${min})  ${note}`;
+    const ratio = contrast(fgV, bgV, resolveLiteral(`{${on}}`, mode));
+    const line = `${mode.padEnd(5)} ${short(fg).padEnd(30)} on ${short(bg).padEnd(30)} ${ratio.toFixed(2).padStart(6)} (min ${min})  ${note}`;
     gateReport.push(line);
     const pass = ratio >= min;
-    gateRows.push({ mode, fg: fg.replace(S, ""), bg: bg.replace(S, ""), ratio, min, note, pass });
+    gateRows.push({ mode, fg: short(fg), bg: short(bg), ratio, min, note, pass });
     if (!pass) gateFailures.push(line);
   }
 }
@@ -245,8 +326,14 @@ function emitValue(token) {
     case "tint": {
       const { light, dark: darkRef, amount } = $value;
       const pct = `${Math.round(amount * 100)}%`;
+      const [l, d] = [entryOf(light).cssName, entryOf(darkRef).cssName];
+      const color = l === d ? `var(${l})` : `light-dark(var(${l}), var(${d}))`;
+      return { css: `color-mix(in srgb, ${color} ${pct}, transparent)`, comment: null };
+    }
+    case "mix": {
+      const { base, with: other, amount } = $value;
       return {
-        css: `color-mix(in srgb, light-dark(var(${entryOf(light).cssName}), var(${entryOf(darkRef).cssName})) ${pct}, transparent)`,
+        css: `color-mix(in oklab, var(${entryOf(base).cssName}), var(${entryOf(other).cssName}) ${Math.round(amount * 100)}%)`,
         comment: null,
       };
     }
@@ -356,6 +443,9 @@ const header = `/* ============================================================
    (light-dark(), color-mix(), oklch(), @layer).
    ============================================================ */
 
+/* Cascade order for the whole system. Unlayered consumer CSS beats all three. */
+@layer tokens, base, components;
+
 @layer tokens {
 
   :root {
@@ -423,6 +513,8 @@ const baseCss = `/* ============================================================
    behavior. Import AFTER design-tokens.css. Everything lives
    in @layer base, so any unlayered consumer CSS wins.
    ============================================================ */
+
+@layer tokens, base, components;
 
 @layer base {
 
@@ -560,7 +652,7 @@ function buildTokenTableRows() {
   for (const [key, entry] of registry) {
     if (entry.comment) continue; // breakpoints are reference-only, never real custom properties
     const category = humanizeCategory(key);
-    const isColor = entry.token.$type === "color" || entry.token.$type === "tint";
+    const isColor = ["color", "tint", "mix"].includes(entry.token.$type);
     const desc = entry.token.$description || "";
     const preview = isColor
       ? `<span class="token-swatch" style="background: var(${entry.cssName});" aria-hidden="true"></span>`
@@ -582,7 +674,7 @@ function buildTokenTableRows() {
 function renderTokenTable(rows) {
   return rows
     .map((r) => {
-      const badge = r.deprecated ? ` <span class="token-badge">deprecated</span>` : "";
+      const badge = r.deprecated ? ` <span class="mp-badge" data-tone="warning">deprecated</span>` : "";
       return `                <tr data-search="${escapeHtml(r.searchText)}">
                   <td class="token-table__preview">${r.preview}</td>
                   <td><code>${escapeHtml(r.cssName)}</code>${badge}</td>
@@ -596,24 +688,64 @@ function renderTokenTable(rows) {
 function renderContrastMatrix(rows) {
   return rows
     .map((r) => {
-      const statusClass = r.pass ? "status-line--success" : "status-line--error";
+      const tone = r.pass ? "success" : "error";
       const statusText = r.pass ? "Pass" : "Fail";
       return `                <tr>
                   <td>${r.mode}</td>
-                  <td><code>--color-${r.fg}</code></td>
-                  <td><code>--color-${r.bg}</code></td>
-                  <td>${r.ratio.toFixed(2)}:1</td>
-                  <td>${r.min.toFixed(1)}:1</td>
-                  <td><span class="contrast-badge ${statusClass}">${statusText}</span></td>
+                  <td><code>${r.fg}</code></td>
+                  <td><code>${r.bg}</code></td>
+                  <td data-align="end">${r.ratio.toFixed(2)}:1</td>
+                  <td data-align="end">${r.min.toFixed(1)}:1</td>
+                  <td><span class="mp-badge" data-tone="${tone}">${statusText}</span></td>
                 </tr>`;
     })
     .join("\n");
 }
 
-function injectMarker(html, markerName, content) {
+function injectMarker(html, markerName, content, { file = "showcase/index.html", indent = "                " } = {}) {
   const re = new RegExp(`(<!-- GENERATED:${markerName} -->)[\\s\\S]*?(<!-- /GENERATED:${markerName} -->)`);
-  if (!re.test(html)) throw new Error(`Marker GENERATED:${markerName} not found in showcase/index.html`);
-  return html.replace(re, `$1\n${content}\n                $2`);
+  if (!re.test(html)) throw new Error(`Marker GENERATED:${markerName} not found in ${file}`);
+  return html.replace(re, (_, open, close) => `${open}\n${content}\n${indent}${close}`);
+}
+
+/** How a semantic token resolves in one mode, for the spec table: "`--color-neutral-800` #2A2622". */
+function describeSide(token, mode) {
+  const val = mode === "dark" && token.$extensions?.mode?.dark !== undefined ? token.$extensions.mode.dark : token.$value;
+  if (token.$type === "tint") {
+    const ref = mode === "dark" ? token.$value.dark : token.$value.light;
+    return `\`${entryOf(ref).cssName}\` @ ${Math.round(token.$value.amount * 100)}%`;
+  }
+  if (token.$type === "mix") {
+    const { base, with: other, amount } = token.$value;
+    return `\`${entryOf(base).cssName}\` + ${Math.round(amount * 100)}% \`${entryOf(other).cssName}\` → ${mixOklab(resolveLiteral(base, mode), resolveLiteral(other, mode), amount)}`;
+  }
+  if (token.$type === "cssValue") return "`" + refsToVars(String(val)).replace(/\|/g, "\\|") + "`";
+  if (typeof val === "string" && val.startsWith("{")) {
+    const lit = resolveLiteral(val, mode);
+    return `\`${entryOf(val).cssName}\` ${lit.startsWith("#") ? lit.toUpperCase() : lit}`;
+  }
+  return String(val).toUpperCase();
+}
+
+function renderSemanticTable() {
+  const rows = ["| Token | Light | Dark | Usage |", "|---|---|---|---|"];
+  for (const [key, entry] of registry) {
+    if (!key.startsWith(S)) continue;
+    const t = entry.token;
+    const desc = (t.$description || "").replace(/\|/g, "\\|");
+    rows.push(`| \`${entry.cssName}\` | ${describeSide(t, "light")} | ${describeSide(t, "dark")} | ${desc} |`);
+  }
+  return rows.join("\n");
+}
+
+function renderSpecContrastTable() {
+  const rows = ["| Foreground | Background | Light | Dark | Min | Use |", "|---|---|---|---|---|---|"];
+  const light = gateRows.filter((r) => r.mode === "light");
+  const dark = gateRows.filter((r) => r.mode === "dark");
+  light.forEach((r, i) => {
+    rows.push(`| \`${r.fg}\` | \`${r.bg}\` | ${r.ratio.toFixed(2)} | ${dark[i].ratio.toFixed(2)} | ${r.min.toFixed(1)} | ${r.note} |`);
+  });
+  return rows.join("\n");
 }
 
 /* ------------------------------------------------------------------ *
@@ -637,7 +769,7 @@ if (gateFailures.length > 0) {
 
 await writeFile(path.join(root, "tokens", "design-tokens.css"), header);
 await writeFile(path.join(root, "tokens", "base.css"), baseCss);
-console.log(`\n✓ All ${GATE.length * 2} contrast pairs pass; all colors round-trip through OKLCH.`);
+console.log(`\n✓ All ${GATE.length * 2} contrast checks (${GATE.length} pairs × light/dark) pass; all colors round-trip through OKLCH.`);
 console.log("✓ Wrote tokens/design-tokens.css and tokens/base.css");
 
 const SHOWCASE_PATH = path.join(root, "showcase", "index.html");
@@ -647,6 +779,14 @@ showcaseHtml = injectMarker(showcaseHtml, "TOKEN-TABLE", renderTokenTable(tokenT
 showcaseHtml = injectMarker(showcaseHtml, "CONTRAST-MATRIX", renderContrastMatrix(gateRows));
 await writeFile(SHOWCASE_PATH, showcaseHtml);
 console.log(`✓ Regenerated showcase/index.html: ${tokenTableRows.length}-row token table, ${gateRows.length}-row contrast matrix`);
+
+const SPEC_PATH = path.join(root, "DESIGN-SYSTEM.md");
+let spec = await readFile(SPEC_PATH, "utf8");
+const specOpts = { file: "DESIGN-SYSTEM.md", indent: "" };
+spec = injectMarker(spec, "SEMANTIC-COLORS", renderSemanticTable(), specOpts);
+spec = injectMarker(spec, "CONTRAST-TABLE", renderSpecContrastTable(), specOpts);
+await writeFile(SPEC_PATH, spec);
+console.log("✓ Regenerated DESIGN-SYSTEM.md semantic color + contrast tables");
 
 if (deprecated.length > 0) {
   console.log(`\n⚠ ${deprecated.length} deprecated token(s) still in the source (see DESIGN-SYSTEM.md token lifecycle policy):`);

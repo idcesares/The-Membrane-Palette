@@ -1,0 +1,40 @@
+/* Badge — a compact, non-interactive status or metadata label. */
+
+.mp-badge {
+  --mp-badge-bg: var(--color-bg-tertiary);
+  --mp-badge-fg: var(--color-text-secondary);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: calc(var(--space-1) / 2) var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--mp-badge-bg);
+  color: var(--mp-badge-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.mp-badge[data-tone="info"]    { --mp-badge-bg: var(--color-info-bg);    --mp-badge-fg: var(--color-info-text); }
+.mp-badge[data-tone="success"] { --mp-badge-bg: var(--color-success-bg); --mp-badge-fg: var(--color-success-text); }
+.mp-badge[data-tone="warning"] { --mp-badge-bg: var(--color-warning-bg); --mp-badge-fg: var(--color-warning-text); }
+.mp-badge[data-tone="error"]   { --mp-badge-bg: var(--color-error-bg);   --mp-badge-fg: var(--color-error-text); }
+.mp-badge[data-tone="human"]   { --mp-badge-bg: var(--color-human-bg);   --mp-badge-fg: var(--color-human-text); }
+.mp-badge[data-tone="digital"] { --mp-badge-bg: var(--color-digital-bg); --mp-badge-fg: var(--color-digital-text); }
+
+/* Leading status dot. Uses the label color, so it inherits its contrast. */
+.mp-badge[data-variant="dot"]::before {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+}

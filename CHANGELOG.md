@@ -7,9 +7,76 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+---
+
+## [2.1.0] — 2026-10-11
+
+### Why
+
+An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-10.md)) found that the system stopped at tokens: components existed only as prose recipes in `DESIGN-SYSTEM.md` §6 and as showcase-local CSS that had already drifted from them, so every consumer re-implemented every component. It also found contrast failures the v2.0 gate didn't cover (form-control borders, tag text on tints, code comments) and nothing an agent could consume beyond prose. This release adds a real component library and makes the docs machine-readable and build-verified. No token was renamed or removed.
+
+### Added — component library
+
+- **25 framework-free CSS components** in `components/<name>/`: Layout (container, stack, cluster, grid, section, surface, visually-hidden), Prose, Button, Link (+ skip link), Field (+ fieldset), Input (input/textarea/select), Choice (checkbox/radio), Switch, Card, Tag, Badge, Avatar, Quote, Code (+ kbd, code block, Prism/highlight.js mappings), Divider, Table, Stat, Alert, Progress (+ spinner), Tooltip, Dialog, Navbar, Breadcrumb, Tabs, Accordion.
+- **One API convention:** `mp-` root class, BEM parts, options as `data-*` attributes with closed value sets, and **state from native attributes/ARIA** (`aria-invalid`, `aria-current`, `aria-selected`, `aria-pressed`, `aria-busy`, `disabled`, `[open]`) so visuals and assistive tech can't disagree. All components live in `@layer components`.
+- **Tier 3 component tokens:** each component exposes `--mp-<name>-*` knobs that default to semantic tokens; variants only reassign knobs.
+- `membrane.css` — one generated stylesheet with tokens + base + components. `components/membrane-components.css` — components only.
+- `components/membrane.js` — optional behaviors (~1.7 KB gzipped): WAI-ARIA tabs (click, arrows, Home/End, RTL), tooltip Escape-dismiss (WCAG 1.4.13), fallbacks for dialog invoker commands and `closedby="any"`.
+- `scripts/build-components.mjs` (`npm run build:components`) — **lints** every component (no raw colors, no unknown/deprecated tokens, no Tier 1 primitives, knobs must be `--mp-*`) and every README example (no classes, attributes or values the CSS doesn't implement; unique ids; labelled icon-only buttons; `alt` on images), then writes the bundles, the manifest, `llms.txt`, each README's API section and the showcase gallery.
+- `npm run build:system` runs both builds in order.
+
+### Added — for agents
+
+- `components/manifest.json` — every component's classes, allowed attribute values, styled states, knobs, consumed tokens and HTML examples. Generated.
+- `llms.txt` (repo root and site) and `llms-full.txt` (site) per [llmstxt.org](https://llmstxt.org), including the house rules for generating UI.
+- `examples/starter.html` — a complete page built only from the library.
+- `DESIGN-SYSTEM.md` §11.4 constraint block gained UI rules.
+
+### Added — tokens
+
+- Surfaces: `--color-bg-elevated` (lighter in dark mode), `--color-bg-inverse` / `--color-text-inverse`, `--color-bg-hover` / `--color-bg-active` (translucent state washes).
+- `--color-border-input` — ≥3:1 boundary for form controls (WCAG 1.4.11).
+- Hover fills: `--color-action-primary-hover`, `--color-action-secondary-hover`, `--color-error-hover` — oklab mixes toward `--color-text-primary`, so label contrast rises on hover in both modes.
+- Register pairs: `--color-human-text` / `--color-human-bg`, `--color-digital-text` / `--color-digital-bg`.
+- Status washes: `--color-success-bg`, `--color-warning-bg`, `--color-error-bg`, `--color-info-bg`, plus `--color-info-text`.
+- `--size-control-sm/md/lg` (36/44/52px), `--measure` (65ch), `--ease-in-out` (§8.1 rule 3 had no token).
+- Token types `mix` (oklab color-mix of two tokens, resolved exactly by the gate) and `tint` on semantic tokens.
+- Descriptions on every semantic token (they feed the manifest and the spec table).
+
+### Changed
+
+- **Contrast gate: 20 → 63 pairs (126 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
+- `DESIGN-SYSTEM.md` §6 replaced: the prose recipes are superseded by the library; §6 now documents conventions, catalog, brand rules and how to contribute a component. §2.3 (semantic colors) and §13.1 (contrast) tables are **generated** from the token source, so they can no longer drift. Added §13.4 (component accessibility); corrected the touch-target citation (2.5.5 is AAA; 2.5.8 AA is 24px).
+- Showcase rebuilt on the library (navbar, buttons, inputs, tables, code blocks), with a generated component gallery, a composed specimen, and dark-mode previews that use real `data-theme` subtrees instead of hard-coded hex. Theme is applied before first paint and follows the OS until toggled. Skip link added; mobile horizontal overflow fixed.
+- `@layer tokens, base, components;` order is declared at the top of every generated stylesheet.
+- CI runs both builds and fails if **any** generated file is stale (previously only the two token CSS files were checked).
+- `package.json` `exports` now maps `.` to `membrane.css` and adds `./components`, `./components.js`, `./manifest.json` (npm is still not a supported channel; no published consumers).
 - `package.json` name changed from `@idcesares/design-system` (a scope/name that was never published and didn't match the repository) to `@idcesares/the-membrane-palette`. `package-lock.json` regenerated to match.
-- Removed npm as a documented delivery path for now — `README.md`, `CLAUDE.md`, and `AGENTS.md` no longer describe an `npm install` / `npm publish` flow for the tokens. The jsDelivr CDN link is the only supported integration path until npm distribution is set up.
-- Fixed the jsDelivr CDN URL in `README.md`: dropped the `@2` version pin (no matching release tag exists) — `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css`.
+- Removed npm as a documented delivery path for now — the jsDelivr CDN link is the only supported integration path until npm distribution is set up.
+
+### Fixed
+
+- `--color-warning-text` `#8A6420` → `#7A571B`, `--color-error-text` `#B23A3A` → `#A53434` (dark `#E86060` → `#F07C78`), and dark-mode `--color-human-text` `#E08A6A`: found by running axe-core against the new showcase — on card surfaces the status/register washes composite darker (light) or lighter (dark) than on the page, which the gate didn't measure. The gate now checks every wash over cards too.
+- Secondary buttons paint `--color-bg-primary` instead of `transparent`, so their teal label keeps its gated contrast on tinted surfaces such as alerts.
+- `--code-comment` `#7D776E` → `#958F84`: was 3.7:1 on `--code-bg`, failing WCAG AA for text; now 5.2:1.
+- Form inputs had only `--color-border-default` as their boundary (≈1.3:1 on cream, failing 1.4.11) — `.mp-input` and the choice controls use `--color-border-input`.
+- The showcase input removed its focus outline and relied on a 15%-alpha glow; every component now keeps the 2px focus ring.
+- Spec §6.5 tag recipe (`--color-action-primary` text on `--color-terracotta-10`) was never contrast-checked; tags now use gate-checked register pairs.
+- The jsDelivr CDN URL in `README.md` dropped its `@2` version pin (no matching release tag exists).
+- Spec §15 referenced `--color-tint-*` tokens that never existed.
+
+### Deprecated
+
+- `--text-sm`, `--text-base`, `--text-md`, `--text-lg`, `--text-xl` — compatibility aliases. Use `--text-small`, `--text-body`, `--text-h4`, `--text-h3`, `--text-h2`. They still work and will not be removed before v3.0.0.
+
+### Migration guide
+
+Nothing breaks. To adopt:
+
+- Replace hand-built buttons/cards/inputs with the library: link `membrane.css` and follow each component's README. Pages that already link `tokens/design-tokens.css` + `tokens/base.css` can add `components/membrane-components.css`.
+- If you styled form controls yourself, switch their border to `--color-border-input`.
+- If you used `--color-terracotta-10` / `--color-teal-10` behind text, switch to `--color-human-bg` / `--color-digital-bg` with `--color-human-text` / `--color-digital-text`.
+- Replace any `filter: brightness(…)` hover with the `-hover` tokens.
 
 ---
 

@@ -1,8 +1,9 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.0.0-B35530?style=flat-square" alt="Version 2.0.0">
+  <img src="https://img.shields.io/badge/version-2.1.0-B35530?style=flat-square" alt="Version 2.1.0">
+  <img src="https://img.shields.io/badge/components-25-1B756D?style=flat-square" alt="25 components">
   <img src="https://img.shields.io/badge/tokens-DTCG_JSON_→_CSS-1B756D?style=flat-square" alt="DTCG JSON">
   <img src="https://img.shields.io/badge/colors-OKLCH-5A8A6E?style=flat-square" alt="OKLCH">
-  <img src="https://img.shields.io/badge/WCAG-AA_gated_(40_pairs)-5A8A6E?style=flat-square" alt="WCAG AA">
+  <img src="https://img.shields.io/badge/WCAG-AA_gated_(126_checks)-5A8A6E?style=flat-square" alt="WCAG AA">
   <img src="https://img.shields.io/badge/dark_mode-light--dark()_native-D49A3A?style=flat-square" alt="light-dark()">
   <img src="https://img.shields.io/badge/license-MIT-7A3345?style=flat-square" alt="MIT License">
 </p>
@@ -14,7 +15,7 @@
 </h1>
 
 <p align="center">
-  <em>A token-based design system where human warmth meets digital precision.</em>
+  <em>A token-based design system and component library where human warmth meets digital precision.</em>
 </p>
 
 <br>
@@ -29,6 +30,7 @@
 <p align="center">
   <a href="https://membrane-palette.dcesares.dev/"><strong>Live Showcase</strong></a> &nbsp;•&nbsp;
   <a href="#quick-start">Quick Start</a> &nbsp;•&nbsp;
+  <a href="#components">Components</a> &nbsp;•&nbsp;
   <a href="#for-ai-agents">For AI Agents</a> &nbsp;•&nbsp;
   <a href="#token-architecture">Architecture</a> &nbsp;•&nbsp;
   <a href="#deployment">Deployment</a> &nbsp;•&nbsp;
@@ -63,32 +65,72 @@ When a design element relates to the human side — education, community, ethics
 
 ## What This Is
 
-This is a **token-based design system** — not a component library. It provides:
+A **design system with a framework-free CSS component library**. Link one stylesheet, write semantic HTML, and you get the brand: tokens, typography, dark mode and 25 accessible components.
 
 | File | Purpose |
 |------|---------|
-| [`tokens/membrane.tokens.json`](tokens/membrane.tokens.json) | **Single source of truth.** DTCG-flavored JSON. Edit this; never edit the CSS. |
-| [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Pure CSS custom properties — 3-tier, OKLCH colors, `light-dark()`, `@layer tokens`. |
-| [`tokens/base.css`](tokens/base.css) | **Generated (optional).** Element-level rules: `::selection`, reduced motion, focus, typography composites in `@layer base`. |
-| [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Authoritative specification.** 15 sections covering colors, typography, spacing, components, dark mode, accessibility. |
-| [`showcase/index.html`](showcase/index.html) | **Living reference.** Static page demonstrating every token and component pattern. |
+| [`membrane.css`](membrane.css) | **The one link.** Generated: tokens + base + all components. |
+| [`components/`](components/) | **Component library.** One folder per component: `<name>.css` (source) + `README.md` (docs, examples, generated API). Bundled into `components/membrane-components.css`. |
+| [`components/manifest.json`](components/manifest.json) | **Machine-readable API.** Every component's classes, allowed `data-*` values, states, knobs, tokens and HTML examples. Generated. |
+| [`components/membrane.js`](components/membrane.js) | **Optional behaviors** (~1.7 KB gzipped): tabs keyboard support, tooltip Escape-dismiss, dialog invoker fallback. |
+| [`tokens/membrane.tokens.json`](tokens/membrane.tokens.json) | **Single source of truth for values.** DTCG-flavored JSON. Edit this; never edit the CSS. |
+| [`tokens/design-tokens.css`](tokens/design-tokens.css) | **Generated.** Custom properties — 3 tiers, OKLCH colors, `light-dark()`, `@layer tokens`. |
+| [`tokens/base.css`](tokens/base.css) | **Generated.** Element rules: `::selection`, focus ring, reduced motion, `.type-*` composites. |
+| [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
+| [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
+| [`examples/starter.html`](examples/starter.html) | **Starter page** to copy. |
+| [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
-There is no TypeScript or framework dependency. The intended model: **import the tokens, build components following the spec.**
+<br>
+
+## Components
+
+| Category | Components |
+|---|---|
+| Layout | [Layout](components/layout/README.md) — container, stack, cluster, grid, section, surface · [Prose](components/prose/README.md) |
+| Actions | [Button](components/button/README.md) · [Link](components/link/README.md) |
+| Forms | [Field](components/field/README.md) · [Input](components/input/README.md) · [Choice](components/choice/README.md) · [Switch](components/switch/README.md) |
+| Content | [Card](components/card/README.md) · [Tag](components/tag/README.md) · [Badge](components/badge/README.md) · [Avatar](components/avatar/README.md) · [Quote](components/quote/README.md) · [Code](components/code/README.md) · [Divider](components/divider/README.md) · [Table](components/table/README.md) · [Stat](components/stat/README.md) |
+| Feedback | [Alert](components/alert/README.md) · [Progress](components/progress/README.md) · [Tooltip](components/tooltip/README.md) · [Dialog](components/dialog/README.md) |
+| Navigation | [Navbar](components/navbar/README.md) · [Breadcrumb](components/breadcrumb/README.md) · [Tabs](components/tabs/README.md) · [Accordion](components/accordion/README.md) |
+
+**The API in one paragraph.** A class names the component (`mp-button`), a BEM element names a part (`mp-card__title`), a `data-*` attribute picks an option from a closed set (`data-variant="secondary"`, `data-size="sm"`, `data-tone="human"`), and **native attributes and ARIA drive state** (`disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-busy="true"`) — so what you see and what a screen reader hears can't disagree.
+
+```html
+<form class="mp-stack" data-gap="5">
+  <div class="mp-field">
+    <label class="mp-field__label" for="email">Email</label>
+    <input class="mp-input" id="email" type="email" aria-describedby="email-hint">
+    <p class="mp-field__hint" id="email-hint">We'll only send the workshop materials.</p>
+  </div>
+  <label class="mp-choice"><input class="mp-switch" type="checkbox" role="switch"> Remind me a day before</label>
+  <div class="mp-cluster">
+    <button class="mp-button" type="submit">Let's co-create</button>
+    <button class="mp-button" type="button" data-variant="ghost">Maybe later</button>
+  </div>
+</form>
+```
+
+Every component lives in `@layer components`, so any CSS you write wins without `!important`. To restyle one instance, override its `--mp-<component>-*` knobs (listed in each README's API section).
 
 <br>
 
 ## For AI Agents
 
-This repo is written to be machine-consumable, not just human-readable. If you're an agent (Claude, GPT, or otherwise) working in or against this system, start here:
+This repo is written to be machine-consumable, not just human-readable. If you're an agent generating UI with this system:
 
 | Read this | For |
 |---|---|
-| [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) | Repo-level operating instructions — commands, architecture, the "never hand-edit generated CSS" rule. Identical content, kept in sync for Claude Code and Codex respectively. |
-| [`DESIGN-SYSTEM.md` §0](DESIGN-SYSTEM.md#0-how-to-use-this-document) | How to read the spec depending on your role — designer, developer, or agent. |
-| [`DESIGN-SYSTEM.md` §11.4](DESIGN-SYSTEM.md#114-ai-agent-configuration) | A copy-pasteable visual + voice constraint block for configuring a content-generation agent to stay on-brand. |
-| [`BRAND-VOICE.md`](BRAND-VOICE.md) | Verbal identity — tone, vocabulary, what never to say — for any agent generating copy alongside the visuals. |
+| [`llms.txt`](llms.txt) | The index and the rules, in one short file. The live site also serves `llms-full.txt` (every component doc inlined). |
+| [`components/manifest.json`](components/manifest.json) | The exact API: valid classes, the only allowed `data-*` values, styled states, component tokens, and copyable HTML per component. |
+| [`examples/starter.html`](examples/starter.html) | A complete, correct page to start from. |
+| [`DESIGN-SYSTEM.md` §11.4](DESIGN-SYSTEM.md#114-ai-agent-configuration) | A copy-pasteable visual + UI + voice constraint block. |
+| [`BRAND-VOICE.md`](BRAND-VOICE.md) | Tone and vocabulary for any copy you write alongside the UI. |
+| [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) | Operating instructions for agents *changing this repo* (identical content). |
 
-**The one rule that matters most:** `tokens/membrane.tokens.json` is the only file with authority over token values. `tokens/design-tokens.css` and `tokens/base.css` are build output — hand-edit them and `npm run build:tokens` will silently discard the change on the next run, while CI (`.github/workflows/ci.yml`) will fail the PR because the committed CSS no longer matches a fresh build.
+Everything an agent reads is **generated from the source and linted**: the build fails if a README example uses a class, attribute value or token the CSS doesn't implement, so the docs can't teach a model something that doesn't exist.
+
+**The one rule that matters most when editing this repo:** `tokens/membrane.tokens.json` and `components/<name>/<name>.css` are sources; every other CSS file, the manifest, `llms.txt` and the marked regions of the READMEs, spec and showcase are build output. CI fails if they don't match a fresh `npm run build:system`.
 
 <br>
 
@@ -97,19 +139,24 @@ This repo is written to be machine-consumable, not just human-readable. If you'r
 ### Option A — CDN (jsDelivr, recommended)
 
 ```html
+<!-- Everything: tokens + base + components -->
 <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css">
+  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css">
 
-<!-- Optional layer: selection color, reduced motion, typography composites -->
-<link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/base.css">
+<!-- Optional: Tabs keyboard behavior, tooltip Escape, dialog fallbacks -->
+<script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js" defer></script>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 ```
 
-> **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. This URL has no version pin, so it always serves the latest commit on the default branch; pin to a release tag once one exists if you need a stable reference.
+Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/base.css`) instead — the component bundle is a separate file, `components/membrane-components.css`.
 
-### Option B — Copy the file
+> **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. These URLs have no version pin, so they serve the latest commit on the default branch; pin to a release tag once one exists if you need a stable reference.
 
-Download [`tokens/design-tokens.css`](tokens/design-tokens.css) and place it in your project. Regenerate it with `npm run build:tokens` when you fork and modify the source.
+### Option B — Copy the files
+
+Download `membrane.css` (and `components/membrane.js` if you need it) into your project. Regenerate with `npm run build:system` when you fork and modify the sources.
 
 npm distribution isn't set up for now — the CDN link above is the supported integration path until that changes.
 
@@ -121,15 +168,16 @@ npm distribution isn't set up for now — the CDN link above is the supported in
 git clone https://github.com/idcesares/The-Membrane-Palette.git
 cd The-Membrane-Palette
 npm install
-npm run dev          # builds tokens, then serves showcase at localhost:3456
+npm run dev          # builds everything, then serves the showcase at localhost:3456
 ```
 
-To modify tokens and rebuild:
+To modify tokens or components and rebuild:
 
 ```bash
-# Edit tokens/membrane.tokens.json, then:
-npm run build:tokens   # regenerates tokens/design-tokens.css + tokens/base.css
-                       # aborts if any WCAG contrast pair fails
+# Edit tokens/membrane.tokens.json and/or components/<name>/*, then:
+npm run build:tokens      # tokens CSS; aborts if any WCAG contrast pair fails
+npm run build:components  # lints components + docs; writes bundles, manifest, llms.txt
+npm run build:system      # both, in order
 ```
 
 <br>
@@ -139,7 +187,7 @@ npm run build:tokens   # regenerates tokens/design-tokens.css + tokens/base.css
 The showcase site is the only thing this repo deploys right now. Token distribution is the CDN link from [Quick Start](#quick-start) — there's no publish step to run.
 
 ```bash
-npm run build     # regenerates tokens, assembles dist/ (showcase + tokens/ + DESIGN-SYSTEM.md + robots.txt + sitemap.xml)
+npm run build     # regenerates everything, assembles dist/ (showcase, tokens/, components/, membrane.css, llms.txt, llms-full.txt, docs)
 npm run deploy    # npx wrangler deploy — pushes dist/ per wrangler.toml
 ```
 
@@ -151,16 +199,21 @@ A token rename or removal is still a breaking change regardless of distribution 
 
 ## Token Architecture
 
-v2.0 uses a **three-tier architecture**. The single source of truth is `tokens/membrane.tokens.json`; CSS is generated from it.
+A **three-tier architecture**. Values live in `tokens/membrane.tokens.json`; components live in `components/`; everything else is generated.
 
 ```
-tokens/membrane.tokens.json   ← edit here
-        │
-        └─ npm run build:tokens
-                │
-                ├─ tokens/design-tokens.css   ← @layer tokens (custom properties only)
-                └─ tokens/base.css            ← @layer base  (element rules, optional)
+tokens/membrane.tokens.json        components/<name>/<name>.css + README.md
+        │                                   │
+        └─ npm run build:tokens             └─ npm run build:components
+           (OKLCH + contrast gate)             (token lint + docs lint)
+                │                                   │
+                ├─ tokens/design-tokens.css         ├─ components/membrane-components.css
+                └─ tokens/base.css                  ├─ components/manifest.json
+                                                    ├─ llms.txt, README API sections
+                                                    └─ membrane.css  (all three layers)
 ```
+
+Cascade layers are declared once, in order: `@layer tokens, base, components;` — unlayered consumer CSS beats all three.
 
 ### Tier 1 — Primitives (immutable)
 
@@ -193,15 +246,22 @@ document.documentElement.setAttribute('data-theme', 'light');  // force light
 document.documentElement.removeAttribute('data-theme');         // follow OS
 ```
 
-### Status color pairs
+### Status & register color triads
 
-Every status color comes in two variants — a fill/icon token and a text token. The fill token is for icons, badges, and large decorative elements; the text token is for body-size text on light surfaces.
+Each status and each register comes as a fill, a text color and a wash. The text color is gate-checked at ≥4.5:1 on the page, on cards, **and on its own wash**, in both modes.
 
-| Concept | Fill/icon | Text (≥4.5:1 on bg-primary) |
-|---|---|---|
-| Success | `--color-success` | `--color-success-text` |
-| Warning | `--color-warning` | `--color-warning-text` |
-| Error | `--color-error` | `--color-error-text` |
+| Concept | Fill/icon | Text | Wash |
+|---|---|---|---|
+| Success | `--color-success` | `--color-success-text` | `--color-success-bg` |
+| Warning | `--color-warning` | `--color-warning-text` | `--color-warning-bg` |
+| Error | `--color-error` | `--color-error-text` | `--color-error-bg` |
+| Info | `--color-info` | `--color-info-text` | `--color-info-bg` |
+| Human register | `--color-action-primary` | `--color-human-text` | `--color-human-bg` |
+| Digital register | `--color-action-secondary` | `--color-digital-text` | `--color-digital-bg` |
+
+### Tier 3 — Component tokens
+
+Each component declares `--mp-<component>-*` knobs that default to semantic tokens (`--mp-button-bg: var(--color-action-primary)`). Variants only reassign knobs, and you can too, per instance.
 
 ### Colors — 6 semantic families
 
@@ -236,8 +296,9 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 
 - **4px base unit** — `--space-1` (0.25rem) through `--space-32` (8rem)
 - **Warm-tinted shadows** — each stop uses `light-dark()` for automatic dark-mode adaptation
-- **Motion** — respects `prefers-reduced-motion`; all durations fall to 0ms when enabled
-- **Disabled state** — `--state-disabled-opacity`; hover/active feedback is brightness()-filter-based, not opacity-overlay-based
+- **Motion** — respects `prefers-reduced-motion`; `--duration-fast/normal/slow` fall to 0ms (`--duration-slower` keeps 150ms for essential feedback)
+- **Controls** — `--size-control-sm/md/lg` (36/44/52px); compact controls grow to 44px on touch screens
+- **States** — explicit `-hover` fills that mix toward `--color-text-primary` (darker in light mode, lighter in dark mode, so label contrast always rises), translucent `--color-bg-hover` / `--color-bg-active` washes, and `--state-disabled-opacity`
 
 <br>
 
@@ -253,13 +314,16 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 
 ## Accessibility
 
-- **Automated contrast gate:** the build script verifies 40 foreground/background pairs in both light and dark mode before writing CSS output. A failing pair aborts the build. CI (`.github/workflows/ci.yml`) runs this gate on every push and PR, and separately verifies the committed generated CSS matches a fresh build — so hand-edited or stale generated files can't merge.
+- **Automated contrast gate:** the build verifies 63 foreground/background pairs in both modes (126 checks) before writing CSS — text on every surface, button labels on resting *and hover* fills, register and status text on their washes (over both page and card surfaces), form-control boundaries and focus rings (WCAG 1.4.11), and every code syntax color. A failing pair aborts the build.
+- **Component lint:** components may only use semantic tokens; docs may only show classes and values the CSS implements. CI runs both builds on every push and PR and fails if any generated file is stale.
+- **State via ARIA:** component states are styled from `aria-*` and native attributes, so every visual state is also announced.
 - All primary/secondary color pairings meet **WCAG AA** contrast requirements; primary text pairs target **AAA**.
-- Focus states use a visible `2px solid` ring from `--focus-ring`, with a dedicated `--color-focus` semantic token that remaps to a higher-contrast value in dark mode.
+- Focus states use a visible `2px solid` ring from `--focus-ring`, with a dedicated `--color-focus` semantic token that remaps to a higher-contrast value in dark mode. Form inputs keep the ring — the border color change alone is not the indicator.
 - Motion tokens respect `prefers-reduced-motion: reduce`.
 - Interactive targets respect the 44px minimum via `--size-touch-target`.
 - `prefers-contrast: more` boosts text-secondary and text-tertiary to primary contrast.
-- `forced-colors: active` strips decorative glows so Windows High Contrast mode is unobstructed.
+- `forced-colors: active` strips decorative glows, and custom-drawn controls (checkbox, radio, switch, select) fall back to native rendering so Windows High Contrast mode keeps their state visible.
+- Native elements first: `<dialog>`, `<details>`, `<progress>` provide focus management and keyboard support without script.
 
 <br>
 
@@ -279,28 +343,43 @@ Fully automatic via `color-scheme: light dark` and `light-dark()` on every seman
 
 Accent colors are paired per-token (primitives stay immutable; only semantic tokens theme). Shadows, glow effects, gradient endpoints, and derived tints all adapt automatically.
 
+Because each token resolves `light-dark()` where it's used, `data-theme` works on **any subtree** — add `.mp-surface` so the subtree paints its own background:
+
+```html
+<section class="mp-section mp-surface" data-theme="dark">…</section>
+```
+
 <br>
 
 ## File Structure
 
 ```
 The-Membrane-Palette/
+├── membrane.css               ← Generated — the one stylesheet (tokens + base + components)
+├── llms.txt                   ← Generated — agent index
 ├── tokens/
-│   ├── membrane.tokens.json   ← Source of truth (edit this)
-│   ├── design-tokens.css      ← Generated — import this
-│   └── base.css               ← Generated — optional element rules
+│   ├── membrane.tokens.json   ← Source of truth for values (edit this)
+│   ├── design-tokens.css      ← Generated
+│   └── base.css               ← Generated
+├── components/
+│   ├── <name>/<name>.css      ← Component source (edit this)
+│   ├── <name>/README.md       ← Docs + examples (edit; the API section is generated)
+│   ├── membrane.js            ← Optional behaviors (hand-written)
+│   ├── membrane-components.css← Generated bundle
+│   └── manifest.json          ← Generated machine-readable API
+├── examples/starter.html      ← A complete page to copy
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)
-│   └── build-cloudflare-pages.mjs   ← Assembles dist/ for Pages deploy
-├── showcase/
-│   └── index.html             ← Living reference
-├── .github/workflows/ci.yml   ← Contrast gate + freshness check on every push/PR
-├── dist/                      ← Generated, gitignored — Cloudflare Pages output
-├── DESIGN-SYSTEM.md           ← Full specification
+│   ├── build-components.mjs   ← Component linter + bundler + manifest/docs generator
+│   └── build-cloudflare-pages.mjs ← Assembles dist/ for Pages deploy
+├── showcase/index.html        ← Living reference (gallery, tables generated)
+├── docs/AUDIT-2026-10.md      ← The v2.1 assessment: findings and what changed
+├── .github/workflows/ci.yml   ← Gate + lint + freshness check on every push/PR
+├── DESIGN-SYSTEM.md           ← Specification
 ├── BRAND-VOICE.md             ← Verbal identity guidelines
 ├── CHANGELOG.md               ← Version history
-├── CLAUDE.md                  ← AI agent instructions (Claude Code)
-└── AGENTS.md                  ← AI agent instructions (Codex) — kept in sync with CLAUDE.md
+├── CLAUDE.md / AGENTS.md      ← Instructions for agents editing this repo (kept in sync)
+└── dist/                      ← Generated, gitignored — Cloudflare Pages output
 ```
 
 <br>
@@ -319,11 +398,12 @@ Examples: `idcesares-logo-wordmark-primary.svg`, `idcesares-photo-speaking-heade
 
 ## Contributing
 
-1. Fork or branch, edit `tokens/membrane.tokens.json` — never the generated CSS.
-2. Run `npm run build:tokens` and commit the regenerated `tokens/design-tokens.css` + `tokens/base.css` alongside your JSON change. CI rejects PRs where the generated files don't match a fresh build.
-3. Retiring a token? Mark it `"$deprecated": "<reason>"` in the JSON instead of deleting it outright — the build emits an inline `/* @deprecated */` comment above its CSS declaration and a console summary on every run (see [`DESIGN-SYSTEM.md` §15](DESIGN-SYSTEM.md#15-design-token-summary)).
-4. Update [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) if the change affects the spec, and add an entry to [`CHANGELOG.md`](CHANGELOG.md) under `[Unreleased]` — lead with *why*, not just the diff.
-5. Open a PR against `master`. CI (`.github/workflows/ci.yml`) runs the contrast gate, verifies generated-file freshness, and rebuilds the Cloudflare Pages `dist/` assembly.
+1. **Tokens:** edit `tokens/membrane.tokens.json` — never the generated CSS. New color pairings get a `GATE` entry in `scripts/build-tokens.mjs`.
+2. **Components:** edit `components/<name>/<name>.css` and its `README.md`. New components also go in `ORDER` in `scripts/build-components.mjs` (see [`DESIGN-SYSTEM.md` §6.5](DESIGN-SYSTEM.md#65-contributing-a-component)).
+3. Run `npm run build:system` and commit the regenerated files alongside your change. CI rejects PRs where generated files don't match a fresh build.
+4. Retiring a token? Mark it `"$deprecated": "<reason>"` in the JSON instead of deleting it — the build emits an inline `/* @deprecated */` comment, a console summary, and refuses to let components use it (see [`DESIGN-SYSTEM.md` §15](DESIGN-SYSTEM.md#15-design-token-summary)).
+5. Update [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) if the change affects the spec, and add an entry to [`CHANGELOG.md`](CHANGELOG.md) under `[Unreleased]` — lead with *why*, not just the diff.
+6. Open a PR against `master`.
 
 <br>
 
