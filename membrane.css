@@ -308,6 +308,7 @@
     --duration-normal:  250ms;
     --duration-slow:    400ms;
     --duration-slower:  600ms;
+    --duration-loop:    1600ms;
     --ease-default:  cubic-bezier(0.25, 0.1, 0.25, 1);
     --ease-out:      cubic-bezier(0, 0, 0.2, 1);
     --ease-in:       cubic-bezier(0.4, 0, 1, 1);
@@ -316,6 +317,9 @@
     --transition-fast:     var(--duration-fast) var(--ease-default);
     --transition-default:  var(--duration-normal) var(--ease-default);
     --transition-slow:     var(--duration-slow) var(--ease-default);
+    --transition-enter:    var(--duration-normal) var(--ease-out);
+    --transition-exit:     var(--duration-fast) var(--ease-in);
+    --transition-state:    var(--duration-fast) var(--ease-in-out);
 
     /* --------------------------------------------------------
        20. OPACITY & STATE LAYERS
@@ -387,6 +391,10 @@
       --transition-fast:    0ms var(--ease-default);
       --transition-default: 0ms var(--ease-default);
       --transition-slow:    0ms var(--ease-default);
+      --transition-enter:   0ms var(--ease-out);
+      --transition-exit:    0ms var(--ease-in);
+      --transition-state:   0ms var(--ease-in-out);
+      /* --duration-loop is not reduced: loaders swap to an opacity pulse. */
     }
   }
 
@@ -399,6 +407,8 @@
       --color-text-secondary: var(--color-text-primary);
       --color-text-tertiary:  light-dark(var(--color-neutral-700), var(--color-neutral-300));
       --color-border-default: var(--color-border-emphasis);
+      --color-border-input:   var(--color-text-secondary);
+      --focus-ring:           var(--border-width-thick) solid var(--color-focus);
     }
   }
 
@@ -462,17 +472,47 @@
   }
 
   /* ===========================================================
-     REDUCED MOTION — restrict animation to safe properties
+     REDUCED MOTION — "reduce", not "remove".
+     Library components (mp-*) manage their own reduced motion:
+     transitions go instant through the duration tokens, surfaces
+     stop lifting, and loaders swap rotation/sliding for a gentle
+     opacity pulse so they still say "working". This rule is the
+     safety net for everything else on the page: animations run
+     once and end, and only color/opacity may still transition.
      =========================================================== */
 
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :where(html) {
+      scroll-behavior: auto !important;
+    }
+
+    :not([class^="mp-"], [class*=" mp-"]),
+    :not([class^="mp-"], [class*=" mp-"])::before,
+    :not([class^="mp-"], [class*=" mp-"])::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-property: opacity, color, background-color, border-color, box-shadow !important;
-      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ===========================================================
+     PRINT — light scheme everywhere (including dark subtrees),
+     no page tint, and component fills printed as designed so
+     white-on-terracotta labels and code blocks stay legible.
+     =========================================================== */
+
+  @media print {
+    :where(:root, [data-theme], .theme-dark) {
+      color-scheme: light;
+    }
+
+    :where(body) {
+      background: none;
+    }
+
+    :where([class^="mp-"], [class*=" mp-"]) {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
 
@@ -846,6 +886,16 @@
 
   .mp-prose :where(th) { font-weight: var(--weight-semibold); }
 
+  /* On paper a link can't be clicked: print where it goes. */
+  @media print {
+    .mp-prose :where(a[href^="http"])::after {
+      content: " (" attr(href) ")";
+      color: var(--color-text-secondary);
+      font-size: 0.85em;
+      overflow-wrap: anywhere;
+    }
+  }
+
   /* ---- Button (button) -------------------------------------- */
 
   /* Button — pill-shaped actions. Variants only reassign the --mp-button-*
@@ -896,10 +946,14 @@
       transform var(--transition-fast);
   }
 
-  .mp-button:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
-    background-color: var(--mp-button-bg-hover);
-    color: var(--mp-button-fg-hover);
-    box-shadow: var(--mp-button-glow);
+  /* Hover only where a pointer can hover: on touch screens a tap would
+     otherwise leave the hover fill stuck until the next tap elsewhere. */
+  @media (hover: hover) {
+    .mp-button:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+      background-color: var(--mp-button-bg-hover);
+      color: var(--mp-button-fg-hover);
+      box-shadow: var(--mp-button-glow);
+    }
   }
 
   /* Toggle buttons: pressed looks like a held hover. */
@@ -1004,11 +1058,26 @@
     border: var(--border-width-medium) solid var(--mp-button-fg);
     border-inline-end-color: transparent;
     border-radius: var(--radius-full);
-    animation: mp-button-spin 0.8s linear infinite;
+    animation: mp-button-spin calc(var(--duration-loop) / 2) linear infinite;
   }
 
   @keyframes mp-button-spin {
     to { rotate: 1turn; }
+  }
+
+  @keyframes mp-button-pulse {
+    50% { opacity: 0.35; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mp-button:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+      transform: none;
+    }
+
+    /* Still says "working" — by breathing, not spinning. */
+    .mp-button[aria-busy="true"]::after {
+      animation: mp-button-pulse var(--duration-loop) var(--ease-in-out) infinite;
+    }
   }
 
   /* ---- Link (link) ------------------------------------------ */
@@ -1058,8 +1127,10 @@
     text-decoration-color: currentColor;
   }
 
-  .mp-link[data-variant="standalone"]:hover::after {
-    translate: var(--space-1) 0;
+  @media (prefers-reduced-motion: no-preference) {
+    .mp-link[data-variant="standalone"]:hover::after {
+      translate: var(--space-1) 0;
+    }
   }
 
   /* First focusable element on every page: jumps keyboard users past the nav. */
@@ -1078,6 +1149,12 @@
     text-decoration: none;
     translate: 0 calc(-100% - var(--space-8));
     transition: translate var(--transition-fast);
+  }
+
+  @media print {
+    .mp-skip-link {
+      display: none;
+    }
   }
 
   .mp-skip-link:focus {
@@ -1303,7 +1380,7 @@
     content: "";
     background-color: var(--color-text-on-accent);
     scale: 0;
-    transition: scale var(--transition-fast);
+    transition: scale var(--transition-state);
   }
 
   .mp-checkbox::before {
@@ -1407,7 +1484,8 @@
     background-color: var(--color-bg-primary);
     box-shadow: var(--shadow-sm);
     translate: 0 -50%;
-    transition: translate var(--duration-fast) var(--ease-in-out), background-color var(--transition-fast);
+    /* The one place the spring easing belongs: a small, physical toggle. */
+    transition: translate var(--duration-normal) var(--ease-spring), background-color var(--transition-state);
   }
 
   .mp-switch:checked {
@@ -1588,10 +1666,19 @@
     outline-offset: var(--focus-ring-offset);
   }
 
-  .mp-card:has(.mp-card__link):hover {
-    --mp-card-shadow: var(--elevation-overlay);
-    border-color: var(--color-border-emphasis);
-    transform: translateY(-2px);
+  @media (hover: hover) {
+    .mp-card:has(.mp-card__link):hover {
+      --mp-card-shadow: var(--elevation-overlay);
+      border-color: var(--color-border-emphasis);
+    }
+  }
+
+  /* The lift is decoration: hover devices only, and never under reduced motion
+     (shadow and border still respond). */
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .mp-card:has(.mp-card__link):hover {
+      transform: translateY(-2px);
+    }
   }
 
   /* Secondary controls inside a clickable card sit above the stretched link. */
@@ -2403,7 +2490,7 @@
     background-image: linear-gradient(90deg, transparent, var(--mp-progress-value) 30%, var(--mp-progress-value) 70%, transparent);
     background-repeat: no-repeat;
     background-size: 40% 100%;
-    animation: mp-progress-slide 1.4s var(--ease-in-out) infinite;
+    animation: mp-progress-slide var(--duration-loop) var(--ease-in-out) infinite;
   }
 
   .mp-progress:indeterminate::-webkit-progress-bar { background-color: transparent; }
@@ -2426,7 +2513,7 @@
     border-block-start-color: var(--color-action-secondary);
     border-radius: var(--radius-full);
     vertical-align: middle;
-    animation: mp-spinner-rotate 0.8s linear infinite;
+    animation: mp-spinner-rotate calc(var(--duration-loop) / 2) linear infinite;
   }
 
   .mp-spinner[data-size="sm"] { --mp-spinner-size: 1rem; }
@@ -2434,6 +2521,24 @@
 
   @keyframes mp-spinner-rotate {
     to { rotate: 1turn; }
+  }
+
+  @keyframes mp-progress-pulse {
+    50% { opacity: 0.35; }
+  }
+
+  /* Reduced motion: no sliding or spinning, but never a frozen frame that
+     looks finished — the indicator breathes in place. */
+  @media (prefers-reduced-motion: reduce) {
+    .mp-progress:indeterminate {
+      background-position: 50% 0;
+      animation: mp-progress-pulse var(--duration-loop) var(--ease-in-out) infinite;
+    }
+
+    .mp-spinner {
+      border-color: var(--color-action-secondary);
+      animation: mp-progress-pulse var(--duration-loop) var(--ease-in-out) infinite;
+    }
   }
 
   /* ---- Skeleton (skeleton) ---------------------------------- */
@@ -2452,7 +2557,7 @@
     background:
       linear-gradient(90deg, transparent, var(--color-bg-hover), transparent) 0 0 / 50% 100% no-repeat,
       var(--color-bg-active);
-    animation: mp-skeleton-shimmer 1.6s var(--ease-in-out) infinite;
+    animation: mp-skeleton-shimmer var(--duration-loop) var(--ease-in-out) infinite;
   }
 
   /* Text lines: body line height, slightly shorter last line. */
@@ -2481,9 +2586,15 @@
     to { background-position: 200% 0, 0 0; }
   }
 
+  @keyframes mp-skeleton-pulse {
+    50% { opacity: 0.55; }
+  }
+
+  /* Reduced motion: the shimmer's sweep becomes a slow in-place pulse. */
   @media (prefers-reduced-motion: reduce) {
     .mp-skeleton {
-      animation: none;
+      background: var(--color-bg-active);
+      animation: mp-skeleton-pulse var(--duration-loop) var(--ease-in-out) infinite;
     }
   }
 
@@ -2583,7 +2694,14 @@
     font-size: var(--text-small);
     line-height: var(--leading-small);
     pointer-events: auto;
-    transition: opacity var(--transition-default), translate var(--transition-default);
+    transition: opacity var(--transition-enter), translate var(--transition-enter);
+  }
+
+  /* Set by membrane.js while a dismissed toast plays its exit. */
+  .mp-toast[data-leaving] {
+    opacity: 0;
+    translate: 0 var(--space-2);
+    transition: opacity var(--transition-exit), translate var(--transition-exit);
   }
 
   @starting-style {
@@ -2643,6 +2761,12 @@
     outline-offset: var(--focus-ring-offset);
   }
 
+  @media print {
+    .mp-toast-region:not([data-placement="inline"]) {
+      display: none;
+    }
+  }
+
   /* A region placed inside page content (docs, previews) instead of floating. */
   .mp-toast-region[data-placement="inline"] {
     position: static;
@@ -2684,9 +2808,9 @@
     translate: -50% var(--space-1);
     visibility: hidden;
     transition:
-      opacity var(--transition-fast),
-      translate var(--transition-fast),
-      visibility var(--transition-fast);
+      opacity var(--transition-exit),
+      translate var(--transition-exit),
+      visibility var(--transition-exit);
   }
 
   /* Invisible bridge across the gap, so the pointer can travel from the
@@ -2703,7 +2827,12 @@
     opacity: 1;
     translate: -50% 0;
     visibility: visible;
-    transition-delay: var(--duration-fast);
+    /* Wait a beat before appearing, so passing the pointer over a toolbar
+       doesn't flash every hint. */
+    transition:
+      opacity var(--transition-enter) var(--duration-fast),
+      translate var(--transition-enter) var(--duration-fast),
+      visibility var(--transition-enter) var(--duration-fast);
   }
 
   .mp-tooltip[data-placement="bottom"] > .mp-tooltip__content {
@@ -2743,11 +2872,13 @@
     line-height: var(--leading-body);
     opacity: 0;
     translate: 0 var(--space-2);
+    /* Closing: a quick ease-in exit. (A transition uses the timing of the
+       state it is moving *to*.) */
     transition:
-      opacity var(--transition-default),
-      translate var(--transition-default),
-      overlay var(--duration-normal) allow-discrete,
-      display var(--duration-normal) allow-discrete;
+      opacity var(--transition-exit),
+      translate var(--transition-exit),
+      overlay var(--duration-fast) allow-discrete,
+      display var(--duration-fast) allow-discrete;
   }
 
   .mp-dialog[open] {
@@ -2755,6 +2886,12 @@
     flex-direction: column;
     opacity: 1;
     translate: 0 0;
+    /* Opening: a slower ease-out entrance. */
+    transition:
+      opacity var(--transition-enter),
+      translate var(--transition-enter),
+      overlay var(--duration-normal) allow-discrete,
+      display var(--duration-normal) allow-discrete;
   }
 
   @starting-style {
@@ -2767,6 +2904,25 @@
   .mp-dialog::backdrop {
     background-color: var(--color-overlay-bg);
     backdrop-filter: blur(var(--blur-backdrop));
+    opacity: 0;
+    transition:
+      opacity var(--transition-exit),
+      overlay var(--duration-fast) allow-discrete,
+      display var(--duration-fast) allow-discrete;
+  }
+
+  .mp-dialog[open]::backdrop {
+    opacity: 1;
+    transition:
+      opacity var(--transition-enter),
+      overlay var(--duration-normal) allow-discrete,
+      display var(--duration-normal) allow-discrete;
+  }
+
+  @starting-style {
+    .mp-dialog[open]::backdrop {
+      opacity: 0;
+    }
   }
 
   .mp-dialog[data-size="sm"] { --mp-dialog-width: 25rem; }
@@ -2828,6 +2984,17 @@
     backdrop-filter: blur(var(--blur-backdrop));
     color: var(--color-text-primary);
     font-family: var(--font-sans);
+  }
+
+  /* In-page anchors land below the sticky bar instead of under it. */
+  :root:has(.mp-navbar) {
+    scroll-padding-top: calc(var(--size-nav) + var(--space-4));
+  }
+
+  @media print {
+    .mp-navbar {
+      display: none;
+    }
   }
 
   .mp-navbar__inner {
@@ -3033,7 +3200,7 @@
     font-weight: var(--weight-medium);
     white-space: nowrap;
     cursor: pointer;
-    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-state);
   }
 
   .mp-tabs__tab:hover {
@@ -3129,7 +3296,7 @@
     border-inline-end: var(--border-width-medium) solid var(--color-text-secondary);
     rotate: 45deg;
     translate: 0 -25%;
-    transition: rotate var(--transition-default), translate var(--transition-default);
+    transition: rotate var(--transition-state), translate var(--transition-state);
   }
 
   .mp-accordion[open] > .mp-accordion__summary::after {
@@ -3166,7 +3333,7 @@
       block-size: 0;
       overflow: hidden;
       transition:
-        block-size var(--transition-default),
+        block-size var(--transition-enter),
         content-visibility var(--duration-normal) allow-discrete;
     }
 
@@ -3405,8 +3572,8 @@
     opacity: 0;
     translate: 0 calc(-1 * var(--space-1));
     transition:
-      opacity var(--transition-fast),
-      translate var(--transition-fast),
+      opacity var(--transition-exit),
+      translate var(--transition-exit),
       overlay var(--duration-fast) allow-discrete,
       display var(--duration-fast) allow-discrete;
   }
@@ -3415,6 +3582,11 @@
     display: grid;
     opacity: 1;
     translate: 0 0;
+    transition:
+      opacity var(--transition-enter),
+      translate var(--transition-enter),
+      overlay var(--duration-normal) allow-discrete,
+      display var(--duration-normal) allow-discrete;
   }
 
   @starting-style {

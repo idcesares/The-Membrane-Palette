@@ -43,8 +43,10 @@
   text-decoration-color: currentColor;
 }
 
-.mp-link[data-variant="standalone"]:hover::after {
-  translate: var(--space-1) 0;
+@media (prefers-reduced-motion: no-preference) {
+  .mp-link[data-variant="standalone"]:hover::after {
+    translate: var(--space-1) 0;
+  }
 }
 
 /* First focusable element on every page: jumps keyboard users past the nav. */
@@ -63,6 +65,12 @@
   text-decoration: none;
   translate: 0 calc(-100% - var(--space-8));
   transition: translate var(--transition-fast);
+}
+
+@media print {
+  .mp-skip-link {
+    display: none;
+  }
 }
 
 .mp-skip-link:focus {

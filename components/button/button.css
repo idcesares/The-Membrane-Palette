@@ -46,10 +46,14 @@
     transform var(--transition-fast);
 }
 
-.mp-button:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
-  background-color: var(--mp-button-bg-hover);
-  color: var(--mp-button-fg-hover);
-  box-shadow: var(--mp-button-glow);
+/* Hover only where a pointer can hover: on touch screens a tap would
+   otherwise leave the hover fill stuck until the next tap elsewhere. */
+@media (hover: hover) {
+  .mp-button:hover:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+    background-color: var(--mp-button-bg-hover);
+    color: var(--mp-button-fg-hover);
+    box-shadow: var(--mp-button-glow);
+  }
 }
 
 /* Toggle buttons: pressed looks like a held hover. */
@@ -154,9 +158,24 @@
   border: var(--border-width-medium) solid var(--mp-button-fg);
   border-inline-end-color: transparent;
   border-radius: var(--radius-full);
-  animation: mp-button-spin 0.8s linear infinite;
+  animation: mp-button-spin calc(var(--duration-loop) / 2) linear infinite;
 }
 
 @keyframes mp-button-spin {
   to { rotate: 1turn; }
+}
+
+@keyframes mp-button-pulse {
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mp-button:active:not(:disabled, [aria-disabled="true"], [aria-busy="true"]) {
+    transform: none;
+  }
+
+  /* Still says "working" — by breathing, not spinning. */
+  .mp-button[aria-busy="true"]::after {
+    animation: mp-button-pulse var(--duration-loop) var(--ease-in-out) infinite;
+  }
 }

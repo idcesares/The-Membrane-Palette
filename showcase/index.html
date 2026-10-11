@@ -3063,7 +3063,7 @@
     <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/toast/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Toast</span></a>
   </header>
   <p class="gallery-item__summary">A brief, polite confirmation of something the person just did — one live region per page, MembranePalette.toast() or a data-mp-toast button, auto-dismissed unless it&#39;s an error.</p>
-  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-toast-region</code> <code>.mp-toast</code></dd></div><div><dt><code>data-tone</code></dt><dd>success · warning · error</dd></div><div><dt><code>data-placement</code></dt><dd>inline</dd></div></dl>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-toast-region</code> <code>.mp-toast</code></dd></div><div><dt><code>data-leaving</code></dt><dd>boolean</dd></div><div><dt><code>data-tone</code></dt><dd>success · warning · error</dd></div><div><dt><code>data-placement</code></dt><dd>inline</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Tones</p>
   <div class="gallery-example__stage">
@@ -4415,41 +4415,47 @@
                   <td>Container</td>
                   <td></td>
                 </tr>
-                <tr data-search="--duration-fast duration ">
+                <tr data-search="--duration-fast duration micro-interactions: hover color, press, exits.">
                   <td class="token-table__preview"></td>
                   <td><code>--duration-fast</code></td>
                   <td>Duration</td>
-                  <td></td>
+                  <td>Micro-interactions: hover color, press, exits.</td>
                 </tr>
-                <tr data-search="--duration-normal duration ">
+                <tr data-search="--duration-loop duration period of continuous loading loops (progress, skeleton; spinners turn at half). new in v2.1 — replaces literal seconds in components.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--duration-loop</code></td>
+                  <td>Duration</td>
+                  <td>Period of continuous loading loops (progress, skeleton; spinners turn at half). New in v2.1 — replaces literal seconds in components.</td>
+                </tr>
+                <tr data-search="--duration-normal duration standard: entrances, state changes, popovers.">
                   <td class="token-table__preview"></td>
                   <td><code>--duration-normal</code></td>
                   <td>Duration</td>
-                  <td></td>
+                  <td>Standard: entrances, state changes, popovers.</td>
                 </tr>
-                <tr data-search="--duration-slow duration ">
+                <tr data-search="--duration-slow duration larger surfaces: card lift, section reveals.">
                   <td class="token-table__preview"></td>
                   <td><code>--duration-slow</code></td>
                   <td>Duration</td>
-                  <td></td>
+                  <td>Larger surfaces: card lift, section reveals.</td>
                 </tr>
-                <tr data-search="--duration-slower duration ">
+                <tr data-search="--duration-slower duration page-level: view transitions, hero entrance. stays 150ms under reduced motion for essential feedback.">
                   <td class="token-table__preview"></td>
                   <td><code>--duration-slower</code></td>
                   <td>Duration</td>
-                  <td></td>
+                  <td>Page-level: view transitions, hero entrance. Stays 150ms under reduced motion for essential feedback.</td>
                 </tr>
-                <tr data-search="--ease-default ease ">
+                <tr data-search="--ease-default ease general purpose: hover and color changes.">
                   <td class="token-table__preview"></td>
                   <td><code>--ease-default</code></td>
                   <td>Ease</td>
-                  <td></td>
+                  <td>General purpose: hover and color changes.</td>
                 </tr>
-                <tr data-search="--ease-in ease ">
+                <tr data-search="--ease-in ease leaving: accelerates away (a respectful exit).">
                   <td class="token-table__preview"></td>
                   <td><code>--ease-in</code></td>
                   <td>Ease</td>
-                  <td></td>
+                  <td>Leaving: accelerates away (a respectful exit).</td>
                 </tr>
                 <tr data-search="--ease-in-out ease state changes that neither enter nor leave (§8.1 rule 3). new in v2.1 — the rule existed without a token.">
                   <td class="token-table__preview"></td>
@@ -4457,17 +4463,17 @@
                   <td>Ease</td>
                   <td>State changes that neither enter nor leave (§8.1 rule 3). New in v2.1 — the rule existed without a token.</td>
                 </tr>
-                <tr data-search="--ease-out ease ">
+                <tr data-search="--ease-out ease entering: decelerates into place (welcoming).">
                   <td class="token-table__preview"></td>
                   <td><code>--ease-out</code></td>
                   <td>Ease</td>
-                  <td></td>
+                  <td>Entering: decelerates into place (welcoming).</td>
                 </tr>
-                <tr data-search="--ease-spring ease ">
+                <tr data-search="--ease-spring ease playful overshoot for small toggles only (the switch thumb). never on surfaces or text.">
                   <td class="token-table__preview"></td>
                   <td><code>--ease-spring</code></td>
                   <td>Ease</td>
-                  <td></td>
+                  <td>Playful overshoot for small toggles only (the switch thumb). Never on surfaces or text.</td>
                 </tr>
                 <tr data-search="--elevation-modal elevation ">
                   <td class="token-table__preview"></td>
@@ -4997,6 +5003,18 @@
                   <td>Transition</td>
                   <td></td>
                 </tr>
+                <tr data-search="--transition-enter transition something appearing: dialogs, menus, toasts, tooltips. new in v2.1.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--transition-enter</code></td>
+                  <td>Transition</td>
+                  <td>Something appearing: dialogs, menus, toasts, tooltips. New in v2.1.</td>
+                </tr>
+                <tr data-search="--transition-exit transition something leaving — faster than its entrance, so the interface never waits on a goodbye. new in v2.1.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--transition-exit</code></td>
+                  <td>Transition</td>
+                  <td>Something leaving — faster than its entrance, so the interface never waits on a goodbye. New in v2.1.</td>
+                </tr>
                 <tr data-search="--transition-fast transition ">
                   <td class="token-table__preview"></td>
                   <td><code>--transition-fast</code></td>
@@ -5008,6 +5026,12 @@
                   <td><code>--transition-slow</code></td>
                   <td>Transition</td>
                   <td></td>
+                </tr>
+                <tr data-search="--transition-state transition a control changing state in place: switch, checkbox, tab indicator, chevron. new in v2.1.">
+                  <td class="token-table__preview"></td>
+                  <td><code>--transition-state</code></td>
+                  <td>Transition</td>
+                  <td>A control changing state in place: switch, checkbox, tab indicator, chevron. New in v2.1.</td>
                 </tr>
                 <tr data-search="--weight-bold weight ">
                   <td class="token-table__preview"></td>

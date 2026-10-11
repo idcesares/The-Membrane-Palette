@@ -30,9 +30,9 @@
   translate: -50% var(--space-1);
   visibility: hidden;
   transition:
-    opacity var(--transition-fast),
-    translate var(--transition-fast),
-    visibility var(--transition-fast);
+    opacity var(--transition-exit),
+    translate var(--transition-exit),
+    visibility var(--transition-exit);
 }
 
 /* Invisible bridge across the gap, so the pointer can travel from the
@@ -49,7 +49,12 @@
   opacity: 1;
   translate: -50% 0;
   visibility: visible;
-  transition-delay: var(--duration-fast);
+  /* Wait a beat before appearing, so passing the pointer over a toolbar
+     doesn't flash every hint. */
+  transition:
+    opacity var(--transition-enter) var(--duration-fast),
+    translate var(--transition-enter) var(--duration-fast),
+    visibility var(--transition-enter) var(--duration-fast);
 }
 
 .mp-tooltip[data-placement="bottom"] > .mp-tooltip__content {

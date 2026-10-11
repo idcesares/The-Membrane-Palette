@@ -37,7 +37,7 @@
   font-weight: var(--weight-medium);
   white-space: nowrap;
   cursor: pointer;
-  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-state);
 }
 
 .mp-tabs__tab:hover {

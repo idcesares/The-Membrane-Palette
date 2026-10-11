@@ -156,6 +156,14 @@
     return { region, fresh };
   }
 
+  /** Play the exit transition (0ms under reduced motion), then remove. */
+  function leaveToast(el) {
+    if (el.hasAttribute("data-leaving")) return;
+    el.setAttribute("data-leaving", "");
+    const seconds = parseFloat(getComputedStyle(el).transitionDuration) || 0;
+    setTimeout(() => el.remove(), seconds * 1000);
+  }
+
   function toast({ title, body, tone = "info", timeout } = {}) {
     if (!title) throw new Error("MembranePalette.toast: a title is required");
     const el = document.createElement("div");
@@ -181,7 +189,7 @@
     close.textContent = "×";
     el.append(content, close);
 
-    const dismiss = () => el.remove();
+    const dismiss = () => leaveToast(el);
     const { region, fresh } = toastRegion();
     // A live region must exist before content lands in it to be announced.
     setTimeout(() => region.append(el), fresh ? 150 : 0);
@@ -223,7 +231,8 @@
     }
 
     const close = event.target.closest?.(".mp-toast__close");
-    if (close) close.closest(".mp-toast")?.remove();
+    const closing = close?.closest(".mp-toast");
+    if (closing) leaveToast(closing);
 
     const trigger = event.target.closest?.("[data-mp-toast]");
     if (trigger) {

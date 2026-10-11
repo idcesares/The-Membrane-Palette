@@ -59,5 +59,5 @@ _Generated from `skeleton.css` by `npm run build:components` — do not edit thi
 | `--mp-skeleton-width` | `100%` |
 | `--mp-skeleton-height` | `1rem` |
 
-**Design tokens consumed** — `--color-bg-active` `--color-bg-hover` `--ease-in-out` `--radius-full` `--radius-lg` `--radius-sm` `--space-10` `--space-32`
+**Design tokens consumed** — `--color-bg-active` `--color-bg-hover` `--duration-loop` `--ease-in-out` `--radius-full` `--radius-lg` `--radius-sm` `--space-10` `--space-32`
 <!-- /GENERATED:API -->

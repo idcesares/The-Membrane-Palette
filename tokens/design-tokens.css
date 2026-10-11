@@ -295,6 +295,7 @@
     --duration-normal:  250ms;
     --duration-slow:    400ms;
     --duration-slower:  600ms;
+    --duration-loop:    1600ms;
     --ease-default:  cubic-bezier(0.25, 0.1, 0.25, 1);
     --ease-out:      cubic-bezier(0, 0, 0.2, 1);
     --ease-in:       cubic-bezier(0.4, 0, 1, 1);
@@ -303,6 +304,9 @@
     --transition-fast:     var(--duration-fast) var(--ease-default);
     --transition-default:  var(--duration-normal) var(--ease-default);
     --transition-slow:     var(--duration-slow) var(--ease-default);
+    --transition-enter:    var(--duration-normal) var(--ease-out);
+    --transition-exit:     var(--duration-fast) var(--ease-in);
+    --transition-state:    var(--duration-fast) var(--ease-in-out);
 
     /* --------------------------------------------------------
        20. OPACITY & STATE LAYERS
@@ -374,6 +378,10 @@
       --transition-fast:    0ms var(--ease-default);
       --transition-default: 0ms var(--ease-default);
       --transition-slow:    0ms var(--ease-default);
+      --transition-enter:   0ms var(--ease-out);
+      --transition-exit:    0ms var(--ease-in);
+      --transition-state:   0ms var(--ease-in-out);
+      /* --duration-loop is not reduced: loaders swap to an opacity pulse. */
     }
   }
 
@@ -386,6 +394,8 @@
       --color-text-secondary: var(--color-text-primary);
       --color-text-tertiary:  light-dark(var(--color-neutral-700), var(--color-neutral-300));
       --color-border-default: var(--color-border-emphasis);
+      --color-border-input:   var(--color-text-secondary);
+      --focus-ring:           var(--border-width-thick) solid var(--color-focus);
     }
   }
 

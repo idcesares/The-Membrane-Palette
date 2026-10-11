@@ -481,6 +481,10 @@ ${lines.join("\n").replace(/^\n/, "")}
       --transition-fast:    0ms var(--ease-default);
       --transition-default: 0ms var(--ease-default);
       --transition-slow:    0ms var(--ease-default);
+      --transition-enter:   0ms var(--ease-out);
+      --transition-exit:    0ms var(--ease-in);
+      --transition-state:   0ms var(--ease-in-out);
+      /* --duration-loop is not reduced: loaders swap to an opacity pulse. */
     }
   }
 
@@ -493,6 +497,8 @@ ${lines.join("\n").replace(/^\n/, "")}
       --color-text-secondary: var(--color-text-primary);
       --color-text-tertiary:  light-dark(var(--color-neutral-700), var(--color-neutral-300));
       --color-border-default: var(--color-border-emphasis);
+      --color-border-input:   var(--color-text-secondary);
+      --focus-ring:           var(--border-width-thick) solid var(--color-focus);
     }
   }
 
@@ -557,17 +563,47 @@ const baseCss = `/* ============================================================
   }
 
   /* ===========================================================
-     REDUCED MOTION — restrict animation to safe properties
+     REDUCED MOTION — "reduce", not "remove".
+     Library components (mp-*) manage their own reduced motion:
+     transitions go instant through the duration tokens, surfaces
+     stop lifting, and loaders swap rotation/sliding for a gentle
+     opacity pulse so they still say "working". This rule is the
+     safety net for everything else on the page: animations run
+     once and end, and only color/opacity may still transition.
      =========================================================== */
 
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :where(html) {
+      scroll-behavior: auto !important;
+    }
+
+    :not([class^="mp-"], [class*=" mp-"]),
+    :not([class^="mp-"], [class*=" mp-"])::before,
+    :not([class^="mp-"], [class*=" mp-"])::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-property: opacity, color, background-color, border-color, box-shadow !important;
-      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ===========================================================
+     PRINT — light scheme everywhere (including dark subtrees),
+     no page tint, and component fills printed as designed so
+     white-on-terracotta labels and code blocks stay legible.
+     =========================================================== */
+
+  @media print {
+    :where(:root, [data-theme], .theme-dark) {
+      color-scheme: light;
+    }
+
+    :where(body) {
+      background: none;
+    }
+
+    :where([class^="mp-"], [class*=" mp-"]) {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
 

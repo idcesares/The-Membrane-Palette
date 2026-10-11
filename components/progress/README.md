@@ -75,5 +75,5 @@ _Generated from `progress.css` by `npm run build:components` — do not edit thi
 | `--mp-progress-value` | `var(--color-action-secondary)` |
 | `--mp-spinner-size` | `1.25rem` |
 
-**Design tokens consumed** — `--border-width-medium` `--color-action-primary` `--color-action-secondary` `--color-bg-tertiary` `--color-success` `--ease-in-out` `--radius-full` `--transition-default`
+**Design tokens consumed** — `--border-width-medium` `--color-action-primary` `--color-action-secondary` `--color-bg-tertiary` `--color-success` `--duration-loop` `--ease-in-out` `--radius-full` `--transition-default`
 <!-- /GENERATED:API -->

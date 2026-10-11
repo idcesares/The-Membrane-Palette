@@ -317,6 +317,8 @@
         "--color-error-hover",
         "--color-text-on-accent",
         "--color-text-primary",
+        "--duration-loop",
+        "--ease-in-out",
         "--focus-ring",
         "--focus-ring-offset",
         "--font-sans",
@@ -596,7 +598,8 @@
         "--state-disabled-opacity",
         "--text-body",
         "--text-small",
-        "--transition-fast"
+        "--transition-fast",
+        "--transition-state"
       ],
       "examples": [
         {
@@ -646,13 +649,14 @@
         "--color-border-input",
         "--color-text-on-accent",
         "--color-text-secondary",
-        "--duration-fast",
-        "--ease-in-out",
+        "--duration-normal",
+        "--ease-spring",
         "--focus-ring",
         "--focus-ring-offset",
         "--radius-full",
         "--shadow-sm",
-        "--transition-fast"
+        "--transition-fast",
+        "--transition-state"
       ],
       "examples": [
         {
@@ -1478,6 +1482,7 @@
         "--color-action-secondary",
         "--color-bg-tertiary",
         "--color-success",
+        "--duration-loop",
         "--ease-in-out",
         "--radius-full",
         "--transition-default"
@@ -1522,6 +1527,7 @@
       "tokensUsed": [
         "--color-bg-active",
         "--color-bg-hover",
+        "--duration-loop",
         "--ease-in-out",
         "--radius-full",
         "--radius-lg",
@@ -1616,6 +1622,7 @@
         ]
       },
       "attributes": {
+        "data-leaving": "boolean",
         "data-tone": [
           "success",
           "warning",
@@ -1662,7 +1669,8 @@
         "--space-6",
         "--text-body",
         "--text-small",
-        "--transition-default",
+        "--transition-enter",
+        "--transition-exit",
         "--weight-semibold",
         "--z-toast"
       ],
@@ -1717,7 +1725,8 @@
         "--space-1",
         "--space-2",
         "--text-xs",
-        "--transition-fast",
+        "--transition-enter",
+        "--transition-exit",
         "--weight-medium",
         "--z-tooltip"
       ],
@@ -1767,6 +1776,7 @@
         "--color-overlay-bg",
         "--color-text-primary",
         "--color-text-secondary",
+        "--duration-fast",
         "--duration-normal",
         "--elevation-modal",
         "--font-sans",
@@ -1781,7 +1791,8 @@
         "--text-body",
         "--text-h3",
         "--tracking-subheading",
-        "--transition-default",
+        "--transition-enter",
+        "--transition-exit",
         "--weight-semibold"
       ],
       "examples": [
@@ -1963,6 +1974,7 @@
         "--space-4",
         "--text-small",
         "--transition-fast",
+        "--transition-state",
         "--weight-medium"
       ],
       "examples": [
@@ -2018,8 +2030,9 @@
         "--space-4",
         "--space-5",
         "--text-body",
-        "--transition-default",
+        "--transition-enter",
         "--transition-fast",
+        "--transition-state",
         "--weight-semibold"
       ],
       "examples": [
@@ -2198,6 +2211,7 @@
         "--color-text-primary",
         "--color-text-tertiary",
         "--duration-fast",
+        "--duration-normal",
         "--elevation-overlay",
         "--focus-ring",
         "--font-sans",
@@ -2212,7 +2226,8 @@
         "--text-small",
         "--text-xs",
         "--tracking-label",
-        "--transition-fast",
+        "--transition-enter",
+        "--transition-exit",
         "--weight-semibold"
       ],
       "examples": [

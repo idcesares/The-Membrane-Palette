@@ -44,7 +44,7 @@
   background-image: linear-gradient(90deg, transparent, var(--mp-progress-value) 30%, var(--mp-progress-value) 70%, transparent);
   background-repeat: no-repeat;
   background-size: 40% 100%;
-  animation: mp-progress-slide 1.4s var(--ease-in-out) infinite;
+  animation: mp-progress-slide var(--duration-loop) var(--ease-in-out) infinite;
 }
 
 .mp-progress:indeterminate::-webkit-progress-bar { background-color: transparent; }
@@ -67,7 +67,7 @@
   border-block-start-color: var(--color-action-secondary);
   border-radius: var(--radius-full);
   vertical-align: middle;
-  animation: mp-spinner-rotate 0.8s linear infinite;
+  animation: mp-spinner-rotate calc(var(--duration-loop) / 2) linear infinite;
 }
 
 .mp-spinner[data-size="sm"] { --mp-spinner-size: 1rem; }
@@ -75,4 +75,22 @@
 
 @keyframes mp-spinner-rotate {
   to { rotate: 1turn; }
+}
+
+@keyframes mp-progress-pulse {
+  50% { opacity: 0.35; }
+}
+
+/* Reduced motion: no sliding or spinning, but never a frozen frame that
+   looks finished — the indicator breathes in place. */
+@media (prefers-reduced-motion: reduce) {
+  .mp-progress:indeterminate {
+    background-position: 50% 0;
+    animation: mp-progress-pulse var(--duration-loop) var(--ease-in-out) infinite;
+  }
+
+  .mp-spinner {
+    border-color: var(--color-action-secondary);
+    animation: mp-progress-pulse var(--duration-loop) var(--ease-in-out) infinite;
+  }
 }

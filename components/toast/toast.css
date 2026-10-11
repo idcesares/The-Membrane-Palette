@@ -33,7 +33,14 @@
   font-size: var(--text-small);
   line-height: var(--leading-small);
   pointer-events: auto;
-  transition: opacity var(--transition-default), translate var(--transition-default);
+  transition: opacity var(--transition-enter), translate var(--transition-enter);
+}
+
+/* Set by membrane.js while a dismissed toast plays its exit. */
+.mp-toast[data-leaving] {
+  opacity: 0;
+  translate: 0 var(--space-2);
+  transition: opacity var(--transition-exit), translate var(--transition-exit);
 }
 
 @starting-style {
@@ -91,6 +98,12 @@
 .mp-toast__close:focus-visible {
   outline: var(--focus-ring);
   outline-offset: var(--focus-ring-offset);
+}
+
+@media print {
+  .mp-toast-region:not([data-placement="inline"]) {
+    display: none;
+  }
 }
 
 /* A region placed inside page content (docs, previews) instead of floating. */

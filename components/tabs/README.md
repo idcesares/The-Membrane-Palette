@@ -71,5 +71,5 @@ _Generated from `tabs.css` by `npm run build:components` — do not edit this se
 
 **States styled** — `:focus-visible` `:hover` `[aria-selected="true"]`
 
-**Design tokens consumed** — `--border-default` `--border-width-medium` `--border-width-thin` `--color-action-primary` `--color-bg-hover` `--color-bg-primary` `--color-bg-tertiary` `--color-text-primary` `--color-text-secondary` `--elevation-raised` `--focus-ring` `--focus-ring-offset` `--font-sans` `--radius-full` `--radius-sm` `--size-control-md` `--size-control-sm` `--space-1` `--space-2` `--space-4` `--text-small` `--transition-fast` `--weight-medium`
+**Design tokens consumed** — `--border-default` `--border-width-medium` `--border-width-thin` `--color-action-primary` `--color-bg-hover` `--color-bg-primary` `--color-bg-tertiary` `--color-text-primary` `--color-text-secondary` `--elevation-raised` `--focus-ring` `--focus-ring-offset` `--font-sans` `--radius-full` `--radius-sm` `--size-control-md` `--size-control-sm` `--space-1` `--space-2` `--space-4` `--text-small` `--transition-fast` `--transition-state` `--weight-medium`
 <!-- /GENERATED:API -->

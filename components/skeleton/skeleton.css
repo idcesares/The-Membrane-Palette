@@ -12,7 +12,7 @@
   background:
     linear-gradient(90deg, transparent, var(--color-bg-hover), transparent) 0 0 / 50% 100% no-repeat,
     var(--color-bg-active);
-  animation: mp-skeleton-shimmer 1.6s var(--ease-in-out) infinite;
+  animation: mp-skeleton-shimmer var(--duration-loop) var(--ease-in-out) infinite;
 }
 
 /* Text lines: body line height, slightly shorter last line. */
@@ -41,8 +41,14 @@
   to { background-position: 200% 0, 0 0; }
 }
 
+@keyframes mp-skeleton-pulse {
+  50% { opacity: 0.55; }
+}
+
+/* Reduced motion: the shimmer's sweep becomes a slow in-place pulse. */
 @media (prefers-reduced-motion: reduce) {
   .mp-skeleton {
-    animation: none;
+    background: var(--color-bg-active);
+    animation: mp-skeleton-pulse var(--duration-loop) var(--ease-in-out) infinite;
   }
 }

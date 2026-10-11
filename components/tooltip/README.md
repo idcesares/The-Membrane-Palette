@@ -69,5 +69,5 @@ _Generated from `tooltip.css` by `npm run build:components` — do not edit this
 |---|---|
 | `--mp-tooltip-gap` | `var(--space-2)` |
 
-**Design tokens consumed** — `--color-bg-inverse` `--color-text-inverse` `--duration-fast` `--elevation-overlay` `--font-sans` `--leading-small` `--radius-sm` `--space-1` `--space-2` `--text-xs` `--transition-fast` `--weight-medium` `--z-tooltip`
+**Design tokens consumed** — `--color-bg-inverse` `--color-text-inverse` `--duration-fast` `--elevation-overlay` `--font-sans` `--leading-small` `--radius-sm` `--space-1` `--space-2` `--text-xs` `--transition-enter` `--transition-exit` `--weight-medium` `--z-tooltip`
 <!-- /GENERATED:API -->

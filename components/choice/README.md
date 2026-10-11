@@ -72,5 +72,5 @@ _Generated from `choice.css` by `npm run build:components` — do not edit this 
 |---|---|
 | `--mp-choice-size` | `1.25rem` |
 
-**Design tokens consumed** — `--border-width-medium` `--color-action-secondary` `--color-bg-primary` `--color-border-input` `--color-error` `--color-text-on-accent` `--color-text-primary` `--color-text-secondary` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-body-lg` `--leading-small` `--radius-full` `--radius-sm` `--space-2` `--space-3` `--state-disabled-opacity` `--text-body` `--text-small` `--transition-fast`
+**Design tokens consumed** — `--border-width-medium` `--color-action-secondary` `--color-bg-primary` `--color-border-input` `--color-error` `--color-text-on-accent` `--color-text-primary` `--color-text-secondary` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-body-lg` `--leading-small` `--radius-full` `--radius-sm` `--space-2` `--space-3` `--state-disabled-opacity` `--text-body` `--text-small` `--transition-fast` `--transition-state`
 <!-- /GENERATED:API -->

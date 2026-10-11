@@ -138,3 +138,13 @@
 }
 
 .mp-prose :where(th) { font-weight: var(--weight-semibold); }
+
+/* On paper a link can't be clicked: print where it goes. */
+@media print {
+  .mp-prose :where(a[href^="http"])::after {
+    content: " (" attr(href) ")";
+    color: var(--color-text-secondary);
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+  }
+}

@@ -14,6 +14,17 @@
   font-family: var(--font-sans);
 }
 
+/* In-page anchors land below the sticky bar instead of under it. */
+:root:has(.mp-navbar) {
+  scroll-padding-top: calc(var(--size-nav) + var(--space-4));
+}
+
+@media print {
+  .mp-navbar {
+    display: none;
+  }
+}
+
 .mp-navbar__inner {
   box-sizing: border-box;
   display: flex;

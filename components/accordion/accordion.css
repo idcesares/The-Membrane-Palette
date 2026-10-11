@@ -41,7 +41,7 @@
   border-inline-end: var(--border-width-medium) solid var(--color-text-secondary);
   rotate: 45deg;
   translate: 0 -25%;
-  transition: rotate var(--transition-default), translate var(--transition-default);
+  transition: rotate var(--transition-state), translate var(--transition-state);
 }
 
 .mp-accordion[open] > .mp-accordion__summary::after {
@@ -78,7 +78,7 @@
     block-size: 0;
     overflow: hidden;
     transition:
-      block-size var(--transition-default),
+      block-size var(--transition-enter),
       content-visibility var(--duration-normal) allow-discrete;
   }
 

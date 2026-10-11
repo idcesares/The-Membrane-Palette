@@ -286,27 +286,33 @@
   },
 
   "duration": {
+    "$description": "Under prefers-reduced-motion, fast/normal/slow fall to 0ms and slower to 150ms (see design-tokens.css). loop is exempt: loading loops switch to an opacity pulse instead of stopping.",
     "$extensions": { "cssPrefix": "--duration-" },
-    "fast":   { "$type": "duration", "$value": "150ms" },
-    "normal": { "$type": "duration", "$value": "250ms" },
-    "slow":   { "$type": "duration", "$value": "400ms" },
-    "slower": { "$type": "duration", "$value": "600ms" }
+    "fast":   { "$type": "duration", "$value": "150ms", "$description": "Micro-interactions: hover color, press, exits." },
+    "normal": { "$type": "duration", "$value": "250ms", "$description": "Standard: entrances, state changes, popovers." },
+    "slow":   { "$type": "duration", "$value": "400ms", "$description": "Larger surfaces: card lift, section reveals." },
+    "slower": { "$type": "duration", "$value": "600ms", "$description": "Page-level: view transitions, hero entrance. Stays 150ms under reduced motion for essential feedback." },
+    "loop":   { "$type": "duration", "$value": "1600ms", "$description": "Period of continuous loading loops (progress, skeleton; spinners turn at half). New in v2.1 — replaces literal seconds in components." }
   },
 
   "ease": {
     "$extensions": { "cssPrefix": "--ease-" },
-    "default": { "$type": "cubicBezier", "$value": [0.25, 0.1, 0.25, 1] },
-    "out":     { "$type": "cubicBezier", "$value": [0.0, 0.0, 0.2, 1] },
-    "in":      { "$type": "cubicBezier", "$value": [0.4, 0.0, 1, 1] },
+    "default": { "$type": "cubicBezier", "$value": [0.25, 0.1, 0.25, 1], "$description": "General purpose: hover and color changes." },
+    "out":     { "$type": "cubicBezier", "$value": [0.0, 0.0, 0.2, 1], "$description": "Entering: decelerates into place (welcoming)." },
+    "in":      { "$type": "cubicBezier", "$value": [0.4, 0.0, 1, 1], "$description": "Leaving: accelerates away (a respectful exit)." },
     "in-out":  { "$type": "cubicBezier", "$value": [0.4, 0.0, 0.2, 1], "$description": "State changes that neither enter nor leave (§8.1 rule 3). New in v2.1 — the rule existed without a token." },
-    "spring":  { "$type": "cubicBezier", "$value": [0.34, 1.56, 0.64, 1] }
+    "spring":  { "$type": "cubicBezier", "$value": [0.34, 1.56, 0.64, 1], "$description": "Playful overshoot for small toggles only (the switch thumb). Never on surfaces or text." }
   },
 
   "transition": {
+    "$description": "Duration + easing composites. Use enter/exit/state for anything that appears, disappears or changes state; fast/default/slow for hover feedback.",
     "$extensions": { "cssPrefix": "--transition-" },
     "fast":    { "$type": "cssValue", "$value": "{duration.fast} {ease.default}" },
     "default": { "$type": "cssValue", "$value": "{duration.normal} {ease.default}" },
-    "slow":    { "$type": "cssValue", "$value": "{duration.slow} {ease.default}" }
+    "slow":    { "$type": "cssValue", "$value": "{duration.slow} {ease.default}" },
+    "enter":   { "$type": "cssValue", "$value": "{duration.normal} {ease.out}", "$description": "Something appearing: dialogs, menus, toasts, tooltips. New in v2.1." },
+    "exit":    { "$type": "cssValue", "$value": "{duration.fast} {ease.in}", "$description": "Something leaving — faster than its entrance, so the interface never waits on a goodbye. New in v2.1." },
+    "state":   { "$type": "cssValue", "$value": "{duration.fast} {ease.in-out}", "$description": "A control changing state in place: switch, checkbox, tab indicator, chevron. New in v2.1." }
   },
 
   "opacity": {

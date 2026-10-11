@@ -54,7 +54,7 @@
   content: "";
   background-color: var(--color-text-on-accent);
   scale: 0;
-  transition: scale var(--transition-fast);
+  transition: scale var(--transition-state);
 }
 
 .mp-checkbox::before {

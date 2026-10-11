@@ -130,10 +130,19 @@
   outline-offset: var(--focus-ring-offset);
 }
 
-.mp-card:has(.mp-card__link):hover {
-  --mp-card-shadow: var(--elevation-overlay);
-  border-color: var(--color-border-emphasis);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .mp-card:has(.mp-card__link):hover {
+    --mp-card-shadow: var(--elevation-overlay);
+    border-color: var(--color-border-emphasis);
+  }
+}
+
+/* The lift is decoration: hover devices only, and never under reduced motion
+   (shadow and border still respond). */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .mp-card:has(.mp-card__link):hover {
+    transform: translateY(-2px);
+  }
 }
 
 /* Secondary controls inside a clickable card sit above the stretched link. */

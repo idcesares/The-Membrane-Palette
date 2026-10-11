@@ -50,5 +50,5 @@ _Generated from `accordion.css` by `npm run build:components` — do not edit th
 
 **States styled** — `:focus-visible` `:hover` `[open]`
 
-**Design tokens consumed** — `--border-default` `--border-width-medium` `--color-bg-hover` `--color-text-primary` `--color-text-secondary` `--duration-normal` `--focus-ring` `--font-sans` `--leading-body` `--leading-small` `--radius-sm` `--size-control-md` `--space-2` `--space-3` `--space-4` `--space-5` `--text-body` `--transition-default` `--transition-fast` `--weight-semibold`
+**Design tokens consumed** — `--border-default` `--border-width-medium` `--color-bg-hover` `--color-text-primary` `--color-text-secondary` `--duration-normal` `--focus-ring` `--font-sans` `--leading-body` `--leading-small` `--radius-sm` `--size-control-md` `--space-2` `--space-3` `--space-4` `--space-5` `--text-body` `--transition-enter` `--transition-fast` `--transition-state` `--weight-semibold`
 <!-- /GENERATED:API -->

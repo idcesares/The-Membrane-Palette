@@ -3,6 +3,7 @@ name: Toast
 category: Feedback
 status: beta
 summary: A brief, polite confirmation of something the person just did — one live region per page, MembranePalette.toast() or a data-mp-toast button, auto-dismissed unless it's an error.
+exempt: data-leaving
 ---
 
 # Toast
@@ -20,7 +21,7 @@ MembranePalette.toast({ title: 'Draft saved', body: 'Last edit 2 minutes ago.', 
 <button class="mp-button" data-mp-toast="Link copied" data-mp-toast-tone="success">Copy link</button>
 ```
 
-It creates the `.mp-toast-region` live region on first use. Toasts stay 6 seconds (longer while hovered or focused); **errors stay until dismissed**, so nobody misses them.
+It creates the `.mp-toast-region` live region on first use. Toasts stay 6 seconds (longer while hovered or focused); **errors stay until dismissed**, so nobody misses them. They enter with `--transition-enter` and leave with the faster `--transition-exit` — `membrane.js` sets the runtime-only `data-leaving` attribute during the exit; never author it.
 
 ## Examples
 
@@ -82,6 +83,7 @@ _Generated from `toast.css` by `npm run build:components` — do not edit this s
 
 | Attribute | Values |
 |---|---|
+| `data-leaving` | boolean — presence enables it |
 | `data-tone` | `success` · `warning` · `error` |
 | `data-placement` | `inline` |
 
@@ -94,5 +96,5 @@ _Generated from `toast.css` by `npm run build:components` — do not edit this s
 | `--mp-toast-accent` | `var(--color-info)` |
 | `--mp-toast-title` | `var(--color-text-primary)` |
 
-**Design tokens consumed** — `--border-default` `--border-width-thick` `--color-bg-elevated` `--color-bg-hover` `--color-error` `--color-error-text` `--color-info` `--color-success` `--color-success-text` `--color-text-primary` `--color-text-secondary` `--color-warning` `--color-warning-text` `--elevation-overlay` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-small` `--radius-full` `--radius-md` `--size-control-sm` `--space-1` `--space-2` `--space-3` `--space-4` `--space-6` `--text-body` `--text-small` `--transition-default` `--weight-semibold` `--z-toast`
+**Design tokens consumed** — `--border-default` `--border-width-thick` `--color-bg-elevated` `--color-bg-hover` `--color-error` `--color-error-text` `--color-info` `--color-success` `--color-success-text` `--color-text-primary` `--color-text-secondary` `--color-warning` `--color-warning-text` `--elevation-overlay` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-small` `--radius-full` `--radius-md` `--size-control-sm` `--space-1` `--space-2` `--space-3` `--space-4` `--space-6` `--text-body` `--text-small` `--transition-enter` `--transition-exit` `--weight-semibold` `--z-toast`
 <!-- /GENERATED:API -->

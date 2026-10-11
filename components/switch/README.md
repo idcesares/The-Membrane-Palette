@@ -59,5 +59,5 @@ _Generated from `switch.css` by `npm run build:components` — do not edit this 
 | `--mp-switch-inset` | `0.125rem` |
 | `--mp-switch-travel` | `calc(var(--mp-switch-width) - var(--mp-switch-thumb) - 2 * var(--border-width-medium) - 2 * var(--mp-switch-inset))` |
 
-**Design tokens consumed** — `--border-width-medium` `--color-action-secondary` `--color-bg-primary` `--color-border-input` `--color-text-on-accent` `--color-text-secondary` `--duration-fast` `--ease-in-out` `--focus-ring` `--focus-ring-offset` `--radius-full` `--shadow-sm` `--transition-fast`
+**Design tokens consumed** — `--border-width-medium` `--color-action-secondary` `--color-bg-primary` `--color-border-input` `--color-text-on-accent` `--color-text-secondary` `--duration-normal` `--ease-spring` `--focus-ring` `--focus-ring-offset` `--radius-full` `--shadow-sm` `--transition-fast` `--transition-state`
 <!-- /GENERATED:API -->
