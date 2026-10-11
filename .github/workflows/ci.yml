@@ -63,14 +63,16 @@ jobs:
 
       - run: npm ci
 
-      - name: Install Chromium for Playwright
-        run: npx playwright install --with-deps chromium
+      - name: Install Chromium, Firefox and WebKit for Playwright
+        run: npx playwright install --with-deps chromium firefox webkit
 
-      # Builds dist/ and validates its HTML, then serves it and runs axe-core
-      # on every page in light and dark mode, a phone-width overflow check,
-      # link integrity (site + Markdown), the keyboard / focus / ARIA
-      # behavior of tabs, dialog, tooltip, menu and toast, and motion under
-      # full, reduced and touch settings.
+      # Builds dist/, validates its HTML and type-checks the generated
+      # TypeScript, then serves it and runs, in Chromium, Firefox and WebKit:
+      # axe-core on every page in light and dark mode, phone-width overflow,
+      # link integrity and self-containment, the keyboard / focus / ARIA
+      # behavior of tabs, dialog, tooltip, menu, combobox and toast, and
+      # motion under full, reduced and touch settings. Chromium also
+      # compares every gallery example with its visual baseline.
       - name: Run tests
         run: npm test
 

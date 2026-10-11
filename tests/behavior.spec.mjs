@@ -111,6 +111,8 @@ test("form: required field blocks submit; busy state while submitting", async ({
 });
 
 test("primary hover fill is darker than rest (light) and label contrast rises", async ({ page }) => {
+  // Hover effects are gated on (hover: hover); headless Firefox reports no pointer.
+  test.skip(!(await page.evaluate(() => matchMedia("(hover: hover)").matches)), "no hover-capable pointer in this browser");
   const button = page.locator("#component-button .mp-button").first();
   const rest = await button.evaluate((b) => getComputedStyle(b).backgroundColor);
   await button.hover();

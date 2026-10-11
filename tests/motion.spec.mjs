@@ -44,6 +44,7 @@ test.describe("full motion", () => {
   });
 
   test("clickable card lifts on hover", async ({ page }) => {
+    test.skip(!(await page.evaluate(() => matchMedia("(hover: hover)").matches)), "no hover-capable pointer in this browser");
     const card = page.locator("#component-card .mp-card:has(.mp-card__link)").first();
     await card.hover();
     await expect.poll(() => style(card, "transform")).not.toBe("none");
@@ -88,6 +89,7 @@ test.describe("reduced motion", () => {
 });
 
 test.describe("touch screens", () => {
+  test.skip(({ browserName }) => browserName === "firefox", "Playwright has no mobile emulation for Firefox");
   test.use({ hasTouch: true, isMobile: true, viewport: { width: 390, height: 844 } });
 
   test("a tap doesn't leave a hover fill stuck on the button", async ({ page }) => {
