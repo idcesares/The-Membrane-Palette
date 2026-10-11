@@ -62,7 +62,8 @@
     "render:figures": "node scripts/render-doc-figures.mjs",
     "lint:html": "html-validate dist/index.html dist/404.html \"dist/examples/*.html\"",
     "lint:types": "tsc --noEmit --strict --target es2022 --module nodenext --moduleResolution nodenext --allowImportingTsExtensions --lib es2022,dom tests/types/check.ts",
-    "test": "npm run build && npm run lint:html && npm run lint:types && playwright test",
+    "test": "npm run build && npm run lint:html && npm run lint:types && playwright test --project=chromium --project=firefox --project=webkit",
+    "test:visual": "npm run build && playwright test --project=visual",
     "deploy": "npm run build && npx wrangler pages deploy",
     "dev": "npm run build && serve dist -l 3456",
     "preview": "npm run build && serve dist -l 3456"

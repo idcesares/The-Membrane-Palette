@@ -4,7 +4,7 @@ The CDN is the only distribution channel (npm publishing isn't set up), and jsDe
 
 ## 1. Before tagging
 
-- [ ] `npm ci && npm test` passes locally. It builds everything, validates the HTML, type-checks the generated types, then runs axe in both themes, link integrity, and keyboard, motion and touch behavior in Chromium, Firefox and WebKit, plus Chromium visual baselines.
+- [ ] `npm ci && npm test` passes locally. It builds everything, validates the HTML, type-checks the generated types, then runs axe in both themes, link integrity, and keyboard, motion and touch behavior in Chromium, Firefox and WebKit. Visual baselines run in CI's Playwright container (`visual` job).
 - [ ] `npm run build:system` leaves `git status` clean. CI checks this too, but it's faster to catch locally.
 - [ ] CI is green on the commit you are about to tag.
 - [ ] `CHANGELOG.md`: move everything under `[Unreleased]` into a new `## [x.y.z] — YYYY-MM-DD` section. Use the date you tag, not the date you started.

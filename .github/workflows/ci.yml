@@ -78,8 +78,7 @@ jobs:
       # axe-core on every page in light and dark mode, phone-width overflow,
       # link integrity and self-containment, the keyboard / focus / ARIA
       # behavior of tabs, dialog, tooltip, menu, combobox and toast, and
-      # motion under full, reduced and touch settings. Chromium also
-      # compares every gallery example with its visual baseline.
+      # motion under full, reduced and touch settings.
       - name: Run tests
         run: npm test
 
@@ -87,5 +86,51 @@ jobs:
         if: failure()
         with:
           name: playwright-results
+          path: test-results/
+          retention-days: 7
+
+  visual:
+    name: Visual baselines (Playwright container)
+    runs-on: ubuntu-latest
+    # Pixels depend on the machine's font rasterizer, so baselines are
+    # recorded and compared in one canonical image. Keep its tag equal to
+    # the @playwright/test version in package.json. Locally:
+    #   docker run --rm -v "$PWD":/work -w /work mcr.microsoft.com/playwright:v1.56.1-noble \
+    #     sh -c "npm ci && npm run test:visual -- --update-snapshots"
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # Every gallery example in light and dark against the committed
+      # baselines in tests/visual.spec.mjs-snapshots/.
+      - name: Compare with baselines
+        run: npm run test:visual
+
+      # On a mismatch, record fresh baselines in this same image and upload
+      # them: review the diff in playwright-visual, and if the change was
+      # intended, commit the files from visual-baselines.
+      - name: Record fresh baselines
+        if: failure()
+        run: npx playwright test --project=visual --update-snapshots
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-baselines
+          path: tests/visual.spec.mjs-snapshots/
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-visual
           path: test-results/
           retention-days: 7

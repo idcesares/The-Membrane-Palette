@@ -86,7 +86,7 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
-| [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; Chromium visual baselines of every component gallery example; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
+| [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; visual baselines of every component gallery example, recorded in the Playwright container; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
 | [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
 <br>
@@ -214,12 +214,12 @@ npm install
 npm run dev          # builds everything, then serves the showcase at localhost:3456
 ```
 
-To run the checks (html-validate, the TypeScript check, then in three browser engines: axe-core in both themes, phone overflow, links, keyboard, motion under full/reduced/touch; plus Chromium visual baselines):
+To run the checks (html-validate, the TypeScript check, then in three browser engines: axe-core in both themes, phone overflow, links, keyboard, motion under full/reduced/touch):
 
 ```bash
 npx playwright install --with-deps chromium firefox webkit   # once
 npm test                          # builds, serves dist/, runs tests/*.spec.mjs
-npx playwright test tests/visual.spec.mjs --update-snapshots   # after an intended visual change
+npm run test:visual   # pixel baselines; canonical only in the Playwright container (CONTRIBUTING.md, step 7)
 ```
 
 To modify tokens or components and rebuild:

@@ -2,9 +2,13 @@
 // light and dark, compared with committed baselines. axe and the lints
 // can't see a padding, radius or color drifting; this can.
 //
-// Chromium only (see playwright.config.mjs). After an intended visual
-// change, review the diff in the HTML report, then refresh the baselines:
-//   npx playwright test tests/visual.spec.mjs --update-snapshots
+// Runs as the "visual" project inside the canonical Playwright container
+// (CI's `visual` job): pixels depend on the font rasterizer, so baselines
+// recorded on another machine differ by a pixel per glyph. After an
+// intended visual change CI uploads fresh baselines as the
+// `visual-baselines` artifact: review the diff (`playwright-visual`), then
+// commit them. Or record them yourself in the same image:
+//   docker run --rm -v "$PWD":/work -w /work mcr.microsoft.com/playwright:v1.56.1-noble sh -c "npm ci && npm run test:visual -- --update-snapshots"
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 
