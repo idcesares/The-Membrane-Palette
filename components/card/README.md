@@ -38,7 +38,7 @@ Media example:
 ### Standard, featured, digital
 
 ```html
-<div class="mp-grid" data-min="sm">
+<div class="mp-grid">
   <article class="mp-card">
     <p class="mp-card__overline">Essay</p>
     <h3 class="mp-card__title">Learning platforms with institutional memory</h3>
@@ -54,6 +54,19 @@ Media example:
     <p class="mp-card__overline">Open source</p>
     <h3 class="mp-card__title">Token pipeline</h3>
     <p class="mp-card__body">DTCG JSON in, gate-checked OKLCH CSS out.</p>
+  </article>
+</div>
+```
+
+### With media
+
+```html
+<div class="mp-grid" data-min="sm">
+  <article class="mp-card">
+    <div class="mp-card__media"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Crect width='320' height='180' fill='%23F0EBE1'/%3E%3Cpath d='M-10 140C80 20 160 20 330 120' fill='none' stroke='%23B35530' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M-10 50C90 170 200 170 330 40' fill='none' stroke='%231B756D' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='160' cy='86' r='6' fill='%23D49A3A'/%3E%3C/svg%3E" alt=""></div>
+    <p class="mp-card__overline">Illustration</p>
+    <h3 class="mp-card__title">Where the registers cross</h3>
+    <p class="mp-card__body">Media sits full-bleed at the top and picks up the brand's warm photo filter.</p>
   </article>
 </div>
 ```

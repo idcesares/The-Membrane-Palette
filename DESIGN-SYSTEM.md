@@ -485,7 +485,7 @@ No framework, no build step for consumers. A complete page to copy lives in `exa
 ### 6.5 Contributing a component
 
 1. Create `components/<name>/<name>.css` and `components/<name>/README.md` (frontmatter `name`, `category`, `status`, `summary`; an `## Examples` section with `### Title` + ` ```html ` blocks; `<!-- GENERATED:API -->` markers), and add `<name>` to `ORDER` in `scripts/build-components.mjs`.
-2. Run `npm run build:components`. It **fails** if the CSS uses a raw color, an unknown or deprecated token, a Tier 1 primitive, or a custom property not named `--mp-*` — and if any README example uses a class, attribute or value the CSS doesn't implement, duplicates an `id`, or has an icon-only button without `aria-label`.
+2. Run `npm run build:components`. It **fails** if the CSS uses a raw color, an unknown or deprecated token, a Tier 1 primitive, or a custom property not named `--mp-*` — and if any README example uses a class, attribute or value the CSS doesn't implement, duplicates an `id`, or has an icon-only button without `aria-label`. It also fails if a class or `data-*` value the CSS implements is **never demonstrated** in an example — that is what guarantees the showcase renders every option. Token scales and runtime-only state can be exempted with an `exempt:` frontmatter line.
 3. If the component needs a new color pairing, add a semantic token and a `GATE` entry in `scripts/build-tokens.mjs` so its contrast is verified in both modes.
 
 ## 7. Imagery & Illustration

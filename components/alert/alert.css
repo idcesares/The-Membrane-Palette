@@ -55,6 +55,7 @@
 .mp-alert__content {
   display: grid;
   flex: 1;
+  align-content: start;
   gap: var(--space-1);
   min-width: 0;
 }

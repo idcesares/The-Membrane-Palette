@@ -3,11 +3,14 @@ name: Divider
 category: Content
 status: stable
 summary: A fading hairline between sections — or a full-width solid rule inside panels. Prefer whitespace first.
+exempt: data-size
 ---
 
 # Divider
 
 The system prefers generous spacing (`--space-16`–`--space-24`) over visible lines. When a line genuinely helps, the default divider fades at both ends and stays within `--container-sm`, which reads as intentional rather than utilitarian.
+
+`data-size` sets the vertical space around the rule: `sm` → `--space-8`, default → `--space-16`, `lg` → `--space-24`.
 
 ## Examples
 

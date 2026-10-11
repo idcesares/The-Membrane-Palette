@@ -63,6 +63,23 @@ Buttons commit an action: submit, save, open, delete. They are pills — rounded
 </div>
 ```
 
+### Full width
+
+```html
+<div class="mp-grid" data-min="sm" data-gap="4">
+  <article class="mp-card">
+    <h3 class="mp-card__title">Builders' Lab</h3>
+    <p class="mp-card__body">Two days, twelve seats, one deployed tool.</p>
+    <div class="mp-card__footer"><button class="mp-button" type="button" data-full-width>Join the waitlist</button></div>
+  </article>
+  <article class="mp-card">
+    <h3 class="mp-card__title">AI Literacy I</h3>
+    <p class="mp-card__body">Six weeks, online, starting from your classroom.</p>
+    <div class="mp-card__footer"><button class="mp-button" type="button" data-variant="secondary" data-full-width>Read the syllabus</button></div>
+  </article>
+</div>
+```
+
 ### States
 
 ```html

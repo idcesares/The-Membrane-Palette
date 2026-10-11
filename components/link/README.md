@@ -3,6 +3,7 @@ name: Link
 category: Actions
 status: stable
 summary: Text links — inline, quiet and standalone call-to-action — plus the skip link every page should start with.
+exempt: .mp-skip-link
 ---
 
 # Link
@@ -35,7 +36,7 @@ Links navigate. They are teal (the digital, navigational register) and always un
 
 ## Skip link
 
-Make it the first child of `<body>`; it targets the `id` of your `<main>`:
+Make it the first child of `<body>`; it targets the `id` of your `<main>`. It only works at the top of a real page, so it isn't rendered in the gallery — press Tab on the showcase to see it.
 
 ```text
 <body>

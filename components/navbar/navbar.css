@@ -109,9 +109,13 @@
     margin-inline: calc(-1 * var(--space-3));
     overflow-x: auto;
     scrollbar-width: none;
+    /* Fade the trailing edge so a clipped row reads as "scroll for more". */
+    mask-image: linear-gradient(to right, currentColor calc(100% - var(--space-8)), transparent);
   }
 
   .mp-navbar__links {
     flex-wrap: nowrap;
+    /* Room to scroll the last link clear of the fade. */
+    padding-inline-end: var(--space-8);
   }
 }

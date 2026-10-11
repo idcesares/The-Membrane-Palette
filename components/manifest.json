@@ -130,6 +130,14 @@
           "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <div class=\"mp-card\" data-variant=\"flat\"><p class=\"mp-card__body\">One</p></div>\n  <div class=\"mp-card\" data-variant=\"flat\"><p class=\"mp-card__body\">Two</p></div>\n  <div class=\"mp-card\" data-variant=\"flat\"><p class=\"mp-card__body\">Three</p></div>\n</div>"
         },
         {
+          "title": "Cluster justification and alignment",
+          "html": "<div class=\"mp-stack\" data-gap=\"3\">\n  <div class=\"mp-cluster\" data-justify=\"between\" data-align=\"baseline\">\n    <h3 class=\"type-h3\">Workshops</h3>\n    <a class=\"mp-link\" data-variant=\"standalone\" href=\"#components\">See all<span class=\"mp-visually-hidden\"> workshops</span></a>\n  </div>\n  <div class=\"mp-cluster\" data-justify=\"center\">\n    <span class=\"mp-tag\">centered</span>\n    <span class=\"mp-tag\">row</span>\n  </div>\n  <div class=\"mp-cluster\" data-justify=\"end\" data-align=\"start\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Cancel</button>\n    <button class=\"mp-button\" type=\"button\">Save</button>\n  </div>\n</div>"
+        },
+        {
+          "title": "Surface tones",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <div class=\"mp-section mp-surface\" data-size=\"sm\"><div class=\"mp-container\"><p class=\"type-small\">Default — <code class=\"mp-code\">--color-bg-primary</code></p></div></div>\n  <div class=\"mp-section mp-surface\" data-size=\"sm\" data-tone=\"secondary\"><div class=\"mp-container\"><p class=\"type-small\">Secondary — cards, alternating bands</p></div></div>\n  <div class=\"mp-section mp-surface\" data-size=\"sm\" data-tone=\"elevated\"><div class=\"mp-container\"><p class=\"type-small\">Elevated — dialogs, popovers (lighter in dark mode)</p></div></div>\n</div>"
+        },
+        {
           "title": "Dark band inside a light page",
           "html": "<section class=\"mp-section mp-surface\" data-size=\"sm\" data-theme=\"dark\">\n  <div class=\"mp-container\" data-size=\"sm\">\n    <p class=\"type-body\">Every token inside this section resolves to its dark value, because <code class=\"mp-code\">data-theme=\"dark\"</code> sets <code class=\"mp-code\">color-scheme</code> for the subtree.</p>\n  </div>\n</section>"
         }
@@ -301,6 +309,10 @@
         {
           "title": "With icons",
           "html": "<div class=\"mp-cluster\">\n  <a class=\"mp-button\" href=\"#components\" data-variant=\"secondary\">\n    Read the essay\n    <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>\n  </a>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-icon-only aria-label=\"Add to reading list\">\n    <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>\n  </button>\n</div>"
+        },
+        {
+          "title": "Full width",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">Builders' Lab</h3>\n    <p class=\"mp-card__body\">Two days, twelve seats, one deployed tool.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-full-width>Join the waitlist</button></div>\n  </article>\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">AI Literacy I</h3>\n    <p class=\"mp-card__body\">Six weeks, online, starting from your classroom.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-full-width>Read the syllabus</button></div>\n  </article>\n</div>"
         },
         {
           "title": "States",
@@ -691,7 +703,11 @@
       "examples": [
         {
           "title": "Standard, featured, digital",
-          "html": "<div class=\"mp-grid\" data-min=\"sm\">\n  <article class=\"mp-card\">\n    <p class=\"mp-card__overline\">Essay</p>\n    <h3 class=\"mp-card__title\">Learning platforms with institutional memory</h3>\n    <p class=\"mp-card__body\">What changes when a course remembers every cohort that took it.</p>\n    <div class=\"mp-card__footer\"><span>8 min read</span></div>\n  </article>\n  <article class=\"mp-card\" data-variant=\"featured\">\n    <p class=\"mp-card__overline\">Featured</p>\n    <h3 class=\"mp-card__title\">The membrane between people and systems</h3>\n    <p class=\"mp-card__body\">A field guide to designing where pedagogy meets code.</p>\n  </article>\n  <article class=\"mp-card\" data-variant=\"featured\" data-tone=\"digital\">\n    <p class=\"mp-card__overline\">Open source</p>\n    <h3 class=\"mp-card__title\">Token pipeline</h3>\n    <p class=\"mp-card__body\">DTCG JSON in, gate-checked OKLCH CSS out.</p>\n  </article>\n</div>"
+          "html": "<div class=\"mp-grid\">\n  <article class=\"mp-card\">\n    <p class=\"mp-card__overline\">Essay</p>\n    <h3 class=\"mp-card__title\">Learning platforms with institutional memory</h3>\n    <p class=\"mp-card__body\">What changes when a course remembers every cohort that took it.</p>\n    <div class=\"mp-card__footer\"><span>8 min read</span></div>\n  </article>\n  <article class=\"mp-card\" data-variant=\"featured\">\n    <p class=\"mp-card__overline\">Featured</p>\n    <h3 class=\"mp-card__title\">The membrane between people and systems</h3>\n    <p class=\"mp-card__body\">A field guide to designing where pedagogy meets code.</p>\n  </article>\n  <article class=\"mp-card\" data-variant=\"featured\" data-tone=\"digital\">\n    <p class=\"mp-card__overline\">Open source</p>\n    <h3 class=\"mp-card__title\">Token pipeline</h3>\n    <p class=\"mp-card__body\">DTCG JSON in, gate-checked OKLCH CSS out.</p>\n  </article>\n</div>"
+        },
+        {
+          "title": "With media",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\">\n  <article class=\"mp-card\">\n    <div class=\"mp-card__media\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Crect width='320' height='180' fill='%23F0EBE1'/%3E%3Cpath d='M-10 140C80 20 160 20 330 120' fill='none' stroke='%23B35530' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M-10 50C90 170 200 170 330 40' fill='none' stroke='%231B756D' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='160' cy='86' r='6' fill='%23D49A3A'/%3E%3C/svg%3E\" alt=\"\"></div>\n    <p class=\"mp-card__overline\">Illustration</p>\n    <h3 class=\"mp-card__title\">Where the registers cross</h3>\n    <p class=\"mp-card__body\">Media sits full-bleed at the top and picks up the brand's warm photo filter.</p>\n  </article>\n</div>"
         },
         {
           "title": "Clickable card",
@@ -1115,6 +1131,10 @@
         {
           "title": "Table in a scrolling frame",
           "html": "<div class=\"mp-table-wrap\" tabindex=\"0\" role=\"region\" aria-labelledby=\"table-cohorts-caption\">\n  <table class=\"mp-table\" data-variant=\"interactive\">\n    <caption id=\"table-cohorts-caption\">Cohorts, 2026</caption>\n    <thead>\n      <tr><th scope=\"col\">Cohort</th><th scope=\"col\">Format</th><th scope=\"col\" data-align=\"end\">Learners</th><th scope=\"col\">Status</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">AI Literacy I</th><td>Online</td><td data-align=\"end\">1,240</td><td><span class=\"mp-badge\" data-tone=\"success\">Live</span></td></tr>\n      <tr><th scope=\"row\">Prompting for Teachers</th><td>Hybrid</td><td data-align=\"end\">318</td><td><span class=\"mp-badge\" data-tone=\"info\">Enrolling</span></td></tr>\n      <tr><th scope=\"row\">Builders' Lab</th><td>In person</td><td data-align=\"end\">42</td><td><span class=\"mp-badge\">Draft</span></td></tr>\n    </tbody>\n  </table>\n</div>"
+        },
+        {
+          "title": "Compact and striped",
+          "html": "<div class=\"mp-table-wrap\">\n  <table class=\"mp-table\" data-density=\"compact\" data-variant=\"striped\">\n    <caption class=\"mp-visually-hidden\">Contrast checks by surface</caption>\n    <thead>\n      <tr><th scope=\"col\">Token</th><th scope=\"col\">Surface</th><th scope=\"col\" data-align=\"end\">Ratio</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-human-text</code></th><td>Card</td><td data-align=\"end\">5.02</td></tr>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-error-text</code></th><td>Card</td><td data-align=\"end\">4.94</td></tr>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-warning-text</code></th><td>Card</td><td data-align=\"end\">5.15</td></tr>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-info-text</code></th><td>Page</td><td data-align=\"end\">7.03</td></tr>\n    </tbody>\n  </table>\n</div>"
         }
       ]
     },
@@ -1290,7 +1310,7 @@
       "examples": [
         {
           "title": "Determinate and indeterminate",
-          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-course\">Course completion — 64%</label>\n    <progress class=\"mp-progress\" id=\"progress-course\" value=\"64\" max=\"100\" data-tone=\"human\">64%</progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-upload\">Uploading materials</label>\n    <progress class=\"mp-progress\" id=\"progress-upload\" data-size=\"sm\"></progress>\n  </div>\n</div>"
+          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-course\">Course completion — 64%</label>\n    <progress class=\"mp-progress\" id=\"progress-course\" value=\"64\" max=\"100\" data-tone=\"human\">64%</progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-upload\">Uploading materials</label>\n    <progress class=\"mp-progress\" id=\"progress-upload\" data-size=\"sm\"></progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-gate\">Contrast checks — 126 of 126</label>\n    <progress class=\"mp-progress\" id=\"progress-gate\" value=\"126\" max=\"126\" data-tone=\"success\" data-size=\"lg\">126 of 126</progress>\n  </div>\n</div>"
         },
         {
           "title": "Spinner",
@@ -1408,7 +1428,11 @@
       "examples": [
         {
           "title": "Confirmation dialog",
-          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" commandfor=\"dialog-publish\" command=\"show-modal\">Publish workshop…</button>\n\n<dialog class=\"mp-dialog\" id=\"dialog-publish\" aria-labelledby=\"dialog-publish-title\" closedby=\"any\">\n  <div class=\"mp-dialog__header\">\n    <h2 class=\"mp-dialog__title\" id=\"dialog-publish-title\">Publish this workshop?</h2>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-size=\"sm\" data-icon-only aria-label=\"Close\" commandfor=\"dialog-publish\" command=\"close\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg>\n    </button>\n  </div>\n  <div class=\"mp-dialog__body\">\n    <p>It becomes visible to all 3,214 educators in the community, and they'll get an email invitation.</p>\n  </div>\n  <div class=\"mp-dialog__footer\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" commandfor=\"dialog-publish\" command=\"close\">Not yet</button>\n    <button class=\"mp-button\" type=\"button\" commandfor=\"dialog-publish\" command=\"close\">Publish</button>\n  </div>\n</dialog>"
+          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" commandfor=\"dialog-publish\" command=\"show-modal\">Publish workshop…</button>\n\n<dialog class=\"mp-dialog\" id=\"dialog-publish\" data-size=\"sm\" aria-labelledby=\"dialog-publish-title\" closedby=\"any\">\n  <div class=\"mp-dialog__header\">\n    <h2 class=\"mp-dialog__title\" id=\"dialog-publish-title\">Publish this workshop?</h2>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-size=\"sm\" data-icon-only aria-label=\"Close\" commandfor=\"dialog-publish\" command=\"close\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg>\n    </button>\n  </div>\n  <div class=\"mp-dialog__body\">\n    <p>It becomes visible to all 3,214 educators in the community, and they'll get an email invitation.</p>\n  </div>\n  <div class=\"mp-dialog__footer\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" commandfor=\"dialog-publish\" command=\"close\">Not yet</button>\n    <button class=\"mp-button\" type=\"button\" commandfor=\"dialog-publish\" command=\"close\">Publish</button>\n  </div>\n</dialog>"
+        },
+        {
+          "title": "Large reading dialog",
+          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" commandfor=\"dialog-syllabus\" command=\"show-modal\">Read the syllabus</button>\n\n<dialog class=\"mp-dialog\" id=\"dialog-syllabus\" data-size=\"lg\" aria-labelledby=\"dialog-syllabus-title\" closedby=\"any\">\n  <div class=\"mp-dialog__header\">\n    <h2 class=\"mp-dialog__title\" id=\"dialog-syllabus-title\">AI Literacy I — syllabus</h2>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-size=\"sm\" data-icon-only aria-label=\"Close\" commandfor=\"dialog-syllabus\" command=\"close\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg>\n    </button>\n  </div>\n  <div class=\"mp-dialog__body mp-prose\">\n    <h3>Week 1 — Start from the classroom</h3>\n    <p>Bring one real problem. We map it before we touch a tool.</p>\n    <h3>Week 2 — How models actually work</h3>\n    <p>Tokens, context, and why a confident answer can still be wrong.</p>\n  </div>\n  <div class=\"mp-dialog__footer\">\n    <button class=\"mp-button\" type=\"button\" commandfor=\"dialog-syllabus\" command=\"close\">Done</button>\n  </div>\n</dialog>"
         }
       ]
     },
@@ -1466,6 +1490,7 @@
         "--space-3",
         "--space-4",
         "--space-6",
+        "--space-8",
         "--text-h4",
         "--text-xs",
         "--tracking-heading",

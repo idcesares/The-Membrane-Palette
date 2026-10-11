@@ -29,6 +29,25 @@ For genuinely tabular data. Numbers use tabular figures so columns line up; nume
 </div>
 ```
 
+### Compact and striped
+
+```html
+<div class="mp-table-wrap">
+  <table class="mp-table" data-density="compact" data-variant="striped">
+    <caption class="mp-visually-hidden">Contrast checks by surface</caption>
+    <thead>
+      <tr><th scope="col">Token</th><th scope="col">Surface</th><th scope="col" data-align="end">Ratio</th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row"><code class="mp-code">--color-human-text</code></th><td>Card</td><td data-align="end">5.02</td></tr>
+      <tr><th scope="row"><code class="mp-code">--color-error-text</code></th><td>Card</td><td data-align="end">4.94</td></tr>
+      <tr><th scope="row"><code class="mp-code">--color-warning-text</code></th><td>Card</td><td data-align="end">5.15</td></tr>
+      <tr><th scope="row"><code class="mp-code">--color-info-text</code></th><td>Page</td><td data-align="end">7.03</td></tr>
+    </tbody>
+  </table>
+</div>
+```
+
 ## Accessibility
 
 - Always include a `<caption>` (it can be visually hidden with `.mp-visually-hidden`) and `scope` on header cells.

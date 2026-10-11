@@ -149,11 +149,10 @@
 
     .hero {
       display: grid;
-      grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
-      gap: clamp(var(--space-8), 6vw, var(--space-20));
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: clamp(var(--space-8), 5vw, var(--space-16));
       align-items: center;
-      min-height: calc(100vh - var(--size-nav));
-      padding: var(--space-20) 0 var(--space-16);
+      padding: var(--space-16) 0;
     }
 
     .hero h1 {
@@ -180,9 +179,14 @@
 
     .hero__install { margin-top: var(--space-8); }
 
+    /* The install snippet should read in full, not scroll sideways. */
+    .hero__install pre {
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
     .membrane-map {
       position: relative;
-      min-height: 560px;
       border: var(--border-default);
       border-radius: var(--radius-lg);
       padding: var(--space-5);
@@ -207,18 +211,16 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--space-3);
-      height: 100%;
-      min-height: 510px;
     }
 
     .register {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
+      gap: var(--space-6);
       min-width: 0;
       border: 1px solid color-mix(in srgb, var(--color-border-default), transparent 12%);
       border-radius: var(--radius-md);
-      padding: var(--space-5);
+      padding: var(--space-4);
       background: color-mix(in srgb, var(--color-bg-primary) 76%, transparent);
     }
 
@@ -257,42 +259,42 @@
 
     .swatches {
       display: grid;
-      gap: var(--space-2);
-      margin-top: var(--space-6);
+      gap: var(--space-3);
+      margin-top: auto;
     }
 
+    /* Bar on top, caption below: the token name gets the full column width
+       instead of breaking mid-word next to a square chip. */
     .swatch {
       display: grid;
-      grid-template-columns: 40px 1fr;
-      align-items: center;
-      gap: var(--space-3);
-      min-height: 40px;
+      gap: var(--space-1);
+      min-width: 0;
     }
 
     .swatch__chip {
-      width: 40px;
-      height: 40px;
+      height: 28px;
       border: var(--border-width-thin) solid color-mix(in srgb, var(--color-border-emphasis), transparent 18%);
       border-radius: var(--radius-sm);
       box-shadow: var(--elevation-raised);
     }
 
     .swatch strong {
-      display: block;
       font-size: var(--text-small);
       line-height: var(--leading-label);
     }
 
     .swatch code {
+      overflow: hidden;
       color: var(--color-text-tertiary);
       font-size: var(--text-xs);
-      overflow-wrap: anywhere;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .bridge-line {
       display: grid;
       gap: var(--space-3);
-      margin-top: var(--space-6);
+      margin-top: var(--space-5);
     }
 
     .bridge-line__bar {
@@ -332,7 +334,7 @@
       margin-bottom: var(--space-10);
     }
 
-    .section-heading p {
+    .section-heading > p {
       margin: 0;
       max-width: 68ch;
       color: var(--color-text-secondary);
@@ -395,7 +397,7 @@
 
     .type-stack {
       display: grid;
-      gap: var(--space-6);
+      gap: var(--space-4);
     }
 
     .type-row {
@@ -403,7 +405,7 @@
       grid-template-columns: minmax(140px, 0.32fr) minmax(0, 1fr);
       gap: var(--space-6);
       align-items: baseline;
-      padding-bottom: var(--space-5);
+      padding-bottom: var(--space-4);
       border-bottom: var(--border-default);
     }
 
@@ -412,10 +414,14 @@
       border-bottom: 0;
     }
 
-    .type-row > code {
-      color: var(--color-text-tertiary);
+    .type-row__meta {
+      display: grid;
+      gap: var(--space-1);
       font-size: var(--text-xs);
     }
+
+    .type-row__meta code { color: var(--color-text-primary); }
+    .type-row__meta span { color: var(--color-text-tertiary); }
 
     .type-stack .type-body { color: var(--color-text-secondary); }
 
@@ -506,22 +512,72 @@
 
     /* Component gallery --------------------------------------------- */
 
-    .gallery-index {
+    /* Docs layout: sticky component index beside the gallery. */
+    .gallery-layout {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-      gap: var(--space-6);
-      margin: var(--space-10) 0;
-      padding: var(--space-6);
-      border: var(--border-default);
-      border-radius: var(--radius-lg);
-      background: color-mix(in srgb, var(--color-bg-primary) 82%, transparent);
+      grid-template-columns: 13rem minmax(0, 1fr);
+      gap: var(--space-8);
+      align-items: start;
+      margin-top: var(--space-12);
     }
 
-    .gallery-index .label { margin-bottom: var(--space-2); }
+    .gallery-index {
+      position: sticky;
+      top: calc(var(--size-nav) + var(--space-6));
+      display: grid;
+      gap: var(--space-5);
+      max-height: calc(100vh - var(--size-nav) - var(--space-12));
+      overflow-y: auto;
+      padding-right: var(--space-2);
+      scrollbar-width: thin;
+    }
+
+    .gallery-index__heading {
+      margin: 0 0 var(--space-1);
+      color: var(--color-text-tertiary);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+    }
+
+    .gallery-index__list {
+      display: grid;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .gallery-index__link {
+      display: block;
+      padding: var(--space-1) var(--space-3);
+      border-left: var(--border-width-medium) solid var(--color-border-default);
+      color: var(--color-text-secondary);
+      font-size: var(--text-small);
+      text-decoration: none;
+      transition: color var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-fast);
+    }
+
+    .gallery-index__link:hover {
+      background: var(--color-bg-hover);
+      color: var(--color-text-primary);
+    }
+
+    .gallery-index__link[aria-current="true"] {
+      border-left-color: var(--color-action-primary);
+      color: var(--color-human-text);
+      font-weight: var(--weight-semibold);
+    }
+
+    .gallery-index__link:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: calc(-1 * var(--border-width-medium));
+    }
 
     .gallery {
       display: grid;
       gap: var(--space-6);
+      min-width: 0;
     }
 
     .gallery-item {
@@ -530,8 +586,8 @@
       min-width: 0;
       border: var(--border-default);
       border-radius: var(--radius-lg);
-      padding: var(--space-6);
-      background: color-mix(in srgb, var(--color-bg-primary) 82%, transparent);
+      padding: var(--space-8);
+      background: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
       box-shadow: var(--elevation-raised);
     }
 
@@ -560,6 +616,46 @@
       color: var(--color-text-secondary);
     }
 
+    /* API at a glance: the options, generated from the component CSS. */
+    .gallery-item__api {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2) var(--space-6);
+      margin: 0;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      background: var(--color-bg-secondary);
+      font-size: var(--text-small);
+    }
+
+    .gallery-item__api > div {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: var(--space-2);
+    }
+
+    .gallery-item__api dt {
+      color: var(--color-text-tertiary);
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+      letter-spacing: var(--tracking-label);
+      text-transform: uppercase;
+    }
+
+    .gallery-item__api dt code {
+      color: var(--color-digital-text);
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .gallery-item__api dd {
+      margin: 0;
+      color: var(--color-text-secondary);
+    }
+
+    .gallery-item__api dd code { color: var(--color-text-primary); font-size: var(--text-xs); }
+
     .gallery-example {
       display: grid;
       gap: var(--space-2);
@@ -567,7 +663,7 @@
     }
 
     .gallery-example__title {
-      margin: 0;
+      margin: var(--space-2) 0 0;
       color: var(--color-text-tertiary);
       font-size: var(--text-xs);
       font-weight: var(--weight-semibold);
@@ -578,28 +674,49 @@
     .gallery-example__stage {
       position: relative;
       min-width: 0;
-      padding: var(--space-10) var(--space-6) var(--space-8);
-      border: var(--border-width-thin) dashed var(--color-border-emphasis);
+      padding: var(--space-10) var(--space-8);
+      border: var(--border-default);
       border-radius: var(--radius-md);
-      background: var(--color-bg-primary);
+      background:
+        radial-gradient(circle at 1px 1px, color-mix(in srgb, var(--color-border-emphasis) 70%, transparent) 1px, transparent 0) 0 0 / 16px 16px,
+        var(--color-bg-primary);
     }
 
     /* Sticky inside a demo box would follow the page scroll; pin it. */
     .gallery-example__stage .mp-navbar { position: relative; }
 
     .gallery-example__code > summary {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      width: fit-content;
+      gap: var(--space-2);
       min-height: var(--size-touch-target);
       border-radius: var(--radius-sm);
       color: var(--color-text-secondary);
       font-size: var(--text-small);
       font-weight: var(--weight-medium);
+      list-style: none;
       cursor: pointer;
     }
 
+    .gallery-example__code > summary::-webkit-details-marker { display: none; }
+
+    .gallery-example__code > summary::before {
+      content: "";
+      width: 0.4rem;
+      height: 0.4rem;
+      border-right: var(--border-width-medium) solid currentColor;
+      border-bottom: var(--border-width-medium) solid currentColor;
+      rotate: -45deg;
+      transition: rotate var(--transition-fast);
+    }
+
+    .gallery-example__code[open] > summary::before { rotate: 45deg; }
     .gallery-example__code > summary:hover { color: var(--color-text-primary); }
+
+    .gallery-example__code > summary:focus-visible {
+      outline: var(--focus-ring);
+      outline-offset: var(--focus-ring-offset);
+    }
 
     .gallery-example__code pre { max-height: 360px; }
 
@@ -714,6 +831,12 @@
       font-size: var(--text-small);
     }
 
+    /* The register map needs ~600px for its three columns of token names. */
+    @media (max-width: 1200px) {
+      .hero { grid-template-columns: minmax(0, 1fr); }
+      .hero > :first-child { max-width: 46rem; }
+    }
+
     @media (max-width: 1024px) {
       .hero,
       .section-heading,
@@ -739,6 +862,18 @@
       .dark-preview {
         grid-template-columns: repeat(2, 1fr);
       }
+
+      .gallery-layout { grid-template-columns: minmax(0, 1fr); }
+
+      .gallery-index {
+        position: static;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        max-height: none;
+        padding: var(--space-5);
+        border: var(--border-default);
+        border-radius: var(--radius-lg);
+        background: color-mix(in srgb, var(--color-bg-primary) 82%, transparent);
+      }
     }
 
     @media (max-width: 760px) {
@@ -751,12 +886,12 @@
 
       .register,
       .specimen,
-      .gallery-item,
       .theme-card {
         padding: var(--space-4);
       }
 
-      .gallery-example__stage { padding: var(--space-8) var(--space-4) var(--space-6); }
+      .gallery-item { padding: var(--space-5); }
+      .gallery-example__stage { padding: var(--space-8) var(--space-4); }
 
       .type-row,
       .spacing-row,
@@ -784,8 +919,8 @@
         <ul class="mp-navbar__links">
           <li><a class="mp-navbar__link" href="#palette">Palette</a></li>
           <li><a class="mp-navbar__link" href="#type">Type</a></li>
-          <li><a class="mp-navbar__link" href="#components">Components</a></li>
           <li><a class="mp-navbar__link" href="#rhythm">Rhythm</a></li>
+          <li><a class="mp-navbar__link" href="#components">Components</a></li>
           <li><a class="mp-navbar__link" href="#reference">Reference</a></li>
         </ul>
       </nav>
@@ -804,8 +939,8 @@
         <h1>The Membrane Palette, rendered as a living <span>design system</span>.</h1>
         <p class="hero__lede">Tokens, 25 components and a contrast gate for work that moves between human pedagogy and digital precision. Every specimen on this page is the real library — link one stylesheet and write HTML.</p>
         <div class="mp-cluster">
-          <a class="mp-button" href="#components" data-size="lg">Browse components</a>
-          <a class="mp-button" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/DESIGN-SYSTEM.md" data-variant="secondary" data-size="lg">Read the specification</a>
+          <a class="mp-button" href="#components">Browse components</a>
+          <a class="mp-button" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/DESIGN-SYSTEM.md" data-variant="secondary">Read the specification</a>
         </div>
         <figure class="mp-code-block hero__install">
           <figcaption class="mp-code-block__header"><span>index.html</span><span>Install</span></figcaption>
@@ -826,15 +961,15 @@
             <div class="swatches">
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-terracotta);"></span>
-                <span><strong>Terracotta</strong><code>--color-terracotta</code></span>
+                <strong>Terracotta</strong><code title="--color-terracotta">--color-terracotta</code>
               </div>
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-amber);"></span>
-                <span><strong>Amber</strong><code>--color-amber</code></span>
+                <strong>Amber</strong><code title="--color-amber">--color-amber</code>
               </div>
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-burgundy);"></span>
-                <span><strong>Burgundy</strong><code>--color-burgundy</code></span>
+                <strong>Burgundy</strong><code title="--color-burgundy">--color-burgundy</code>
               </div>
             </div>
           </article>
@@ -852,15 +987,15 @@
             <div class="swatches">
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-cream);"></span>
-                <span><strong>Warm Cream</strong><code>--color-cream</code></span>
+                <strong>Warm Cream</strong><code title="--color-cream">--color-cream</code>
               </div>
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-neutral-200);"></span>
-                <span><strong>Warm Gray</strong><code>--color-neutral-200</code></span>
+                <strong>Warm Gray</strong><code title="--color-neutral-200">--color-neutral-200</code>
               </div>
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--gradient-membrane);"></span>
-                <span><strong>Bridge Gradient</strong><code>--gradient-membrane</code></span>
+                <strong>Bridge Gradient</strong><code title="--gradient-membrane">--gradient-membrane</code>
               </div>
             </div>
           </article>
@@ -874,15 +1009,15 @@
             <div class="swatches">
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-teal);"></span>
-                <span><strong>Deep Teal</strong><code>--color-teal</code></span>
+                <strong>Deep Teal</strong><code title="--color-teal">--color-teal</code>
               </div>
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-sage);"></span>
-                <span><strong>Sage</strong><code>--color-sage</code></span>
+                <strong>Sage</strong><code title="--color-sage">--color-sage</code>
               </div>
               <div class="swatch">
                 <span class="swatch__chip" style="background: var(--color-charcoal);"></span>
-                <span><strong>Charcoal</strong><code>--color-charcoal</code></span>
+                <strong>Charcoal</strong><code title="--color-charcoal">--color-charcoal</code>
               </div>
             </div>
           </article>
@@ -952,23 +1087,43 @@
         <article class="specimen specimen--full">
           <div class="type-stack">
             <div class="type-row">
-              <code>.type-display</code>
+              <div class="type-row__meta"><code>.type-display</code><span>--text-display · Fraunces 700</span></div>
               <div class="type-display">Human intelligence has texture.</div>
             </div>
             <div class="type-row">
-              <code>.type-h2</code>
+              <div class="type-row__meta"><code>.type-h1</code><span>--text-h1 · Fraunces 700</span></div>
+              <div class="type-h1">Translation, not decoration.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__meta"><code>.type-h2</code><span>--text-h2 · Fraunces 600</span></div>
               <div class="type-h2">Headings are warm, composed, and deliberate.</div>
             </div>
             <div class="type-row">
-              <code>.type-body</code>
+              <div class="type-row__meta"><code>.type-h3</code><span>--text-h3 · Fraunces 600</span></div>
+              <div class="type-h3">Learning platforms with institutional memory</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__meta"><code>.type-h4</code><span>--text-h4 · Instrument Sans 600</span></div>
+              <div class="type-h4">The bridge from headline to body</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__meta"><code>.type-body-lg</code><span>--text-body-lg · Instrument Sans 400</span></div>
+              <div class="type-body-lg">Lead paragraphs open a section with a little more air.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__meta"><code>.type-body</code><span>--text-body · Instrument Sans 400</span></div>
               <div class="type-body">Body copy stays legible and precise across reference pages, presentations, code-adjacent writing, and institutional material. It should feel careful without feeling stiff.</div>
             </div>
             <div class="type-row">
-              <code>.type-label</code>
+              <div class="type-row__meta"><code>.type-small</code><span>--text-small · Instrument Sans 400</span></div>
+              <div class="type-small">Captions, metadata, and supporting detail.</div>
+            </div>
+            <div class="type-row">
+              <div class="type-row__meta"><code>.type-label</code><span>--text-xs · Instrument Sans 500, uppercase</span></div>
               <div class="type-label">Overline · navigational landmark</div>
             </div>
             <div class="type-row">
-              <code>.type-code</code>
+              <div class="type-row__meta"><code>.type-code</code><span>--text-code · JetBrains Mono 400</span></div>
               <div class="type-code">const membrane = bridge("pedagogy", "systems");</div>
             </div>
           </div>
@@ -976,11 +1131,82 @@
       </div>
     </section>
 
-    <section class="band" id="components">
+    <section class="band" id="rhythm">
       <div class="mp-container">
         <div class="section-heading">
           <div>
-            <p class="label">03 / Components</p>
+            <p class="label">03 / Rhythm</p>
+            <h2>Spacing, motion, and theme behavior are part of the voice.</h2>
+          </div>
+          <p>The 4px spacing base gives the system a measured cadence. Motion is modest, accessible, and only used to clarify interaction.</p>
+        </div>
+
+        <div class="specimen-grid">
+          <article class="specimen specimen--wide">
+            <p class="label">Spacing Scale</p>
+            <h2>Every gap is named.</h2>
+            <div class="spacing-board">
+              <div class="spacing-row"><code>--space-2</code><span class="spacing-bar" style="width: var(--space-2);"></span><span>8px</span></div>
+              <div class="spacing-row"><code>--space-4</code><span class="spacing-bar" style="width: var(--space-4);"></span><span>16px</span></div>
+              <div class="spacing-row"><code>--space-8</code><span class="spacing-bar" style="width: var(--space-8);"></span><span>32px</span></div>
+              <div class="spacing-row"><code>--space-16</code><span class="spacing-bar" style="width: var(--space-16);"></span><span>64px</span></div>
+              <div class="spacing-row"><code>--space-24</code><span class="spacing-bar" style="width: var(--space-24);"></span><span>96px</span></div>
+            </div>
+          </article>
+
+          <article class="specimen specimen--narrow">
+            <p class="label">Motion Tokens</p>
+            <h2>Subtle, not theatrical.</h2>
+            <div class="motion-list">
+              <div class="motion-cell"><strong>Fast</strong><code>150ms</code></div>
+              <div class="motion-cell"><strong>Normal</strong><code>250ms</code></div>
+              <div class="motion-cell"><strong>Slow</strong><code>400ms</code></div>
+              <div class="motion-cell"><strong>In-out</strong><code>ease-in-out</code></div>
+            </div>
+          </article>
+
+          <article class="specimen specimen--full">
+            <p class="label">Dark Mode</p>
+            <h2>Same membrane, different depth.</h2>
+            <p class="specimen__note">Both cards hold identical markup. Each sets <code>data-theme</code> on itself, and every token inside resolves to that mode — no override blocks, no duplicated hex values.</p>
+            <div class="dark-preview">
+              <div class="theme-card mp-surface" data-theme="light">
+                <h3>Light canvas</h3>
+                <p>Warm cream, warm neutrals, terracotta emphasis, teal navigation.</p>
+                <div class="mp-stack" data-gap="4">
+                  <div class="mp-cluster" data-gap="2">
+                    <button class="mp-button" type="button" data-size="sm">Primary</button>
+                    <button class="mp-button" type="button" data-size="sm" data-variant="secondary">Secondary</button>
+                    <span class="mp-tag" data-tone="human">Human</span>
+                    <span class="mp-tag" data-tone="digital">Digital</span>
+                  </div>
+                  <div class="mp-alert" data-tone="success"><div class="mp-alert__content"><p class="mp-alert__title">Contrast gate passing</p></div></div>
+                </div>
+              </div>
+              <div class="theme-card mp-surface" data-theme="dark">
+                <h3>Dark canvas</h3>
+                <p>Charcoal depth, lightened accents, deeper shadows, lighter elevated surfaces.</p>
+                <div class="mp-stack" data-gap="4">
+                  <div class="mp-cluster" data-gap="2">
+                    <button class="mp-button" type="button" data-size="sm">Primary</button>
+                    <button class="mp-button" type="button" data-size="sm" data-variant="secondary">Secondary</button>
+                    <span class="mp-tag" data-tone="human">Human</span>
+                    <span class="mp-tag" data-tone="digital">Digital</span>
+                  </div>
+                  <div class="mp-alert" data-tone="success"><div class="mp-alert__content"><p class="mp-alert__title">Contrast gate passing</p></div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band band--secondary" id="components">
+      <div class="mp-container">
+        <div class="section-heading">
+          <div>
+            <p class="label">04 / Components</p>
             <h2>A component library made of tokens.</h2>
           </div>
           <p>Twenty-five framework-free components in one stylesheet. Classes name the thing (<code>mp-button</code>), <code>data-*</code> attributes choose the option, and ARIA drives the state — so the look and what assistive tech hears can't disagree.</p>
@@ -1048,67 +1274,79 @@
                   <p>Week one starts from your classroom, not from the tool.</p>
                 </div>
               </div>
+              <div class="mp-cluster" data-justify="between">
+                <div class="mp-avatar-group" role="group" aria-label="Facilitators">
+                  <span class="mp-avatar" data-size="sm" role="img" aria-label="Isaac D'Césares">ID</span>
+                  <span class="mp-avatar" data-size="sm" role="img" aria-label="Ana Lima">AL</span>
+                  <span class="mp-avatar" data-size="sm" data-tone="digital" role="img" aria-label="Course assistant (AI)">AI</span>
+                </div>
+                <div class="mp-cluster" data-gap="2">
+                  <span class="mp-tag" data-tone="human">Pedagogy</span>
+                  <span class="mp-tag" data-tone="digital">LLMs</span>
+                </div>
+              </div>
             </div>
           </article>
         </div>
 
 <!-- GENERATED:COMPONENT-GALLERY -->
+<div class="gallery-layout">
 <nav class="gallery-index" aria-label="Components">
-<div class="gallery-index__group">
-  <p class="label">Layout</p>
-  <div class="mp-cluster" data-gap="2">
-    <a class="mp-tag" href="#component-layout">Layout</a>
-    <a class="mp-tag" href="#component-prose">Prose</a>
+  <div class="gallery-index__group">
+    <p class="gallery-index__heading">Layout</p>
+    <ul class="gallery-index__list">
+      <li><a class="gallery-index__link" href="#component-layout">Layout</a></li>
+      <li><a class="gallery-index__link" href="#component-prose">Prose</a></li>
+    </ul>
   </div>
-</div>
-<div class="gallery-index__group">
-  <p class="label">Actions</p>
-  <div class="mp-cluster" data-gap="2">
-    <a class="mp-tag" href="#component-button">Button</a>
-    <a class="mp-tag" href="#component-link">Link</a>
+  <div class="gallery-index__group">
+    <p class="gallery-index__heading">Actions</p>
+    <ul class="gallery-index__list">
+      <li><a class="gallery-index__link" href="#component-button">Button</a></li>
+      <li><a class="gallery-index__link" href="#component-link">Link</a></li>
+    </ul>
   </div>
-</div>
-<div class="gallery-index__group">
-  <p class="label">Forms</p>
-  <div class="mp-cluster" data-gap="2">
-    <a class="mp-tag" href="#component-field">Field</a>
-    <a class="mp-tag" href="#component-input">Input</a>
-    <a class="mp-tag" href="#component-choice">Choice</a>
-    <a class="mp-tag" href="#component-switch">Switch</a>
+  <div class="gallery-index__group">
+    <p class="gallery-index__heading">Forms</p>
+    <ul class="gallery-index__list">
+      <li><a class="gallery-index__link" href="#component-field">Field</a></li>
+      <li><a class="gallery-index__link" href="#component-input">Input</a></li>
+      <li><a class="gallery-index__link" href="#component-choice">Choice</a></li>
+      <li><a class="gallery-index__link" href="#component-switch">Switch</a></li>
+    </ul>
   </div>
-</div>
-<div class="gallery-index__group">
-  <p class="label">Content</p>
-  <div class="mp-cluster" data-gap="2">
-    <a class="mp-tag" href="#component-card">Card</a>
-    <a class="mp-tag" href="#component-tag">Tag</a>
-    <a class="mp-tag" href="#component-badge">Badge</a>
-    <a class="mp-tag" href="#component-avatar">Avatar</a>
-    <a class="mp-tag" href="#component-quote">Quote</a>
-    <a class="mp-tag" href="#component-code">Code</a>
-    <a class="mp-tag" href="#component-divider">Divider</a>
-    <a class="mp-tag" href="#component-table">Table</a>
-    <a class="mp-tag" href="#component-stat">Stat</a>
+  <div class="gallery-index__group">
+    <p class="gallery-index__heading">Content</p>
+    <ul class="gallery-index__list">
+      <li><a class="gallery-index__link" href="#component-card">Card</a></li>
+      <li><a class="gallery-index__link" href="#component-tag">Tag</a></li>
+      <li><a class="gallery-index__link" href="#component-badge">Badge</a></li>
+      <li><a class="gallery-index__link" href="#component-avatar">Avatar</a></li>
+      <li><a class="gallery-index__link" href="#component-quote">Quote</a></li>
+      <li><a class="gallery-index__link" href="#component-code">Code</a></li>
+      <li><a class="gallery-index__link" href="#component-divider">Divider</a></li>
+      <li><a class="gallery-index__link" href="#component-table">Table</a></li>
+      <li><a class="gallery-index__link" href="#component-stat">Stat</a></li>
+    </ul>
   </div>
-</div>
-<div class="gallery-index__group">
-  <p class="label">Feedback</p>
-  <div class="mp-cluster" data-gap="2">
-    <a class="mp-tag" href="#component-alert">Alert</a>
-    <a class="mp-tag" href="#component-progress">Progress</a>
-    <a class="mp-tag" href="#component-tooltip">Tooltip</a>
-    <a class="mp-tag" href="#component-dialog">Dialog</a>
+  <div class="gallery-index__group">
+    <p class="gallery-index__heading">Feedback</p>
+    <ul class="gallery-index__list">
+      <li><a class="gallery-index__link" href="#component-alert">Alert</a></li>
+      <li><a class="gallery-index__link" href="#component-progress">Progress</a></li>
+      <li><a class="gallery-index__link" href="#component-tooltip">Tooltip</a></li>
+      <li><a class="gallery-index__link" href="#component-dialog">Dialog</a></li>
+    </ul>
   </div>
-</div>
-<div class="gallery-index__group">
-  <p class="label">Navigation</p>
-  <div class="mp-cluster" data-gap="2">
-    <a class="mp-tag" href="#component-navbar">Navbar</a>
-    <a class="mp-tag" href="#component-breadcrumb">Breadcrumb</a>
-    <a class="mp-tag" href="#component-tabs">Tabs</a>
-    <a class="mp-tag" href="#component-accordion">Accordion</a>
+  <div class="gallery-index__group">
+    <p class="gallery-index__heading">Navigation</p>
+    <ul class="gallery-index__list">
+      <li><a class="gallery-index__link" href="#component-navbar">Navbar</a></li>
+      <li><a class="gallery-index__link" href="#component-breadcrumb">Breadcrumb</a></li>
+      <li><a class="gallery-index__link" href="#component-tabs">Tabs</a></li>
+      <li><a class="gallery-index__link" href="#component-accordion">Accordion</a></li>
+    </ul>
   </div>
-</div>
 </nav>
 <div class="gallery">
 <article class="gallery-item" id="component-layout" aria-labelledby="component-layout-title">
@@ -1117,9 +1355,10 @@
       <p class="label">Layout</p>
       <h3 class="gallery-item__title" id="component-layout-title">Layout</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/layout/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/layout/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Layout</span></a>
   </header>
   <p class="gallery-item__summary">Container, Stack, Cluster, Grid, Section and Surface primitives that compose any page without custom layout CSS.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-container</code> <code>.mp-stack</code> <code>.mp-cluster</code> <code>.mp-grid</code> <code>.mp-section</code> <code>.mp-surface</code> <code>.mp-visually-hidden</code></dd></div><div><dt><code>data-size</code></dt><dd>sm · md · lg</dd></div><div><dt><code>data-justify</code></dt><dd>between · center · end</dd></div><div><dt><code>data-align</code></dt><dd>start · baseline</dd></div><div><dt><code>data-min</code></dt><dd>sm · lg</dd></div><div><dt><code>data-gap</code></dt><dd>0 · 1 · 2 · 3 · 4 · 5 · 6 · 8 · 10 · 12 · 16</dd></div><div><dt><code>data-tone</code></dt><dd>secondary · elevated</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Stack and cluster</p>
   <div class="gallery-example__stage">
@@ -1134,8 +1373,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Layout · Stack and cluster</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
   &lt;p class=&quot;mp-card__overline&quot;&gt;Workshop&lt;/p&gt;
   &lt;h3 class=&quot;type-h3&quot;&gt;Designing with the membrane&lt;/h3&gt;
   &lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
@@ -1143,7 +1384,8 @@
     &lt;span class=&quot;mp-tag&quot; data-tone=&quot;digital&quot;&gt;AI systems&lt;/span&gt;
     &lt;span class=&quot;mp-tag&quot;&gt;90 min&lt;/span&gt;
   &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1156,12 +1398,75 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot; data-gap=&quot;4&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Layout · Responsive grid</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot; data-gap=&quot;4&quot;&gt;
   &lt;div class=&quot;mp-card&quot; data-variant=&quot;flat&quot;&gt;&lt;p class=&quot;mp-card__body&quot;&gt;One&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&quot;mp-card&quot; data-variant=&quot;flat&quot;&gt;&lt;p class=&quot;mp-card__body&quot;&gt;Two&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&quot;mp-card&quot; data-variant=&quot;flat&quot;&gt;&lt;p class=&quot;mp-card__body&quot;&gt;Three&lt;/p&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Cluster justification and alignment</p>
+  <div class="gallery-example__stage">
+<div class="mp-stack" data-gap="3">
+  <div class="mp-cluster" data-justify="between" data-align="baseline">
+    <h3 class="type-h3">Workshops</h3>
+    <a class="mp-link" data-variant="standalone" href="#components">See all<span class="mp-visually-hidden"> workshops</span></a>
+  </div>
+  <div class="mp-cluster" data-justify="center">
+    <span class="mp-tag">centered</span>
+    <span class="mp-tag">row</span>
+  </div>
+  <div class="mp-cluster" data-justify="end" data-align="start">
+    <button class="mp-button" type="button" data-variant="ghost">Cancel</button>
+    <button class="mp-button" type="button">Save</button>
+  </div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Layout · Cluster justification and alignment</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
+  &lt;div class=&quot;mp-cluster&quot; data-justify=&quot;between&quot; data-align=&quot;baseline&quot;&gt;
+    &lt;h3 class=&quot;type-h3&quot;&gt;Workshops&lt;/h3&gt;
+    &lt;a class=&quot;mp-link&quot; data-variant=&quot;standalone&quot; href=&quot;#components&quot;&gt;See all&lt;span class=&quot;mp-visually-hidden&quot;&gt; workshops&lt;/span&gt;&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-cluster&quot; data-justify=&quot;center&quot;&gt;
+    &lt;span class=&quot;mp-tag&quot;&gt;centered&lt;/span&gt;
+    &lt;span class=&quot;mp-tag&quot;&gt;row&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-cluster&quot; data-justify=&quot;end&quot; data-align=&quot;start&quot;&gt;
+    &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot;&gt;Cancel&lt;/button&gt;
+    &lt;button class=&quot;mp-button&quot; type=&quot;button&quot;&gt;Save&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Surface tones</p>
+  <div class="gallery-example__stage">
+<div class="mp-grid" data-min="sm" data-gap="4">
+  <div class="mp-section mp-surface" data-size="sm"><div class="mp-container"><p class="type-small">Default — <code class="mp-code">--color-bg-primary</code></p></div></div>
+  <div class="mp-section mp-surface" data-size="sm" data-tone="secondary"><div class="mp-container"><p class="type-small">Secondary — cards, alternating bands</p></div></div>
+  <div class="mp-section mp-surface" data-size="sm" data-tone="elevated"><div class="mp-container"><p class="type-small">Elevated — dialogs, popovers (lighter in dark mode)</p></div></div>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Layout · Surface tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot; data-gap=&quot;4&quot;&gt;
+  &lt;div class=&quot;mp-section mp-surface&quot; data-size=&quot;sm&quot;&gt;&lt;div class=&quot;mp-container&quot;&gt;&lt;p class=&quot;type-small&quot;&gt;Default — &lt;code class=&quot;mp-code&quot;&gt;--color-bg-primary&lt;/code&gt;&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;mp-section mp-surface&quot; data-size=&quot;sm&quot; data-tone=&quot;secondary&quot;&gt;&lt;div class=&quot;mp-container&quot;&gt;&lt;p class=&quot;type-small&quot;&gt;Secondary — cards, alternating bands&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;mp-section mp-surface&quot; data-size=&quot;sm&quot; data-tone=&quot;elevated&quot;&gt;&lt;div class=&quot;mp-container&quot;&gt;&lt;p class=&quot;type-small&quot;&gt;Elevated — dialogs, popovers (lighter in dark mode)&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1174,12 +1479,15 @@
 </section>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;section class=&quot;mp-section mp-surface&quot; data-size=&quot;sm&quot; data-theme=&quot;dark&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Layout · Dark band inside a light page</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;section class=&quot;mp-section mp-surface&quot; data-size=&quot;sm&quot; data-theme=&quot;dark&quot;&gt;
   &lt;div class=&quot;mp-container&quot; data-size=&quot;sm&quot;&gt;
     &lt;p class=&quot;type-body&quot;&gt;Every token inside this section resolves to its dark value, because &lt;code class=&quot;mp-code&quot;&gt;data-theme=&quot;dark&quot;&lt;/code&gt; sets &lt;code class=&quot;mp-code&quot;&gt;color-scheme&lt;/code&gt; for the subtree.&lt;/p&gt;
   &lt;/div&gt;
-&lt;/section&gt;</code></pre></div>
+&lt;/section&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1189,9 +1497,10 @@
       <p class="label">Layout</p>
       <h3 class="gallery-item__title" id="component-prose-title">Prose</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/prose/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/prose/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Prose</span></a>
   </header>
   <p class="gallery-item__summary">One class that styles long-form HTML — articles, Markdown output, CMS content — with the full typographic system.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-prose</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Article body</p>
   <div class="gallery-example__stage">
@@ -1207,8 +1516,10 @@
 </article>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;article class=&quot;mp-prose&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Prose · Article body</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;article class=&quot;mp-prose&quot;&gt;
   &lt;h2&gt;Translation, not decoration&lt;/h2&gt;
   &lt;p&gt;Every element should answer one question: &lt;strong&gt;what does this translate?&lt;/strong&gt; If it cannot, it does not belong. Read the &lt;a href=&quot;#prose-notes&quot;&gt;notes&lt;/a&gt; for the full argument.&lt;/p&gt;
   &lt;ul&gt;
@@ -1217,7 +1528,8 @@
   &lt;/ul&gt;
   &lt;blockquote&gt;Learning happens best when people build things that matter to them.&lt;/blockquote&gt;
   &lt;p id=&quot;prose-notes&quot;&gt;Inline &lt;code&gt;code&lt;/code&gt; keeps the builder register visible without taking over the paragraph.&lt;/p&gt;
-&lt;/article&gt;</code></pre></div>
+&lt;/article&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1227,9 +1539,10 @@
       <p class="label">Actions</p>
       <h3 class="gallery-item__title" id="component-button-title">Button</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/button/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/button/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Button</span></a>
   </header>
   <p class="gallery-item__summary">Pill-shaped action trigger. Primary is terracotta (one per view), secondary is a teal outline, ghost is quiet, danger is destructive.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-button</code></dd></div><div><dt><code>data-variant</code></dt><dd>secondary · ghost · danger</dd></div><div><dt><code>data-size</code></dt><dd>sm · lg</dd></div><div><dt><code>data-icon-only</code></dt><dd>boolean</dd></div><div><dt><code>data-full-width</code></dt><dd>boolean</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Variants</p>
   <div class="gallery-example__stage">
@@ -1241,13 +1554,16 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Button · Variants</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot;&gt;Let&#39;s co-create&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot;&gt;See the work&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot;&gt;Cancel&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;danger&quot;&gt;Delete draft&lt;/button&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1260,12 +1576,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Button · Sizes</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-size=&quot;sm&quot;&gt;Small&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot;&gt;Default&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-size=&quot;lg&quot;&gt;Large&lt;/button&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1282,8 +1601,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Button · With icons</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;a class=&quot;mp-button&quot; href=&quot;#components&quot; data-variant=&quot;secondary&quot;&gt;
     Read the essay
     &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M5 12h14M13 6l6 6-6 6&quot;/&gt;&lt;/svg&gt;
@@ -1291,7 +1612,43 @@
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; data-icon-only aria-label=&quot;Add to reading list&quot;&gt;
     &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M12 5v14M5 12h14&quot;/&gt;&lt;/svg&gt;
   &lt;/button&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Full width</p>
+  <div class="gallery-example__stage">
+<div class="mp-grid" data-min="sm" data-gap="4">
+  <article class="mp-card">
+    <h3 class="mp-card__title">Builders' Lab</h3>
+    <p class="mp-card__body">Two days, twelve seats, one deployed tool.</p>
+    <div class="mp-card__footer"><button class="mp-button" type="button" data-full-width>Join the waitlist</button></div>
+  </article>
+  <article class="mp-card">
+    <h3 class="mp-card__title">AI Literacy I</h3>
+    <p class="mp-card__body">Six weeks, online, starting from your classroom.</p>
+    <div class="mp-card__footer"><button class="mp-button" type="button" data-variant="secondary" data-full-width>Read the syllabus</button></div>
+  </article>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Button · Full width</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot; data-gap=&quot;4&quot;&gt;
+  &lt;article class=&quot;mp-card&quot;&gt;
+    &lt;h3 class=&quot;mp-card__title&quot;&gt;Builders&#39; Lab&lt;/h3&gt;
+    &lt;p class=&quot;mp-card__body&quot;&gt;Two days, twelve seats, one deployed tool.&lt;/p&gt;
+    &lt;div class=&quot;mp-card__footer&quot;&gt;&lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-full-width&gt;Join the waitlist&lt;/button&gt;&lt;/div&gt;
+  &lt;/article&gt;
+  &lt;article class=&quot;mp-card&quot;&gt;
+    &lt;h3 class=&quot;mp-card__title&quot;&gt;AI Literacy I&lt;/h3&gt;
+    &lt;p class=&quot;mp-card__body&quot;&gt;Six weeks, online, starting from your classroom.&lt;/p&gt;
+    &lt;div class=&quot;mp-card__footer&quot;&gt;&lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; data-full-width&gt;Read the syllabus&lt;/button&gt;&lt;/div&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1304,12 +1661,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Button · States</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; disabled&gt;Disabled&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; aria-busy=&quot;true&quot;&gt;Saving&lt;/button&gt;
   &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; aria-pressed=&quot;true&quot;&gt;Following&lt;/button&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1319,9 +1679,10 @@
       <p class="label">Actions</p>
       <h3 class="gallery-item__title" id="component-link-title">Link</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/link/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/link/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Link</span></a>
   </header>
   <p class="gallery-item__summary">Text links — inline, quiet and standalone call-to-action — plus the skip link every page should start with.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-link</code> <code>.mp-skip-link</code></dd></div><div><dt><code>data-variant</code></dt><dd>quiet · standalone</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Inline, quiet, standalone</p>
   <div class="gallery-example__stage">
@@ -1332,12 +1693,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;2&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Link · Inline, quiet, standalone</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;2&quot;&gt;
   &lt;p class=&quot;type-body&quot;&gt;Read the &lt;a class=&quot;mp-link&quot; href=&quot;#components&quot;&gt;design principles&lt;/a&gt; before proposing a new token.&lt;/p&gt;
   &lt;p class=&quot;type-small&quot;&gt;Updated 3 days ago by &lt;a class=&quot;mp-link&quot; data-variant=&quot;quiet&quot; href=&quot;#components&quot;&gt;Isaac&lt;/a&gt;&lt;/p&gt;
   &lt;a class=&quot;mp-link&quot; data-variant=&quot;standalone&quot; href=&quot;#components&quot;&gt;Explore the case study&lt;/a&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1347,9 +1711,10 @@
       <p class="label">Forms</p>
       <h3 class="gallery-item__title" id="component-field-title">Field</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/field/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/field/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Field</span></a>
   </header>
   <p class="gallery-item__summary">Wraps one form control with its label, hint and error message; Fieldset groups related controls under a legend.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-field</code> <code>.mp-fieldset</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Label, hint and required marker</p>
   <div class="gallery-example__stage">
@@ -1360,12 +1725,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-field&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Field · Label, hint and required marker</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-field&quot;&gt;
   &lt;label class=&quot;mp-field__label&quot; for=&quot;field-email&quot;&gt;Email&lt;span class=&quot;mp-field__required&quot; aria-hidden=&quot;true&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
   &lt;input class=&quot;mp-input&quot; id=&quot;field-email&quot; type=&quot;email&quot; autocomplete=&quot;email&quot; required aria-describedby=&quot;field-email-hint&quot;&gt;
   &lt;p class=&quot;mp-field__hint&quot; id=&quot;field-email-hint&quot;&gt;We&#39;ll only use it to send the workshop materials.&lt;/p&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1378,12 +1746,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-field&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Field · Error state</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-field&quot;&gt;
   &lt;label class=&quot;mp-field__label&quot; for=&quot;field-handle&quot;&gt;GitHub handle&lt;span class=&quot;mp-field__optional&quot;&gt;(optional)&lt;/span&gt;&lt;/label&gt;
   &lt;input class=&quot;mp-input&quot; id=&quot;field-handle&quot; type=&quot;text&quot; value=&quot;id cesares&quot; aria-invalid=&quot;true&quot; aria-describedby=&quot;field-handle-error&quot;&gt;
   &lt;p class=&quot;mp-field__error&quot; id=&quot;field-handle-error&quot;&gt;Handles can&#39;t contain spaces — try &quot;idcesares&quot;.&lt;/p&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1396,12 +1767,15 @@
 </fieldset>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;fieldset class=&quot;mp-fieldset&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Field · Fieldset</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;fieldset class=&quot;mp-fieldset&quot;&gt;
   &lt;legend class=&quot;mp-fieldset__legend&quot;&gt;Preferred format&lt;/legend&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-radio&quot; type=&quot;radio&quot; name=&quot;field-format&quot; checked&gt; In person&lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-radio&quot; type=&quot;radio&quot; name=&quot;field-format&quot;&gt; Online&lt;/label&gt;
-&lt;/fieldset&gt;</code></pre></div>
+&lt;/fieldset&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1411,9 +1785,10 @@
       <p class="label">Forms</p>
       <h3 class="gallery-item__title" id="component-input-title">Input</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/input/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/input/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Input</span></a>
   </header>
   <p class="gallery-item__summary">One class for text inputs, textareas and selects, with a ≥3:1 control boundary, visible focus ring, and invalid/disabled/read-only states.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-input</code></dd></div><div><dt><code>data-size</code></dt><dd>sm · lg</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Text, select, textarea</p>
   <div class="gallery-example__stage">
@@ -1437,8 +1812,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Input · Text, select, textarea</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot;&gt;
   &lt;div class=&quot;mp-field&quot;&gt;
     &lt;label class=&quot;mp-field__label&quot; for=&quot;input-name&quot;&gt;Full name&lt;/label&gt;
     &lt;input class=&quot;mp-input&quot; id=&quot;input-name&quot; type=&quot;text&quot; autocomplete=&quot;name&quot; placeholder=&quot;Isaac D&#39;Césares&quot;&gt;
@@ -1455,7 +1832,8 @@
     &lt;label class=&quot;mp-field__label&quot; for=&quot;input-message&quot;&gt;Message&lt;/label&gt;
     &lt;textarea class=&quot;mp-input&quot; id=&quot;input-message&quot; rows=&quot;3&quot;&gt;Vamos cocriar?&lt;/textarea&gt;
   &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1470,14 +1848,17 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Input · Sizes and states</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; data-size=&quot;sm&quot; aria-label=&quot;Small input&quot; placeholder=&quot;Small&quot;&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; data-size=&quot;lg&quot; aria-label=&quot;Large input&quot; placeholder=&quot;Large&quot;&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; aria-label=&quot;Disabled input&quot; value=&quot;Disabled&quot; disabled&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; aria-label=&quot;Read-only input&quot; value=&quot;Read-only&quot; readonly&gt;
   &lt;input class=&quot;mp-input&quot; type=&quot;text&quot; aria-label=&quot;Invalid input&quot; value=&quot;Invalid&quot; aria-invalid=&quot;true&quot;&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1487,9 +1868,10 @@
       <p class="label">Forms</p>
       <h3 class="gallery-item__title" id="component-choice-title">Choice</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/choice/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/choice/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Choice</span></a>
   </header>
   <p class="gallery-item__summary">Checkbox and radio controls drawn in the brand style, inside a clickable .mp-choice label row with optional description.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-choice</code> <code>.mp-checkbox</code> <code>.mp-radio</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Checkboxes</p>
   <div class="gallery-example__stage">
@@ -1504,8 +1886,10 @@
 </fieldset>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;fieldset class=&quot;mp-fieldset&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Choice · Checkboxes</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;fieldset class=&quot;mp-fieldset&quot;&gt;
   &lt;legend class=&quot;mp-fieldset__legend&quot;&gt;Send me&lt;/legend&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-checkbox&quot; type=&quot;checkbox&quot; checked&gt; New essays&lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;
@@ -1513,7 +1897,8 @@
     &lt;span&gt;Workshop dates&lt;span class=&quot;mp-choice__description&quot;&gt;About once a month, never more.&lt;/span&gt;&lt;/span&gt;
   &lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-checkbox&quot; type=&quot;checkbox&quot; disabled&gt; Product updates (paused)&lt;/label&gt;
-&lt;/fieldset&gt;</code></pre></div>
+&lt;/fieldset&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1527,13 +1912,16 @@
 </fieldset>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;fieldset class=&quot;mp-fieldset&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Choice · Radios</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;fieldset class=&quot;mp-fieldset&quot;&gt;
   &lt;legend class=&quot;mp-fieldset__legend&quot;&gt;Audience&lt;/legend&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-radio&quot; type=&quot;radio&quot; name=&quot;choice-audience&quot; checked&gt; Educators&lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-radio&quot; type=&quot;radio&quot; name=&quot;choice-audience&quot;&gt; Builders&lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-radio&quot; type=&quot;radio&quot; name=&quot;choice-audience&quot;&gt; Researchers&lt;/label&gt;
-&lt;/fieldset&gt;</code></pre></div>
+&lt;/fieldset&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1543,9 +1931,10 @@
       <p class="label">Forms</p>
       <h3 class="gallery-item__title" id="component-switch-title">Switch</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/switch/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/switch/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Switch</span></a>
   </header>
   <p class="gallery-item__summary">An on/off toggle for settings that take effect immediately — a native checkbox with role=&quot;switch&quot;.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-switch</code> <code>.mp-choice</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Settings</p>
   <div class="gallery-example__stage">
@@ -1556,12 +1945,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;0&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Switch · Settings</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;0&quot;&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-switch&quot; type=&quot;checkbox&quot; role=&quot;switch&quot; checked&gt; Email me when a workshop opens&lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-switch&quot; type=&quot;checkbox&quot; role=&quot;switch&quot;&gt; Show code samples in TypeScript&lt;/label&gt;
   &lt;label class=&quot;mp-choice&quot;&gt;&lt;input class=&quot;mp-switch&quot; type=&quot;checkbox&quot; role=&quot;switch&quot; disabled&gt; Beta features (invite only)&lt;/label&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1571,13 +1963,14 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-card-title">Card</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/card/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/card/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Card</span></a>
   </header>
   <p class="gallery-item__summary">A contained unit — overline, serif title, body, footer, optional media — with standard, featured and flat variants and an accessible whole-card link.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-card</code></dd></div><div><dt><code>data-tone</code></dt><dd>digital</dd></div><div><dt><code>data-variant</code></dt><dd>featured · flat</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Standard, featured, digital</p>
   <div class="gallery-example__stage">
-<div class="mp-grid" data-min="sm">
+<div class="mp-grid">
   <article class="mp-card">
     <p class="mp-card__overline">Essay</p>
     <h3 class="mp-card__title">Learning platforms with institutional memory</h3>
@@ -1597,8 +1990,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Card · Standard, featured, digital</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot;&gt;
   &lt;article class=&quot;mp-card&quot;&gt;
     &lt;p class=&quot;mp-card__overline&quot;&gt;Essay&lt;/p&gt;
     &lt;h3 class=&quot;mp-card__title&quot;&gt;Learning platforms with institutional memory&lt;/h3&gt;
@@ -1615,7 +2010,35 @@
     &lt;h3 class=&quot;mp-card__title&quot;&gt;Token pipeline&lt;/h3&gt;
     &lt;p class=&quot;mp-card__body&quot;&gt;DTCG JSON in, gate-checked OKLCH CSS out.&lt;/p&gt;
   &lt;/article&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">With media</p>
+  <div class="gallery-example__stage">
+<div class="mp-grid" data-min="sm">
+  <article class="mp-card">
+    <div class="mp-card__media"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Crect width='320' height='180' fill='%23F0EBE1'/%3E%3Cpath d='M-10 140C80 20 160 20 330 120' fill='none' stroke='%23B35530' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M-10 50C90 170 200 170 330 40' fill='none' stroke='%231B756D' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='160' cy='86' r='6' fill='%23D49A3A'/%3E%3C/svg%3E" alt=""></div>
+    <p class="mp-card__overline">Illustration</p>
+    <h3 class="mp-card__title">Where the registers cross</h3>
+    <p class="mp-card__body">Media sits full-bleed at the top and picks up the brand's warm photo filter.</p>
+  </article>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Card · With media</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot;&gt;
+  &lt;article class=&quot;mp-card&quot;&gt;
+    &lt;div class=&quot;mp-card__media&quot;&gt;&lt;img src=&quot;data:image/svg+xml,%3Csvg xmlns=&#39;http://www.w3.org/2000/svg&#39; viewBox=&#39;0 0 320 180&#39;%3E%3Crect width=&#39;320&#39; height=&#39;180&#39; fill=&#39;%23F0EBE1&#39;/%3E%3Cpath d=&#39;M-10 140C80 20 160 20 330 120&#39; fill=&#39;none&#39; stroke=&#39;%23B35530&#39; stroke-width=&#39;3&#39; stroke-linecap=&#39;round&#39;/%3E%3Cpath d=&#39;M-10 50C90 170 200 170 330 40&#39; fill=&#39;none&#39; stroke=&#39;%231B756D&#39; stroke-width=&#39;3&#39; stroke-linecap=&#39;round&#39;/%3E%3Ccircle cx=&#39;160&#39; cy=&#39;86&#39; r=&#39;6&#39; fill=&#39;%23D49A3A&#39;/%3E%3C/svg%3E&quot; alt=&quot;&quot;&gt;&lt;/div&gt;
+    &lt;p class=&quot;mp-card__overline&quot;&gt;Illustration&lt;/p&gt;
+    &lt;h3 class=&quot;mp-card__title&quot;&gt;Where the registers cross&lt;/h3&gt;
+    &lt;p class=&quot;mp-card__body&quot;&gt;Media sits full-bleed at the top and picks up the brand&#39;s warm photo filter.&lt;/p&gt;
+  &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1632,8 +2055,10 @@
 </article>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;article class=&quot;mp-card&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Card · Clickable card</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;article class=&quot;mp-card&quot;&gt;
   &lt;p class=&quot;mp-card__overline&quot;&gt;Case study&lt;/p&gt;
   &lt;h3 class=&quot;mp-card__title&quot;&gt;&lt;a class=&quot;mp-card__link&quot; href=&quot;#components&quot;&gt;Teaching AI literacy at scale&lt;/a&gt;&lt;/h3&gt;
   &lt;p class=&quot;mp-card__body&quot;&gt;How 3,000 educators co-designed their own assistant.&lt;/p&gt;
@@ -1641,7 +2066,8 @@
     &lt;span class=&quot;mp-tag&quot; data-tone=&quot;human&quot;&gt;Education&lt;/span&gt;
     &lt;span class=&quot;mp-tag&quot; data-tone=&quot;digital&quot;&gt;LLMs&lt;/span&gt;
   &lt;/div&gt;
-&lt;/article&gt;</code></pre></div>
+&lt;/article&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1651,9 +2077,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-tag-title">Tag</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/tag/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/tag/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Tag</span></a>
   </header>
   <p class="gallery-item__summary">A pill that names a topic or category, colored by register — human (terracotta), digital (teal) or neutral. Can be a link, a toggle, or removable.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-tag</code></dd></div><div><dt><code>data-tone</code></dt><dd>human · digital</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Tones</p>
   <div class="gallery-example__stage">
@@ -1666,14 +2093,17 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Tag · Tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
   &lt;span class=&quot;mp-tag&quot; data-tone=&quot;human&quot;&gt;Pedagogy&lt;/span&gt;
   &lt;span class=&quot;mp-tag&quot; data-tone=&quot;human&quot;&gt;Community&lt;/span&gt;
   &lt;span class=&quot;mp-tag&quot; data-tone=&quot;digital&quot;&gt;TypeScript&lt;/span&gt;
   &lt;span class=&quot;mp-tag&quot; data-tone=&quot;digital&quot;&gt;Multi-agent systems&lt;/span&gt;
   &lt;span class=&quot;mp-tag&quot;&gt;45 min&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1690,8 +2120,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Tag · Interactive</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
   &lt;a class=&quot;mp-tag&quot; data-tone=&quot;digital&quot; href=&quot;#components&quot;&gt;#design-tokens&lt;/a&gt;
   &lt;button class=&quot;mp-tag&quot; type=&quot;button&quot; data-tone=&quot;human&quot; aria-pressed=&quot;true&quot;&gt;Educators&lt;/button&gt;
   &lt;button class=&quot;mp-tag&quot; type=&quot;button&quot; aria-pressed=&quot;false&quot;&gt;Builders&lt;/button&gt;
@@ -1699,7 +2131,8 @@
     OKLCH
     &lt;button class=&quot;mp-tag__remove&quot; type=&quot;button&quot; aria-label=&quot;Remove OKLCH&quot;&gt;×&lt;/button&gt;
   &lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1709,9 +2142,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-badge-title">Badge</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/badge/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/badge/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Badge</span></a>
   </header>
   <p class="gallery-item__summary">A compact, uppercase, non-interactive label for status and metadata — info, success, warning, error, or a register tone.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-badge</code></dd></div><div><dt><code>data-tone</code></dt><dd>info · success · warning · error · human · digital</dd></div><div><dt><code>data-variant</code></dt><dd>dot</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Tones</p>
   <div class="gallery-example__stage">
@@ -1726,8 +2160,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Badge · Tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
   &lt;span class=&quot;mp-badge&quot;&gt;Draft&lt;/span&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;info&quot;&gt;Beta&lt;/span&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;success&quot;&gt;Live&lt;/span&gt;
@@ -1735,7 +2171,8 @@
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;error&quot;&gt;Failing&lt;/span&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;human&quot;&gt;Workshop&lt;/span&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;digital&quot;&gt;API&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1748,12 +2185,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Badge · With status dot</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;2&quot;&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;success&quot; data-variant=&quot;dot&quot;&gt;Online&lt;/span&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;warning&quot; data-variant=&quot;dot&quot;&gt;Degraded&lt;/span&gt;
   &lt;span class=&quot;mp-badge&quot; data-tone=&quot;error&quot; data-variant=&quot;dot&quot;&gt;Offline&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1763,9 +2203,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-avatar-title">Avatar</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/avatar/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/avatar/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Avatar</span></a>
   </header>
   <p class="gallery-item__summary">A person as a warm-filtered photo or Fraunces initials; digital tone uses monospace for bots and systems. Groups overlap.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-avatar</code> <code>.mp-avatar-group</code></dd></div><div><dt><code>data-size</code></dt><dd>sm · lg · xl</dd></div><div><dt><code>data-tone</code></dt><dd>digital</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Sizes and tones</p>
   <div class="gallery-example__stage">
@@ -1777,13 +2218,16 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Avatar · Sizes and tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;span class=&quot;mp-avatar&quot; data-size=&quot;sm&quot; role=&quot;img&quot; aria-label=&quot;Ana Lima&quot;&gt;AL&lt;/span&gt;
   &lt;span class=&quot;mp-avatar&quot; role=&quot;img&quot; aria-label=&quot;Isaac D&#39;Césares&quot;&gt;ID&lt;/span&gt;
   &lt;span class=&quot;mp-avatar&quot; data-size=&quot;lg&quot; role=&quot;img&quot; aria-label=&quot;Rafael Costa&quot;&gt;RC&lt;/span&gt;
   &lt;span class=&quot;mp-avatar&quot; data-size=&quot;xl&quot; data-tone=&quot;digital&quot; role=&quot;img&quot; aria-label=&quot;Course assistant (AI)&quot;&gt;AI&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1796,12 +2240,15 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-avatar-group&quot; role=&quot;group&quot; aria-label=&quot;Facilitators&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Avatar · Group</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-avatar-group&quot; role=&quot;group&quot; aria-label=&quot;Facilitators&quot;&gt;
   &lt;span class=&quot;mp-avatar&quot; role=&quot;img&quot; aria-label=&quot;Ana Lima&quot;&gt;AL&lt;/span&gt;
   &lt;span class=&quot;mp-avatar&quot; role=&quot;img&quot; aria-label=&quot;Bruno Reis&quot;&gt;BR&lt;/span&gt;
   &lt;span class=&quot;mp-avatar&quot; data-tone=&quot;digital&quot; role=&quot;img&quot; aria-label=&quot;Course assistant (AI)&quot;&gt;AI&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1811,9 +2258,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-quote-title">Quote</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/quote/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/quote/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Quote</span></a>
   </header>
   <p class="gallery-item__summary">Blockquote with attribution in Fraunces italic; the pull variant renders the brand&#39;s signature phrases large and centered.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-quote</code></dd></div><div><dt><code>data-variant</code></dt><dd>pull</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Blockquote</p>
   <div class="gallery-example__stage">
@@ -1825,13 +2273,16 @@
 </figure>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;figure class=&quot;mp-quote&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Quote · Blockquote</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;figure class=&quot;mp-quote&quot;&gt;
   &lt;blockquote class=&quot;mp-quote__text&quot;&gt;
     &lt;p&gt;The role of the teacher is to create the conditions for invention rather than provide ready-made knowledge.&lt;/p&gt;
   &lt;/blockquote&gt;
   &lt;figcaption class=&quot;mp-quote__source&quot;&gt;— &lt;cite&gt;Seymour Papert&lt;/cite&gt;, &lt;i&gt;Mindstorms&lt;/i&gt;&lt;/figcaption&gt;
-&lt;/figure&gt;</code></pre></div>
+&lt;/figure&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1842,10 +2293,13 @@
 </figure>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;figure class=&quot;mp-quote&quot; data-variant=&quot;pull&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Quote · Pull quote</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;figure class=&quot;mp-quote&quot; data-variant=&quot;pull&quot;&gt;
   &lt;blockquote class=&quot;mp-quote__text&quot;&gt;&lt;p&gt;Human intelligence, amplified with technological intentionality.&lt;/p&gt;&lt;/blockquote&gt;
-&lt;/figure&gt;</code></pre></div>
+&lt;/figure&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1855,17 +2309,21 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-code-title">Code</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/code/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/code/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Code</span></a>
   </header>
   <p class="gallery-item__summary">Inline code, keyboard keys, and always-dark code blocks with gate-checked syntax colors that also style Prism and highlight.js output.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-code</code> <code>.mp-kbd</code> <code>.mp-code-block</code> <code>.mp-syntax-keyword</code> <code>.mp-syntax-string</code> <code>.mp-syntax-function</code> <code>.mp-syntax-number</code> <code>.mp-syntax-comment</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Inline code and keys</p>
   <div class="gallery-example__stage">
 <p class="type-body">Run <code class="mp-code">npm run build:system</code>, then press <kbd class="mp-kbd">Ctrl</kbd> + <kbd class="mp-kbd">R</kbd> to reload.</p>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;p class=&quot;type-body&quot;&gt;Run &lt;code class=&quot;mp-code&quot;&gt;npm run build:system&lt;/code&gt;, then press &lt;kbd class=&quot;mp-kbd&quot;&gt;Ctrl&lt;/kbd&gt; + &lt;kbd class=&quot;mp-kbd&quot;&gt;R&lt;/kbd&gt; to reload.&lt;/p&gt;</code></pre></div>
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Code · Inline code and keys</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;p class=&quot;type-body&quot;&gt;Run &lt;code class=&quot;mp-code&quot;&gt;npm run build:system&lt;/code&gt;, then press &lt;kbd class=&quot;mp-kbd&quot;&gt;Ctrl&lt;/kbd&gt; + &lt;kbd class=&quot;mp-kbd&quot;&gt;R&lt;/kbd&gt; to reload.&lt;/p&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -1881,15 +2339,18 @@
 </figure>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;figure class=&quot;mp-code-block&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Code · Code block</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;figure class=&quot;mp-code-block&quot;&gt;
   &lt;figcaption class=&quot;mp-code-block__header&quot;&gt;&lt;span&gt;button.css&lt;/span&gt;&lt;span&gt;CSS&lt;/span&gt;&lt;/figcaption&gt;
   &lt;pre tabindex=&quot;0&quot;&gt;&lt;code&gt;&lt;span class=&quot;mp-syntax-comment&quot;&gt;/* Consume the semantic tier */&lt;/span&gt;
 &lt;span class=&quot;mp-syntax-keyword&quot;&gt;.cta&lt;/span&gt; {
   &lt;span class=&quot;mp-syntax-function&quot;&gt;background&lt;/span&gt;: var(&lt;span class=&quot;mp-syntax-string&quot;&gt;--color-action-primary&lt;/span&gt;);
   &lt;span class=&quot;mp-syntax-function&quot;&gt;min-height&lt;/span&gt;: &lt;span class=&quot;mp-syntax-number&quot;&gt;44&lt;/span&gt;px;
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;/figure&gt;</code></pre></div>
+&lt;/figure&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1899,9 +2360,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-divider-title">Divider</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/divider/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/divider/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Divider</span></a>
   </header>
   <p class="gallery-item__summary">A fading hairline between sections — or a full-width solid rule inside panels. Prefer whitespace first.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-divider</code></dd></div><div><dt><code>data-size</code></dt><dd>sm · lg</dd></div><div><dt><code>data-variant</code></dt><dd>full</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Fading and full</p>
   <div class="gallery-example__stage">
@@ -1914,14 +2376,17 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Divider · Fading and full</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div&gt;
   &lt;p class=&quot;type-small&quot;&gt;Section one&lt;/p&gt;
   &lt;hr class=&quot;mp-divider&quot; data-size=&quot;sm&quot;&gt;
   &lt;p class=&quot;type-small&quot;&gt;Section two&lt;/p&gt;
   &lt;hr class=&quot;mp-divider&quot; data-variant=&quot;full&quot; data-size=&quot;sm&quot;&gt;
   &lt;p class=&quot;type-small&quot;&gt;Section three&lt;/p&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1931,9 +2396,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-table-title">Table</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/table/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/table/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Table</span></a>
   </header>
   <p class="gallery-item__summary">Data tables with a quiet uppercase header, tabular numerals, end-aligned numbers, compact/striped/interactive variants and a scrolling frame.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-table-wrap</code> <code>.mp-table</code></dd></div><div><dt><code>data-align</code></dt><dd>end</dd></div><div><dt><code>data-density</code></dt><dd>compact</dd></div><div><dt><code>data-variant</code></dt><dd>striped · interactive</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Table in a scrolling frame</p>
   <div class="gallery-example__stage">
@@ -1952,8 +2418,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-table-wrap&quot; tabindex=&quot;0&quot; role=&quot;region&quot; aria-labelledby=&quot;table-cohorts-caption&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Table · Table in a scrolling frame</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-table-wrap&quot; tabindex=&quot;0&quot; role=&quot;region&quot; aria-labelledby=&quot;table-cohorts-caption&quot;&gt;
   &lt;table class=&quot;mp-table&quot; data-variant=&quot;interactive&quot;&gt;
     &lt;caption id=&quot;table-cohorts-caption&quot;&gt;Cohorts, 2026&lt;/caption&gt;
     &lt;thead&gt;
@@ -1965,7 +2433,47 @@
       &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;Builders&#39; Lab&lt;/th&gt;&lt;td&gt;In person&lt;/td&gt;&lt;td data-align=&quot;end&quot;&gt;42&lt;/td&gt;&lt;td&gt;&lt;span class=&quot;mp-badge&quot;&gt;Draft&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;
     &lt;/tbody&gt;
   &lt;/table&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Compact and striped</p>
+  <div class="gallery-example__stage">
+<div class="mp-table-wrap">
+  <table class="mp-table" data-density="compact" data-variant="striped">
+    <caption class="mp-visually-hidden">Contrast checks by surface</caption>
+    <thead>
+      <tr><th scope="col">Token</th><th scope="col">Surface</th><th scope="col" data-align="end">Ratio</th></tr>
+    </thead>
+    <tbody>
+      <tr><th scope="row"><code class="mp-code">--color-human-text</code></th><td>Card</td><td data-align="end">5.02</td></tr>
+      <tr><th scope="row"><code class="mp-code">--color-error-text</code></th><td>Card</td><td data-align="end">4.94</td></tr>
+      <tr><th scope="row"><code class="mp-code">--color-warning-text</code></th><td>Card</td><td data-align="end">5.15</td></tr>
+      <tr><th scope="row"><code class="mp-code">--color-info-text</code></th><td>Page</td><td data-align="end">7.03</td></tr>
+    </tbody>
+  </table>
+</div>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Table · Compact and striped</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-table-wrap&quot;&gt;
+  &lt;table class=&quot;mp-table&quot; data-density=&quot;compact&quot; data-variant=&quot;striped&quot;&gt;
+    &lt;caption class=&quot;mp-visually-hidden&quot;&gt;Contrast checks by surface&lt;/caption&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;&lt;th scope=&quot;col&quot;&gt;Token&lt;/th&gt;&lt;th scope=&quot;col&quot;&gt;Surface&lt;/th&gt;&lt;th scope=&quot;col&quot; data-align=&quot;end&quot;&gt;Ratio&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;code class=&quot;mp-code&quot;&gt;--color-human-text&lt;/code&gt;&lt;/th&gt;&lt;td&gt;Card&lt;/td&gt;&lt;td data-align=&quot;end&quot;&gt;5.02&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;code class=&quot;mp-code&quot;&gt;--color-error-text&lt;/code&gt;&lt;/th&gt;&lt;td&gt;Card&lt;/td&gt;&lt;td data-align=&quot;end&quot;&gt;4.94&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;code class=&quot;mp-code&quot;&gt;--color-warning-text&lt;/code&gt;&lt;/th&gt;&lt;td&gt;Card&lt;/td&gt;&lt;td data-align=&quot;end&quot;&gt;5.15&lt;/td&gt;&lt;/tr&gt;
+      &lt;tr&gt;&lt;th scope=&quot;row&quot;&gt;&lt;code class=&quot;mp-code&quot;&gt;--color-info-text&lt;/code&gt;&lt;/th&gt;&lt;td&gt;Page&lt;/td&gt;&lt;td data-align=&quot;end&quot;&gt;7.03&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -1975,9 +2483,10 @@
       <p class="label">Content</p>
       <h3 class="gallery-item__title" id="component-stat-title">Stat</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/stat/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/stat/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Stat</span></a>
   </header>
   <p class="gallery-item__summary">A headline metric — label, Fraunces numeral, and a delta whose arrow (trend) and color (sentiment) are set independently.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-stat</code></dd></div><div><dt><code>data-trend</code></dt><dd>up · down</dd></div><div><dt><code>data-sentiment</code></dt><dd>positive · negative</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Stat row</p>
   <div class="gallery-example__stage">
@@ -2000,8 +2509,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Stat · Stat row</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-grid&quot; data-min=&quot;sm&quot;&gt;
   &lt;div class=&quot;mp-stat&quot;&gt;
     &lt;p class=&quot;mp-stat__label&quot;&gt;Educators trained&lt;/p&gt;
     &lt;p class=&quot;mp-stat__value&quot;&gt;3,214&lt;/p&gt;
@@ -2017,7 +2528,8 @@
     &lt;p class=&quot;mp-stat__value&quot;&gt;41 min&lt;/p&gt;
     &lt;p class=&quot;mp-stat__delta&quot; data-trend=&quot;down&quot; data-sentiment=&quot;negative&quot;&gt;4 min this term&lt;/p&gt;
   &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2027,9 +2539,10 @@
       <p class="label">Feedback</p>
       <h3 class="gallery-item__title" id="component-alert-title">Alert</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/alert/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/alert/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Alert</span></a>
   </header>
   <p class="gallery-item__summary">An inline message about state — info, success, warning, error — or a human-register editorial note, with optional icon and actions.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-alert</code></dd></div><div><dt><code>data-tone</code></dt><dd>success · warning · error · human</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Tones</p>
   <div class="gallery-example__stage">
@@ -2069,8 +2582,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Alert · Tones</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot; data-gap=&quot;3&quot;&gt;
   &lt;div class=&quot;mp-alert&quot;&gt;
     &lt;svg class=&quot;mp-alert__icon&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;9&quot;/&gt;&lt;path d=&quot;M12 11v5M12 8h.01&quot;/&gt;&lt;/svg&gt;
     &lt;div class=&quot;mp-alert__content&quot;&gt;
@@ -2103,7 +2618,8 @@
       &lt;p&gt;Bring one real problem from your classroom. We&#39;ll build around it.&lt;/p&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2113,9 +2629,10 @@
       <p class="label">Feedback</p>
       <h3 class="gallery-item__title" id="component-progress-title">Progress</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/progress/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/progress/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Progress</span></a>
   </header>
   <p class="gallery-item__summary">Native &lt;progress&gt; bars (determinate or indeterminate, three sizes, register tones) and a spinner for short unmeasured waits.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-progress</code> <code>.mp-spinner</code></dd></div><div><dt><code>data-tone</code></dt><dd>human · success</dd></div><div><dt><code>data-size</code></dt><dd>sm · lg</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Determinate and indeterminate</p>
   <div class="gallery-example__stage">
@@ -2128,11 +2645,17 @@
     <label class="mp-field__label" for="progress-upload">Uploading materials</label>
     <progress class="mp-progress" id="progress-upload" data-size="sm"></progress>
   </div>
+  <div class="mp-field">
+    <label class="mp-field__label" for="progress-gate">Contrast checks — 126 of 126</label>
+    <progress class="mp-progress" id="progress-gate" value="126" max="126" data-tone="success" data-size="lg">126 of 126</progress>
+  </div>
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Progress · Determinate and indeterminate</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-stack&quot;&gt;
   &lt;div class=&quot;mp-field&quot;&gt;
     &lt;label class=&quot;mp-field__label&quot; for=&quot;progress-course&quot;&gt;Course completion — 64%&lt;/label&gt;
     &lt;progress class=&quot;mp-progress&quot; id=&quot;progress-course&quot; value=&quot;64&quot; max=&quot;100&quot; data-tone=&quot;human&quot;&gt;64%&lt;/progress&gt;
@@ -2141,7 +2664,12 @@
     &lt;label class=&quot;mp-field__label&quot; for=&quot;progress-upload&quot;&gt;Uploading materials&lt;/label&gt;
     &lt;progress class=&quot;mp-progress&quot; id=&quot;progress-upload&quot; data-size=&quot;sm&quot;&gt;&lt;/progress&gt;
   &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+  &lt;div class=&quot;mp-field&quot;&gt;
+    &lt;label class=&quot;mp-field__label&quot; for=&quot;progress-gate&quot;&gt;Contrast checks — 126 of 126&lt;/label&gt;
+    &lt;progress class=&quot;mp-progress&quot; id=&quot;progress-gate&quot; value=&quot;126&quot; max=&quot;126&quot; data-tone=&quot;success&quot; data-size=&quot;lg&quot;&gt;126 of 126&lt;/progress&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -2153,11 +2681,14 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Progress · Spinner</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot;&gt;
   &lt;span class=&quot;mp-spinner&quot; aria-hidden=&quot;true&quot;&gt;&lt;/span&gt;
   &lt;span class=&quot;type-small&quot; role=&quot;status&quot;&gt;Generating feedback…&lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2167,9 +2698,10 @@
       <p class="label">Feedback</p>
       <h3 class="gallery-item__title" id="component-tooltip-title">Tooltip</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/tooltip/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/tooltip/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Tooltip</span></a>
   </header>
   <p class="gallery-item__summary">A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissable with membrane.js.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-tooltip</code></dd></div><div><dt><code>data-placement</code></dt><dd>bottom</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Top and bottom</p>
   <div class="gallery-example__stage">
@@ -2187,8 +2719,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;6&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Tooltip · Top and bottom</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-cluster&quot; data-gap=&quot;6&quot;&gt;
   &lt;span class=&quot;mp-tooltip&quot;&gt;
     &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; data-icon-only aria-label=&quot;Copy token&quot; aria-describedby=&quot;tooltip-copy&quot;&gt;
       &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;rect x=&quot;8&quot; y=&quot;8&quot; width=&quot;12&quot; height=&quot;12&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2&quot;/&gt;&lt;/svg&gt;
@@ -2199,7 +2733,8 @@
     &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; data-size=&quot;sm&quot; aria-describedby=&quot;tooltip-gate&quot;&gt;Contrast gate&lt;/button&gt;
     &lt;span class=&quot;mp-tooltip__content&quot; role=&quot;tooltip&quot; id=&quot;tooltip-gate&quot;&gt;Runs on every build&lt;/span&gt;
   &lt;/span&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2209,15 +2744,16 @@
       <p class="label">Feedback</p>
       <h3 class="gallery-item__title" id="component-dialog-title">Dialog</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/dialog/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/dialog/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Dialog</span></a>
   </header>
   <p class="gallery-item__summary">A modal built on native &lt;dialog&gt; — focus trapping, Escape and the backdrop come from the browser; header, body and footer slots.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-dialog</code></dd></div><div><dt><code>data-size</code></dt><dd>sm · lg</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Confirmation dialog</p>
   <div class="gallery-example__stage">
 <button class="mp-button" type="button" data-variant="secondary" commandfor="dialog-publish" command="show-modal">Publish workshop…</button>
 
-<dialog class="mp-dialog" id="dialog-publish" aria-labelledby="dialog-publish-title" closedby="any">
+<dialog class="mp-dialog" id="dialog-publish" data-size="sm" aria-labelledby="dialog-publish-title" closedby="any">
   <div class="mp-dialog__header">
     <h2 class="mp-dialog__title" id="dialog-publish-title">Publish this workshop?</h2>
     <button class="mp-button" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close" commandfor="dialog-publish" command="close">
@@ -2234,10 +2770,12 @@
 </dialog>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; commandfor=&quot;dialog-publish&quot; command=&quot;show-modal&quot;&gt;Publish workshop…&lt;/button&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Dialog · Confirmation dialog</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;secondary&quot; commandfor=&quot;dialog-publish&quot; command=&quot;show-modal&quot;&gt;Publish workshop…&lt;/button&gt;
 
-&lt;dialog class=&quot;mp-dialog&quot; id=&quot;dialog-publish&quot; aria-labelledby=&quot;dialog-publish-title&quot; closedby=&quot;any&quot;&gt;
+&lt;dialog class=&quot;mp-dialog&quot; id=&quot;dialog-publish&quot; data-size=&quot;sm&quot; aria-labelledby=&quot;dialog-publish-title&quot; closedby=&quot;any&quot;&gt;
   &lt;div class=&quot;mp-dialog__header&quot;&gt;
     &lt;h2 class=&quot;mp-dialog__title&quot; id=&quot;dialog-publish-title&quot;&gt;Publish this workshop?&lt;/h2&gt;
     &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; data-size=&quot;sm&quot; data-icon-only aria-label=&quot;Close&quot; commandfor=&quot;dialog-publish&quot; command=&quot;close&quot;&gt;
@@ -2251,7 +2789,57 @@
     &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; commandfor=&quot;dialog-publish&quot; command=&quot;close&quot;&gt;Not yet&lt;/button&gt;
     &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; commandfor=&quot;dialog-publish&quot; command=&quot;close&quot;&gt;Publish&lt;/button&gt;
   &lt;/div&gt;
-&lt;/dialog&gt;</code></pre></div>
+&lt;/dialog&gt;</code></pre>
+    </figure>
+  </details>
+</div>
+<div class="gallery-example">
+  <p class="gallery-example__title">Large reading dialog</p>
+  <div class="gallery-example__stage">
+<button class="mp-button" type="button" data-variant="ghost" commandfor="dialog-syllabus" command="show-modal">Read the syllabus</button>
+
+<dialog class="mp-dialog" id="dialog-syllabus" data-size="lg" aria-labelledby="dialog-syllabus-title" closedby="any">
+  <div class="mp-dialog__header">
+    <h2 class="mp-dialog__title" id="dialog-syllabus-title">AI Literacy I — syllabus</h2>
+    <button class="mp-button" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close" commandfor="dialog-syllabus" command="close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="mp-dialog__body mp-prose">
+    <h3>Week 1 — Start from the classroom</h3>
+    <p>Bring one real problem. We map it before we touch a tool.</p>
+    <h3>Week 2 — How models actually work</h3>
+    <p>Tokens, context, and why a confident answer can still be wrong.</p>
+  </div>
+  <div class="mp-dialog__footer">
+    <button class="mp-button" type="button" commandfor="dialog-syllabus" command="close">Done</button>
+  </div>
+</dialog>
+  </div>
+  <details class="gallery-example__code">
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Dialog · Large reading dialog</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; commandfor=&quot;dialog-syllabus&quot; command=&quot;show-modal&quot;&gt;Read the syllabus&lt;/button&gt;
+
+&lt;dialog class=&quot;mp-dialog&quot; id=&quot;dialog-syllabus&quot; data-size=&quot;lg&quot; aria-labelledby=&quot;dialog-syllabus-title&quot; closedby=&quot;any&quot;&gt;
+  &lt;div class=&quot;mp-dialog__header&quot;&gt;
+    &lt;h2 class=&quot;mp-dialog__title&quot; id=&quot;dialog-syllabus-title&quot;&gt;AI Literacy I — syllabus&lt;/h2&gt;
+    &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; data-variant=&quot;ghost&quot; data-size=&quot;sm&quot; data-icon-only aria-label=&quot;Close&quot; commandfor=&quot;dialog-syllabus&quot; command=&quot;close&quot;&gt;
+      &lt;svg viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.5&quot; stroke-linecap=&quot;round&quot; aria-hidden=&quot;true&quot;&gt;&lt;path d=&quot;M6 6l12 12M18 6L6 18&quot;/&gt;&lt;/svg&gt;
+    &lt;/button&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-dialog__body mp-prose&quot;&gt;
+    &lt;h3&gt;Week 1 — Start from the classroom&lt;/h3&gt;
+    &lt;p&gt;Bring one real problem. We map it before we touch a tool.&lt;/p&gt;
+    &lt;h3&gt;Week 2 — How models actually work&lt;/h3&gt;
+    &lt;p&gt;Tokens, context, and why a confident answer can still be wrong.&lt;/p&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;mp-dialog__footer&quot;&gt;
+    &lt;button class=&quot;mp-button&quot; type=&quot;button&quot; commandfor=&quot;dialog-syllabus&quot; command=&quot;close&quot;&gt;Done&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/dialog&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2261,9 +2849,10 @@
       <p class="label">Navigation</p>
       <h3 class="gallery-item__title" id="component-navbar-title">Navbar</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/navbar/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/navbar/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Navbar</span></a>
   </header>
   <p class="gallery-item__summary">Sticky translucent site header with brand, uppercase links (aria-current marks the active page) and an actions slot; collapses by its own width.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-navbar</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Site header</p>
   <div class="gallery-example__stage">
@@ -2285,8 +2874,10 @@
 </header>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;header class=&quot;mp-navbar&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Navbar · Site header</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;header class=&quot;mp-navbar&quot;&gt;
   &lt;div class=&quot;mp-navbar__inner&quot;&gt;
     &lt;a class=&quot;mp-navbar__brand&quot; href=&quot;#components&quot;&gt;D&#39;Césares&lt;/a&gt;
     &lt;nav class=&quot;mp-navbar__nav&quot; aria-label=&quot;Primary&quot;&gt;
@@ -2301,7 +2892,8 @@
       &lt;a class=&quot;mp-button&quot; href=&quot;#components&quot; data-size=&quot;sm&quot;&gt;Let&#39;s co-create&lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-&lt;/header&gt;</code></pre></div>
+&lt;/header&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2311,9 +2903,10 @@
       <p class="label">Navigation</p>
       <h3 class="gallery-item__title" id="component-breadcrumb-title">Breadcrumb</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/breadcrumb/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/breadcrumb/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Breadcrumb</span></a>
   </header>
   <p class="gallery-item__summary">The path from site root to the current page, as an ordered list with decorative separators and aria-current on the last item.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-breadcrumb</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Path</p>
   <div class="gallery-example__stage">
@@ -2326,14 +2919,17 @@
 </nav>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;nav class=&quot;mp-breadcrumb&quot; aria-label=&quot;Breadcrumb&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Breadcrumb · Path</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;nav class=&quot;mp-breadcrumb&quot; aria-label=&quot;Breadcrumb&quot;&gt;
   &lt;ol class=&quot;mp-breadcrumb__list&quot;&gt;
     &lt;li class=&quot;mp-breadcrumb__item&quot;&gt;&lt;a class=&quot;mp-breadcrumb__link&quot; href=&quot;#components&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
     &lt;li class=&quot;mp-breadcrumb__item&quot;&gt;&lt;a class=&quot;mp-breadcrumb__link&quot; href=&quot;#components&quot;&gt;Workshops&lt;/a&gt;&lt;/li&gt;
     &lt;li class=&quot;mp-breadcrumb__item&quot;&gt;&lt;a class=&quot;mp-breadcrumb__link&quot; href=&quot;#components&quot; aria-current=&quot;page&quot;&gt;AI Literacy I&lt;/a&gt;&lt;/li&gt;
   &lt;/ol&gt;
-&lt;/nav&gt;</code></pre></div>
+&lt;/nav&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2343,9 +2939,10 @@
       <p class="label">Navigation</p>
       <h3 class="gallery-item__title" id="component-tabs-title">Tabs</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/tabs/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/tabs/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Tabs</span></a>
   </header>
   <p class="gallery-item__summary">WAI-ARIA tabs — underline or pill (segmented) style; aria-selected drives the visuals, membrane.js adds click and arrow-key behavior.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-tabs</code></dd></div><div><dt><code>data-variant</code></dt><dd>pill</dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">Underline tabs</p>
   <div class="gallery-example__stage">
@@ -2361,8 +2958,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-tabs&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Tabs · Underline tabs</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-tabs&quot;&gt;
   &lt;div class=&quot;mp-tabs__list&quot; role=&quot;tablist&quot; aria-label=&quot;Install options&quot;&gt;
     &lt;button class=&quot;mp-tabs__tab&quot; type=&quot;button&quot; role=&quot;tab&quot; id=&quot;tabs-cdn&quot; aria-controls=&quot;tabs-cdn-panel&quot; aria-selected=&quot;true&quot;&gt;CDN&lt;/button&gt;
     &lt;button class=&quot;mp-tabs__tab&quot; type=&quot;button&quot; role=&quot;tab&quot; id=&quot;tabs-copy&quot; aria-controls=&quot;tabs-copy-panel&quot; aria-selected=&quot;false&quot; tabindex=&quot;-1&quot;&gt;Copy files&lt;/button&gt;
@@ -2371,7 +2970,8 @@
   &lt;div class=&quot;mp-tabs__panel&quot; role=&quot;tabpanel&quot; id=&quot;tabs-cdn-panel&quot; aria-labelledby=&quot;tabs-cdn&quot; tabindex=&quot;0&quot;&gt;&lt;p class=&quot;type-small&quot;&gt;One &lt;code class=&quot;mp-code&quot;&gt;&amp;lt;link&amp;gt;&lt;/code&gt; to &lt;code class=&quot;mp-code&quot;&gt;membrane.css&lt;/code&gt; on jsDelivr.&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&quot;mp-tabs__panel&quot; role=&quot;tabpanel&quot; id=&quot;tabs-copy-panel&quot; aria-labelledby=&quot;tabs-copy&quot; tabindex=&quot;0&quot; hidden&gt;&lt;p class=&quot;type-small&quot;&gt;Download the three CSS files into your project.&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&quot;mp-tabs__panel&quot; role=&quot;tabpanel&quot; id=&quot;tabs-fork-panel&quot; aria-labelledby=&quot;tabs-fork&quot; tabindex=&quot;0&quot; hidden&gt;&lt;p class=&quot;type-small&quot;&gt;Edit the JSON source and run the build.&lt;/p&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 <div class="gallery-example">
@@ -2387,15 +2987,18 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div class=&quot;mp-tabs&quot; data-variant=&quot;pill&quot;&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Tabs · Pill tabs</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div class=&quot;mp-tabs&quot; data-variant=&quot;pill&quot;&gt;
   &lt;div class=&quot;mp-tabs__list&quot; role=&quot;tablist&quot; aria-label=&quot;Theme preview&quot;&gt;
     &lt;button class=&quot;mp-tabs__tab&quot; type=&quot;button&quot; role=&quot;tab&quot; id=&quot;tabs-light&quot; aria-controls=&quot;tabs-light-panel&quot; aria-selected=&quot;true&quot;&gt;Light&lt;/button&gt;
     &lt;button class=&quot;mp-tabs__tab&quot; type=&quot;button&quot; role=&quot;tab&quot; id=&quot;tabs-dark&quot; aria-controls=&quot;tabs-dark-panel&quot; aria-selected=&quot;false&quot; tabindex=&quot;-1&quot;&gt;Dark&lt;/button&gt;
   &lt;/div&gt;
   &lt;div class=&quot;mp-tabs__panel&quot; role=&quot;tabpanel&quot; id=&quot;tabs-light-panel&quot; aria-labelledby=&quot;tabs-light&quot; tabindex=&quot;0&quot;&gt;&lt;p class=&quot;type-small&quot;&gt;Warm cream, terracotta emphasis.&lt;/p&gt;&lt;/div&gt;
   &lt;div class=&quot;mp-tabs__panel&quot; role=&quot;tabpanel&quot; id=&quot;tabs-dark-panel&quot; aria-labelledby=&quot;tabs-dark&quot; tabindex=&quot;0&quot; hidden&gt;&lt;p class=&quot;type-small&quot;&gt;Charcoal depth, lightened accents.&lt;/p&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
@@ -2405,9 +3008,10 @@
       <p class="label">Navigation</p>
       <h3 class="gallery-item__title" id="component-accordion-title">Accordion</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/accordion/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/accordion/README.md">Docs &amp; API<span class="mp-visually-hidden"> for Accordion</span></a>
   </header>
   <p class="gallery-item__summary">Expandable sections on native &lt;details&gt;/&lt;summary&gt; — no script, keyboard-ready, exclusive with a shared name, animated where supported.</p>
+  <dl class="gallery-item__api"><div><dt>Classes</dt><dd><code>.mp-accordion</code></dd></div></dl>
 <div class="gallery-example">
   <p class="gallery-example__title">FAQ</p>
   <div class="gallery-example__stage">
@@ -2427,8 +3031,10 @@
 </div>
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>&lt;div&gt;
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>Accordion · FAQ</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>&lt;div&gt;
   &lt;details class=&quot;mp-accordion&quot; name=&quot;accordion-faq&quot; open&gt;
     &lt;summary class=&quot;mp-accordion__summary&quot;&gt;Do I need a framework?&lt;/summary&gt;
     &lt;div class=&quot;mp-accordion__content&quot;&gt;&lt;p&gt;No. Link one stylesheet and write HTML with &lt;code class=&quot;mp-code&quot;&gt;mp-&lt;/code&gt; classes.&lt;/p&gt;&lt;/div&gt;
@@ -2441,83 +3047,14 @@
     &lt;summary class=&quot;mp-accordion__summary&quot;&gt;Can agents use it?&lt;/summary&gt;
     &lt;div class=&quot;mp-accordion__content&quot;&gt;&lt;p&gt;Yes — start from &lt;code class=&quot;mp-code&quot;&gt;components/manifest.json&lt;/code&gt;.&lt;/p&gt;&lt;/div&gt;
   &lt;/details&gt;
-&lt;/div&gt;</code></pre></div>
+&lt;/div&gt;</code></pre>
+    </figure>
   </details>
 </div>
 </article>
 </div>
+</div>
         <!-- /GENERATED:COMPONENT-GALLERY -->
-      </div>
-    </section>
-
-    <section class="band band--secondary" id="rhythm">
-      <div class="mp-container">
-        <div class="section-heading">
-          <div>
-            <p class="label">04 / Rhythm</p>
-            <h2>Spacing, motion, and theme behavior are part of the voice.</h2>
-          </div>
-          <p>The 4px spacing base gives the system a measured cadence. Motion is modest, accessible, and only used to clarify interaction.</p>
-        </div>
-
-        <div class="specimen-grid">
-          <article class="specimen specimen--wide">
-            <p class="label">Spacing Scale</p>
-            <h2>Every gap is named.</h2>
-            <div class="spacing-board">
-              <div class="spacing-row"><code>--space-2</code><span class="spacing-bar" style="width: var(--space-2);"></span><span>8px</span></div>
-              <div class="spacing-row"><code>--space-4</code><span class="spacing-bar" style="width: var(--space-4);"></span><span>16px</span></div>
-              <div class="spacing-row"><code>--space-8</code><span class="spacing-bar" style="width: var(--space-8);"></span><span>32px</span></div>
-              <div class="spacing-row"><code>--space-16</code><span class="spacing-bar" style="width: var(--space-16);"></span><span>64px</span></div>
-              <div class="spacing-row"><code>--space-24</code><span class="spacing-bar" style="width: var(--space-24);"></span><span>96px</span></div>
-            </div>
-          </article>
-
-          <article class="specimen specimen--narrow">
-            <p class="label">Motion Tokens</p>
-            <h2>Subtle, not theatrical.</h2>
-            <div class="motion-list">
-              <div class="motion-cell"><strong>Fast</strong><code>150ms</code></div>
-              <div class="motion-cell"><strong>Normal</strong><code>250ms</code></div>
-              <div class="motion-cell"><strong>Slow</strong><code>400ms</code></div>
-              <div class="motion-cell"><strong>In-out</strong><code>ease-in-out</code></div>
-            </div>
-          </article>
-
-          <article class="specimen specimen--full">
-            <p class="label">Dark Mode</p>
-            <h2>Same membrane, different depth.</h2>
-            <p class="specimen__note">Both cards hold identical markup. Each sets <code>data-theme</code> on itself, and every token inside resolves to that mode — no override blocks, no duplicated hex values.</p>
-            <div class="dark-preview">
-              <div class="theme-card mp-surface" data-theme="light">
-                <h3>Light canvas</h3>
-                <p>Warm cream, warm neutrals, terracotta emphasis, teal navigation.</p>
-                <div class="mp-stack" data-gap="4">
-                  <div class="mp-cluster" data-gap="2">
-                    <button class="mp-button" type="button" data-size="sm">Primary</button>
-                    <button class="mp-button" type="button" data-size="sm" data-variant="secondary">Secondary</button>
-                    <span class="mp-tag" data-tone="human">Human</span>
-                    <span class="mp-tag" data-tone="digital">Digital</span>
-                  </div>
-                  <div class="mp-alert" data-tone="success"><div class="mp-alert__content"><p class="mp-alert__title">Contrast gate passing</p></div></div>
-                </div>
-              </div>
-              <div class="theme-card mp-surface" data-theme="dark">
-                <h3>Dark canvas</h3>
-                <p>Charcoal depth, lightened accents, deeper shadows, lighter elevated surfaces.</p>
-                <div class="mp-stack" data-gap="4">
-                  <div class="mp-cluster" data-gap="2">
-                    <button class="mp-button" type="button" data-size="sm">Primary</button>
-                    <button class="mp-button" type="button" data-size="sm" data-variant="secondary">Secondary</button>
-                    <span class="mp-tag" data-tone="human">Human</span>
-                    <span class="mp-tag" data-tone="digital">Digital</span>
-                  </div>
-                  <div class="mp-alert" data-tone="success"><div class="mp-alert__content"><p class="mp-alert__title">Contrast gate passing</p></div></div>
-                </div>
-              </div>
-            </div>
-          </article>
-        </div>
       </div>
     </section>
 
@@ -4956,6 +5493,38 @@
           status.innerHTML = '<div class="mp-alert" data-tone="success"><div class="mp-alert__content"><p class="mp-alert__title">Seat reserved</p><p>This is a demo — nothing was sent.</p></div></div>';
         }, 900);
       });
+    })();
+
+    (function initGalleryCopy() {
+      document.addEventListener('click', async (event) => {
+        const button = event.target.closest('.gallery-copy');
+        if (!button) return;
+        const code = button.closest('figure').querySelector('code').textContent;
+        try {
+          await navigator.clipboard.writeText(code);
+          button.textContent = 'Copied';
+        } catch (e) {
+          button.textContent = 'Select & copy';
+        }
+        setTimeout(() => { button.textContent = 'Copy'; }, 1600);
+      });
+    })();
+
+    (function initGalleryIndex() {
+      const links = new Map(Array.from(document.querySelectorAll('.gallery-index__link')).map((a) => [a.hash.slice(1), a]));
+      if (!links.size || !('IntersectionObserver' in window)) return;
+      let current = null;
+      const observer = new IntersectionObserver((entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          const link = links.get(entry.target.id);
+          if (!link || link === current) continue;
+          current?.removeAttribute('aria-current');
+          link.setAttribute('aria-current', 'true');
+          current = link;
+        }
+      }, { rootMargin: '-30% 0px -60% 0px' });
+      document.querySelectorAll('.gallery-item').forEach((item) => observer.observe(item));
     })();
 
     (function initTokenFilter() {

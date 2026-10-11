@@ -23,6 +23,10 @@ Uses the native `<progress>` element, so value, max and the indeterminate state 
     <label class="mp-field__label" for="progress-upload">Uploading materials</label>
     <progress class="mp-progress" id="progress-upload" data-size="sm"></progress>
   </div>
+  <div class="mp-field">
+    <label class="mp-field__label" for="progress-gate">Contrast checks — 126 of 126</label>
+    <progress class="mp-progress" id="progress-gate" value="126" max="126" data-tone="success" data-size="lg">126 of 126</progress>
+  </div>
 </div>
 ```
 

@@ -23,7 +23,7 @@ The native `<dialog>` element opened with `showModal()` traps focus, makes the p
 ```html
 <button class="mp-button" type="button" data-variant="secondary" commandfor="dialog-publish" command="show-modal">Publish workshop…</button>
 
-<dialog class="mp-dialog" id="dialog-publish" aria-labelledby="dialog-publish-title" closedby="any">
+<dialog class="mp-dialog" id="dialog-publish" data-size="sm" aria-labelledby="dialog-publish-title" closedby="any">
   <div class="mp-dialog__header">
     <h2 class="mp-dialog__title" id="dialog-publish-title">Publish this workshop?</h2>
     <button class="mp-button" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close" commandfor="dialog-publish" command="close">
@@ -36,6 +36,30 @@ The native `<dialog>` element opened with `showModal()` traps focus, makes the p
   <div class="mp-dialog__footer">
     <button class="mp-button" type="button" data-variant="ghost" commandfor="dialog-publish" command="close">Not yet</button>
     <button class="mp-button" type="button" commandfor="dialog-publish" command="close">Publish</button>
+  </div>
+</dialog>
+```
+
+### Large reading dialog
+
+```html
+<button class="mp-button" type="button" data-variant="ghost" commandfor="dialog-syllabus" command="show-modal">Read the syllabus</button>
+
+<dialog class="mp-dialog" id="dialog-syllabus" data-size="lg" aria-labelledby="dialog-syllabus-title" closedby="any">
+  <div class="mp-dialog__header">
+    <h2 class="mp-dialog__title" id="dialog-syllabus-title">AI Literacy I — syllabus</h2>
+    <button class="mp-button" type="button" data-variant="ghost" data-size="sm" data-icon-only aria-label="Close" commandfor="dialog-syllabus" command="close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div class="mp-dialog__body mp-prose">
+    <h3>Week 1 — Start from the classroom</h3>
+    <p>Bring one real problem. We map it before we touch a tool.</p>
+    <h3>Week 2 — How models actually work</h3>
+    <p>Tokens, context, and why a confident answer can still be wrong.</p>
+  </div>
+  <div class="mp-dialog__footer">
+    <button class="mp-button" type="button" commandfor="dialog-syllabus" command="close">Done</button>
   </div>
 </dialog>
 ```

@@ -23,6 +23,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 - `membrane.css` — one generated stylesheet with tokens + base + components. `components/membrane-components.css` — components only.
 - `components/membrane.js` — optional behaviors (~1.7 KB gzipped): WAI-ARIA tabs (click, arrows, Home/End, RTL), tooltip Escape-dismiss (WCAG 1.4.13), fallbacks for dialog invoker commands and `closedby="any"`.
 - `scripts/build-components.mjs` (`npm run build:components`) — **lints** every component (no raw colors, no unknown/deprecated tokens, no Tier 1 primitives, knobs must be `--mp-*`) and every README example (no classes, attributes or values the CSS doesn't implement; unique ids; labelled icon-only buttons; `alt` on images), then writes the bundles, the manifest, `llms.txt`, each README's API section and the showcase gallery.
+- **Coverage lint:** every class and `data-*` value a component implements must be demonstrated in its README examples, so the showcase is guaranteed to render all of them (token scales and runtime state can opt out via an `exempt:` frontmatter line).
 - `npm run build:system` runs both builds in order.
 
 ### Added — for agents
@@ -47,6 +48,7 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 
 - **Contrast gate: 20 → 63 pairs (126 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
 - `DESIGN-SYSTEM.md` §6 replaced: the prose recipes are superseded by the library; §6 now documents conventions, catalog, brand rules and how to contribute a component. §2.3 (semantic colors) and §13.1 (contrast) tables are **generated** from the token source, so they can no longer drift. Added §13.4 (component accessibility); corrected the touch-target citation (2.5.5 is AAA; 2.5.8 AA is 24px).
+- Showcase structure: foundations first (Palette → Typography → Rhythm), then Components, then Reference. The component gallery has a sticky index that tracks the current component, an "API at a glance" row generated from each component's CSS, and a "View HTML" disclosure with a copy button on every example. The type specimen shows the full scale with its tokens. The hero register map no longer breaks token names mid-word, and the hero stacks below 1200px.
 - Showcase rebuilt on the library (navbar, buttons, inputs, tables, code blocks), with a generated component gallery, a composed specimen, and dark-mode previews that use real `data-theme` subtrees instead of hard-coded hex. Theme is applied before first paint and follows the OS until toggled. Skip link added; mobile horizontal overflow fixed.
 - `@layer tokens, base, components;` order is declared at the top of every generated stylesheet.
 - CI runs both builds and fails if **any** generated file is stale (previously only the two token CSS files were checked).
@@ -56,6 +58,9 @@ An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-1
 
 ### Fixed
 
+- Field, Fieldset, Stat, Tabs and Alert content are grids; when a parent grid stretched them, the extra height was distributed across their rows (an input drifted away from its label in a two-column form). They now pin rows to the top (`align-content: start`).
+- Narrow Navbar: the horizontally scrolling link row now fades at its trailing edge, so a clipped row reads as scrollable.
+- Showcase section overlines rendered at lede size because `.section-heading p` also matched them.
 - `--color-warning-text` `#8A6420` → `#7A571B`, `--color-error-text` `#B23A3A` → `#A53434` (dark `#E86060` → `#F07C78`), and dark-mode `--color-human-text` `#E08A6A`: found by running axe-core against the new showcase — on card surfaces the status/register washes composite darker (light) or lighter (dark) than on the page, which the gate didn't measure. The gate now checks every wash over cards too.
 - Secondary buttons paint `--color-bg-primary` instead of `transparent`, so their teal label keeps its gated contrast on tinted surfaces such as alerts.
 - `--code-comment` `#7D776E` → `#958F84`: was 3.7:1 on `--code-bg`, failing WCAG AA for text; now 5.2:1.

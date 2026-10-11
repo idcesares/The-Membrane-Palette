@@ -3,6 +3,7 @@ name: Tooltip
 category: Feedback
 status: stable
 summary: A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissable with membrane.js.
+exempt: data-dismissed
 ---
 
 # Tooltip
@@ -32,6 +33,8 @@ Tooltips add a short, **non-essential** hint to a control — typically to name 
   </span>
 </div>
 ```
+
+`data-dismissed` is runtime state written by `membrane.js` when Escape is pressed — never author it.
 
 ## Accessibility
 

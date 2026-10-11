@@ -179,6 +179,7 @@ const allClasses = new Set(components.flatMap((c) => c.classes));
 const ownerOfRoot = new Map(components.flatMap((c) => c.roots.map((r) => [r, c])));
 const ownerOfClass = new Map(components.flatMap((c) => c.classes.map((k) => [k, c])));
 const seenIds = new Map();
+const demonstrated = new Map(components.map((c) => [c.slug, {}])); // slug -> { attr: Set(values) }
 
 for (const c of components) {
   const where = `components/${c.slug}/README.md`;
@@ -205,6 +206,7 @@ for (const c of components) {
         if (defs.length === 0) { fail(ctx, `${attr} is not an attribute of ${owners.map((o) => o.slug).join(", ")}`); continue; }
         const allowed = new Set(defs.flatMap((s) => [...s]));
         if (allowed.size > 0 && !allowed.has(value)) fail(ctx, `${attr}="${value}" — allowed: ${[...allowed].join(", ")}`);
+        for (const o of owners) if (o.dataAttrs[key]) (demonstrated.get(o.slug)[key] ??= new Set()).add(value);
       }
 
       if ("data-icon-only" in attrs && !attrs["aria-label"]) fail(ctx, "icon-only button needs aria-label");
@@ -214,6 +216,25 @@ for (const c of components) {
         else seenIds.set(attrs.id, ctx);
       }
     }
+  }
+}
+
+/* Coverage — every option the CSS implements is demonstrated in the README
+   examples (and therefore rendered in the showcase), unless the README's
+   frontmatter lists it under `exempt:` (e.g. a spacing scale). */
+for (const c of components) {
+  const exempt = new Set((c.meta.exempt || "").split(",").map((s) => s.trim()).filter(Boolean));
+  const shown = demonstrated.get(c.slug);
+  const exampleHtml = c.examples.map((e) => e.html).join("\n");
+  for (const k of c.classes) {
+    if (exempt.has("." + k)) continue;
+    if (!new RegExp(`class="[^"]*\\b${k}\\b`).test(exampleHtml)) fail(`components/${c.slug}/README.md`, `.${k} is never demonstrated in an example (or list it under "exempt:" in the frontmatter)`);
+  }
+  for (const [key, values] of Object.entries(c.dataAttrs)) {
+    if (exempt.has(`data-${key}`)) continue;
+    if (!shown[key]) { fail(`components/${c.slug}/README.md`, `data-${key} is never demonstrated in an example (or list it under "exempt:" in the frontmatter)`); continue; }
+    const missing = [...values].filter((v) => !shown[key].has(v));
+    if (missing.length) fail(`components/${c.slug}/README.md`, `data-${key} value(s) ${missing.map((v) => `"${v}"`).join(", ")} never demonstrated in an example`);
   }
 }
 
@@ -394,23 +415,34 @@ const pad = (s, n) => s.split("\n").map((l) => (l ? " ".repeat(n) + l : l)).join
 function renderGallery() {
   const index = CATEGORIES.map((cat) => {
     const items = components.filter((c) => c.meta.category === cat);
-    return `<div class="gallery-index__group">
-  <p class="label">${cat}</p>
-  <div class="mp-cluster" data-gap="2">
-${items.map((c) => `    <a class="mp-tag" href="#component-${c.slug}">${escapeHtml(c.meta.name)}</a>`).join("\n")}
-  </div>
-</div>`;
+    return `  <div class="gallery-index__group">
+    <p class="gallery-index__heading">${cat}</p>
+    <ul class="gallery-index__list">
+${items.map((c) => `      <li><a class="gallery-index__link" href="#component-${c.slug}">${escapeHtml(c.meta.name)}</a></li>`).join("\n")}
+    </ul>
+  </div>`;
   }).join("\n");
 
   const items = components.map((c) => {
+    // API at a glance: the options a reader can pick, straight from the CSS.
+    const exempt = new Set((c.meta.exempt || "").split(",").map((x) => x.trim()));
+    const options = Object.entries(c.dataAttrs)
+      .filter(([k]) => !(k === "dismissed" && exempt.has("data-dismissed")))
+      .map(([k, v]) => `<div><dt><code>data-${k}</code></dt><dd>${v.size ? [...v].map(escapeHtml).join(" · ") : "boolean"}</dd></div>`)
+      .join("");
+    const glance = `<dl class="gallery-item__api"><div><dt>Classes</dt><dd>${c.roots.map((r) => `<code>.${r}</code>`).join(" ")}</dd></div>${options}</dl>`;
+
     const examples = c.examples.map((ex) => `<div class="gallery-example">
   <p class="gallery-example__title">${escapeHtml(ex.title)}</p>
   <div class="gallery-example__stage">
 ${ex.html}
   </div>
   <details class="gallery-example__code">
-    <summary>HTML</summary>
-    <div class="mp-code-block"><pre tabindex="0"><code>${escapeHtml(ex.html)}</code></pre></div>
+    <summary>View HTML</summary>
+    <figure class="mp-code-block" data-theme="dark">
+      <figcaption class="mp-code-block__header"><span>${escapeHtml(c.meta.name)} · ${escapeHtml(ex.title)}</span><button class="mp-button gallery-copy" type="button" data-variant="ghost" data-size="sm">Copy</button></figcaption>
+      <pre tabindex="0"><code>${escapeHtml(ex.html)}</code></pre>
+    </figure>
   </details>
 </div>`).join("\n");
     return `<article class="gallery-item" id="component-${c.slug}" aria-labelledby="component-${c.slug}-title">
@@ -419,15 +451,23 @@ ${ex.html}
       <p class="label">${c.meta.category}${c.meta.status !== "stable" ? ` · ${c.meta.status}` : ""}</p>
       <h3 class="gallery-item__title" id="component-${c.slug}-title">${escapeHtml(c.meta.name)}</h3>
     </div>
-    <a class="mp-link" data-variant="standalone" href="${DOCS_BASE}components/${c.slug}/README.md">Docs &amp; API</a>
+    <a class="mp-link" data-variant="standalone" href="${DOCS_BASE}components/${c.slug}/README.md">Docs &amp; API<span class="mp-visually-hidden"> for ${escapeHtml(c.meta.name)}</span></a>
   </header>
   <p class="gallery-item__summary">${escapeHtml(c.meta.summary)}</p>
+  ${glance}
 ${examples}
 </article>`;
   }).join("\n");
 
   // No re-indenting: example HTML is inserted verbatim so <pre> content stays exact.
-  return `<nav class="gallery-index" aria-label="Components">\n${index}\n</nav>\n<div class="gallery">\n${items}\n</div>`;
+  return `<div class="gallery-layout">
+<nav class="gallery-index" aria-label="Components">
+${index}
+</nav>
+<div class="gallery">
+${items}
+</div>
+</div>`;
 }
 
 const SHOWCASE = rel("showcase", "index.html");

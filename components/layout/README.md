@@ -3,6 +3,7 @@ name: Layout
 category: Layout
 status: stable
 summary: Container, Stack, Cluster, Grid, Section and Surface primitives that compose any page without custom layout CSS.
+exempt: data-gap, data-min, data-size
 ---
 
 # Layout
@@ -19,6 +20,8 @@ Six small primitives cover almost every arrangement on a page. Gaps are always a
 | `.mp-surface` | Paints `--color-bg-primary` + `--color-text-primary` (needed when you flip a subtree with `data-theme`) | — |
 
 `.mp-visually-hidden` hides content visually while keeping it available to screen readers.
+
+`data-gap`, `data-min` (grid column minimum: `sm` 12rem, default 16rem, `lg` 22rem) and `data-size` (container `sm`/`md`/`lg` → `--container-*`; section `sm`/`lg` → `--space-12`/`--space-32`) are scales that map 1:1 onto tokens, so they aren't each demonstrated below.
 
 ## When to use
 
@@ -52,6 +55,35 @@ Six small primitives cover almost every arrangement on a page. Gaps are always a
   <div class="mp-card" data-variant="flat"><p class="mp-card__body">One</p></div>
   <div class="mp-card" data-variant="flat"><p class="mp-card__body">Two</p></div>
   <div class="mp-card" data-variant="flat"><p class="mp-card__body">Three</p></div>
+</div>
+```
+
+### Cluster justification and alignment
+
+```html
+<div class="mp-stack" data-gap="3">
+  <div class="mp-cluster" data-justify="between" data-align="baseline">
+    <h3 class="type-h3">Workshops</h3>
+    <a class="mp-link" data-variant="standalone" href="#components">See all<span class="mp-visually-hidden"> workshops</span></a>
+  </div>
+  <div class="mp-cluster" data-justify="center">
+    <span class="mp-tag">centered</span>
+    <span class="mp-tag">row</span>
+  </div>
+  <div class="mp-cluster" data-justify="end" data-align="start">
+    <button class="mp-button" type="button" data-variant="ghost">Cancel</button>
+    <button class="mp-button" type="button">Save</button>
+  </div>
+</div>
+```
+
+### Surface tones
+
+```html
+<div class="mp-grid" data-min="sm" data-gap="4">
+  <div class="mp-section mp-surface" data-size="sm"><div class="mp-container"><p class="type-small">Default — <code class="mp-code">--color-bg-primary</code></p></div></div>
+  <div class="mp-section mp-surface" data-size="sm" data-tone="secondary"><div class="mp-container"><p class="type-small">Secondary — cards, alternating bands</p></div></div>
+  <div class="mp-section mp-surface" data-size="sm" data-tone="elevated"><div class="mp-container"><p class="type-small">Elevated — dialogs, popovers (lighter in dark mode)</p></div></div>
 </div>
 ```
 

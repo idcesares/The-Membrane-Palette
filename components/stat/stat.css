@@ -4,6 +4,7 @@
 
 .mp-stat {
   display: grid;
+  align-content: start;
   gap: var(--space-1);
   min-width: 0;
   margin: 0;
