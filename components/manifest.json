@@ -1,0 +1,2319 @@
+{
+  "name": "The Membrane Palette",
+  "version": "2.1.0",
+  "generated": "Do not edit — produced by scripts/build-components.mjs from components/*/",
+  "install": {
+    "allInOne": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css\">",
+    "behaviors": "<script src=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js\" defer></script>",
+    "split": [
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/fonts/fonts.css",
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css",
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/base.css",
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane-components.css"
+    ]
+  },
+  "conventions": {
+    "classPrefix": "mp-",
+    "parts": "BEM-style elements: .mp-<component>__<part>",
+    "options": "Enumerated options are data-* attributes (data-variant, data-size, data-tone…). Omit the attribute for the default.",
+    "states": "Visual states come from native attributes and ARIA (disabled, aria-invalid, aria-selected, aria-current, aria-pressed, aria-busy, open). Set the semantic attribute; never add a state class.",
+    "theming": "Dark mode is automatic. Add data-theme=\"dark\"|\"light\" to any element to force a subtree; add .mp-surface so the subtree paints its own background.",
+    "componentTokens": "--mp-<component>-* custom properties are per-component knobs; override them on an instance.",
+    "designTokens": "In your own CSS consume semantic tokens (--color-text-*, --color-bg-*, --color-action-*, --space-*, --text-*). Never Tier 1 primitives or raw color values.",
+    "layer": "All component CSS is in @layer components; unlayered CSS overrides it.",
+    "behaviorHooks": "data-mp-* attributes are hooks for components/membrane.js (e.g. data-mp-toast). Valid on any element.",
+    "tailwind": "Using Tailwind v4? Import tokens/membrane-tailwind.css: only mp- utilities exist (bg-mp-surface, text-mp-fg, bg-mp-primary, rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2); the default palette is removed. p-4 = --space-4.",
+    "patterns": "examples/*.html are complete pages (starter, article, dashboard) built only from the library and linted like the examples here."
+  },
+  "categories": [
+    "Layout",
+    "Actions",
+    "Forms",
+    "Content",
+    "Feedback",
+    "Navigation"
+  ],
+  "components": [
+    {
+      "slug": "layout",
+      "name": "Layout",
+      "category": "Layout",
+      "status": "stable",
+      "summary": "Container, Stack, Cluster, Grid, Section and Surface primitives that compose any page without custom layout CSS.",
+      "docs": "components/layout/README.md",
+      "css": "components/layout/layout.css",
+      "classes": {
+        "roots": [
+          "mp-container",
+          "mp-stack",
+          "mp-cluster",
+          "mp-grid",
+          "mp-section",
+          "mp-surface",
+          "mp-visually-hidden"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "md",
+          "lg"
+        ],
+        "data-justify": [
+          "between",
+          "center",
+          "end"
+        ],
+        "data-align": [
+          "start",
+          "baseline"
+        ],
+        "data-min": [
+          "sm",
+          "lg"
+        ],
+        "data-gap": [
+          "0",
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6",
+          "8",
+          "10",
+          "12",
+          "16"
+        ],
+        "data-tone": [
+          "secondary",
+          "elevated"
+        ]
+      },
+      "states": [
+        ":active",
+        ":focus-within"
+      ],
+      "componentTokens": {
+        "--mp-container-max": "var(--container-xl)",
+        "--mp-gap": "var(--space-4)",
+        "--mp-grid-min": "16rem",
+        "--mp-section-space": "var(--space-20)"
+      },
+      "tokensUsed": [
+        "--color-bg-elevated",
+        "--color-bg-primary",
+        "--color-bg-secondary",
+        "--color-text-primary",
+        "--container-lg",
+        "--container-md",
+        "--container-sm",
+        "--container-xl",
+        "--site-margin",
+        "--space-1",
+        "--space-10",
+        "--space-12",
+        "--space-16",
+        "--space-2",
+        "--space-20",
+        "--space-3",
+        "--space-32",
+        "--space-4",
+        "--space-5",
+        "--space-6",
+        "--space-8"
+      ],
+      "examples": [
+        {
+          "title": "Stack and cluster",
+          "html": "<div class=\"mp-stack\" data-gap=\"3\">\n  <p class=\"mp-card__overline\">Workshop</p>\n  <h3 class=\"type-h3\">Designing with the membrane</h3>\n  <div class=\"mp-cluster\" data-gap=\"2\">\n    <span class=\"mp-tag\" data-tone=\"human\">Pedagogy</span>\n    <span class=\"mp-tag\" data-tone=\"digital\">AI systems</span>\n    <span class=\"mp-tag\">90 min</span>\n  </div>\n</div>"
+        },
+        {
+          "title": "Responsive grid",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <div class=\"mp-card\" data-variant=\"flat\"><p class=\"mp-card__body\">One</p></div>\n  <div class=\"mp-card\" data-variant=\"flat\"><p class=\"mp-card__body\">Two</p></div>\n  <div class=\"mp-card\" data-variant=\"flat\"><p class=\"mp-card__body\">Three</p></div>\n</div>"
+        },
+        {
+          "title": "Cluster justification and alignment",
+          "html": "<div class=\"mp-stack\" data-gap=\"3\">\n  <div class=\"mp-cluster\" data-justify=\"between\" data-align=\"baseline\">\n    <h3 class=\"type-h3\">Workshops</h3>\n    <a class=\"mp-link\" data-variant=\"standalone\" href=\"#components\">See all<span class=\"mp-visually-hidden\"> workshops</span></a>\n  </div>\n  <div class=\"mp-cluster\" data-justify=\"center\">\n    <span class=\"mp-tag\">centered</span>\n    <span class=\"mp-tag\">row</span>\n  </div>\n  <div class=\"mp-cluster\" data-justify=\"end\" data-align=\"start\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Cancel</button>\n    <button class=\"mp-button\" type=\"button\">Save</button>\n  </div>\n</div>"
+        },
+        {
+          "title": "Surface tones",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <div class=\"mp-section mp-surface\" data-size=\"sm\"><div class=\"mp-container\"><p class=\"type-small\">Default — <code class=\"mp-code\">--color-bg-primary</code></p></div></div>\n  <div class=\"mp-section mp-surface\" data-size=\"sm\" data-tone=\"secondary\"><div class=\"mp-container\"><p class=\"type-small\">Secondary — cards, alternating bands</p></div></div>\n  <div class=\"mp-section mp-surface\" data-size=\"sm\" data-tone=\"elevated\"><div class=\"mp-container\"><p class=\"type-small\">Elevated — dialogs, popovers (lighter in dark mode)</p></div></div>\n</div>"
+        },
+        {
+          "title": "Dark band inside a light page",
+          "html": "<section class=\"mp-section mp-surface\" data-size=\"sm\" data-theme=\"dark\">\n  <div class=\"mp-container\" data-size=\"sm\">\n    <p class=\"type-body\">Every token inside this section resolves to its dark value, because <code class=\"mp-code\">data-theme=\"dark\"</code> sets <code class=\"mp-code\">color-scheme</code> for the subtree.</p>\n  </div>\n</section>"
+        }
+      ]
+    },
+    {
+      "slug": "text",
+      "name": "Text",
+      "category": "Layout",
+      "status": "stable",
+      "summary": "Tone (muted, subtle, human, digital) and reading measure for running copy — combine with the .type-* size classes instead of writing inline color or max-width.",
+      "docs": "components/text/README.md",
+      "css": "components/text/text.css",
+      "classes": {
+        "roots": [
+          "mp-text"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-tone": [
+          "muted",
+          "subtle",
+          "human",
+          "digital"
+        ],
+        "data-measure": "boolean"
+      },
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-digital-text",
+        "--color-human-text",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--measure"
+      ],
+      "examples": [
+        {
+          "title": "Tones and measure",
+          "html": "<div class=\"mp-stack\" data-gap=\"2\">\n  <p class=\"mp-text type-label\" data-tone=\"human\">Workshop</p>\n  <h3 class=\"type-h3\">AI literacy, from the classroom up</h3>\n  <p class=\"mp-text type-body-lg\" data-tone=\"muted\" data-measure>Six weeks for educators who want to use AI with intention — warm in how we teach, precise in how we build.</p>\n  <p class=\"mp-text type-small\" data-tone=\"subtle\">Updated 3 days ago · <span class=\"mp-text\" data-tone=\"digital\">v2.1</span></p>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "prose",
+      "name": "Prose",
+      "category": "Layout",
+      "status": "stable",
+      "summary": "One class that styles long-form HTML — articles, Markdown output, CMS content — with the full typographic system.",
+      "docs": "components/prose/README.md",
+      "css": "components/prose/prose.css",
+      "classes": {
+        "roots": [
+          "mp-prose"
+        ],
+        "parts": []
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-thick",
+        "--border-width-thin",
+        "--code-bg",
+        "--code-border",
+        "--code-text",
+        "--color-action-primary",
+        "--color-bg-tertiary",
+        "--color-text-accent",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-mono",
+        "--font-sans",
+        "--font-serif",
+        "--gradient-divider",
+        "--leading-body",
+        "--leading-body-lg",
+        "--leading-code",
+        "--leading-heading",
+        "--leading-small",
+        "--leading-subheading",
+        "--measure",
+        "--radius-lg",
+        "--radius-md",
+        "--radius-sm",
+        "--space-12",
+        "--space-2",
+        "--space-3",
+        "--space-5",
+        "--space-6",
+        "--text-body",
+        "--text-body-lg",
+        "--text-code",
+        "--text-h1",
+        "--text-h2",
+        "--text-h3",
+        "--text-h4",
+        "--text-small",
+        "--tracking-heading",
+        "--tracking-subheading",
+        "--weight-bold",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Article body",
+          "html": "<article class=\"mp-prose\">\n  <h2>Translation, not decoration</h2>\n  <p>Every element should answer one question: <strong>what does this translate?</strong> If it cannot, it does not belong. Read the <a href=\"#prose-notes\">notes</a> for the full argument.</p>\n  <ul>\n    <li>Warm surfaces for human moments</li>\n    <li>Cool precision for systems and code</li>\n  </ul>\n  <blockquote>Learning happens best when people build things that matter to them.</blockquote>\n  <p id=\"prose-notes\">Inline <code>code</code> keeps the builder register visible without taking over the paragraph.</p>\n</article>"
+        }
+      ]
+    },
+    {
+      "slug": "button",
+      "name": "Button",
+      "category": "Actions",
+      "status": "stable",
+      "summary": "Pill-shaped action trigger. Primary is terracotta (one per view), secondary is a teal outline, ghost is quiet, danger is destructive.",
+      "docs": "components/button/README.md",
+      "css": "components/button/button.css",
+      "classes": {
+        "roots": [
+          "mp-button"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-variant": [
+          "secondary",
+          "ghost",
+          "danger"
+        ],
+        "data-size": [
+          "sm",
+          "lg"
+        ],
+        "data-icon-only": "boolean",
+        "data-full-width": "boolean"
+      },
+      "states": [
+        ":active",
+        ":disabled",
+        ":focus-visible",
+        ":hover",
+        "[aria-busy=\"true\"]",
+        "[aria-disabled=\"true\"]",
+        "[aria-pressed=\"true\"]"
+      ],
+      "componentTokens": {
+        "--mp-button-bg": "var(--color-action-primary)",
+        "--mp-button-bg-hover": "var(--color-action-primary-hover)",
+        "--mp-button-fg": "var(--color-text-on-accent)",
+        "--mp-button-fg-hover": "var(--mp-button-fg)",
+        "--mp-button-border": "transparent",
+        "--mp-button-glow": "var(--shadow-glow-warm)",
+        "--mp-button-height": "var(--size-control-md)",
+        "--mp-button-padding": "var(--space-6)",
+        "--mp-button-font-size": "var(--text-body)"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--color-action-primary",
+        "--color-action-primary-hover",
+        "--color-action-secondary",
+        "--color-bg-hover",
+        "--color-bg-primary",
+        "--color-error",
+        "--color-error-hover",
+        "--color-text-on-accent",
+        "--color-text-primary",
+        "--duration-loop",
+        "--ease-in-out",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-label",
+        "--radius-full",
+        "--shadow-glow-teal",
+        "--shadow-glow-warm",
+        "--size-control-lg",
+        "--size-control-md",
+        "--size-control-sm",
+        "--space-2",
+        "--space-4",
+        "--space-6",
+        "--space-8",
+        "--state-disabled-opacity",
+        "--text-body",
+        "--text-body-lg",
+        "--text-small",
+        "--tracking-small",
+        "--transition-fast",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Variants",
+          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\">Let's co-create</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\">See the work</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Cancel</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"danger\">Delete draft</button>\n</div>"
+        },
+        {
+          "title": "Sizes",
+          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\" data-size=\"sm\">Small</button>\n  <button class=\"mp-button\" type=\"button\">Default</button>\n  <button class=\"mp-button\" type=\"button\" data-size=\"lg\">Large</button>\n</div>"
+        },
+        {
+          "title": "With icons",
+          "html": "<div class=\"mp-cluster\">\n  <a class=\"mp-button\" href=\"#components\" data-variant=\"secondary\">\n    Read the essay\n    <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg>\n  </a>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-icon-only aria-label=\"Add to reading list\">\n    <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg>\n  </button>\n</div>"
+        },
+        {
+          "title": "Full width",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">Builders' Lab</h3>\n    <p class=\"mp-card__body\">Two days, twelve seats, one deployed tool.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-full-width>Join the waitlist</button></div>\n  </article>\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">AI Literacy I</h3>\n    <p class=\"mp-card__body\">Six weeks, online, starting from your classroom.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-full-width>Read the syllabus</button></div>\n  </article>\n</div>"
+        },
+        {
+          "title": "States",
+          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\" disabled>Disabled</button>\n  <button class=\"mp-button\" type=\"button\" aria-busy=\"true\">Saving</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" aria-pressed=\"true\">Following</button>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "link",
+      "name": "Link",
+      "category": "Actions",
+      "status": "stable",
+      "summary": "Text links — inline, quiet and standalone call-to-action — plus the skip link every page should start with.",
+      "docs": "components/link/README.md",
+      "css": "components/link/link.css",
+      "classes": {
+        "roots": [
+          "mp-link",
+          "mp-skip-link"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-variant": [
+          "quiet",
+          "standalone"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-bg-inverse",
+        "--color-text-accent",
+        "--color-text-inverse",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--radius-md",
+        "--radius-sm",
+        "--size-touch-target",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-8",
+        "--text-small",
+        "--transition-fast",
+        "--weight-medium",
+        "--weight-semibold",
+        "--z-tooltip"
+      ],
+      "examples": [
+        {
+          "title": "Inline, quiet, standalone",
+          "html": "<div class=\"mp-stack\" data-gap=\"2\">\n  <p class=\"type-body\">Read the <a class=\"mp-link\" href=\"#components\">design principles</a> before proposing a new token.</p>\n  <p class=\"type-small\">Updated 3 days ago by <a class=\"mp-link\" data-variant=\"quiet\" href=\"#components\">Isaac</a></p>\n  <a class=\"mp-link\" data-variant=\"standalone\" href=\"#components\">Explore the case study</a>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "field",
+      "name": "Field",
+      "category": "Forms",
+      "status": "stable",
+      "summary": "Wraps one form control with its label, hint and error message; Fieldset groups related controls under a legend.",
+      "docs": "components/field/README.md",
+      "css": "components/field/field.css",
+      "classes": {
+        "roots": [
+          "mp-field",
+          "mp-fieldset"
+        ],
+        "parts": [
+          "mp-field__label",
+          "mp-fieldset__legend",
+          "mp-field__required",
+          "mp-field__optional",
+          "mp-field__hint",
+          "mp-field__error"
+        ]
+      },
+      "attributes": {},
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-error-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--font-sans",
+        "--leading-small",
+        "--space-1",
+        "--space-2",
+        "--text-small",
+        "--weight-medium",
+        "--weight-regular"
+      ],
+      "examples": [
+        {
+          "title": "Label, hint and required marker",
+          "html": "<div class=\"mp-field\">\n  <label class=\"mp-field__label\" for=\"field-email\">Email<span class=\"mp-field__required\" aria-hidden=\"true\">*</span></label>\n  <input class=\"mp-input\" id=\"field-email\" type=\"email\" autocomplete=\"email\" required aria-describedby=\"field-email-hint\">\n  <p class=\"mp-field__hint\" id=\"field-email-hint\">We'll only use it to send the workshop materials.</p>\n</div>"
+        },
+        {
+          "title": "Error state",
+          "html": "<div class=\"mp-field\">\n  <label class=\"mp-field__label\" for=\"field-handle\">GitHub handle<span class=\"mp-field__optional\">(optional)</span></label>\n  <input class=\"mp-input\" id=\"field-handle\" type=\"text\" value=\"id cesares\" aria-invalid=\"true\" aria-describedby=\"field-handle-error\">\n  <p class=\"mp-field__error\" id=\"field-handle-error\">Handles can't contain spaces — try \"idcesares\".</p>\n</div>"
+        },
+        {
+          "title": "Fieldset",
+          "html": "<fieldset class=\"mp-fieldset\">\n  <legend class=\"mp-fieldset__legend\">Preferred format</legend>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"field-format\" checked> In person</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"field-format\"> Online</label>\n</fieldset>"
+        }
+      ]
+    },
+    {
+      "slug": "input",
+      "name": "Input",
+      "category": "Forms",
+      "status": "stable",
+      "summary": "One class for text inputs, textareas and selects, with a ≥3:1 control boundary, visible focus ring, and invalid/disabled/read-only states.",
+      "docs": "components/input/README.md",
+      "css": "components/input/input.css",
+      "classes": {
+        "roots": [
+          "mp-input"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "lg"
+        ]
+      },
+      "states": [
+        ":disabled",
+        ":focus-visible",
+        ":hover",
+        "[aria-invalid=\"true\"]",
+        "[multiple]",
+        "[readonly]"
+      ],
+      "componentTokens": {
+        "--mp-input-border": "var(--color-border-input)",
+        "--mp-input-height": "var(--size-control-md)",
+        "--mp-input-padding": "var(--space-4)"
+      },
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-bg-primary",
+        "--color-bg-secondary",
+        "--color-border-input",
+        "--color-error",
+        "--color-focus",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-body",
+        "--leading-small",
+        "--radius-sm",
+        "--size-control-lg",
+        "--size-control-md",
+        "--size-control-sm",
+        "--size-touch-target",
+        "--space-10",
+        "--space-2",
+        "--space-24",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--state-disabled-opacity",
+        "--text-body",
+        "--text-body-lg",
+        "--text-small",
+        "--transition-fast"
+      ],
+      "examples": [
+        {
+          "title": "Text, select, textarea",
+          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-name\">Full name</label>\n    <input class=\"mp-input\" id=\"input-name\" type=\"text\" autocomplete=\"name\" placeholder=\"Isaac D'Césares\">\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-topic\">Topic</label>\n    <select class=\"mp-input\" id=\"input-topic\">\n      <option>AI in education</option>\n      <option>Learning design</option>\n      <option>Developer tooling</option>\n    </select>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-message\">Message</label>\n    <textarea class=\"mp-input\" id=\"input-message\" rows=\"3\">Vamos cocriar?</textarea>\n  </div>\n</div>"
+        },
+        {
+          "title": "Sizes and states",
+          "html": "<div class=\"mp-stack\" data-gap=\"3\">\n  <input class=\"mp-input\" type=\"text\" data-size=\"sm\" aria-label=\"Small input\" placeholder=\"Small\">\n  <input class=\"mp-input\" type=\"text\" data-size=\"lg\" aria-label=\"Large input\" placeholder=\"Large\">\n  <input class=\"mp-input\" type=\"text\" aria-label=\"Disabled input\" value=\"Disabled\" disabled>\n  <input class=\"mp-input\" type=\"text\" aria-label=\"Read-only input\" value=\"Read-only\" readonly>\n  <input class=\"mp-input\" type=\"text\" aria-label=\"Invalid input\" value=\"Invalid\" aria-invalid=\"true\">\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "combobox",
+      "name": "Combobox",
+      "category": "Forms",
+      "status": "beta",
+      "summary": "A text input that suggests options as you type — accent-insensitive filtering, arrow-key navigation and a result count for screen readers, via membrane.js.",
+      "docs": "components/combobox/README.md",
+      "css": "components/combobox/combobox.css",
+      "classes": {
+        "roots": [
+          "mp-combobox"
+        ],
+        "parts": [
+          "mp-combobox__input",
+          "mp-combobox__list",
+          "mp-combobox__empty",
+          "mp-combobox__option",
+          "mp-combobox__hint",
+          "mp-combobox__status"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":hover",
+        "[aria-disabled=\"true\"]",
+        "[aria-expanded=\"true\"]",
+        "[aria-selected=\"true\"]",
+        "[hidden]"
+      ],
+      "componentTokens": {
+        "--mp-combobox-max-height": "16rem"
+      },
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-medium",
+        "--border-width-thick",
+        "--color-bg-active",
+        "--color-bg-elevated",
+        "--color-bg-hover",
+        "--color-focus",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--duration-fast",
+        "--duration-normal",
+        "--elevation-overlay",
+        "--font-sans",
+        "--radius-md",
+        "--radius-sm",
+        "--size-control-sm",
+        "--size-touch-target",
+        "--space-1",
+        "--space-10",
+        "--space-2",
+        "--space-3",
+        "--space-5",
+        "--state-disabled-opacity",
+        "--text-small",
+        "--text-xs",
+        "--transition-enter",
+        "--transition-exit",
+        "--z-dropdown"
+      ],
+      "examples": [
+        {
+          "title": "Topic",
+          "html": "<div class=\"mp-field\">\n  <label class=\"mp-field__label\" for=\"combo-topic\">Workshop topic</label>\n  <div class=\"mp-combobox\">\n    <input class=\"mp-input mp-combobox__input\" id=\"combo-topic\" type=\"text\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"combo-topic-list\" aria-describedby=\"combo-topic-hint\" autocomplete=\"off\">\n    <ul class=\"mp-combobox__list\" id=\"combo-topic-list\" role=\"listbox\" aria-label=\"Topics\" hidden>\n      <li class=\"mp-combobox__option\" id=\"combo-topic-1\" role=\"option\" aria-selected=\"false\">AI literacy for educators</li>\n      <li class=\"mp-combobox__option\" id=\"combo-topic-2\" role=\"option\" aria-selected=\"false\">Assessment design</li>\n      <li class=\"mp-combobox__option\" id=\"combo-topic-3\" role=\"option\" aria-selected=\"false\">Educação e tecnologia</li>\n      <li class=\"mp-combobox__option\" id=\"combo-topic-4\" role=\"option\" aria-selected=\"false\">Learning analytics</li>\n      <li class=\"mp-combobox__option\" id=\"combo-topic-5\" role=\"option\" aria-selected=\"false\">Prompt craft</li>\n      <li class=\"mp-combobox__option\" id=\"combo-topic-6\" role=\"option\" aria-selected=\"false\">Transformação digital</li>\n    </ul>\n    <p class=\"mp-combobox__empty\" hidden>No topics match. You can still use what you typed.</p>\n    <p class=\"mp-combobox__status\" role=\"status\"></p>\n  </div>\n  <p class=\"mp-field__hint\" id=\"combo-topic-hint\">Start typing, or press ↓ to see every topic.</p>\n</div>"
+        },
+        {
+          "title": "With hints and an unavailable option",
+          "html": "<div class=\"mp-field\">\n  <label class=\"mp-field__label\" for=\"combo-cohort\">Cohort</label>\n  <div class=\"mp-combobox\">\n    <input class=\"mp-input mp-combobox__input\" id=\"combo-cohort\" type=\"text\" role=\"combobox\" aria-autocomplete=\"list\" aria-expanded=\"false\" aria-controls=\"combo-cohort-list\" autocomplete=\"off\" placeholder=\"Rio, São Paulo, online…\">\n    <ul class=\"mp-combobox__list\" id=\"combo-cohort-list\" role=\"listbox\" aria-label=\"Cohorts\" hidden>\n      <li class=\"mp-combobox__option\" id=\"combo-cohort-1\" role=\"option\" aria-selected=\"false\">Rio de Janeiro <span class=\"mp-combobox__hint\">March</span></li>\n      <li class=\"mp-combobox__option\" id=\"combo-cohort-2\" role=\"option\" aria-selected=\"false\">São Paulo <span class=\"mp-combobox__hint\">April</span></li>\n      <li class=\"mp-combobox__option\" id=\"combo-cohort-3\" role=\"option\" aria-selected=\"false\" aria-disabled=\"true\">Belo Horizonte <span class=\"mp-combobox__hint\">Full</span></li>\n      <li class=\"mp-combobox__option\" id=\"combo-cohort-4\" role=\"option\" aria-selected=\"false\" data-mp-value=\"Online\">Online, any time zone <span class=\"mp-combobox__hint\">Rolling</span></li>\n    </ul>\n    <p class=\"mp-combobox__empty\" hidden>No cohort matches.</p>\n    <p class=\"mp-combobox__status\" role=\"status\"></p>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "choice",
+      "name": "Choice",
+      "category": "Forms",
+      "status": "stable",
+      "summary": "Checkbox and radio controls drawn in the brand style, inside a clickable .mp-choice label row with optional description.",
+      "docs": "components/choice/README.md",
+      "css": "components/choice/choice.css",
+      "classes": {
+        "roots": [
+          "mp-choice",
+          "mp-checkbox",
+          "mp-radio"
+        ],
+        "parts": [
+          "mp-choice__description"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":checked",
+        ":disabled",
+        ":focus-visible",
+        ":hover",
+        ":indeterminate",
+        "[aria-invalid=\"true\"]"
+      ],
+      "componentTokens": {
+        "--mp-choice-size": "1.25rem"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--color-action-secondary",
+        "--color-bg-primary",
+        "--color-border-input",
+        "--color-error",
+        "--color-text-on-accent",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-body-lg",
+        "--leading-small",
+        "--radius-full",
+        "--radius-sm",
+        "--space-2",
+        "--space-3",
+        "--state-disabled-opacity",
+        "--text-body",
+        "--text-small",
+        "--transition-fast",
+        "--transition-state"
+      ],
+      "examples": [
+        {
+          "title": "Checkboxes",
+          "html": "<fieldset class=\"mp-fieldset\">\n  <legend class=\"mp-fieldset__legend\">Send me</legend>\n  <label class=\"mp-choice\"><input class=\"mp-checkbox\" type=\"checkbox\" checked> New essays</label>\n  <label class=\"mp-choice\">\n    <input class=\"mp-checkbox\" type=\"checkbox\">\n    <span>Workshop dates<span class=\"mp-choice__description\">About once a month, never more.</span></span>\n  </label>\n  <label class=\"mp-choice\"><input class=\"mp-checkbox\" type=\"checkbox\" disabled> Product updates (paused)</label>\n</fieldset>"
+        },
+        {
+          "title": "Radios",
+          "html": "<fieldset class=\"mp-fieldset\">\n  <legend class=\"mp-fieldset__legend\">Audience</legend>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\" checked> Educators</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\"> Builders</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\"> Researchers</label>\n</fieldset>"
+        }
+      ]
+    },
+    {
+      "slug": "switch",
+      "name": "Switch",
+      "category": "Forms",
+      "status": "stable",
+      "summary": "An on/off toggle for settings that take effect immediately — a native checkbox with role=\"switch\".",
+      "docs": "components/switch/README.md",
+      "css": "components/switch/switch.css",
+      "classes": {
+        "roots": [
+          "mp-switch",
+          "mp-choice"
+        ],
+        "parts": []
+      },
+      "attributes": {},
+      "states": [
+        ":checked",
+        ":dir(rtl)",
+        ":disabled",
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {
+        "--mp-switch-width": "2.75rem",
+        "--mp-switch-height": "1.5rem",
+        "--mp-switch-thumb": "1.125rem",
+        "--mp-switch-inset": "0.125rem",
+        "--mp-switch-travel": "calc(var(--mp-switch-width) - var(--mp-switch-thumb) - 2 * var(--border-width-medium) - 2 * var(--mp-switch-inset))"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--color-action-secondary",
+        "--color-bg-primary",
+        "--color-border-input",
+        "--color-text-on-accent",
+        "--color-text-secondary",
+        "--duration-normal",
+        "--ease-spring",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--radius-full",
+        "--shadow-sm",
+        "--transition-fast",
+        "--transition-state"
+      ],
+      "examples": [
+        {
+          "title": "Settings",
+          "html": "<div class=\"mp-stack\" data-gap=\"0\">\n  <label class=\"mp-choice\"><input class=\"mp-switch\" type=\"checkbox\" role=\"switch\" checked> Email me when a workshop opens</label>\n  <label class=\"mp-choice\"><input class=\"mp-switch\" type=\"checkbox\" role=\"switch\"> Show code samples in TypeScript</label>\n  <label class=\"mp-choice\"><input class=\"mp-switch\" type=\"checkbox\" role=\"switch\" disabled> Beta features (invite only)</label>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "card",
+      "name": "Card",
+      "category": "Content",
+      "status": "stable",
+      "summary": "A contained unit — overline, serif title, body, footer, optional media — with standard, featured and flat variants and an accessible whole-card link.",
+      "docs": "components/card/README.md",
+      "css": "components/card/card.css",
+      "classes": {
+        "roots": [
+          "mp-card"
+        ],
+        "parts": [
+          "mp-card__media",
+          "mp-card__overline",
+          "mp-card__title",
+          "mp-card__body",
+          "mp-card__footer",
+          "mp-card__link"
+        ]
+      },
+      "attributes": {
+        "data-tone": [
+          "digital"
+        ],
+        "data-variant": [
+          "featured",
+          "flat"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {
+        "--mp-card-padding": "var(--space-6)",
+        "--mp-card-bg": "var(--color-bg-secondary)",
+        "--mp-card-shadow": "var(--elevation-raised)",
+        "--mp-card-accent": "var(--color-action-primary)",
+        "--mp-card-overline": "var(--color-human-text)"
+      },
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-thick",
+        "--border-width-thin",
+        "--color-action-primary",
+        "--color-action-secondary",
+        "--color-bg-secondary",
+        "--color-bg-tertiary",
+        "--color-border-emphasis",
+        "--color-digital-text",
+        "--color-human-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--elevation-overlay",
+        "--elevation-raised",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--font-serif",
+        "--leading-body",
+        "--leading-label",
+        "--leading-small",
+        "--leading-subheading",
+        "--photo-warmth",
+        "--radius-lg",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--space-8",
+        "--text-body",
+        "--text-h3",
+        "--text-small",
+        "--text-xs",
+        "--tracking-label",
+        "--tracking-subheading",
+        "--transition-slow",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Standard, featured, digital",
+          "html": "<div class=\"mp-grid\">\n  <article class=\"mp-card\">\n    <p class=\"mp-card__overline\">Essay</p>\n    <h3 class=\"mp-card__title\">Learning platforms with institutional memory</h3>\n    <p class=\"mp-card__body\">What changes when a course remembers every cohort that took it.</p>\n    <div class=\"mp-card__footer\"><span>8 min read</span></div>\n  </article>\n  <article class=\"mp-card\" data-variant=\"featured\">\n    <p class=\"mp-card__overline\">Featured</p>\n    <h3 class=\"mp-card__title\">The membrane between people and systems</h3>\n    <p class=\"mp-card__body\">A field guide to designing where pedagogy meets code.</p>\n  </article>\n  <article class=\"mp-card\" data-variant=\"featured\" data-tone=\"digital\">\n    <p class=\"mp-card__overline\">Open source</p>\n    <h3 class=\"mp-card__title\">Token pipeline</h3>\n    <p class=\"mp-card__body\">DTCG JSON in, gate-checked OKLCH CSS out.</p>\n  </article>\n</div>"
+        },
+        {
+          "title": "With media",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\">\n  <article class=\"mp-card\">\n    <div class=\"mp-card__media\"><img src=\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 180'%3E%3Crect width='320' height='180' fill='%23F0EBE1'/%3E%3Cpath d='M-10 140C80 20 160 20 330 120' fill='none' stroke='%23B35530' stroke-width='3' stroke-linecap='round'/%3E%3Cpath d='M-10 50C90 170 200 170 330 40' fill='none' stroke='%231B756D' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='160' cy='86' r='6' fill='%23D49A3A'/%3E%3C/svg%3E\" alt=\"\"></div>\n    <p class=\"mp-card__overline\">Illustration</p>\n    <h3 class=\"mp-card__title\">Where the registers cross</h3>\n    <p class=\"mp-card__body\">Media sits full-bleed at the top and picks up the brand's warm photo filter.</p>\n  </article>\n</div>"
+        },
+        {
+          "title": "Clickable card",
+          "html": "<article class=\"mp-card\">\n  <p class=\"mp-card__overline\">Case study</p>\n  <h3 class=\"mp-card__title\"><a class=\"mp-card__link\" href=\"#components\">Teaching AI literacy at scale</a></h3>\n  <p class=\"mp-card__body\">How 3,000 educators co-designed their own assistant.</p>\n  <div class=\"mp-card__footer\">\n    <span class=\"mp-tag\" data-tone=\"human\">Education</span>\n    <span class=\"mp-tag\" data-tone=\"digital\">LLMs</span>\n  </div>\n</article>"
+        }
+      ]
+    },
+    {
+      "slug": "tag",
+      "name": "Tag",
+      "category": "Content",
+      "status": "stable",
+      "summary": "A pill that names a topic or category, colored by register — human (terracotta), digital (teal) or neutral. Can be a link, a toggle, or removable.",
+      "docs": "components/tag/README.md",
+      "css": "components/tag/tag.css",
+      "classes": {
+        "roots": [
+          "mp-tag"
+        ],
+        "parts": [
+          "mp-tag__remove"
+        ]
+      },
+      "attributes": {
+        "data-tone": [
+          "human",
+          "digital"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[aria-pressed=\"true\"]"
+      ],
+      "componentTokens": {
+        "--mp-tag-bg": "var(--color-bg-tertiary)",
+        "--mp-tag-fg": "var(--color-text-secondary)"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--border-width-thin",
+        "--color-bg-hover",
+        "--color-bg-tertiary",
+        "--color-digital-bg",
+        "--color-digital-text",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-text-secondary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-label",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--text-small",
+        "--text-xs",
+        "--transition-fast",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Tones",
+          "html": "<div class=\"mp-cluster\" data-gap=\"2\">\n  <span class=\"mp-tag\" data-tone=\"human\">Pedagogy</span>\n  <span class=\"mp-tag\" data-tone=\"human\">Community</span>\n  <span class=\"mp-tag\" data-tone=\"digital\">TypeScript</span>\n  <span class=\"mp-tag\" data-tone=\"digital\">Multi-agent systems</span>\n  <span class=\"mp-tag\">45 min</span>\n</div>"
+        },
+        {
+          "title": "Interactive",
+          "html": "<div class=\"mp-cluster\" data-gap=\"2\">\n  <a class=\"mp-tag\" data-tone=\"digital\" href=\"#components\">#design-tokens</a>\n  <button class=\"mp-tag\" type=\"button\" data-tone=\"human\" aria-pressed=\"true\">Educators</button>\n  <button class=\"mp-tag\" type=\"button\" aria-pressed=\"false\">Builders</button>\n  <span class=\"mp-tag\" data-tone=\"digital\">\n    OKLCH\n    <button class=\"mp-tag__remove\" type=\"button\" aria-label=\"Remove OKLCH\">×</button>\n  </span>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "badge",
+      "name": "Badge",
+      "category": "Content",
+      "status": "stable",
+      "summary": "A compact, uppercase, non-interactive label for status and metadata — info, success, warning, error, or a register tone.",
+      "docs": "components/badge/README.md",
+      "css": "components/badge/badge.css",
+      "classes": {
+        "roots": [
+          "mp-badge"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-tone": [
+          "info",
+          "success",
+          "warning",
+          "error",
+          "human",
+          "digital"
+        ],
+        "data-variant": [
+          "dot"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-badge-bg": "var(--color-bg-tertiary)",
+        "--mp-badge-fg": "var(--color-text-secondary)"
+      },
+      "tokensUsed": [
+        "--color-bg-tertiary",
+        "--color-digital-bg",
+        "--color-digital-text",
+        "--color-error-bg",
+        "--color-error-text",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-info-bg",
+        "--color-info-text",
+        "--color-success-bg",
+        "--color-success-text",
+        "--color-text-secondary",
+        "--color-warning-bg",
+        "--color-warning-text",
+        "--font-sans",
+        "--leading-label",
+        "--radius-full",
+        "--radius-sm",
+        "--space-1",
+        "--space-2",
+        "--text-xs",
+        "--tracking-label",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Tones",
+          "html": "<div class=\"mp-cluster\" data-gap=\"2\">\n  <span class=\"mp-badge\">Draft</span>\n  <span class=\"mp-badge\" data-tone=\"info\">Beta</span>\n  <span class=\"mp-badge\" data-tone=\"success\">Live</span>\n  <span class=\"mp-badge\" data-tone=\"warning\">Deprecated</span>\n  <span class=\"mp-badge\" data-tone=\"error\">Failing</span>\n  <span class=\"mp-badge\" data-tone=\"human\">Workshop</span>\n  <span class=\"mp-badge\" data-tone=\"digital\">API</span>\n</div>"
+        },
+        {
+          "title": "With status dot",
+          "html": "<div class=\"mp-cluster\" data-gap=\"2\">\n  <span class=\"mp-badge\" data-tone=\"success\" data-variant=\"dot\">Online</span>\n  <span class=\"mp-badge\" data-tone=\"warning\" data-variant=\"dot\">Degraded</span>\n  <span class=\"mp-badge\" data-tone=\"error\" data-variant=\"dot\">Offline</span>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "avatar",
+      "name": "Avatar",
+      "category": "Content",
+      "status": "stable",
+      "summary": "A person as a warm-filtered photo or Fraunces initials; digital tone uses monospace for bots and systems. Groups overlap.",
+      "docs": "components/avatar/README.md",
+      "css": "components/avatar/avatar.css",
+      "classes": {
+        "roots": [
+          "mp-avatar",
+          "mp-avatar-group"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "lg",
+          "xl"
+        ],
+        "data-tone": [
+          "digital"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-avatar-size": "2.5rem"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--color-bg-primary",
+        "--color-digital-bg",
+        "--color-digital-text",
+        "--color-human-bg",
+        "--color-human-text",
+        "--font-mono",
+        "--font-serif",
+        "--photo-warmth",
+        "--radius-full",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Sizes and tones",
+          "html": "<div class=\"mp-cluster\">\n  <span class=\"mp-avatar\" data-size=\"sm\" role=\"img\" aria-label=\"Ana Lima\">AL</span>\n  <span class=\"mp-avatar\" role=\"img\" aria-label=\"Isaac D'Césares\">ID</span>\n  <span class=\"mp-avatar\" data-size=\"lg\" role=\"img\" aria-label=\"Rafael Costa\">RC</span>\n  <span class=\"mp-avatar\" data-size=\"xl\" data-tone=\"digital\" role=\"img\" aria-label=\"Course assistant (AI)\">AI</span>\n</div>"
+        },
+        {
+          "title": "Group",
+          "html": "<div class=\"mp-avatar-group\" role=\"group\" aria-label=\"Facilitators\">\n  <span class=\"mp-avatar\" role=\"img\" aria-label=\"Ana Lima\">AL</span>\n  <span class=\"mp-avatar\" role=\"img\" aria-label=\"Bruno Reis\">BR</span>\n  <span class=\"mp-avatar\" data-tone=\"digital\" role=\"img\" aria-label=\"Course assistant (AI)\">AI</span>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "quote",
+      "name": "Quote",
+      "category": "Content",
+      "status": "stable",
+      "summary": "Blockquote with attribution in Fraunces italic; the pull variant renders the brand's signature phrases large and centered.",
+      "docs": "components/quote/README.md",
+      "css": "components/quote/quote.css",
+      "classes": {
+        "roots": [
+          "mp-quote"
+        ],
+        "parts": [
+          "mp-quote__text",
+          "mp-quote__source"
+        ]
+      },
+      "attributes": {
+        "data-variant": [
+          "pull"
+        ]
+      },
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-width-thick",
+        "--color-action-primary",
+        "--color-human-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--container-sm",
+        "--font-sans",
+        "--font-serif",
+        "--leading-body-lg",
+        "--leading-heading",
+        "--leading-small",
+        "--space-12",
+        "--space-3",
+        "--space-6",
+        "--space-8",
+        "--text-body-lg",
+        "--text-h2",
+        "--text-small",
+        "--tracking-heading",
+        "--weight-medium",
+        "--weight-regular",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Blockquote",
+          "html": "<figure class=\"mp-quote\">\n  <blockquote class=\"mp-quote__text\">\n    <p>The role of the teacher is to create the conditions for invention rather than provide ready-made knowledge.</p>\n  </blockquote>\n  <figcaption class=\"mp-quote__source\">— <cite>Seymour Papert</cite>, <i>Mindstorms</i></figcaption>\n</figure>"
+        },
+        {
+          "title": "Pull quote",
+          "html": "<figure class=\"mp-quote\" data-variant=\"pull\">\n  <blockquote class=\"mp-quote__text\"><p>Human intelligence, amplified with technological intentionality.</p></blockquote>\n</figure>"
+        }
+      ]
+    },
+    {
+      "slug": "code",
+      "name": "Code",
+      "category": "Content",
+      "status": "stable",
+      "summary": "Inline code, keyboard keys, and always-dark code blocks with gate-checked syntax colors that also style Prism and highlight.js output.",
+      "docs": "components/code/README.md",
+      "css": "components/code/code.css",
+      "classes": {
+        "roots": [
+          "mp-code",
+          "mp-kbd",
+          "mp-code-block",
+          "mp-syntax-keyword",
+          "mp-syntax-string",
+          "mp-syntax-function",
+          "mp-syntax-number",
+          "mp-syntax-comment"
+        ],
+        "parts": [
+          "mp-code-block__header"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-width-medium",
+        "--border-width-thin",
+        "--code-bg",
+        "--code-border",
+        "--code-comment",
+        "--code-function",
+        "--code-keyword",
+        "--code-number",
+        "--code-string",
+        "--code-text",
+        "--color-bg-secondary",
+        "--color-bg-tertiary",
+        "--color-border-emphasis",
+        "--color-text-primary",
+        "--elevation-raised",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-mono",
+        "--leading-code",
+        "--leading-small",
+        "--radius-md",
+        "--radius-sm",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--space-6",
+        "--text-code",
+        "--text-xs"
+      ],
+      "examples": [
+        {
+          "title": "Inline code and keys",
+          "html": "<p class=\"type-body\">Run <code class=\"mp-code\">npm run build:system</code>, then press <kbd class=\"mp-kbd\">Ctrl</kbd> + <kbd class=\"mp-kbd\">R</kbd> to reload.</p>"
+        },
+        {
+          "title": "Code block",
+          "html": "<figure class=\"mp-code-block\">\n  <figcaption class=\"mp-code-block__header\"><span>button.css</span><span>CSS</span></figcaption>\n  <pre tabindex=\"0\"><code><span class=\"mp-syntax-comment\">/* Consume the semantic tier */</span>\n<span class=\"mp-syntax-keyword\">.cta</span> {\n  <span class=\"mp-syntax-function\">background</span>: var(<span class=\"mp-syntax-string\">--color-action-primary</span>);\n  <span class=\"mp-syntax-function\">min-height</span>: <span class=\"mp-syntax-number\">44</span>px;\n}</code></pre>\n</figure>"
+        }
+      ]
+    },
+    {
+      "slug": "divider",
+      "name": "Divider",
+      "category": "Content",
+      "status": "stable",
+      "summary": "A fading hairline between sections — or a full-width solid rule inside panels. Prefer whitespace first.",
+      "docs": "components/divider/README.md",
+      "css": "components/divider/divider.css",
+      "classes": {
+        "roots": [
+          "mp-divider"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "lg"
+        ],
+        "data-variant": [
+          "full"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-divider-space": "var(--space-16)"
+      },
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-border-default",
+        "--container-sm",
+        "--gradient-divider",
+        "--space-16",
+        "--space-24",
+        "--space-8"
+      ],
+      "examples": [
+        {
+          "title": "Fading and full",
+          "html": "<div>\n  <p class=\"type-small\">Section one</p>\n  <hr class=\"mp-divider\" data-size=\"sm\">\n  <p class=\"type-small\">Section two</p>\n  <hr class=\"mp-divider\" data-variant=\"full\" data-size=\"sm\">\n  <p class=\"type-small\">Section three</p>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "table",
+      "name": "Table",
+      "category": "Content",
+      "status": "stable",
+      "summary": "Data tables with a quiet uppercase header, tabular numerals, end-aligned numbers, compact/striped/interactive variants and a scrolling frame.",
+      "docs": "components/table/README.md",
+      "css": "components/table/table.css",
+      "classes": {
+        "roots": [
+          "mp-table-wrap",
+          "mp-table"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-align": [
+          "end"
+        ],
+        "data-density": [
+          "compact"
+        ],
+        "data-variant": [
+          "striped",
+          "interactive"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {
+        "--mp-table-max-height": "none",
+        "--mp-table-cell-padding": "var(--space-3) var(--space-4)"
+      },
+      "tokensUsed": [
+        "--border-default",
+        "--color-bg-hover",
+        "--color-bg-secondary",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-small",
+        "--radius-md",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--text-small",
+        "--text-xs",
+        "--tracking-label",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Table in a scrolling frame",
+          "html": "<div class=\"mp-table-wrap\" tabindex=\"0\" role=\"region\" aria-labelledby=\"table-cohorts-caption\">\n  <table class=\"mp-table\" data-variant=\"interactive\">\n    <caption id=\"table-cohorts-caption\">Cohorts, 2026</caption>\n    <thead>\n      <tr><th scope=\"col\">Cohort</th><th scope=\"col\">Format</th><th scope=\"col\" data-align=\"end\">Learners</th><th scope=\"col\">Status</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">AI Literacy I</th><td>Online</td><td data-align=\"end\">1,240</td><td><span class=\"mp-badge\" data-tone=\"success\">Live</span></td></tr>\n      <tr><th scope=\"row\">Prompting for Teachers</th><td>Hybrid</td><td data-align=\"end\">318</td><td><span class=\"mp-badge\" data-tone=\"info\">Enrolling</span></td></tr>\n      <tr><th scope=\"row\">Builders' Lab</th><td>In person</td><td data-align=\"end\">42</td><td><span class=\"mp-badge\">Draft</span></td></tr>\n    </tbody>\n  </table>\n</div>"
+        },
+        {
+          "title": "Compact and striped",
+          "html": "<div class=\"mp-table-wrap\">\n  <table class=\"mp-table\" data-density=\"compact\" data-variant=\"striped\">\n    <caption class=\"mp-visually-hidden\">Contrast checks by surface</caption>\n    <thead>\n      <tr><th scope=\"col\">Token</th><th scope=\"col\">Surface</th><th scope=\"col\" data-align=\"end\">Ratio</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-human-text</code></th><td>Card</td><td data-align=\"end\">5.02</td></tr>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-error-text</code></th><td>Card</td><td data-align=\"end\">4.94</td></tr>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-warning-text</code></th><td>Card</td><td data-align=\"end\">5.15</td></tr>\n      <tr><th scope=\"row\"><code class=\"mp-code\">--color-info-text</code></th><td>Page</td><td data-align=\"end\">7.03</td></tr>\n    </tbody>\n  </table>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "stat",
+      "name": "Stat",
+      "category": "Content",
+      "status": "stable",
+      "summary": "A headline metric — label, Fraunces numeral, and a delta whose arrow (trend) and color (sentiment) are set independently.",
+      "docs": "components/stat/README.md",
+      "css": "components/stat/stat.css",
+      "classes": {
+        "roots": [
+          "mp-stat"
+        ],
+        "parts": [
+          "mp-stat__label",
+          "mp-stat__value",
+          "mp-stat__delta"
+        ]
+      },
+      "attributes": {
+        "data-trend": [
+          "up",
+          "down"
+        ],
+        "data-sentiment": [
+          "positive",
+          "negative"
+        ]
+      },
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-error-text",
+        "--color-success-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--font-sans",
+        "--font-serif",
+        "--leading-display",
+        "--leading-small",
+        "--space-1",
+        "--text-h1",
+        "--text-small",
+        "--tracking-display",
+        "--weight-bold",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Stat row",
+          "html": "<div class=\"mp-grid\" data-min=\"sm\">\n  <div class=\"mp-stat\">\n    <p class=\"mp-stat__label\">Educators trained</p>\n    <p class=\"mp-stat__value\">3,214</p>\n    <p class=\"mp-stat__delta\" data-trend=\"up\" data-sentiment=\"positive\">18% vs. last year</p>\n  </div>\n  <div class=\"mp-stat\">\n    <p class=\"mp-stat__label\">Drop-out rate</p>\n    <p class=\"mp-stat__value\">6.2%</p>\n    <p class=\"mp-stat__delta\" data-trend=\"down\" data-sentiment=\"positive\">2.1 pts since redesign</p>\n  </div>\n  <div class=\"mp-stat\">\n    <p class=\"mp-stat__label\">Median session</p>\n    <p class=\"mp-stat__value\">41 min</p>\n    <p class=\"mp-stat__delta\" data-trend=\"down\" data-sentiment=\"negative\">4 min this term</p>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "chart",
+      "name": "Chart",
+      "category": "Content",
+      "status": "beta",
+      "summary": "A figure shell (title, legend, caption) and a CSS bar list — single, multi-series or stacked — colored by the validated --color-chart-* palette, with every value printed.",
+      "docs": "components/chart/README.md",
+      "css": "components/chart/chart.css",
+      "classes": {
+        "roots": [
+          "mp-chart"
+        ],
+        "parts": [
+          "mp-chart__header",
+          "mp-chart__title",
+          "mp-chart__legend",
+          "mp-chart__key",
+          "mp-chart__bars",
+          "mp-chart__row",
+          "mp-chart__label",
+          "mp-chart__track",
+          "mp-chart__fill",
+          "mp-chart__value",
+          "mp-chart__caption"
+        ]
+      },
+      "attributes": {
+        "data-series": [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5",
+          "6"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-chart-bar": "0.75rem",
+        "--mp-chart-color": "var(--color-chart-1)",
+        "--mp-chart-value": "0%"
+      },
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-bg-hover",
+        "--color-chart-1",
+        "--color-chart-2",
+        "--color-chart-3",
+        "--color-chart-4",
+        "--color-chart-5",
+        "--color-chart-6",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--font-sans",
+        "--leading-small",
+        "--radius-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--text-body",
+        "--text-small",
+        "--text-xs",
+        "--weight-medium",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Single series",
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-completion-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-completion-title\">Course completion by cohort</p>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">AI Literacy I</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 82%\"></span></span><span class=\"mp-chart__value\">82%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Prompting for Teachers</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 64%\"></span></span><span class=\"mp-chart__value\">64%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Builders' Lab</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 47%\"></span></span><span class=\"mp-chart__value\">47%</span></li>\n  </ul>\n  <figcaption class=\"mp-chart__caption\">Learners who finished every module, 2026.</figcaption>\n</figure>"
+        },
+        {
+          "title": "Stacked, with legend",
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-format-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-format-title\">Enrollment by format</p>\n    <ul class=\"mp-chart__legend\">\n      <li class=\"mp-chart__key\" data-series=\"1\">Online</li>\n      <li class=\"mp-chart__key\" data-series=\"2\">Hybrid</li>\n      <li class=\"mp-chart__key\" data-series=\"3\">In person</li>\n    </ul>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2024</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 40%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 25%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 35%\"></span></span><span class=\"mp-chart__value\">40 · 25 · 35%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2025</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 52%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 28%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 20%\"></span></span><span class=\"mp-chart__value\">52 · 28 · 20%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2026</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 61%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 27%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 12%\"></span></span><span class=\"mp-chart__value\">61 · 27 · 12%</span></li>\n  </ul>\n</figure>"
+        },
+        {
+          "title": "All six series",
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-palette-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-palette-title\">Learners by region</p>\n    <ul class=\"mp-chart__legend\">\n      <li class=\"mp-chart__key\" data-series=\"1\">Sudeste</li>\n      <li class=\"mp-chart__key\" data-series=\"2\">Nordeste</li>\n      <li class=\"mp-chart__key\" data-series=\"3\">Sul</li>\n      <li class=\"mp-chart__key\" data-series=\"4\">Norte</li>\n      <li class=\"mp-chart__key\" data-series=\"5\">Centro-Oeste</li>\n      <li class=\"mp-chart__key\" data-series=\"6\">Exterior</li>\n    </ul>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">2026</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" data-series=\"1\" style=\"--mp-chart-value: 38%\"></span><span class=\"mp-chart__fill\" data-series=\"2\" style=\"--mp-chart-value: 22%\"></span><span class=\"mp-chart__fill\" data-series=\"3\" style=\"--mp-chart-value: 16%\"></span><span class=\"mp-chart__fill\" data-series=\"4\" style=\"--mp-chart-value: 9%\"></span><span class=\"mp-chart__fill\" data-series=\"5\" style=\"--mp-chart-value: 8%\"></span><span class=\"mp-chart__fill\" data-series=\"6\" style=\"--mp-chart-value: 7%\"></span></span><span class=\"mp-chart__value\">100%</span></li>\n  </ul>\n  <figcaption class=\"mp-chart__caption\">Shares of 3,214 learners. Legend order matches bar order.</figcaption>\n</figure>"
+        }
+      ]
+    },
+    {
+      "slug": "icon",
+      "name": "Icon",
+      "category": "Content",
+      "status": "stable",
+      "summary": "Sizes and colors an inline line-icon SVG from the --size-icon-* tokens (20/24/32/48px) and the register/status text colors.",
+      "docs": "components/icon/README.md",
+      "css": "components/icon/icon.css",
+      "classes": {
+        "roots": [
+          "mp-icon"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "lg",
+          "xl"
+        ],
+        "data-tone": [
+          "human",
+          "digital",
+          "success",
+          "warning",
+          "error"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-icon-size": "var(--size-icon-md)"
+      },
+      "tokensUsed": [
+        "--color-digital-text",
+        "--color-error-text",
+        "--color-human-text",
+        "--color-success-text",
+        "--color-warning-text",
+        "--size-icon-lg",
+        "--size-icon-md",
+        "--size-icon-sm",
+        "--size-icon-xl"
+      ],
+      "examples": [
+        {
+          "title": "Sizes and tones",
+          "html": "<div class=\"mp-cluster\" data-gap=\"5\">\n  <svg class=\"mp-icon\" data-size=\"sm\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n  <svg class=\"mp-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/></svg>\n  <svg class=\"mp-icon\" data-size=\"lg\" data-tone=\"human\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M22 10v6M2 10l10-5 10 5-10 5z\"/><path d=\"M6 12v5c3 3 9 3 12 0v-5\"/></svg>\n  <svg class=\"mp-icon\" data-size=\"xl\" data-tone=\"digital\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m18 16 4-4-4-4M6 8l-4 4 4 4M14.5 4l-5 16\"/></svg>\n  <svg class=\"mp-icon\" data-tone=\"success\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/></svg>\n  <svg class=\"mp-icon\" data-tone=\"warning\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4M12 17h.01\"/></svg>\n  <svg class=\"mp-icon\" data-tone=\"error\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6M9 9l6 6\"/></svg>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "alert",
+      "name": "Alert",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "An inline message about state — info, success, warning, error — or a human-register editorial note, with optional icon and actions.",
+      "docs": "components/alert/README.md",
+      "css": "components/alert/alert.css",
+      "classes": {
+        "roots": [
+          "mp-alert"
+        ],
+        "parts": [
+          "mp-alert__icon",
+          "mp-alert__content",
+          "mp-alert__title",
+          "mp-alert__actions"
+        ]
+      },
+      "attributes": {
+        "data-tone": [
+          "success",
+          "warning",
+          "error",
+          "human"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-alert-accent": "var(--color-info)",
+        "--mp-alert-bg": "var(--color-info-bg)",
+        "--mp-alert-title": "var(--color-info-text)"
+      },
+      "tokensUsed": [
+        "--border-width-thick",
+        "--border-width-thin",
+        "--color-action-primary",
+        "--color-error",
+        "--color-error-bg",
+        "--color-error-text",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-info",
+        "--color-info-bg",
+        "--color-info-text",
+        "--color-success",
+        "--color-success-bg",
+        "--color-success-text",
+        "--color-text-primary",
+        "--color-warning",
+        "--color-warning-bg",
+        "--color-warning-text",
+        "--font-sans",
+        "--leading-small",
+        "--radius-md",
+        "--size-icon-sm",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--text-body",
+        "--text-small",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Tones",
+          "html": "<div class=\"mp-stack\" data-gap=\"3\">\n  <div class=\"mp-alert\">\n    <svg class=\"mp-alert__icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 11v5M12 8h.01\"/></svg>\n    <div class=\"mp-alert__content\">\n      <p class=\"mp-alert__title\">Tokens are generated</p>\n      <p>Edit <code class=\"mp-code\">membrane.tokens.json</code>, never the CSS.</p>\n    </div>\n  </div>\n  <div class=\"mp-alert\" data-tone=\"success\">\n    <div class=\"mp-alert__content\">\n      <p class=\"mp-alert__title\">Every contrast check passes</p>\n      <p>Light and dark mode, including hover states.</p>\n    </div>\n  </div>\n  <div class=\"mp-alert\" data-tone=\"warning\">\n    <div class=\"mp-alert__content\">\n      <p class=\"mp-alert__title\">5 tokens are deprecated</p>\n      <p>They keep working until v3.0.0.</p>\n    </div>\n  </div>\n  <div class=\"mp-alert\" data-tone=\"error\" role=\"alert\">\n    <div class=\"mp-alert__content\">\n      <p class=\"mp-alert__title\">We couldn't save your draft</p>\n      <p>Your connection dropped. Nothing was lost — try again in a moment.</p>\n      <div class=\"mp-alert__actions\"><button class=\"mp-button\" type=\"button\" data-size=\"sm\" data-variant=\"secondary\">Try again</button></div>\n    </div>\n  </div>\n  <div class=\"mp-alert\" data-tone=\"human\">\n    <div class=\"mp-alert__content\">\n      <p class=\"mp-alert__title\">A note from the facilitator</p>\n      <p>Bring one real problem from your classroom. We'll build around it.</p>\n    </div>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "progress",
+      "name": "Progress",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "Native <progress> bars (determinate or indeterminate, three sizes, register tones) and a spinner for short unmeasured waits.",
+      "docs": "components/progress/README.md",
+      "css": "components/progress/progress.css",
+      "classes": {
+        "roots": [
+          "mp-progress",
+          "mp-spinner"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-tone": [
+          "human",
+          "success"
+        ],
+        "data-size": [
+          "sm",
+          "lg"
+        ]
+      },
+      "states": [
+        ":indeterminate"
+      ],
+      "componentTokens": {
+        "--mp-progress-height": "0.5rem",
+        "--mp-progress-track": "var(--color-bg-tertiary)",
+        "--mp-progress-value": "var(--color-action-secondary)",
+        "--mp-spinner-size": "1.25rem"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--color-action-primary",
+        "--color-action-secondary",
+        "--color-bg-tertiary",
+        "--color-success",
+        "--duration-loop",
+        "--ease-in-out",
+        "--radius-full",
+        "--transition-default"
+      ],
+      "examples": [
+        {
+          "title": "Determinate and indeterminate",
+          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-course\">Course completion — 64%</label>\n    <progress class=\"mp-progress\" id=\"progress-course\" value=\"64\" max=\"100\" data-tone=\"human\">64%</progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-upload\">Uploading materials</label>\n    <progress class=\"mp-progress\" id=\"progress-upload\" data-size=\"sm\"></progress>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"progress-gate\">Modules completed — 8 of 8</label>\n    <progress class=\"mp-progress\" id=\"progress-gate\" value=\"8\" max=\"8\" data-tone=\"success\" data-size=\"lg\">8 of 8</progress>\n  </div>\n</div>"
+        },
+        {
+          "title": "Spinner",
+          "html": "<div class=\"mp-cluster\">\n  <span class=\"mp-spinner\" aria-hidden=\"true\"></span>\n  <span class=\"type-small\" role=\"status\">Generating feedback…</span>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "skeleton",
+      "name": "Skeleton",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "Placeholder text lines, circles and blocks that hold a layout's shape while content loads; they pulse in place under reduced motion.",
+      "docs": "components/skeleton/README.md",
+      "css": "components/skeleton/skeleton.css",
+      "classes": {
+        "roots": [
+          "mp-skeleton"
+        ],
+        "parts": []
+      },
+      "attributes": {
+        "data-variant": [
+          "text",
+          "circle",
+          "block"
+        ]
+      },
+      "states": [],
+      "componentTokens": {
+        "--mp-skeleton-width": "100%",
+        "--mp-skeleton-height": "1rem"
+      },
+      "tokensUsed": [
+        "--color-bg-active",
+        "--color-bg-hover",
+        "--duration-loop",
+        "--ease-in-out",
+        "--radius-full",
+        "--radius-lg",
+        "--radius-sm",
+        "--space-10",
+        "--space-32"
+      ],
+      "examples": [
+        {
+          "title": "Loading card",
+          "html": "<div class=\"mp-card\" aria-busy=\"true\" aria-describedby=\"skeleton-status\">\n  <span class=\"mp-visually-hidden\" id=\"skeleton-status\" role=\"status\">Loading workshop…</span>\n  <div class=\"mp-skeleton\" data-variant=\"block\" aria-hidden=\"true\"></div>\n  <div aria-hidden=\"true\">\n    <div class=\"mp-skeleton\" data-variant=\"text\" style=\"--mp-skeleton-width: 40%\"></div>\n    <div class=\"mp-skeleton\" data-variant=\"text\"></div>\n    <div class=\"mp-skeleton\" data-variant=\"text\"></div>\n  </div>\n  <div class=\"mp-cluster\" aria-hidden=\"true\">\n    <div class=\"mp-skeleton\" data-variant=\"circle\"></div>\n    <div class=\"mp-skeleton\" data-variant=\"text\" style=\"--mp-skeleton-width: 8rem\"></div>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "empty-state",
+      "name": "Empty state",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "What a view shows before it has content — icon on a warm wash, Fraunces title, one sentence of guidance and the next action.",
+      "docs": "components/empty-state/README.md",
+      "css": "components/empty-state/empty-state.css",
+      "classes": {
+        "roots": [
+          "mp-empty"
+        ],
+        "parts": [
+          "mp-empty__media",
+          "mp-empty__title",
+          "mp-empty__body",
+          "mp-empty__actions"
+        ]
+      },
+      "attributes": {
+        "data-variant": [
+          "bordered"
+        ]
+      },
+      "states": [],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-width-thin",
+        "--color-border-emphasis",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--container-sm",
+        "--font-sans",
+        "--font-serif",
+        "--leading-body",
+        "--leading-subheading",
+        "--radius-full",
+        "--radius-lg",
+        "--space-10",
+        "--space-2",
+        "--space-20",
+        "--space-3",
+        "--space-6",
+        "--text-h3",
+        "--tracking-subheading",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "First use",
+          "html": "<div class=\"mp-empty\">\n  <div class=\"mp-empty__media\">\n    <svg class=\"mp-icon\" data-size=\"xl\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><path d=\"M12 7v14M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z\"/></svg>\n  </div>\n  <h3 class=\"mp-empty__title\">Your reading list starts here</h3>\n  <p class=\"mp-empty__body\">Save essays and case studies while you browse — they'll wait for you here, in the order you saved them.</p>\n  <div class=\"mp-empty__actions\">\n    <a class=\"mp-button\" href=\"#components\">Browse essays</a>\n  </div>\n</div>"
+        },
+        {
+          "title": "No results (bordered)",
+          "html": "<div class=\"mp-empty\" data-variant=\"bordered\">\n  <h3 class=\"mp-empty__title\">No workshops match \"robotics\"</h3>\n  <p class=\"mp-empty__body\">Try a broader word, or clear the filters to see everything that's open this term.</p>\n  <div class=\"mp-empty__actions\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\">Clear filters</button>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Suggest a topic</button>\n  </div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "toast",
+      "name": "Toast",
+      "category": "Feedback",
+      "status": "beta",
+      "summary": "A brief, polite confirmation of something the person just did — one live region per page, MembranePalette.toast() or a data-mp-toast button, auto-dismissed unless it's an error.",
+      "docs": "components/toast/README.md",
+      "css": "components/toast/toast.css",
+      "classes": {
+        "roots": [
+          "mp-toast-region",
+          "mp-toast"
+        ],
+        "parts": [
+          "mp-toast__content",
+          "mp-toast__title",
+          "mp-toast__close"
+        ]
+      },
+      "attributes": {
+        "data-leaving": "boolean",
+        "data-tone": [
+          "success",
+          "warning",
+          "error"
+        ],
+        "data-placement": [
+          "inline"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {
+        "--mp-toast-accent": "var(--color-info)",
+        "--mp-toast-title": "var(--color-text-primary)"
+      },
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-thick",
+        "--color-bg-elevated",
+        "--color-bg-hover",
+        "--color-error",
+        "--color-error-text",
+        "--color-info",
+        "--color-success",
+        "--color-success-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-warning",
+        "--color-warning-text",
+        "--elevation-overlay",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-small",
+        "--radius-full",
+        "--radius-md",
+        "--size-control-sm",
+        "--size-touch-target",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--text-body",
+        "--text-small",
+        "--transition-enter",
+        "--transition-exit",
+        "--weight-semibold",
+        "--z-toast"
+      ],
+      "examples": [
+        {
+          "title": "Tones",
+          "html": "<div class=\"mp-toast-region\" data-placement=\"inline\" aria-live=\"polite\">\n  <div class=\"mp-toast\" data-tone=\"success\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Draft saved</p><p>Last edit 2 minutes ago.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n  <div class=\"mp-toast\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Workshop shared</p><p>Ana can now edit the syllabus.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n  <div class=\"mp-toast\" data-tone=\"warning\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Working offline</p><p>Changes will sync when you reconnect.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n  <div class=\"mp-toast\" data-tone=\"error\" role=\"alert\">\n    <div class=\"mp-toast__content\"><p class=\"mp-toast__title\">Couldn't publish</p><p>The cohort is full. Nothing was lost.</p></div>\n    <button class=\"mp-toast__close\" type=\"button\" aria-label=\"Dismiss\">×</button>\n  </div>\n</div>"
+        },
+        {
+          "title": "Triggered by a button",
+          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-mp-toast=\"Link copied\" data-mp-toast-body=\"Paste it anywhere.\" data-mp-toast-tone=\"success\">Copy link</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-mp-toast=\"Couldn't reach the server\" data-mp-toast-tone=\"error\">Simulate an error</button>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "tooltip",
+      "name": "Tooltip",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissible with membrane.js.",
+      "docs": "components/tooltip/README.md",
+      "css": "components/tooltip/tooltip.css",
+      "classes": {
+        "roots": [
+          "mp-tooltip"
+        ],
+        "parts": [
+          "mp-tooltip__content"
+        ]
+      },
+      "attributes": {
+        "data-dismissed": "boolean",
+        "data-placement": [
+          "bottom"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover"
+      ],
+      "componentTokens": {
+        "--mp-tooltip-gap": "var(--space-2)"
+      },
+      "tokensUsed": [
+        "--color-bg-inverse",
+        "--color-text-inverse",
+        "--duration-fast",
+        "--elevation-overlay",
+        "--font-sans",
+        "--leading-small",
+        "--radius-sm",
+        "--space-1",
+        "--space-2",
+        "--text-xs",
+        "--transition-enter",
+        "--transition-exit",
+        "--weight-medium",
+        "--z-tooltip"
+      ],
+      "examples": [
+        {
+          "title": "Top and bottom",
+          "html": "<div class=\"mp-cluster\" data-gap=\"6\">\n  <span class=\"mp-tooltip\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-icon-only aria-label=\"Copy token\" aria-describedby=\"tooltip-copy\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"8\" y=\"8\" width=\"12\" height=\"12\" rx=\"2\"/><path d=\"M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2\"/></svg>\n    </button>\n    <span class=\"mp-tooltip__content\" role=\"tooltip\" id=\"tooltip-copy\">Copies the CSS variable name</span>\n  </span>\n  <span class=\"mp-tooltip\" data-placement=\"bottom\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-size=\"sm\" aria-describedby=\"tooltip-gate\">Contrast gate</button>\n    <span class=\"mp-tooltip__content\" role=\"tooltip\" id=\"tooltip-gate\">Runs on every build</span>\n  </span>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "dialog",
+      "name": "Dialog",
+      "category": "Feedback",
+      "status": "stable",
+      "summary": "A modal built on native <dialog> — focus trapping, Escape and the backdrop come from the browser; header, body and footer slots.",
+      "docs": "components/dialog/README.md",
+      "css": "components/dialog/dialog.css",
+      "classes": {
+        "roots": [
+          "mp-dialog"
+        ],
+        "parts": [
+          "mp-dialog__header",
+          "mp-dialog__title",
+          "mp-dialog__body",
+          "mp-dialog__footer"
+        ]
+      },
+      "attributes": {
+        "data-size": [
+          "sm",
+          "lg"
+        ]
+      },
+      "states": [
+        ":modal",
+        "[open]"
+      ],
+      "componentTokens": {
+        "--mp-dialog-width": "35rem"
+      },
+      "tokensUsed": [
+        "--blur-backdrop",
+        "--border-default",
+        "--color-bg-elevated",
+        "--color-overlay-bg",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--duration-fast",
+        "--duration-normal",
+        "--elevation-modal",
+        "--font-sans",
+        "--font-serif",
+        "--leading-body",
+        "--leading-subheading",
+        "--radius-xl",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--text-body",
+        "--text-h3",
+        "--tracking-subheading",
+        "--transition-enter",
+        "--transition-exit",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Confirmation dialog",
+          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" commandfor=\"dialog-publish\" command=\"show-modal\">Publish workshop…</button>\n\n<dialog class=\"mp-dialog\" id=\"dialog-publish\" data-size=\"sm\" aria-labelledby=\"dialog-publish-title\" closedby=\"any\">\n  <div class=\"mp-dialog__header\">\n    <h2 class=\"mp-dialog__title\" id=\"dialog-publish-title\">Publish this workshop?</h2>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-size=\"sm\" data-icon-only aria-label=\"Close\" commandfor=\"dialog-publish\" command=\"close\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg>\n    </button>\n  </div>\n  <div class=\"mp-dialog__body\">\n    <p>It becomes visible to all 3,214 educators in the community, and they'll get an email invitation.</p>\n  </div>\n  <div class=\"mp-dialog__footer\">\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" commandfor=\"dialog-publish\" command=\"close\">Not yet</button>\n    <button class=\"mp-button\" type=\"button\" commandfor=\"dialog-publish\" command=\"close\">Publish</button>\n  </div>\n</dialog>"
+        },
+        {
+          "title": "Large reading dialog",
+          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" commandfor=\"dialog-syllabus\" command=\"show-modal\">Read the syllabus</button>\n\n<dialog class=\"mp-dialog\" id=\"dialog-syllabus\" data-size=\"lg\" aria-labelledby=\"dialog-syllabus-title\" closedby=\"any\">\n  <div class=\"mp-dialog__header\">\n    <h2 class=\"mp-dialog__title\" id=\"dialog-syllabus-title\">AI Literacy I — syllabus</h2>\n    <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\" data-size=\"sm\" data-icon-only aria-label=\"Close\" commandfor=\"dialog-syllabus\" command=\"close\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" aria-hidden=\"true\"><path d=\"M6 6l12 12M18 6L6 18\"/></svg>\n    </button>\n  </div>\n  <div class=\"mp-dialog__body mp-prose\">\n    <h3>Week 1 — Start from the classroom</h3>\n    <p>Bring one real problem. We map it before we touch a tool.</p>\n    <h3>Week 2 — How models actually work</h3>\n    <p>Tokens, context, and why a confident answer can still be wrong.</p>\n  </div>\n  <div class=\"mp-dialog__footer\">\n    <button class=\"mp-button\" type=\"button\" commandfor=\"dialog-syllabus\" command=\"close\">Done</button>\n  </div>\n</dialog>"
+        }
+      ]
+    },
+    {
+      "slug": "navbar",
+      "name": "Navbar",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "Sticky translucent site header with brand, uppercase links (aria-current marks the active page) and an actions slot; collapses by its own width.",
+      "docs": "components/navbar/README.md",
+      "css": "components/navbar/navbar.css",
+      "classes": {
+        "roots": [
+          "mp-navbar"
+        ],
+        "parts": [
+          "mp-navbar__inner",
+          "mp-navbar__brand",
+          "mp-navbar__nav",
+          "mp-navbar__links",
+          "mp-navbar__link",
+          "mp-navbar__actions"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[aria-current=\"page\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--blur-backdrop",
+        "--border-default",
+        "--border-width-medium",
+        "--color-action-primary",
+        "--color-bg-hover",
+        "--color-bg-primary",
+        "--color-human-text",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--container-xl",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--font-serif",
+        "--radius-full",
+        "--radius-sm",
+        "--site-margin",
+        "--size-nav",
+        "--size-nav-mobile",
+        "--size-touch-target",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-6",
+        "--space-8",
+        "--text-h4",
+        "--text-xs",
+        "--tracking-heading",
+        "--tracking-label",
+        "--transition-fast",
+        "--weight-bold",
+        "--weight-semibold",
+        "--z-nav"
+      ],
+      "examples": [
+        {
+          "title": "Site header",
+          "html": "<header class=\"mp-navbar\">\n  <div class=\"mp-navbar__inner\">\n    <a class=\"mp-navbar__brand\" href=\"#components\">D'Césares</a>\n    <nav class=\"mp-navbar__nav\" aria-label=\"Primary\">\n      <ul class=\"mp-navbar__links\">\n        <li><a class=\"mp-navbar__link\" href=\"#components\" aria-current=\"page\">Work</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">Writing</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">Workshops</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">About</a></li>\n      </ul>\n    </nav>\n    <div class=\"mp-navbar__actions\">\n      <a class=\"mp-button\" href=\"#components\" data-size=\"sm\">Let's co-create</a>\n    </div>\n  </div>\n</header>"
+        }
+      ]
+    },
+    {
+      "slug": "breadcrumb",
+      "name": "Breadcrumb",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "The path from site root to the current page, as an ordered list with decorative separators and aria-current on the last item.",
+      "docs": "components/breadcrumb/README.md",
+      "css": "components/breadcrumb/breadcrumb.css",
+      "classes": {
+        "roots": [
+          "mp-breadcrumb"
+        ],
+        "parts": [
+          "mp-breadcrumb__list",
+          "mp-breadcrumb__item",
+          "mp-breadcrumb__link"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[aria-current=\"page\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--leading-small",
+        "--radius-sm",
+        "--space-2",
+        "--text-small",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Path",
+          "html": "<nav class=\"mp-breadcrumb\" aria-label=\"Breadcrumb\">\n  <ol class=\"mp-breadcrumb__list\">\n    <li class=\"mp-breadcrumb__item\"><a class=\"mp-breadcrumb__link\" href=\"#components\">Home</a></li>\n    <li class=\"mp-breadcrumb__item\"><a class=\"mp-breadcrumb__link\" href=\"#components\">Workshops</a></li>\n    <li class=\"mp-breadcrumb__item\"><a class=\"mp-breadcrumb__link\" href=\"#components\" aria-current=\"page\">AI Literacy I</a></li>\n  </ol>\n</nav>"
+        }
+      ]
+    },
+    {
+      "slug": "tabs",
+      "name": "Tabs",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "WAI-ARIA tabs — underline or pill (segmented) style; aria-selected drives the visuals, membrane.js adds click and arrow-key behavior.",
+      "docs": "components/tabs/README.md",
+      "css": "components/tabs/tabs.css",
+      "classes": {
+        "roots": [
+          "mp-tabs"
+        ],
+        "parts": [
+          "mp-tabs__list",
+          "mp-tabs__tab",
+          "mp-tabs__panel"
+        ]
+      },
+      "attributes": {
+        "data-variant": [
+          "pill"
+        ]
+      },
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[aria-selected=\"true\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-medium",
+        "--border-width-thin",
+        "--color-action-primary",
+        "--color-bg-hover",
+        "--color-bg-primary",
+        "--color-bg-tertiary",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--elevation-raised",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--radius-full",
+        "--radius-sm",
+        "--size-control-md",
+        "--size-control-sm",
+        "--size-touch-target",
+        "--space-1",
+        "--space-2",
+        "--space-4",
+        "--text-small",
+        "--transition-fast",
+        "--transition-state",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Underline tabs",
+          "html": "<div class=\"mp-tabs\">\n  <div class=\"mp-tabs__list\" role=\"tablist\" aria-label=\"Install options\">\n    <button class=\"mp-tabs__tab\" type=\"button\" role=\"tab\" id=\"tabs-cdn\" aria-controls=\"tabs-cdn-panel\" aria-selected=\"true\">CDN</button>\n    <button class=\"mp-tabs__tab\" type=\"button\" role=\"tab\" id=\"tabs-copy\" aria-controls=\"tabs-copy-panel\" aria-selected=\"false\" tabindex=\"-1\">Copy files</button>\n    <button class=\"mp-tabs__tab\" type=\"button\" role=\"tab\" id=\"tabs-fork\" aria-controls=\"tabs-fork-panel\" aria-selected=\"false\" tabindex=\"-1\">Fork</button>\n  </div>\n  <div class=\"mp-tabs__panel\" role=\"tabpanel\" id=\"tabs-cdn-panel\" aria-labelledby=\"tabs-cdn\" tabindex=\"0\"><p class=\"type-small\">One <code class=\"mp-code\">&lt;link&gt;</code> to <code class=\"mp-code\">membrane.css</code> on jsDelivr.</p></div>\n  <div class=\"mp-tabs__panel\" role=\"tabpanel\" id=\"tabs-copy-panel\" aria-labelledby=\"tabs-copy\" tabindex=\"0\" hidden><p class=\"type-small\">Download the three CSS files into your project.</p></div>\n  <div class=\"mp-tabs__panel\" role=\"tabpanel\" id=\"tabs-fork-panel\" aria-labelledby=\"tabs-fork\" tabindex=\"0\" hidden><p class=\"type-small\">Edit the JSON source and run the build.</p></div>\n</div>"
+        },
+        {
+          "title": "Pill tabs",
+          "html": "<div class=\"mp-tabs\" data-variant=\"pill\">\n  <div class=\"mp-tabs__list\" role=\"tablist\" aria-label=\"Theme preview\">\n    <button class=\"mp-tabs__tab\" type=\"button\" role=\"tab\" id=\"tabs-light\" aria-controls=\"tabs-light-panel\" aria-selected=\"true\">Light</button>\n    <button class=\"mp-tabs__tab\" type=\"button\" role=\"tab\" id=\"tabs-dark\" aria-controls=\"tabs-dark-panel\" aria-selected=\"false\" tabindex=\"-1\">Dark</button>\n  </div>\n  <div class=\"mp-tabs__panel\" role=\"tabpanel\" id=\"tabs-light-panel\" aria-labelledby=\"tabs-light\" tabindex=\"0\"><p class=\"type-small\">Warm cream, terracotta emphasis.</p></div>\n  <div class=\"mp-tabs__panel\" role=\"tabpanel\" id=\"tabs-dark-panel\" aria-labelledby=\"tabs-dark\" tabindex=\"0\" hidden><p class=\"type-small\">Charcoal depth, lightened accents.</p></div>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "accordion",
+      "name": "Accordion",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "Expandable sections on native <details>/<summary> — no script, keyboard-ready, exclusive with a shared name, animated where supported.",
+      "docs": "components/accordion/README.md",
+      "css": "components/accordion/accordion.css",
+      "classes": {
+        "roots": [
+          "mp-accordion"
+        ],
+        "parts": [
+          "mp-accordion__summary",
+          "mp-accordion__content"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[open]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-medium",
+        "--color-bg-hover",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--duration-normal",
+        "--focus-ring",
+        "--font-sans",
+        "--leading-body",
+        "--leading-small",
+        "--radius-sm",
+        "--size-control-md",
+        "--space-2",
+        "--space-3",
+        "--space-4",
+        "--space-5",
+        "--text-body",
+        "--transition-enter",
+        "--transition-fast",
+        "--transition-state",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "FAQ",
+          "html": "<div>\n  <details class=\"mp-accordion\" name=\"accordion-faq\" open>\n    <summary class=\"mp-accordion__summary\">Do I need a framework?</summary>\n    <div class=\"mp-accordion__content\"><p>No. Link one stylesheet and write HTML with <code class=\"mp-code\">mp-</code> classes.</p></div>\n  </details>\n  <details class=\"mp-accordion\" name=\"accordion-faq\">\n    <summary class=\"mp-accordion__summary\">Does dark mode need extra CSS?</summary>\n    <div class=\"mp-accordion__content\"><p>No. Every semantic token carries its own light and dark value.</p></div>\n  </details>\n  <details class=\"mp-accordion\" name=\"accordion-faq\">\n    <summary class=\"mp-accordion__summary\">Can agents use it?</summary>\n    <div class=\"mp-accordion__content\"><p>Yes — start from <code class=\"mp-code\">components/manifest.json</code>.</p></div>\n  </details>\n</div>"
+        }
+      ]
+    },
+    {
+      "slug": "pagination",
+      "name": "Pagination",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "Numbered page links with previous/next; aria-current marks the current page (teal pill), and narrow containers collapse to previous · current · next.",
+      "docs": "components/pagination/README.md",
+      "css": "components/pagination/pagination.css",
+      "classes": {
+        "roots": [
+          "mp-pagination"
+        ],
+        "parts": [
+          "mp-pagination__list",
+          "mp-pagination__link",
+          "mp-pagination__gap",
+          "mp-pagination__item"
+        ]
+      },
+      "attributes": {},
+      "states": [
+        ":focus-visible",
+        ":hover",
+        "[aria-current=\"page\"]",
+        "[aria-disabled=\"true\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--color-action-secondary",
+        "--color-bg-hover",
+        "--color-text-on-accent",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--color-text-tertiary",
+        "--focus-ring",
+        "--focus-ring-offset",
+        "--font-sans",
+        "--radius-full",
+        "--size-touch-target",
+        "--space-1",
+        "--space-3",
+        "--space-8",
+        "--state-disabled-opacity",
+        "--text-small",
+        "--transition-fast",
+        "--weight-medium"
+      ],
+      "examples": [
+        {
+          "title": "Pages",
+          "html": "<nav class=\"mp-pagination\" aria-label=\"Essays pages\">\n  <ul class=\"mp-pagination__list\">\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" rel=\"prev\">← Previous</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">1</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" aria-current=\"page\">2</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">3</a></li>\n    <li class=\"mp-pagination__item\"><span class=\"mp-pagination__gap\" aria-hidden=\"true\">…</span></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">12</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" rel=\"next\">Next →</a></li>\n  </ul>\n</nav>"
+        },
+        {
+          "title": "First page",
+          "html": "<nav class=\"mp-pagination\" aria-label=\"Cohort pages\">\n  <ul class=\"mp-pagination__list\">\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" aria-disabled=\"true\">← Previous</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" aria-current=\"page\">1</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\">2</a></li>\n    <li class=\"mp-pagination__item\"><a class=\"mp-pagination__link\" href=\"#components\" rel=\"next\">Next →</a></li>\n  </ul>\n</nav>"
+        }
+      ]
+    },
+    {
+      "slug": "steps",
+      "name": "Steps",
+      "category": "Navigation",
+      "status": "stable",
+      "summary": "Progress through an ordered sequence — course modules, onboarding, a multi-page form — vertical or horizontal, with complete, current and upcoming steps.",
+      "docs": "components/steps/README.md",
+      "css": "components/steps/steps.css",
+      "classes": {
+        "roots": [
+          "mp-steps"
+        ],
+        "parts": [
+          "mp-steps__item",
+          "mp-steps__label",
+          "mp-steps__description"
+        ]
+      },
+      "attributes": {
+        "data-status": [
+          "complete"
+        ],
+        "data-orientation": [
+          "horizontal"
+        ]
+      },
+      "states": [
+        "[aria-current=\"step\"]"
+      ],
+      "componentTokens": {
+        "--mp-steps-marker": "2rem",
+        "--mp-steps-ring": "var(--color-border-input)",
+        "--mp-steps-line": "var(--color-border-default)"
+      },
+      "tokensUsed": [
+        "--border-width-medium",
+        "--border-width-thin",
+        "--color-action-primary",
+        "--color-action-secondary",
+        "--color-bg-primary",
+        "--color-border-default",
+        "--color-border-input",
+        "--color-human-bg",
+        "--color-human-text",
+        "--color-text-on-accent",
+        "--color-text-primary",
+        "--color-text-secondary",
+        "--font-sans",
+        "--leading-small",
+        "--radius-full",
+        "--space-1",
+        "--space-2",
+        "--space-4",
+        "--space-6",
+        "--text-small",
+        "--weight-medium",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Course modules",
+          "html": "<ol class=\"mp-steps\" aria-label=\"Course progress\">\n  <li class=\"mp-steps__item\" data-status=\"complete\">\n    <p class=\"mp-steps__label\">Start from the classroom<span class=\"mp-visually-hidden\"> (completed)</span></p>\n    <p class=\"mp-steps__description\">Map one real problem before touching a tool.</p>\n  </li>\n  <li class=\"mp-steps__item\" aria-current=\"step\">\n    <p class=\"mp-steps__label\">How models actually work</p>\n    <p class=\"mp-steps__description\">Tokens, context, and why confident answers can be wrong.</p>\n  </li>\n  <li class=\"mp-steps__item\">\n    <p class=\"mp-steps__label\">Design the assistant</p>\n    <p class=\"mp-steps__description\">Co-create the prompts with your students.</p>\n  </li>\n</ol>"
+        },
+        {
+          "title": "Horizontal",
+          "html": "<ol class=\"mp-steps\" data-orientation=\"horizontal\" aria-label=\"Enrollment\">\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Account<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" data-status=\"complete\"><p class=\"mp-steps__label\">Cohort<span class=\"mp-visually-hidden\"> (completed)</span></p></li>\n  <li class=\"mp-steps__item\" aria-current=\"step\"><p class=\"mp-steps__label\">Payment</p></li>\n  <li class=\"mp-steps__item\"><p class=\"mp-steps__label\">Done</p></li>\n</ol>"
+        }
+      ]
+    },
+    {
+      "slug": "menu",
+      "name": "Menu",
+      "category": "Navigation",
+      "status": "beta",
+      "summary": "A list of actions in a native popover — opened by a popovertarget button, light-dismissed by the browser, arrow-key navigable with membrane.js.",
+      "docs": "components/menu/README.md",
+      "css": "components/menu/menu.css",
+      "classes": {
+        "roots": [
+          "mp-menu"
+        ],
+        "parts": [
+          "mp-menu__item",
+          "mp-menu__separator",
+          "mp-menu__label"
+        ]
+      },
+      "attributes": {
+        "data-tone": [
+          "danger"
+        ]
+      },
+      "states": [
+        ":disabled",
+        ":focus-visible",
+        ":hover",
+        ":popover-open",
+        "[aria-disabled=\"true\"]"
+      ],
+      "componentTokens": {},
+      "tokensUsed": [
+        "--border-default",
+        "--border-width-medium",
+        "--border-width-thin",
+        "--color-bg-elevated",
+        "--color-bg-hover",
+        "--color-border-default",
+        "--color-error-text",
+        "--color-text-primary",
+        "--color-text-tertiary",
+        "--duration-fast",
+        "--duration-normal",
+        "--elevation-overlay",
+        "--focus-ring",
+        "--font-sans",
+        "--radius-md",
+        "--radius-sm",
+        "--size-control-sm",
+        "--size-icon-sm",
+        "--size-touch-target",
+        "--space-1",
+        "--space-2",
+        "--space-3",
+        "--state-disabled-opacity",
+        "--text-small",
+        "--text-xs",
+        "--tracking-label",
+        "--transition-enter",
+        "--transition-exit",
+        "--weight-semibold"
+      ],
+      "examples": [
+        {
+          "title": "Actions menu",
+          "html": "<button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" popovertarget=\"menu-workshop\" aria-haspopup=\"menu\" aria-expanded=\"false\">Workshop actions</button>\n<div class=\"mp-menu\" id=\"menu-workshop\" popover role=\"menu\" aria-label=\"Workshop actions\">\n  <p class=\"mp-menu__label\" role=\"presentation\">Edit</p>\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\">\n    <svg class=\"mp-icon\" viewBox=\"0 0 24 24\" aria-hidden=\"true\"><rect x=\"8\" y=\"8\" width=\"14\" height=\"14\" rx=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/></svg>\n    Duplicate\n  </button>\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\">Export syllabus</button>\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\" aria-disabled=\"true\">Move to cohort (none open)</button>\n  <hr class=\"mp-menu__separator\">\n  <button class=\"mp-menu__item\" type=\"button\" role=\"menuitem\" data-tone=\"danger\">Archive workshop</button>\n</div>"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+/* Divider — a fading rule between sections. Prefer whitespace first. */
+
+.mp-divider {
+  --mp-divider-space: var(--space-16);
+
+  box-sizing: border-box;
+  display: block;
+  max-width: var(--container-sm);
+  height: var(--border-width-thin);
+  margin: var(--mp-divider-space) auto;
+  border: 0;
+  background: var(--gradient-divider);
+}
+
+.mp-divider[data-size="sm"] { --mp-divider-space: var(--space-8); }
+.mp-divider[data-size="lg"] { --mp-divider-space: var(--space-24); }
+
+/* Full-width solid rule for structure inside components and panels. */
+.mp-divider[data-variant="full"] {
+  max-width: none;
+  margin-inline: 0;
+  background: var(--color-border-default);
+}
+
+@media (forced-colors: active) {
+  .mp-divider {
+    height: 0;
+    border-block-start: var(--border-width-thin) solid;
+  }
+}

@@ -75,6 +75,15 @@ function refsToVars(str) {
 /** Resolve a token path/ref to its concrete literal value for a given mode. */
 function resolveLiteral(ref, mode) {
   const { token } = entryOf(ref);
+  if (token.$type === "tint") {
+    const { light, dark, amount } = token.$value;
+    const c = parseColor(resolveLiteral(mode === "dark" ? dark : light, mode));
+    return `rgba(${c.r}, ${c.g}, ${c.b}, ${amount})`;
+  }
+  if (token.$type === "mix") {
+    const { base, with: other, amount } = token.$value;
+    return mixOklab(resolveLiteral(base, mode), resolveLiteral(other, mode), amount);
+  }
   let value = token.$value;
   if (mode === "dark" && token.$extensions?.mode?.dark !== undefined) {
     value = token.$extensions.mode.dark;
@@ -136,6 +145,22 @@ function oklchToRgb({ L, C, H }) {
   return { r: to255(lr), g: to255(lg), b: to255(lb) };
 }
 
+const toHex = ({ r, g, b }) => "#" + [r, g, b].map((v) => v.toString(16).padStart(2, "0")).join("").toUpperCase();
+
+/** color-mix(in oklab, a, b amount) for opaque sRGB literals — mirrors what the browser computes. */
+function mixOklab(aStr, bStr, amount) {
+  const lab = (str) => {
+    const { L, C, H } = rgbToOklch(parseColor(str));
+    const hr = (H * Math.PI) / 180;
+    return [L, C * Math.cos(hr), C * Math.sin(hr)];
+  };
+  const [a, b] = [lab(aStr), lab(bStr)];
+  const [L, A, B] = a.map((v, i) => v * (1 - amount) + b[i] * amount);
+  const C = Math.hypot(A, B);
+  const H = ((Math.atan2(B, A) * 180) / Math.PI + 360) % 360;
+  return toHex(oklchToRgb({ L, C, H }));
+}
+
 const roundTripFailures = [];
 
 /** Convert a hex/rgba literal to an oklch() string, verifying the round trip is exact. */
@@ -166,8 +191,9 @@ function composite(fg, bg) {
   return { r: mix(fg.r, bg.r), g: mix(fg.g, bg.g), b: mix(fg.b, bg.b), a: 1 };
 }
 
-function contrast(fgStr, bgStr) {
-  const bg = parseColor(bgStr);
+function contrast(fgStr, bgStr, backdropStr) {
+  let bg = parseColor(bgStr);
+  if (bg.a !== 1) bg = composite(bg, parseColor(backdropStr));
   const fg = composite(parseColor(fgStr), bg);
   const [l1, l2] = [luminance(fg), luminance(bg)].sort((a, b) => b - a);
   return (l1 + 0.05) / (l2 + 0.05);
@@ -178,42 +204,109 @@ function contrast(fgStr, bgStr) {
  * ------------------------------------------------------------------ */
 
 const S = "color.semantic.";
+const C = "code.";
+// [foreground, background, minimum ratio, note, backdrop?]. A translucent
+// background (tint) is composited over the backdrop — bg-primary unless a
+// fifth element names another surface — before measuring. Washes are checked
+// over both page and card surfaces, because tags and alerts live on both.
+const ON_CARD = S + "bg-secondary";
+const ON_ELEVATED = S + "bg-elevated";
 const GATE = [
-  // [foreground, background, minimum ratio, note]
+  // Text on surfaces
   [S + "text-primary", S + "bg-primary", 7.0, "body text, AAA target"],
   [S + "text-primary", S + "bg-secondary", 7.0, "body text on cards"],
+  [S + "text-primary", S + "bg-elevated", 7.0, "body text in dialogs/popovers"],
+  [S + "text-primary", S + "bg-active", 7.0, "selected rows/items"],
   [S + "text-secondary", S + "bg-primary", 4.5, "supporting text"],
   [S + "text-secondary", S + "bg-secondary", 4.5, "supporting text on cards"],
+  [S + "text-secondary", S + "bg-tertiary", 4.5, "neutral tags"],
+  [S + "text-secondary", S + "bg-elevated", 4.5, "supporting text in dialogs"],
+  [S + "text-secondary", S + "bg-hover", 4.5, "hovered nav links / ghost buttons"],
   [S + "text-tertiary", S + "bg-primary", 4.5, "metadata/placeholder"],
   [S + "text-tertiary", S + "bg-secondary", 4.5, "metadata on cards"],
+  [S + "text-tertiary", S + "bg-elevated", 4.5, "metadata in dialogs"],
   [S + "text-accent", S + "bg-primary", 4.5, "links"],
-  [S + "text-on-accent", S + "action-primary", 4.5, "button labels"],
+  [S + "text-accent", S + "bg-secondary", 4.5, "links on cards"],
+  [S + "text-inverse", S + "bg-inverse", 4.5, "tooltips"],
+  // Actions
+  [S + "text-on-accent", S + "action-primary", 4.5, "primary button label"],
+  [S + "text-on-accent", S + "action-primary-hover", 4.5, "primary button label, hover"],
+  [S + "text-on-accent", S + "action-secondary", 4.5, "secondary button label, hover fill"],
+  [S + "text-on-accent", S + "action-secondary-hover", 4.5, "checked controls, pressed secondary"],
+  [S + "text-on-accent", S + "error", 4.5, "danger button label"],
+  [S + "text-on-accent", S + "error-hover", 4.5, "danger button label, hover"],
   [S + "action-primary", S + "bg-primary", 3.0, "primary action affordance"],
   [S + "action-secondary", S + "bg-primary", 3.0, "secondary action affordance"],
+  [S + "action-secondary", S + "bg-secondary", 3.0, "secondary action on cards"],
+  [S + "action-secondary", S + "bg-tertiary", 3.0, "progress value vs track"],
+  // Non-text UI (WCAG 1.4.11)
+  [S + "border-input", S + "bg-primary", 3.0, "form control boundary"],
+  [S + "border-input", S + "bg-secondary", 3.0, "form control boundary on cards"],
+  [S + "border-input", S + "bg-elevated", 3.0, "form control boundary in dialogs"],
   [S + "focus", S + "bg-primary", 3.0, "focus ring (WCAG 1.4.11)"],
   [S + "focus", S + "bg-secondary", 3.0, "focus ring on cards"],
+  [S + "focus", S + "bg-elevated", 3.0, "focus ring in dialogs"],
+  // Registers
+  [S + "human-text", S + "bg-primary", 4.5, "human-register text"],
+  [S + "human-text", S + "bg-secondary", 4.5, "human-register text on cards"],
+  [S + "human-text", S + "human-bg", 4.5, "human tag / callout"],
+  [S + "human-text", S + "human-bg", 4.5, "human tag on a card", ON_CARD],
+  [S + "digital-text", S + "bg-primary", 4.5, "digital-register text"],
+  [S + "digital-text", S + "bg-secondary", 4.5, "digital-register text on cards"],
+  [S + "digital-text", S + "digital-bg", 4.5, "digital tag / callout"],
+  [S + "digital-text", S + "digital-bg", 4.5, "digital tag on a card", ON_CARD],
+  // Status
   [S + "success", S + "bg-primary", 3.0, "success icon/fill"],
   [S + "success-text", S + "bg-primary", 4.5, "success text"],
   [S + "success-text", S + "bg-secondary", 4.5, "success text on cards"],
+  [S + "success-text", S + "success-bg", 4.5, "success alert/badge"],
+  [S + "success-text", S + "success-bg", 4.5, "success badge on a card", ON_CARD],
   [S + "warning-text", S + "bg-primary", 4.5, "warning text"],
   [S + "warning-text", S + "bg-secondary", 4.5, "warning text on cards"],
-  [S + "error", S + "bg-primary", 3.0, "error icon/fill"],
+  [S + "warning-text", S + "warning-bg", 4.5, "warning alert/badge"],
+  [S + "warning-text", S + "warning-bg", 4.5, "warning badge on a card", ON_CARD],
+  [S + "error", S + "bg-primary", 3.0, "error icon/fill, invalid border"],
   [S + "error-text", S + "bg-primary", 4.5, "error text"],
   [S + "error-text", S + "bg-secondary", 4.5, "error text on cards"],
+  [S + "error-text", S + "error-bg", 4.5, "error alert/badge"],
+  [S + "error-text", S + "error-bg", 4.5, "error badge on a card", ON_CARD],
+  [S + "info-text", S + "bg-primary", 4.5, "info text"],
+  [S + "info-text", S + "info-bg", 4.5, "info alert/badge"],
+  [S + "info-text", S + "info-bg", 4.5, "info badge on a card", ON_CARD],
+  [S + "success-text", S + "bg-elevated", 4.5, "success toast title"],
+  [S + "warning-text", S + "bg-elevated", 4.5, "warning toast title"],
+  [S + "error-text", S + "bg-elevated", 4.5, "error toast title, danger menu item"],
+  [S + "text-primary", S + "bg-hover", 7.0, "hovered rows on a card", ON_CARD],
+  [S + "text-primary", S + "bg-active", 7.0, "active combobox option (popup)", ON_ELEVATED],
+  [S + "text-secondary", S + "bg-elevated", 4.5, "combobox empty message, menu labels"],
+  [S + "focus", S + "bg-active", 3.0, "active-option marker (popup)", ON_ELEVATED],
+  // Data visualization — categorical series are non-text marks (WCAG 1.4.11)
+  ...[1, 2, 3, 4, 5, 6].flatMap((n) => [
+    [S + "chart-" + n, S + "bg-primary", 3.0, `chart series ${n} on page`],
+    [S + "chart-" + n, S + "bg-secondary", 3.0, `chart series ${n} on a card`],
+  ]),
+  // Code blocks (always dark)
+  [C + "text", C + "bg", 4.5, "code text"],
+  [C + "keyword", C + "bg", 4.5, "syntax: keyword"],
+  [C + "string", C + "bg", 4.5, "syntax: string"],
+  [C + "function", C + "bg", 4.5, "syntax: function"],
+  [C + "comment", C + "bg", 4.5, "syntax: comment"],
+  [C + "number", C + "bg", 4.5, "syntax: number"],
 ];
 
+const short = (p) => entryOf(`{${p}}`).cssName;
 const gateFailures = [];
 const gateReport = [];
-const gateRows = []; // structured rows for the generated showcase contrast matrix
+const gateRows = []; // structured rows for the showcase matrix and the spec table
 for (const mode of ["light", "dark"]) {
-  for (const [fg, bg, min, note] of GATE) {
+  for (const [fg, bg, min, note, on = S + "bg-primary"] of GATE) {
     const fgV = resolveLiteral(`{${fg}}`, mode);
     const bgV = resolveLiteral(`{${bg}}`, mode);
-    const ratio = contrast(fgV, bgV);
-    const line = `${mode.padEnd(5)} ${fg.replace(S, "").padEnd(16)} on ${bg.replace(S, "").padEnd(13)} ${ratio.toFixed(2).padStart(6)} (min ${min})  ${note}`;
+    const ratio = contrast(fgV, bgV, resolveLiteral(`{${on}}`, mode));
+    const line = `${mode.padEnd(5)} ${short(fg).padEnd(30)} on ${short(bg).padEnd(30)} ${ratio.toFixed(2).padStart(6)} (min ${min})  ${note}`;
     gateReport.push(line);
     const pass = ratio >= min;
-    gateRows.push({ mode, fg: fg.replace(S, ""), bg: bg.replace(S, ""), ratio, min, note, pass });
+    gateRows.push({ mode, fg: short(fg), bg: short(bg), ratio, min, note, pass });
     if (!pass) gateFailures.push(line);
   }
 }
@@ -245,8 +338,14 @@ function emitValue(token) {
     case "tint": {
       const { light, dark: darkRef, amount } = $value;
       const pct = `${Math.round(amount * 100)}%`;
+      const [l, d] = [entryOf(light).cssName, entryOf(darkRef).cssName];
+      const color = l === d ? `var(${l})` : `light-dark(var(${l}), var(${d}))`;
+      return { css: `color-mix(in srgb, ${color} ${pct}, transparent)`, comment: null };
+    }
+    case "mix": {
+      const { base, with: other, amount } = $value;
       return {
-        css: `color-mix(in srgb, light-dark(var(${entryOf(light).cssName}), var(${entryOf(darkRef).cssName})) ${pct}, transparent)`,
+        css: `color-mix(in oklab, var(${entryOf(base).cssName}), var(${entryOf(other).cssName}) ${Math.round(amount * 100)}%)`,
         comment: null,
       };
     }
@@ -345,7 +444,8 @@ const header = `/* ============================================================
      Tier 2 semantic tokens via light-dark().
    - Dark mode follows the OS via \`color-scheme: light dark\`.
      Manual override: set data-theme="dark" | "light" on any
-     element (or the legacy .theme-dark class on <html>).
+     element. (.theme-dark still works but is deprecated: removal
+     in v3.0.0; use data-theme="dark".)
    - Colors are emitted as OKLCH (round-trip-verified against
      the sRGB source values); derived tints use color-mix().
    - This file is pure custom properties + color-scheme wiring.
@@ -355,6 +455,9 @@ const header = `/* ============================================================
    Requires: Chrome/Edge 123+, Firefox 120+, Safari 17.5+
    (light-dark(), color-mix(), oklch(), @layer).
    ============================================================ */
+
+/* Cascade order for the whole system. Unlayered consumer CSS beats all three. */
+@layer tokens, base, components;
 
 @layer tokens {
 
@@ -366,7 +469,7 @@ ${lines.join("\n").replace(/^\n/, "")}
   /* Manual theme override — works on :root or any subtree. */
   [data-theme="light"] { color-scheme: light; }
   [data-theme="dark"],
-  .theme-dark { color-scheme: dark; }
+  .theme-dark { color-scheme: dark; } /* @deprecated .theme-dark: use [data-theme="dark"]; removal in v3.0.0 */
 
   /* ===========================================================
      REDUCED MOTION — token-level fallbacks (pure custom props;
@@ -383,6 +486,10 @@ ${lines.join("\n").replace(/^\n/, "")}
       --transition-fast:    0ms var(--ease-default);
       --transition-default: 0ms var(--ease-default);
       --transition-slow:    0ms var(--ease-default);
+      --transition-enter:   0ms var(--ease-out);
+      --transition-exit:    0ms var(--ease-in);
+      --transition-state:   0ms var(--ease-in-out);
+      /* --duration-loop is not reduced: loaders swap to an opacity pulse. */
     }
   }
 
@@ -395,6 +502,8 @@ ${lines.join("\n").replace(/^\n/, "")}
       --color-text-secondary: var(--color-text-primary);
       --color-text-tertiary:  light-dark(var(--color-neutral-700), var(--color-neutral-300));
       --color-border-default: var(--color-border-emphasis);
+      --color-border-input:   var(--color-text-secondary);
+      --focus-ring:           var(--border-width-thick) solid var(--color-focus);
     }
   }
 
@@ -424,7 +533,30 @@ const baseCss = `/* ============================================================
    in @layer base, so any unlayered consumer CSS wins.
    ============================================================ */
 
+@layer tokens, base, components;
+
 @layer base {
+
+  /* Page defaults. Zero specificity (:where), so any rule you write wins. */
+  :where(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
+
+  :where(html) {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  :where(body) {
+    margin: 0;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
   ::selection {
     background: var(--color-selection);
@@ -436,17 +568,47 @@ const baseCss = `/* ============================================================
   }
 
   /* ===========================================================
-     REDUCED MOTION — restrict animation to safe properties
+     REDUCED MOTION — "reduce", not "remove".
+     Library components (mp-*) manage their own reduced motion:
+     transitions go instant through the duration tokens, surfaces
+     stop lifting, and loaders swap rotation/sliding for a gentle
+     opacity pulse so they still say "working". This rule is the
+     safety net for everything else on the page: animations run
+     once and end, and only color/opacity may still transition.
      =========================================================== */
 
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :where(html) {
+      scroll-behavior: auto !important;
+    }
+
+    :not([class^="mp-"], [class*=" mp-"]),
+    :not([class^="mp-"], [class*=" mp-"])::before,
+    :not([class^="mp-"], [class*=" mp-"])::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-property: opacity, color, background-color, border-color, box-shadow !important;
-      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ===========================================================
+     PRINT — light scheme everywhere (including dark subtrees),
+     no page tint, and component fills printed as designed so
+     white-on-terracotta labels and code blocks stay legible.
+     =========================================================== */
+
+  @media print {
+    :where(:root, [data-theme], .theme-dark) {
+      color-scheme: light;
+    }
+
+    :where(body) {
+      background: none;
+    }
+
+    :where([class^="mp-"], [class*=" mp-"]) {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
 
@@ -560,7 +722,7 @@ function buildTokenTableRows() {
   for (const [key, entry] of registry) {
     if (entry.comment) continue; // breakpoints are reference-only, never real custom properties
     const category = humanizeCategory(key);
-    const isColor = entry.token.$type === "color" || entry.token.$type === "tint";
+    const isColor = ["color", "tint", "mix"].includes(entry.token.$type);
     const desc = entry.token.$description || "";
     const preview = isColor
       ? `<span class="token-swatch" style="background: var(${entry.cssName});" aria-hidden="true"></span>`
@@ -582,7 +744,7 @@ function buildTokenTableRows() {
 function renderTokenTable(rows) {
   return rows
     .map((r) => {
-      const badge = r.deprecated ? ` <span class="token-badge">deprecated</span>` : "";
+      const badge = r.deprecated ? ` <span class="mp-badge" data-tone="warning">deprecated</span>` : "";
       return `                <tr data-search="${escapeHtml(r.searchText)}">
                   <td class="token-table__preview">${r.preview}</td>
                   <td><code>${escapeHtml(r.cssName)}</code>${badge}</td>
@@ -596,24 +758,64 @@ function renderTokenTable(rows) {
 function renderContrastMatrix(rows) {
   return rows
     .map((r) => {
-      const statusClass = r.pass ? "status-line--success" : "status-line--error";
+      const tone = r.pass ? "success" : "error";
       const statusText = r.pass ? "Pass" : "Fail";
       return `                <tr>
                   <td>${r.mode}</td>
-                  <td><code>--color-${r.fg}</code></td>
-                  <td><code>--color-${r.bg}</code></td>
-                  <td>${r.ratio.toFixed(2)}:1</td>
-                  <td>${r.min.toFixed(1)}:1</td>
-                  <td><span class="contrast-badge ${statusClass}">${statusText}</span></td>
+                  <td><code>${r.fg}</code></td>
+                  <td><code>${r.bg}</code></td>
+                  <td data-align="end">${r.ratio.toFixed(2)}:1</td>
+                  <td data-align="end">${r.min.toFixed(1)}:1</td>
+                  <td><span class="mp-badge" data-tone="${tone}">${statusText}</span></td>
                 </tr>`;
     })
     .join("\n");
 }
 
-function injectMarker(html, markerName, content) {
+function injectMarker(html, markerName, content, { file = "showcase/index.html", indent = "                " } = {}) {
   const re = new RegExp(`(<!-- GENERATED:${markerName} -->)[\\s\\S]*?(<!-- /GENERATED:${markerName} -->)`);
-  if (!re.test(html)) throw new Error(`Marker GENERATED:${markerName} not found in showcase/index.html`);
-  return html.replace(re, `$1\n${content}\n                $2`);
+  if (!re.test(html)) throw new Error(`Marker GENERATED:${markerName} not found in ${file}`);
+  return html.replace(re, (_, open, close) => `${open}\n${content}\n${indent}${close}`);
+}
+
+/** How a semantic token resolves in one mode, for the spec table: "`--color-neutral-800` #2A2622". */
+function describeSide(token, mode) {
+  const val = mode === "dark" && token.$extensions?.mode?.dark !== undefined ? token.$extensions.mode.dark : token.$value;
+  if (token.$type === "tint") {
+    const ref = mode === "dark" ? token.$value.dark : token.$value.light;
+    return `\`${entryOf(ref).cssName}\` @ ${Math.round(token.$value.amount * 100)}%`;
+  }
+  if (token.$type === "mix") {
+    const { base, with: other, amount } = token.$value;
+    return `\`${entryOf(base).cssName}\` + ${Math.round(amount * 100)}% \`${entryOf(other).cssName}\` → ${mixOklab(resolveLiteral(base, mode), resolveLiteral(other, mode), amount)}`;
+  }
+  if (token.$type === "cssValue") return "`" + refsToVars(String(val)).replace(/\|/g, "\\|") + "`";
+  if (typeof val === "string" && val.startsWith("{")) {
+    const lit = resolveLiteral(val, mode);
+    return `\`${entryOf(val).cssName}\` ${lit.startsWith("#") ? lit.toUpperCase() : lit}`;
+  }
+  return String(val).toUpperCase();
+}
+
+function renderSemanticTable() {
+  const rows = ["| Token | Light | Dark | Usage |", "|---|---|---|---|"];
+  for (const [key, entry] of registry) {
+    if (!key.startsWith(S)) continue;
+    const t = entry.token;
+    const desc = (t.$description || "").replace(/\|/g, "\\|");
+    rows.push(`| \`${entry.cssName}\` | ${describeSide(t, "light")} | ${describeSide(t, "dark")} | ${desc} |`);
+  }
+  return rows.join("\n");
+}
+
+function renderSpecContrastTable() {
+  const rows = ["| Foreground | Background | Light | Dark | Min | Use |", "|---|---|---|---|---|---|"];
+  const light = gateRows.filter((r) => r.mode === "light");
+  const dark = gateRows.filter((r) => r.mode === "dark");
+  light.forEach((r, i) => {
+    rows.push(`| \`${r.fg}\` | \`${r.bg}\` | ${r.ratio.toFixed(2)} | ${dark[i].ratio.toFixed(2)} | ${r.min.toFixed(1)} | ${r.note} |`);
+  });
+  return rows.join("\n");
 }
 
 /* ------------------------------------------------------------------ *
@@ -635,10 +837,156 @@ if (gateFailures.length > 0) {
   process.exit(1);
 }
 
+/* ------------------------------------------------------------------ *
+ *  Self-hosted fonts → fonts/fonts.css
+ *  (build-components.mjs inlines it into membrane.css with fonts/ URLs)
+ * ------------------------------------------------------------------ */
+
+const fontConfig = JSON.parse(await readFile(path.join(root, "fonts", "fonts.json"), "utf8"));
+const fontFaces = fontConfig.families.flatMap((fam) => [
+  ...fam.faces.map((face) => `@font-face {
+  font-family: "${fam.family}";
+  font-style: ${face.style};
+  font-weight: ${face.weight};
+  font-display: ${fontConfig.display};
+  src: url("${face.file}") format("woff2");
+  unicode-range: ${fontConfig.unicodeRanges[face.subset]};
+}`),
+  `/* Metric-matched stand-in while ${fam.family} loads (scripts/measure-fonts.py). */
+@font-face {
+  font-family: "${fam.fallback.family}";
+  src: ${fam.fallback.local.map((name) => `local("${name}")`).join(", ")};
+${Object.entries(fam.fallback.overrides).map(([k, v]) => `  ${k}: ${v};`).join("\n")}
+}`,
+]);
+const fontsCss = `/* ============================================================
+   The Membrane Palette — self-hosted fonts
+   Version ${pkg.version}
+
+   GENERATED FILE — do not edit by hand.
+   Source of truth:  fonts/fonts.json
+   Regenerate with:  npm run build:tokens
+
+   ${fontConfig.families.map((f) => f.family).join(", ")} (SIL Open Font
+   License 1.1, see fonts/OFL-*.txt), latin + latin-ext subsets,
+   variable weight. unicode-range means a page only downloads the
+   files its text actually uses. Already in membrane.css; link this
+   file only when you use the split stylesheets.
+   ============================================================ */
+
+${fontFaces.join("\n\n")}
+`;
+
+await writeFile(path.join(root, "fonts", "fonts.css"), fontsCss);
 await writeFile(path.join(root, "tokens", "design-tokens.css"), header);
 await writeFile(path.join(root, "tokens", "base.css"), baseCss);
-console.log(`\n✓ All ${GATE.length * 2} contrast pairs pass; all colors round-trip through OKLCH.`);
-console.log("✓ Wrote tokens/design-tokens.css and tokens/base.css");
+console.log(`\n✓ All ${GATE.length * 2} contrast checks (${GATE.length} pairs × light/dark) pass; all colors round-trip through OKLCH.`);
+console.log("✓ Wrote tokens/design-tokens.css, tokens/base.css, tokens/membrane-tailwind.css, tokens/tokens.resolved.json, fonts/fonts.css");
+
+/* ------------------------------------------------------------------ *
+ *  Platform exports
+ * ------------------------------------------------------------------ */
+
+// Tailwind CSS v4 theme. Tailwind's default namespaces reuse names this
+// system already owns (--radius-md, --text-sm, --shadow-sm, --ease-in…);
+// depending on stylesheet order they could override the system's values.
+// So every overlapping namespace is reset, and the system is exposed under
+// an `mp-` prefix that maps onto the real tokens: bg-mp-surface, text-mp-fg,
+// rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2…
+// Spacing needs nothing: Tailwind's --spacing base (0.25rem) is the 4px unit,
+// so p-4 === --space-4. Breakpoint defaults (40/48/64/80rem) also match.
+const TW = {
+  color: {
+    surface: "color.semantic.bg-primary", "surface-2": "color.semantic.bg-secondary", "surface-3": "color.semantic.bg-tertiary",
+    elevated: "color.semantic.bg-elevated", inverse: "color.semantic.bg-inverse", hover: "color.semantic.bg-hover", active: "color.semantic.bg-active",
+    fg: "color.semantic.text-primary", "fg-muted": "color.semantic.text-secondary", "fg-subtle": "color.semantic.text-tertiary",
+    "fg-inverse": "color.semantic.text-inverse", "on-accent": "color.semantic.text-on-accent", link: "color.semantic.text-accent",
+    primary: "color.semantic.action-primary", "primary-hover": "color.semantic.action-primary-hover",
+    secondary: "color.semantic.action-secondary", "secondary-hover": "color.semantic.action-secondary-hover",
+    border: "color.semantic.border-default", "border-strong": "color.semantic.border-emphasis", "border-input": "color.semantic.border-input",
+    focus: "color.semantic.focus",
+    human: "color.semantic.human-text", "human-bg": "color.semantic.human-bg", digital: "color.semantic.digital-text", "digital-bg": "color.semantic.digital-bg",
+    success: "color.semantic.success", "success-text": "color.semantic.success-text", "success-bg": "color.semantic.success-bg",
+    warning: "color.semantic.warning", "warning-text": "color.semantic.warning-text", "warning-bg": "color.semantic.warning-bg",
+    error: "color.semantic.error", "error-text": "color.semantic.error-text", "error-bg": "color.semantic.error-bg", "error-hover": "color.semantic.error-hover",
+    info: "color.semantic.info", "info-text": "color.semantic.info-text", "info-bg": "color.semantic.info-bg",
+    ...Object.fromEntries([1, 2, 3, 4, 5, 6].map((n) => [`chart-${n}`, `color.semantic.chart-${n}`])),
+    "code-bg": "code.bg", "code-fg": "code.text",
+  },
+  font: { display: "font.serif", body: "font.sans", code: "font.mono" },
+  text: [["display", "display"], ["h1", "heading"], ["h2", "heading"], ["h3", "subheading"], ["h4", "subheading"], ["body-lg", "body-lg"], ["body", "body"], ["small", "small"], ["xs", "label"], ["code", "code"]],
+  radius: ["sm", "md", "lg", "xl"],
+  shadow: { raised: "elevation.raised", overlay: "elevation.overlay", modal: "elevation.modal", "glow-warm": "shadow.glow-warm", "glow-teal": "shadow.glow-teal" },
+  ease: ["default", "out", "in", "in-out"],
+  container: ["sm", "md", "lg", "xl"],
+};
+const v = (p) => `var(${entryOf(`{${p}}`).cssName})`;
+const twLines = [
+  "  /* Reset Tailwind namespaces that overlap the system's own token names. */",
+  ...["color", "font", "text", "font-weight", "leading", "tracking", "radius", "shadow", "inset-shadow", "drop-shadow", "ease", "container", "blur"].map((ns) => `  --${ns}-*: initial;`),
+  "",
+  ...Object.entries(TW.color).map(([k, p]) => `  --color-mp-${k}: ${v(p)};`),
+  "",
+  ...Object.entries(TW.font).map(([k, p]) => `  --font-mp-${k}: ${v(p)};`),
+  "",
+  ...TW.text.flatMap(([k, lead]) => [`  --text-mp-${k}: ${v("text." + k)};`, `  --text-mp-${k}--line-height: ${v("leading." + lead)};`]),
+  "",
+  ...TW.radius.map((k) => `  --radius-mp-${k}: ${v("radius." + k)};`),
+  ...Object.entries(TW.shadow).map(([k, p]) => `  --shadow-mp-${k}: ${v(p)};`),
+  ...TW.ease.map((k) => `  --ease-mp-${k}: ${v("ease." + k)};`),
+  ...TW.container.map((k) => `  --container-mp-${k}: ${v("container." + k)};`),
+  "  --font-weight-regular: var(--weight-regular);",
+  "  --font-weight-medium: var(--weight-medium);",
+  "  --font-weight-semibold: var(--weight-semibold);",
+  "  --font-weight-bold: var(--weight-bold);",
+];
+const tailwindCss = `/* ============================================================
+   The Membrane Palette — Tailwind CSS v4 theme
+   Version ${pkg.version}
+
+   GENERATED FILE — do not edit by hand.
+   Source of truth:  tokens/membrane.tokens.json + scripts/build-tokens.mjs
+   Regenerate with:  npm run build:tokens
+
+   Usage (after design-tokens.css is loaded on the page):
+     @import "tailwindcss";
+     @import "./membrane-tailwind.css";
+
+   Utilities map onto the semantic tokens, so they retheme with
+   light-dark() like everything else: bg-mp-surface, text-mp-fg,
+   bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent,
+   border-mp-border-input, rounded-mp-lg, shadow-mp-raised,
+   font-mp-display, text-mp-h2, p-4 (= --space-4).
+   Tailwind's default palette is removed on purpose: only on-brand
+   colors exist, and there is no white or black.
+   ============================================================ */
+
+@theme inline {
+${twLines.join("\n")}
+}
+`;
+
+// Resolved values for tools that can't evaluate CSS (charting libraries,
+// native apps, Figma plugins, agents reasoning about contrast).
+const resolved = { name: "The Membrane Palette", version: pkg.version, generated: "Do not edit — produced by scripts/build-tokens.mjs", modes: { light: {}, dark: {} }, tokens: {} };
+for (const [key, entry] of registry) {
+  if (entry.comment) continue;
+  const t = entry.token;
+  const isColor = ["color", "tint", "mix"].includes(t.$type);
+  const item = { path: key, type: t.$type, description: t.$description, deprecated: t.$deprecated };
+  if (isColor) {
+    for (const mode of ["light", "dark"]) {
+      const lit = resolveLiteral(`{${key}}`, mode);
+      resolved.modes[mode][entry.cssName] = lit.startsWith("#") ? lit.toUpperCase() : lit;
+    }
+  } else {
+    item.css = emitValue(t).css;
+  }
+  resolved.tokens[entry.cssName] = item;
+}
+
+await writeFile(path.join(root, "tokens", "membrane-tailwind.css"), tailwindCss);
+await writeFile(path.join(root, "tokens", "tokens.resolved.json"), JSON.stringify(resolved, null, 2) + "\n");
 
 const SHOWCASE_PATH = path.join(root, "showcase", "index.html");
 const tokenTableRows = buildTokenTableRows();
@@ -647,6 +995,14 @@ showcaseHtml = injectMarker(showcaseHtml, "TOKEN-TABLE", renderTokenTable(tokenT
 showcaseHtml = injectMarker(showcaseHtml, "CONTRAST-MATRIX", renderContrastMatrix(gateRows));
 await writeFile(SHOWCASE_PATH, showcaseHtml);
 console.log(`✓ Regenerated showcase/index.html: ${tokenTableRows.length}-row token table, ${gateRows.length}-row contrast matrix`);
+
+const SPEC_PATH = path.join(root, "DESIGN-SYSTEM.md");
+let spec = await readFile(SPEC_PATH, "utf8");
+const specOpts = { file: "DESIGN-SYSTEM.md", indent: "" };
+spec = injectMarker(spec, "SEMANTIC-COLORS", renderSemanticTable(), specOpts);
+spec = injectMarker(spec, "CONTRAST-TABLE", renderSpecContrastTable(), specOpts);
+await writeFile(SPEC_PATH, spec);
+console.log("✓ Regenerated DESIGN-SYSTEM.md semantic color + contrast tables");
 
 if (deprecated.length > 0) {
   console.log(`\n⚠ ${deprecated.length} deprecated token(s) still in the source (see DESIGN-SYSTEM.md token lifecycle policy):`);

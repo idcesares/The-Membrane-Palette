@@ -1,0 +1,131 @@
+/* ============================================================
+   The Membrane Palette — Tailwind CSS v4 theme
+   Version 2.1.0
+
+   GENERATED FILE — do not edit by hand.
+   Source of truth:  tokens/membrane.tokens.json + scripts/build-tokens.mjs
+   Regenerate with:  npm run build:tokens
+
+   Usage (after design-tokens.css is loaded on the page):
+     @import "tailwindcss";
+     @import "./membrane-tailwind.css";
+
+   Utilities map onto the semantic tokens, so they retheme with
+   light-dark() like everything else: bg-mp-surface, text-mp-fg,
+   bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent,
+   border-mp-border-input, rounded-mp-lg, shadow-mp-raised,
+   font-mp-display, text-mp-h2, p-4 (= --space-4).
+   Tailwind's default palette is removed on purpose: only on-brand
+   colors exist, and there is no white or black.
+   ============================================================ */
+
+@theme inline {
+  /* Reset Tailwind namespaces that overlap the system's own token names. */
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --font-weight-*: initial;
+  --leading-*: initial;
+  --tracking-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --ease-*: initial;
+  --container-*: initial;
+  --blur-*: initial;
+
+  --color-mp-surface: var(--color-bg-primary);
+  --color-mp-surface-2: var(--color-bg-secondary);
+  --color-mp-surface-3: var(--color-bg-tertiary);
+  --color-mp-elevated: var(--color-bg-elevated);
+  --color-mp-inverse: var(--color-bg-inverse);
+  --color-mp-hover: var(--color-bg-hover);
+  --color-mp-active: var(--color-bg-active);
+  --color-mp-fg: var(--color-text-primary);
+  --color-mp-fg-muted: var(--color-text-secondary);
+  --color-mp-fg-subtle: var(--color-text-tertiary);
+  --color-mp-fg-inverse: var(--color-text-inverse);
+  --color-mp-on-accent: var(--color-text-on-accent);
+  --color-mp-link: var(--color-text-accent);
+  --color-mp-primary: var(--color-action-primary);
+  --color-mp-primary-hover: var(--color-action-primary-hover);
+  --color-mp-secondary: var(--color-action-secondary);
+  --color-mp-secondary-hover: var(--color-action-secondary-hover);
+  --color-mp-border: var(--color-border-default);
+  --color-mp-border-strong: var(--color-border-emphasis);
+  --color-mp-border-input: var(--color-border-input);
+  --color-mp-focus: var(--color-focus);
+  --color-mp-human: var(--color-human-text);
+  --color-mp-human-bg: var(--color-human-bg);
+  --color-mp-digital: var(--color-digital-text);
+  --color-mp-digital-bg: var(--color-digital-bg);
+  --color-mp-success: var(--color-success);
+  --color-mp-success-text: var(--color-success-text);
+  --color-mp-success-bg: var(--color-success-bg);
+  --color-mp-warning: var(--color-warning);
+  --color-mp-warning-text: var(--color-warning-text);
+  --color-mp-warning-bg: var(--color-warning-bg);
+  --color-mp-error: var(--color-error);
+  --color-mp-error-text: var(--color-error-text);
+  --color-mp-error-bg: var(--color-error-bg);
+  --color-mp-error-hover: var(--color-error-hover);
+  --color-mp-info: var(--color-info);
+  --color-mp-info-text: var(--color-info-text);
+  --color-mp-info-bg: var(--color-info-bg);
+  --color-mp-chart-1: var(--color-chart-1);
+  --color-mp-chart-2: var(--color-chart-2);
+  --color-mp-chart-3: var(--color-chart-3);
+  --color-mp-chart-4: var(--color-chart-4);
+  --color-mp-chart-5: var(--color-chart-5);
+  --color-mp-chart-6: var(--color-chart-6);
+  --color-mp-code-bg: var(--code-bg);
+  --color-mp-code-fg: var(--code-text);
+
+  --font-mp-display: var(--font-serif);
+  --font-mp-body: var(--font-sans);
+  --font-mp-code: var(--font-mono);
+
+  --text-mp-display: var(--text-display);
+  --text-mp-display--line-height: var(--leading-display);
+  --text-mp-h1: var(--text-h1);
+  --text-mp-h1--line-height: var(--leading-heading);
+  --text-mp-h2: var(--text-h2);
+  --text-mp-h2--line-height: var(--leading-heading);
+  --text-mp-h3: var(--text-h3);
+  --text-mp-h3--line-height: var(--leading-subheading);
+  --text-mp-h4: var(--text-h4);
+  --text-mp-h4--line-height: var(--leading-subheading);
+  --text-mp-body-lg: var(--text-body-lg);
+  --text-mp-body-lg--line-height: var(--leading-body-lg);
+  --text-mp-body: var(--text-body);
+  --text-mp-body--line-height: var(--leading-body);
+  --text-mp-small: var(--text-small);
+  --text-mp-small--line-height: var(--leading-small);
+  --text-mp-xs: var(--text-xs);
+  --text-mp-xs--line-height: var(--leading-label);
+  --text-mp-code: var(--text-code);
+  --text-mp-code--line-height: var(--leading-code);
+
+  --radius-mp-sm: var(--radius-sm);
+  --radius-mp-md: var(--radius-md);
+  --radius-mp-lg: var(--radius-lg);
+  --radius-mp-xl: var(--radius-xl);
+  --shadow-mp-raised: var(--elevation-raised);
+  --shadow-mp-overlay: var(--elevation-overlay);
+  --shadow-mp-modal: var(--elevation-modal);
+  --shadow-mp-glow-warm: var(--shadow-glow-warm);
+  --shadow-mp-glow-teal: var(--shadow-glow-teal);
+  --ease-mp-default: var(--ease-default);
+  --ease-mp-out: var(--ease-out);
+  --ease-mp-in: var(--ease-in);
+  --ease-mp-in-out: var(--ease-in-out);
+  --container-mp-sm: var(--container-sm);
+  --container-mp-md: var(--container-md);
+  --container-mp-lg: var(--container-lg);
+  --container-mp-xl: var(--container-xl);
+  --font-weight-regular: var(--weight-regular);
+  --font-weight-medium: var(--weight-medium);
+  --font-weight-semibold: var(--weight-semibold);
+  --font-weight-bold: var(--weight-bold);
+}

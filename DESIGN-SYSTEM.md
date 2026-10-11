@@ -1,5 +1,5 @@
 # Isaac D'Césares — Brand Design System
-> **Version 2.0 · July 2026**
+> **Version 2.1 · October 2026**
 > *The visual translation of the brand essence into a coherent, reproducible system.*
 
 ---
@@ -10,9 +10,9 @@ This design system is the **single source of truth** for every visual and intera
 
 **For designers:** Follow the tokens, scales, and component patterns. Every decision has intent — do not substitute without understanding the reasoning.
 
-**For developers:** The CSS custom properties in `tokens/design-tokens.css` are **generated** from `tokens/membrane.tokens.json`. Edit the JSON source, run `npm run build:tokens`, and the CSS updates. All semantic token names map 1:1 to this document. Prefer Tier 2 semantic tokens (`--color-action-primary`, `--color-text-tertiary`, etc.) over Tier 1 primitives (`--color-terracotta`) in component code.
+**For developers:** Link `membrane.css` (tokens + base + components) and build with the component library in `components/` (§6). The CSS custom properties in `tokens/design-tokens.css` are **generated** from `tokens/membrane.tokens.json`; edit the JSON source and run `npm run build:system`. When you write your own CSS, consume Tier 2 semantic tokens (`--color-action-primary`, `--color-text-tertiary`, etc.), never Tier 1 primitives (`--color-terracotta`) or raw color values — the component build enforces exactly this rule on the library itself.
 
-**For AI agents:** Use this document as your style constraint. When generating any visual or textual content for the brand, validate against Section 1 (Principles), Section 2 (Color), and Section 3 (Typography) at minimum.
+**For AI agents:** Start from `llms.txt` and `components/manifest.json` — the manifest lists every component's classes, the only valid `data-*` values, the ARIA states it styles, and copyable HTML. Use this document as your style constraint: validate output against Section 1 (Principles), Section 2 (Color), Section 3 (Typography) and Section 6 (Components) at minimum, and §11.4 for a ready-made constraint block.
 
 **The test for any output:** Does it hold both the human register and the digital register simultaneously? Is it warm without being casual? Is it precise without being cold?
 
@@ -51,9 +51,11 @@ HUMAN REGISTER          THE MEMBRANE          DIGITAL REGISTER
  hands, pedagogy)        translate)            precision, code)
 
   Terracotta              Warm Cream              Deep Teal
-  Amber Gold              Warm Gray               Steel Blue
-  Burgundy                                        Slate
+  Amber Gold              Warm Gray               Steel Blue*
+  Burgundy                                        Charcoal
 ```
+
+\* Steel Blue exists only as a data color (`--color-chart-5`); it never appears in UI chrome. Earlier versions also listed a "Slate" that was never defined — the digital register's dark anchor is Charcoal.
 
 This is not arbitrary. When a design element relates to the human side of the brand (education, community, ethics), it gravitates toward warm tones. When it relates to the digital side (code, AI, systems), it gravitates toward cool tones. When it bridges both — which is most of the time — it uses the neutral membrane colors with accents from either register.
 
@@ -63,80 +65,116 @@ This is not arbitrary. When a design element relates to the human side of the br
 
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
-| `--color-terracotta` | Terracotta | `#B35530` | `15, 58%, 44%` | **Primary brand color.** The human register made visible. Earth, hands, making, Brazilian clay. Used for primary CTAs, key highlights, the signature accent. *Adjusted for WCAG AA compliance.* |
-| `--color-teal` | Deep Teal | `#1B756D` | `174, 63%, 28%` | **Secondary brand color.** The digital register. Technology, depth, Rio's ocean. Used for secondary actions, links, code accents, digital-context elements. |
+| `--color-terracotta` | Terracotta | `#B35530` | `17, 58%, 45%` | **Primary brand color.** The human register made visible. Earth, hands, making, Brazilian clay. Used for primary CTAs, key highlights, the signature accent. *Adjusted for WCAG AA compliance.* |
+| `--color-teal` | Deep Teal | `#1B756D` | `175, 62%, 28%` | **Secondary brand color.** The digital register. Technology, depth, Rio's ocean. Used for secondary actions, links, code accents, digital-context elements. |
 
-#### Primary Opacity Tokens
+#### Derived Tints
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `--color-terracotta-10` | `rgba(179, 85, 48, 0.10)` | Warm tint for tags, selection, subtle emphasis |
-| `--color-terracotta-20` | `rgba(179, 85, 48, 0.20)` | Stronger warm tint for hover/focus affordances |
-| `--color-teal-08` | `rgba(27, 117, 109, 0.08)` | Very subtle digital wash for page-level ambient backgrounds |
-| `--color-teal-10` | `rgba(27, 117, 109, 0.10)` | Default teal tint for tags and quiet UI states |
-| `--color-teal-12` | `rgba(27, 117, 109, 0.12)` | Slightly stronger teal tint for focal background glows |
-| `--color-teal-20` | `rgba(27, 117, 109, 0.20)` | Stronger teal tint for bars, selected states, and hover surfaces |
+Alpha washes of the palette, computed with `color-mix()` and mode-aware (dark mode derives them from the `-light` primitives). They are Tier 1: use them for decorative surfaces in page layouts. **Components and UI text use the semantic washes instead** (`--color-human-bg`, `--color-digital-bg`, `--color-success-bg`, … in §2.3), which come paired with a gate-checked text color.
+
+| Token | Mix | Usage |
+|-------|-----|-------|
+| `--color-terracotta-10` / `-20` | terracotta @ 10% / 20% | Warm decorative washes |
+| `--color-teal-08` / `-10` / `-12` / `-20` | teal @ 8–20% | Digital decorative washes, page glows |
+| `--color-amber-10`, `--color-burgundy-10`, `--color-sage-10` | accent @ 10% | Accent washes |
 
 #### Canvas Colors
 
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
 | `--color-cream` | Warm Cream | `#FAF6EE` | `40, 55%, 96%` | **Light canvas.** The membrane surface. Never pure white — warmth is baked into the ground. Primary background for light mode. |
-| `--color-charcoal` | Rich Charcoal | `#1A1B1F` | `228, 10%, 11%` | **Dark canvas.** Depth and sophistication. Primary background for dark mode. Slightly cool to create contrast with warm accents. |
+| `--color-charcoal` | Rich Charcoal | `#1A1B1F` | `228, 9%, 11%` | **Dark canvas.** Depth and sophistication. Primary background for dark mode. Slightly cool to create contrast with warm accents. |
 
 #### Accent Colors
 
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
-| `--color-amber` | Amber Gold | `#D49A3A` | `37, 62%, 53%` | **Builder energy.** Making, creation, sunlight, optimism. Used sparingly for highlights, badges, "new" indicators, callout borders. |
+| `--color-amber` | Amber Gold | `#D49A3A` | `37, 64%, 53%` | **Builder energy.** Making, creation, sunlight, optimism. Used sparingly for highlights, badges, "new" indicators, callout borders. |
 | `--color-burgundy` | Burgundy | `#7A3345` | `345, 41%, 34%` | **Heritage depth.** The D'Césares lineage, intellectual depth, gravitas. Used for deep emphasis, footnotes, premium contexts. |
-| `--color-sage` | Sage Green | `#5A8A6E` | `147, 21%, 45%` | **Growth.** Education, nature, Rio's vegetation, development. Used for success states, growth metrics, educational contexts. |
+| `--color-sage` | Sage Green | `#5A8A6E` | `145, 21%, 45%` | **Growth.** Education, nature, Rio's vegetation, development. Used for success states, growth metrics, educational contexts. |
 
 #### Neutral Scale
 
 | Token | Hex | Usage |
 |-------|-----|-------|
 | `--color-neutral-50` | `#FAF6EE` | = Warm Cream (lightest) |
-| `--color-neutral-100` | `#F0EBE1` | Subtle backgrounds, cards on cream |
-| `--color-neutral-200` | `#E2DCD2` | Borders, dividers (light mode) |
-| `--color-neutral-300` | `#C8C1B5` | Disabled states, placeholder text |
-| `--color-neutral-400` | `#A39D93` | Secondary text (light mode) |
-| `--color-neutral-500` | `#7D776E` | Tertiary text, captions |
-| `--color-neutral-600` | `#5C564E` | Body text (light mode) |
-| `--color-neutral-700` | `#3D3832` | Headings (light mode), body text (dark mode) |
-| `--color-neutral-800` | `#2A2622` | Deep emphasis (light mode) |
+| `--color-neutral-100` | `#F0EBE1` | Cards and alternating sections (`--color-bg-secondary`); primary text in dark mode |
+| `--color-neutral-200` | `#E2DCD2` | Default borders and nested fills in light mode (`--color-border-default`, `--color-bg-tertiary`) |
+| `--color-neutral-300` | `#C8C1B5` | Emphasized borders in light mode (`--color-border-emphasis`) |
+| `--color-neutral-400` | `#A39D93` | Secondary text in **dark** mode (too light for text on cream) |
+| `--color-neutral-500` | `#7D776E` | Form-control boundaries in both modes (`--color-border-input`, ≥3:1); not for text, which uses the darker `#6E685F` |
+| `--color-neutral-600` | `#5C564E` | Secondary text in light mode; emphasized borders in dark mode |
+| `--color-neutral-700` | `#3D3832` | Tertiary text under `prefers-contrast: more` (light) |
+| `--color-neutral-800` | `#2A2622` | Primary text and headings in light mode (`--color-text-primary`) |
 | `--color-neutral-900` | `#1A1B1F` | = Rich Charcoal (darkest) |
+
+> Components never use these directly: they consume the semantic roles in parentheses (§2.3).
 
 > **Note:** The neutral scale is intentionally warm. Every gray carries a subtle amber undertone (shifting toward `hsl(35, 8%, x%)`) rather than being purely achromatic. This ensures that even structural elements (borders, backgrounds, disabled states) contribute to the warmth principle.
 
 ### 2.3 Semantic Colors
 
-Each token carries its `light-dark()` pair internally — the same property name works in both modes. No override blocks required.
+Each token carries its `light-dark()` pair internally — the same property name works in both modes. No override blocks required. The families:
 
-| Token | Light value | Dark value | Usage |
-|-------|------------|-----------|-------|
-| `--color-text-primary` | `--neutral-800` | `--neutral-100` | Primary body text |
-| `--color-text-secondary` | `--neutral-600` | `--neutral-400` | Supporting text, captions |
-| `--color-text-tertiary` | `#6E685F` | `#938D83` | Placeholder, metadata. v2.0: darkened to meet 4.5:1 on bg-primary and bg-secondary. |
-| `--color-text-accent` | `--color-teal` | `--color-teal-light` | Links, interactive text |
-| `--color-text-on-accent` | `#FFFFFF` | `--color-charcoal` | Text on action-primary background. v2.0: dark mode flips to charcoal — white on lightened terracotta was 3.3:1. |
-| `--color-action-primary` | `--color-terracotta` | `--color-terracotta-light` | Primary CTAs, key interactive accents. Use instead of bare `--color-terracotta` on interactive elements. |
-| `--color-action-secondary` | `--color-teal` | `--color-teal-light` | Secondary/navigational actions. |
-| `--color-focus` | `--color-teal` | `--color-teal-light` | Focus ring color. v2.0: dark mode remapped to teal-light (raw teal is 3.1:1 on charcoal). |
-| `--color-bg-primary` | `--color-cream` | `--color-charcoal` | Page background |
-| `--color-bg-secondary` | `--neutral-100` | `#242429` | Cards, sections |
-| `--color-bg-tertiary` | `--neutral-200` | `#2E2E34` | Nested containers |
-| `--color-border-default` | `--neutral-200` | `#3D3842` | Default borders |
-| `--color-border-emphasis` | `--neutral-300` | `--neutral-600` | Emphasized borders |
-| `--color-overlay-bg` | `rgba(26, 27, 31, 0.70)` | same | Scrims, navigation overlays, image readability layers |
-| `--color-success` | `--color-sage` | `--color-sage-light` | Success fills, icons, large text (≥3:1 on bg-primary). |
-| `--color-success-text` | `#3E6B52` | `--color-sage-light` | Success body text (4.5:1). v2.0: new. |
-| `--color-warning` | `--color-amber` | `--color-amber-light` | Warning fills and badges with dark text on top. Never use as text on light surfaces (2.3:1). |
-| `--color-warning-text` | `#8A6420` | `--color-amber-light` | Warning body text (5.0:1). v2.0: new. |
-| `--color-error` | `#C44040` | `#E86060` | Error fills and icons. |
-| `--color-error-text` | `#B23A3A` | `#E86060` | Error body text (5.5:1). v2.0: new. |
-| `--color-info` | `--color-teal` | `--color-teal-light` | Informational states |
-| `--color-selection` | terracotta 20% | terracotta-light 20% | Text selection highlight. v2.0: new. |
+- **Text** — `text-primary/secondary/tertiary`, `text-accent` (links), `text-on-accent` (labels on filled buttons), `text-inverse`.
+- **Surfaces** — `bg-primary` (page), `bg-secondary` (cards), `bg-tertiary` (nested), `bg-elevated` (dialogs/popovers; lighter in dark mode), `bg-inverse` (tooltips), `bg-hover` / `bg-active` (translucent state washes that work on any surface).
+- **Borders** — `border-default` and `border-emphasis` are decorative; `border-input` is the ≥3:1 boundary every form control needs (WCAG 1.4.11).
+- **Actions** — `action-primary` (terracotta) and `action-secondary` (teal), each with a `-hover` fill; `focus`.
+- **Registers** — `human-text` + `human-bg`, `digital-text` + `digital-bg`: the membrane metaphor as gate-checked text/wash pairs.
+- **Status** — for each of success, warning, error, info: a fill (`success`), a text color (`success-text`) and a wash (`success-bg`), plus `error-hover` for destructive buttons.
+
+The table below is **generated** from `tokens/membrane.tokens.json` by `npm run build:tokens`.
+
+<!-- GENERATED:SEMANTIC-COLORS -->
+| Token | Light | Dark | Usage |
+|---|---|---|---|
+| `--color-text-primary` | `--color-neutral-800` #2A2622 | `--color-neutral-100` #F0EBE1 | Primary body text and headings. |
+| `--color-text-secondary` | `--color-neutral-600` #5C564E | `--color-neutral-400` #A39D93 | Supporting text: ledes, descriptions, captions. |
+| `--color-text-tertiary` | #6E685F | #938D83 | Metadata, placeholders. v2.0: darkened from neutral-400 (2.5:1) to pass WCAG AA 4.5:1 on bg-primary and bg-secondary. |
+| `--color-text-accent` | `--color-teal` #1B756D | `--color-teal-light` #3AAFA8 | Inline links and interactive text. |
+| `--color-text-on-accent` | #FFFFFF | `--color-charcoal` #1A1B1F | v2.0: flips to charcoal in dark mode — white on the lightened terracotta was 3.3:1. |
+| `--color-bg-primary` | `--color-cream` #FAF6EE | `--color-charcoal` #1A1B1F | Page background — the membrane surface. |
+| `--color-bg-secondary` | `--color-neutral-100` #F0EBE1 | #242429 | Cards and alternating sections. |
+| `--color-bg-tertiary` | `--color-neutral-200` #E2DCD2 | #2E2E34 | Nested containers, neutral tag fills, progress tracks. |
+| `--color-border-default` | `--color-neutral-200` #E2DCD2 | #3D3842 | Decorative dividers and card outlines. Too faint to be the only boundary of a control — use border-input there. |
+| `--color-border-emphasis` | `--color-neutral-300` #C8C1B5 | `--color-neutral-600` #5C564E | Emphasized separation; hover border for quiet surfaces. |
+| `--color-overlay-bg` | RGBA(26, 27, 31, 0.70) | RGBA(26, 27, 31, 0.70) | Scrims and image-readability layers. Intentionally identical in both modes. |
+| `--color-action-primary` | `--color-terracotta` #B35530 | `--color-terracotta-light` #D4724F | Primary CTAs and key interactive accents. Replaces direct use of --color-terracotta on interactive elements. |
+| `--color-action-secondary` | `--color-teal` #1B756D | `--color-teal-light` #3AAFA8 | Secondary/navigational actions. |
+| `--color-focus` | `--color-teal` #1B756D | `--color-teal-light` #3AAFA8 | Focus indicator color. v2.0: dark mode now remaps to teal-light (raw teal was ~3:1 on charcoal). |
+| `--color-success` | `--color-sage` #5A8A6E | `--color-sage-light` #6FBF8A | Fills, icons, large text (≥3:1). For body-size text use success-text. |
+| `--color-success-text` | #3E6B52 | `--color-sage-light` #6FBF8A | Success body text (≥4.5:1 on page, card, and success-bg). |
+| `--color-warning` | `--color-amber` #D49A3A | `--color-amber-light` #E8B44A | Fills and badges with dark text on top. Never use as text on light surfaces — 2.3:1. |
+| `--color-warning-text` | #7A571B | `--color-amber-light` #E8B44A | Warning body text (≥4.5:1 on page, card, and warning-bg). |
+| `--color-error` | #C44040 | #E86060 | Error fills, icons, invalid-control borders, danger buttons (≥3:1). |
+| `--color-error-text` | #A53434 | #F07C78 | Error body text and validation messages (≥4.5:1 on page, card, and error-bg). |
+| `--color-info` | `--color-teal` #1B756D | `--color-teal-light` #3AAFA8 | Informational fills and icons. |
+| `--color-selection` | `color-mix(in srgb, light-dark(var(--color-terracotta), var(--color-terracotta-light)) 20%, transparent)` | `color-mix(in srgb, light-dark(var(--color-terracotta), var(--color-terracotta-light)) 20%, transparent)` | Text selection highlight. |
+| `--color-bg-elevated` | `--color-cream` #FAF6EE | #27272D | Surfaces that float above the page: dialogs, popovers, menus. In dark mode elevation reads as a lighter surface, not just a deeper shadow. |
+| `--color-bg-inverse` | `--color-neutral-800` #2A2622 | `--color-neutral-100` #F0EBE1 | Inverted surface for tooltips and high-attention chips. Pair with text-inverse. |
+| `--color-text-inverse` | `--color-neutral-100` #F0EBE1 | `--color-neutral-800` #2A2622 | Text on bg-inverse. |
+| `--color-bg-hover` | `--color-neutral-800` @ 6% | `--color-neutral-100` @ 6% | Neutral hover wash for quiet controls (ghost buttons, nav links, table rows, accordion summaries). Works on any surface because it is a translucent overlay. |
+| `--color-bg-active` | `--color-neutral-800` @ 10% | `--color-neutral-100` @ 10% | Neutral pressed/selected wash. Pair with bg-hover. |
+| `--color-border-input` | `--color-neutral-500` #7D776E | `--color-neutral-500` #7D776E | Boundary of form controls (inputs, checkboxes, switches). ≥3:1 against page and card surfaces per WCAG 1.4.11 — border-default is decorative and too faint to be a control's only boundary. |
+| `--color-action-primary-hover` | `--color-action-primary` + 16% `--color-text-primary` → #9C4E2F | `--color-action-primary` + 16% `--color-text-primary` → #DA8667 | Hover/pressed fill for primary actions. Mixes toward text-primary, so it darkens in light mode and lightens in dark mode — contrast with text-on-accent always increases. |
+| `--color-action-secondary-hover` | `--color-action-secondary` + 16% `--color-text-primary` → #256860 | `--color-action-secondary` + 16% `--color-text-primary` → #61B9B1 | Hover/pressed fill for secondary actions. |
+| `--color-error-hover` | `--color-error` + 16% `--color-text-primary` → #AA3E3C | `--color-error` + 16% `--color-text-primary` → #EC7974 | Hover/pressed fill for destructive actions. |
+| `--color-human-text` | `--color-terracotta-dark` #944425 | #E08A6A | Human-register text: overlines, tags, pull quotes, active nav. ≥4.5:1 on page, card, and human-bg surfaces. |
+| `--color-human-bg` | `--color-terracotta` @ 10% | `--color-terracotta-light` @ 10% | Human-register wash for tags, avatars, callouts. Pair with human-text. |
+| `--color-digital-text` | `--color-teal-dark` #145C56 | `--color-teal-light` #3AAFA8 | Digital-register text: tech-stack tags, code-adjacent labels. ≥4.5:1 on page, card, and digital-bg surfaces. |
+| `--color-digital-bg` | `--color-teal` @ 10% | `--color-teal-light` @ 10% | Digital-register wash. Pair with digital-text. |
+| `--color-info-text` | `--color-teal-dark` #145C56 | `--color-teal-light` #3AAFA8 | Informational body text (4.5:1 on page, card, and info-bg). |
+| `--color-success-bg` | `--color-sage` @ 10% | `--color-sage-light` @ 10% | Success surface for alerts and badges. Pair with success-text. |
+| `--color-warning-bg` | `--color-amber` @ 10% | `--color-amber-light` @ 10% | Warning surface. Pair with warning-text. |
+| `--color-error-bg` | `--color-error` @ 10% | `--color-error` @ 10% | Error surface. Pair with error-text. |
+| `--color-info-bg` | `--color-teal` @ 10% | `--color-teal-light` @ 10% | Informational surface. Pair with info-text. |
+| `--color-chart-1` | #B35530 | #D4724F | Categorical chart series 1 (terracotta — human register; the brand's lead series). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes). |
+| `--color-chart-2` | #009187 | #00A99D | Categorical chart series 2 (teal — digital register). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes). |
+| `--color-chart-3` | #A1742A | #B78941 | Categorical chart series 3 (amber). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes). |
+| `--color-chart-4` | #9F3B5A | #B6506E | Categorical chart series 4 (burgundy). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes). |
+| `--color-chart-5` | #4981B9 | #5E97D0 | Categorical chart series 5 (steel blue). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes). |
+| `--color-chart-6` | #4B8F5B | #25984D | Categorical chart series 6 (green). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes). |
+<!-- /GENERATED:SEMANTIC-COLORS -->
 
 ### 2.4 Color Usage Rules
 
@@ -184,8 +222,10 @@ Code blocks are always dark, even in light mode. These tokens control syntax hig
 | `--code-keyword` | `#E07050` | Language keywords |
 | `--code-string` | `#7BC494` | String literals |
 | `--code-function` | `#E8B44A` | Function names |
-| `--code-comment` | `#7D776E` | Comments |
+| `--code-comment` | `#958F84` | Comments (v2.1: was `#7D776E`, 3.7:1 — now 5.2:1) |
 | `--code-number` | `#5AC8C0` | Numeric values |
+
+Every syntax color is gate-checked at ≥4.5:1 on `--code-bg` (§13.1).
 
 ---
 
@@ -204,21 +244,26 @@ This triad mirrors the brand identity triad: **Researcher (Fraunces) · Educator
 ### 3.2 Font Stack
 
 ```css
---font-serif:    'Fraunces', 'Georgia', 'Times New Roman', serif;
---font-sans:     'Instrument Sans', 'Inter', 'Helvetica Neue', sans-serif;
---font-mono:     'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+--font-serif:    'Fraunces', 'Fraunces Fallback', 'Georgia', 'Times New Roman', serif;
+--font-sans:     'Instrument Sans', 'Instrument Sans Fallback', 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+--font-mono:     'JetBrains Mono', 'JetBrains Mono Fallback', 'Fira Code', 'Consolas', monospace;
 ```
 
-**Loading strategy:** Fraunces and Instrument Sans via Google Fonts with `display=swap`. JetBrains Mono self-hosted or via Google Fonts.
+**Loading strategy:** all three families are self-hosted in `fonts/` (SIL OFL 1.1) as variable woff2 files, latin and latin-ext subsets, and declared in `fonts/fonts.css` (also inlined at the top of `membrane.css`). `unicode-range` means a page downloads only the subsets its text uses, and the italic files only when italics render.
 
-**Variable font axes (Fraunces):**
-- `wght`: 400–700 (use 400 for body, 600 for emphasis, 700 for display)
-- `opsz`: 9–144 (optical sizing — let the browser handle this automatically)
-- `WONK`: 0–1 (set to 1 for display headings to activate the softer, more characterful forms)
+- `font-display: swap`: text is never invisible.
+- Each family has a **metric-matched fallback** (`"Fraunces Fallback"` = local Times New Roman, `"Instrument Sans Fallback"` = Arial, `"JetBrains Mono Fallback"` = Courier New) with `size-adjust` and ascent/descent overrides measured by `scripts/measure-fonts.py`. The fallback occupies the same space as the web font, so the swap barely moves the layout.
+- Recommended: preload the body face (`instrument-sans-latin-wght-normal.woff2`) and, when headings are above the fold, `fraunces-latin-opsz-normal.woff2` (the showcase does both).
+- No third-party font requests: nothing about a visitor reaches Google.
+
+**Variable font axes (Fraunces, as shipped in `fonts/`):**
+- `wght`: 100–900 in the file; the system uses 400 (body), 600 (emphasis) and 700 (display).
+- `opsz`: 9–144 (optical sizing — let the browser handle this automatically).
+- `WONK` and `SOFT` are **not** in the web files (they would roughly double the download). Only the outlined brand marks use `WONK` 1 (§10.3); `font-variation-settings: "WONK" 1` in CSS does nothing.
 
 ### 3.3 Type Scale
 
-The scale uses a **variable ratio** — approximately 1.20 between small steps, widening to approximately 1.375 at display sizes. All sizes use `clamp()` for fluid responsive behavior.
+The scale uses a **variable ratio** — approximately 1.20 between small steps, widening to approximately 1.375 at display sizes. Display through body sizes use `clamp()` for fluid responsive behavior; `small` and `xs` are fixed so metadata stays legible at every width.
 
 | Token | Min (mobile) | Preferred | Max (desktop) | Weight | Font | Usage |
 |-------|-------------|-----------|---------------|--------|------|-------|
@@ -233,9 +278,9 @@ The scale uses a **variable ratio** — approximately 1.20 between small steps, 
 | `--text-xs` | 0.75rem | — | 0.75rem | 500 | Instrument Sans | Labels, badges, overlines |
 | `--text-code` | 0.875rem | — | 0.9375rem | 400 | JetBrains Mono | Inline code, code blocks |
 
-#### Website Compatibility Aliases
+#### Website Compatibility Aliases (deprecated in v2.1)
 
-The website uses a small set of semantic size aliases in component CSS. They resolve to the canonical scale and are included in `tokens/design-tokens.css` for compatibility.
+These aliases resolve to the canonical scale. Two names for one size made generated code inconsistent, so they are **deprecated** — they still work, the build flags them, and they will not be removed before v3.0.0. Use the canonical name.
 
 | Alias | Resolves to |
 |-------|-------------|
@@ -314,7 +359,11 @@ All spacing derives from a **4px base unit** (`0.25rem`). This creates a consist
 | `--container-xl` | `1200px` | Maximum content width |
 | `--container-full` | `100%` | Full-bleed sections (with padding) |
 
-**Site margin:** `clamp(1.5rem, 5vw, 5rem)` — fluid margins that scale gracefully from mobile to desktop.
+**Site margin:** `clamp(1.5rem, 5vw, 5rem)` (`--site-margin`) — fluid margins that scale gracefully from mobile to desktop.
+
+**Measure:** `--measure` (`65ch`) caps body-copy line length (§3.5 rule 5).
+
+In practice, use the layout primitives (`.mp-container`, `.mp-stack`, `.mp-cluster`, `.mp-grid`, `.mp-section` — see `components/layout/`) rather than writing these grids by hand; their `data-gap` values map 1:1 to the spacing scale.
 
 **Grid system:**
 - Use CSS Grid for layout, Flexbox for alignment within components.
@@ -334,6 +383,8 @@ All spacing derives from a **4px base unit** (`0.25rem`). This creates a consist
 | `--bp-md` | `768px` | Medium (tablets) |
 | `--bp-lg` | `1024px` | Large (small desktops) |
 | `--bp-xl` | `1280px` | Extra large (desktops) |
+
+Custom properties can't be used inside `@media`, so breakpoints are emitted as comments only — they document the values to type into media queries. Components prefer intrinsic layout (`auto-fit` grids, wrapping clusters) and container queries over viewport breakpoints.
 
 ### 4.5 Z-Index Scale
 
@@ -374,7 +425,7 @@ All spacing derives from a **4px base unit** (`0.25rem`). This creates a consist
 | `--radius-xl` | `16px` | Hero cards, prominent containers |
 | `--radius-full` | `999px` | Pills, tags, avatar containers, fully-rounded buttons |
 
-> **Note:** The current website uses `999rem` for fully-rounded buttons. This carries forward. Buttons are pills — rounded, approachable, inviting. Cards are softly rounded but not pill-shaped.
+> **Note:** Fully rounded buttons use `--radius-full` (`999px`), carried forward from the original website. Buttons are pills — rounded, approachable, inviting. Cards are softly rounded but not pill-shaped.
 
 ### 5.2 Shadows
 
@@ -398,178 +449,63 @@ Shadows are warm-tinted (not pure black) to maintain the warmth principle.
 
 ---
 
-## 6. Component Patterns
+## 6. Component Library
 
-> **v2.0:** Every recipe below consumes Tier 2 **semantic** tokens (`--color-action-primary`, `--color-focus`, etc.), not Tier 1 primitives (`--color-terracotta`). This is what lets a component built from these recipes retheme automatically — the semantic token already carries its `light-dark()` pair. Reaching into a primitive directly (as earlier versions of this spec did) is what caused dark mode to require duplicated override blocks; don't reintroduce that pattern.
+> **v2.1:** Components are no longer prose recipes. They ship as real CSS in `components/<name>/<name>.css`, documented in `components/<name>/README.md`, bundled into `components/membrane-components.css` and `membrane.css`. This section states the conventions; each README is the reference for its component, and its **API** section is generated from the CSS so it can't drift.
 
-### 6.1 Buttons
+### 6.1 Using the library
 
-**Primary Button**
-```
-Background:     var(--color-action-primary)
-Text:           var(--color-text-on-accent)
-Padding:        0.875rem 2rem
-Border-radius:  var(--radius-full)
-Font:           Instrument Sans, 500, var(--text-body)
-Letter-spacing: 0.01em
-Hover:          brightness(1.08), shadow-glow-warm
-Active:         brightness(0.95)
-Transition:     var(--transition-fast)
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css">
+<!-- Needed for Tabs, Menu, Combobox and Toast; adds tooltip Escape and dialog fallbacks: -->
+<script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js" defer></script>
 ```
 
-**Secondary Button (outline)**
-```
-Background:     transparent
-Border:         var(--border-width-medium) solid var(--color-action-secondary)
-Text:           var(--color-action-secondary)
-Padding:        0.75rem 1.75rem
-Border-radius:  var(--radius-full)
-Hover:          background var(--color-action-secondary), text var(--color-bg-primary)
-Transition:     var(--transition-fast)
-```
+No framework, no build step for consumers; `tokens/base.css` (inside `membrane.css`) also sets zero-specificity page defaults — canvas, text color, body font, `box-sizing` — so a page needs no CSS of its own. Complete pages to copy live in `examples/` (§16.3).
 
-**Ghost Button**
-```
-Background:     transparent
-Text:           var(--color-text-primary)
-Padding:        0.75rem 1.5rem
-Border-radius:  var(--radius-full)
-Hover:          background var(--color-bg-secondary)
-Transition:     var(--transition-fast)
-```
+**Tailwind v4 projects** import `tokens/membrane-tailwind.css` after Tailwind. It removes Tailwind's default palette and exposes the system as `mp-` utilities mapped onto the semantic tokens (`bg-mp-surface`, `text-mp-fg`, `bg-mp-primary hover:bg-mp-primary-hover`, `rounded-mp-lg`, `shadow-mp-raised`, `font-mp-display`, `text-mp-h2`), so utility-first code — including code generated by agents — can't drift off-brand. Spacing needs nothing: Tailwind's 0.25rem step is the system's 4px unit.
 
-**Button sizing:**
-| Size | Padding | Font size |
-|------|---------|-----------|
-| Small | `0.5rem 1.25rem` | `--text-small` |
-| Default | `0.875rem 2rem` | `--text-body` |
-| Large | `1rem 2.5rem` | `--text-body-lg` |
+### 6.2 Conventions
 
-All buttons must meet `--size-touch-target` (44px) as a minimum height regardless of padding.
+| Concern | Convention | Example |
+|---|---|---|
+| Component | One root class, prefixed `mp-` | `.mp-button` |
+| Parts | BEM element of the root | `.mp-card__title` |
+| Options | `data-*` attribute with a closed set of values; omit for the default | `data-variant="secondary"`, `data-size="sm"`, `data-tone="human"` |
+| States | Native attributes and ARIA — never a state class | `disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-selected="true"`, `aria-pressed="true"`, `aria-busy="true"`, `[open]` |
+| Per-instance tuning | Tier 3 component tokens, `--mp-<component>-*` | `style="--mp-button-padding: var(--space-10)"` |
+| Theming a subtree | `data-theme="dark"` (or `light`) + `.mp-surface` to paint the background | `<section class="mp-section mp-surface" data-theme="dark">` |
+| Cascade | Everything in `@layer components`; unlayered CSS wins without `!important` | — |
 
-### 6.2 Cards
+**State via ARIA is the core accessibility rule of the library**: the visual state is keyed off the attribute assistive technology reads, so the two cannot disagree. Setting `aria-invalid="true"` is what turns an input's border red; setting `aria-current="page"` is what highlights a nav link.
 
-**Standard Card**
-```
-Background:     var(--color-bg-secondary)
-Border:         var(--border-default)
-Border-radius:  var(--radius-lg)
-Padding:        var(--space-6)
-Shadow:         var(--elevation-raised)
-Hover:          var(--elevation-overlay), translateY(-2px)
-Transition:     var(--transition-slow)
-```
+### 6.3 Catalog
 
-**Featured Card**
-```
-Background:     var(--color-bg-secondary)
-Border-left:    var(--border-width-thick) solid var(--color-action-primary)
-Border-radius:  var(--radius-lg)
-Padding:        var(--space-8)
-Shadow:         var(--elevation-overlay)
-```
+| Category | Components |
+|---|---|
+| Layout | [Layout](components/layout/README.md) (container, stack, cluster, grid, section, surface), [Text](components/text/README.md), [Prose](components/prose/README.md) |
+| Actions | [Button](components/button/README.md), [Link](components/link/README.md) (incl. skip link) |
+| Forms | [Field](components/field/README.md) (incl. fieldset), [Input](components/input/README.md) (input, textarea, select), [Combobox](components/combobox/README.md)<sup>β</sup>, [Choice](components/choice/README.md) (checkbox, radio), [Switch](components/switch/README.md) |
+| Content | [Card](components/card/README.md), [Tag](components/tag/README.md), [Badge](components/badge/README.md), [Avatar](components/avatar/README.md), [Quote](components/quote/README.md), [Code](components/code/README.md), [Divider](components/divider/README.md), [Table](components/table/README.md), [Stat](components/stat/README.md), [Chart](components/chart/README.md)<sup>β</sup>, [Icon](components/icon/README.md) |
+| Feedback | [Alert](components/alert/README.md), [Progress](components/progress/README.md) (incl. spinner), [Skeleton](components/skeleton/README.md), [Empty state](components/empty-state/README.md), [Toast](components/toast/README.md)<sup>β</sup>, [Tooltip](components/tooltip/README.md), [Dialog](components/dialog/README.md) |
+| Navigation | [Navbar](components/navbar/README.md), [Breadcrumb](components/breadcrumb/README.md), [Tabs](components/tabs/README.md), [Accordion](components/accordion/README.md), [Pagination](components/pagination/README.md), [Steps](components/steps/README.md), [Menu](components/menu/README.md)<sup>β</sup> |
 
-**Card anatomy:**
-1. Optional image/media area (top, full-bleed within card radius)
-2. Overline label (text-xs, uppercase, `--color-action-primary` or `--color-action-secondary`, `--space-3` bottom)
-3. Title (H3, Fraunces, `--space-2` bottom)
-4. Description (body text, `--space-4` bottom)
-5. Optional metadata footer (text-small, secondary text color)
+<sup>β</sup> Beta: newer components whose API may still grow. Removals and renames still follow the deprecation policy (§15). The build fails if this table or the README's misses a component or misstates its status.
 
-> Cards already carry `--border-default` in both light and dark mode as part of the base recipe — this is why dark mode does not need a separate "border instead of shadow" swap (see §12.2 rule 2 for the historical note).
+### 6.4 Brand rules the components encode
 
-### 6.3 Navigation
+1. **One terracotta action per view.** The default button is `--color-action-primary`; alternatives are `secondary` (teal outline) or `ghost`.
+2. **Teal for controls and navigation.** Checked checkboxes, radios and switches, progress bars and links use the digital register, so they never compete with the primary action.
+3. **Register tones.** Tags, badges, avatars, alerts and cards take `data-tone="human"` (terracotta family) or `data-tone="digital"` (teal family) to say which side of the membrane the content belongs to.
+4. **Pills for actions and topics, soft rectangles for containers.** Buttons and tags use `--radius-full`; inputs `--radius-sm`; cards `--radius-lg`; dialogs `--radius-xl`.
+5. **Code is always dark.** `.mp-code-block` uses the `--code-*` tokens in both modes.
+6. **Fraunces for titles, never for UI chrome.** Card, dialog and stat titles are serif; buttons, labels, inputs and nav are Instrument Sans.
 
-```
-Height:         var(--size-nav) (desktop), var(--size-nav-mobile) (mobile)
-Background:     var(--color-bg-primary) with backdrop-filter: blur(var(--blur-backdrop)) + ~85-88% opacity
-Border-bottom:  var(--border-default)
-Position:       sticky top
-Logo:           Left-aligned
-Nav links:      Instrument Sans, 500, --text-small, uppercase, letter-spacing 0.04em
-Active link:    color var(--color-action-primary), underline-offset 4px
-```
+### 6.5 Contributing a component
 
-### 6.4 Input Fields
-
-```
-Background:     var(--color-bg-primary)
-Border:         var(--border-default)
-Border-radius:  var(--radius-sm)
-Padding:        var(--space-3) var(--space-4)
-Font:           Instrument Sans, 400, --text-body
-Focus:          border-color var(--color-focus), shadow-glow-teal (subtle)
-Placeholder:    var(--color-text-tertiary)
-```
-
-`--color-focus` is a dedicated semantic token (distinct from `--color-action-secondary`) precisely so the focus ring can be retuned for contrast independent of the teal action color — see §13.2.
-
-### 6.5 Tags / Pills
-
-```
-Background:     var(--color-teal-10)
-Text:           var(--color-action-secondary)
-Padding:        var(--space-1) var(--space-3)
-Border-radius:  var(--radius-full)
-Font:           Instrument Sans, 500, --text-xs
-```
-
-For human-register tags (education topics): `--color-terracotta-10` background with `--color-action-primary` text.
-For builder-register tags (tech stack): `--color-teal-10` background with `--color-action-secondary` text.
-
-### 6.6 Blockquotes
-
-```
-Border-left:    var(--border-width-thick) solid var(--color-action-primary)
-Padding-left:   var(--space-6)
-Font:           Fraunces, 400 italic, --text-body-lg
-Color:          var(--color-text-primary)
-Margin:         var(--space-8) 0
-```
-
-Pull quotes (the brand's signature phrases) get special treatment:
-```
-Font:           Fraunces, 600 italic, --text-h2
-Color:          var(--color-action-primary)
-Text-align:     center
-Max-width:      var(--container-sm)
-Margin:         var(--space-12) auto
-```
-
-### 6.7 Code Blocks
-
-```
-Background:     var(--code-bg) (always dark, even in light mode)
-Text:           var(--code-text)
-Border-radius:  var(--radius-md)
-Padding:        var(--space-6)
-Font:           JetBrains Mono, 400, --text-code
-Line-height:    var(--leading-code)
-Border:         var(--border-width-thin) solid var(--code-border)
-```
-
-Syntax highlighting accents — each is its own token, already tuned for readability on `--code-bg` in both modes (code blocks don't retheme; see §2.6):
-- Keywords: `--code-keyword`
-- Strings: `--code-string`
-- Functions: `--code-function`
-- Comments: `--code-comment`
-- Numbers: `--code-number`
-
-### 6.8 Section Dividers
-
-Prefer generous spacing (`--space-16` to `--space-24`) over visible lines. When a visual divider is needed:
-
-```
-Border:         none
-Height:         var(--border-width-thin)
-Background:     var(--gradient-divider)
-Margin:         var(--space-16) auto
-Max-width:      var(--container-sm)
-```
-
-This fading-edge line feels more intentional and less utilitarian than a full-width rule.
-
----
+1. Create `components/<name>/<name>.css` and `components/<name>/README.md` (frontmatter `name`, `category`, `status`, `summary`; an `## Examples` section with `### Title` + ` ```html ` blocks; `<!-- GENERATED:API -->` markers), and add `<name>` to `ORDER` in `scripts/build-components.mjs`.
+2. Run `npm run build:components`. It **fails** if the CSS uses a raw color, an unknown or deprecated token, a Tier 1 primitive, or a custom property not named `--mp-*` — and if any README example uses a class, attribute or value the CSS doesn't implement, duplicates an `id`, or has an icon-only button without `aria-label`. It also fails if a class or `data-*` value the CSS implements is **never demonstrated** in an example — that is what guarantees the showcase renders every option. Token scales and runtime-only state can be exempted with an `exempt:` frontmatter line.
+3. If the component needs a new color pairing, add a semantic token and a `GATE` entry in `scripts/build-tokens.mjs` so its contrast is verified in both modes.
 
 ## 7. Imagery & Illustration
 
@@ -605,17 +541,26 @@ Inspired by Anthropic's hand-crafted doodle aesthetic, adapted for Isaac's brand
 - **Style:** Outlined, 1.5px stroke, rounded caps and joins.
 - **Size grid:** 20px (inline), 24px (standard), 32px (feature), 48px (hero).
 - **Color:** Inherits text color by default. Accent icons use terracotta or teal.
-- **Source:** Use a consistent icon set (recommended: Phosphor Icons or Lucide — both have the right balance of warmth and precision).
+- **Source:** Use a consistent icon set Lucide — 24×24 stroke icons. `.mp-icon` draws with `stroke: currentColor` and no fill, so fill-based sets (Phosphor's default weights, Material) render blank; see the Icon README.
 
 ### 7.4 Data Visualization
 
-When displaying metrics, charts, or diagrams:
-- **Primary data:** Terracotta
-- **Secondary data:** Teal
-- **Tertiary data:** Amber
-- **Background/grid:** `--neutral-200` (light) / `--neutral-800` (dark)
-- **Labels:** Instrument Sans, `--text-small`
-- **Style:** Clean and minimal. No 3D effects, no unnecessary embellishment. Rounded line caps.
+Chart color is computed, not picked. `--color-chart-1` … `--color-chart-6` (terracotta, teal, amber, burgundy, steel blue, green) are one **validated categorical palette** with selected light and dark steps. Each step was searched within its brand hue and checked as a set: lightness band, chroma floor ≥ 0.10, color-blind separation between neighbors (worst ΔE 11.5, OKLab ×100, Machado protan/deutan simulation; target ≥ 8), normal-vision separation ≥ 16, and ≥ 3:1 against page and card surfaces in both modes (the last is enforced by the token gate).
+
+| Job | Rule |
+|---|---|
+| **Identity** (which series) | Slots 1 → 6 in fixed order, never cycled; a 7th series folds into "Other" or becomes small multiples. Color follows the entity — filtering never repaints survivors. |
+| **One series** | Slot 1 (terracotta), no legend; the title names it. Never color bars by value. |
+| **Any-pair forms** (scatter, bubble, maps) | Max **2** series. Slots 1 and 3 collapse under deuteranopia when adjacent. |
+| **Magnitude** | One hue, light → dark (a ramp of `--color-chart-2` teal via `color-mix()` toward `--color-bg-primary`). Never a rainbow. |
+| **Polarity** | Terracotta ↔ neutral (`--color-border-emphasis`) ↔ teal — the membrane itself. |
+| **State** (pass/fail, error rate) | Status tokens + an icon/label, never a chart slot. |
+
+**Marks & anatomy:** thin marks — bars ~12px, 2px lines, ≥ 8px markers, 4px rounded data ends, a 2px surface gap between stacked segments. Gridlines `--color-border-default`, axis labels `--color-text-secondary` in Instrument Sans `--text-small`, values in `--color-text-primary` with tabular figures. One y-axis per chart. A legend whenever there are ≥ 2 series; direct labels on up to four. Text never wears the series color.
+
+**Interaction & access:** plotted charts get a hover/focus tooltip and a table view; the `.mp-chart` bar list prints every value, so it needs neither. Headline numbers are a [Stat](components/stat/README.md), not a chart.
+
+The HTML/CSS implementation is [`components/chart`](components/chart/README.md); for charting libraries, read the tokens with `getComputedStyle` or use `tokens/tokens.resolved.json`.
 
 ---
 
@@ -625,43 +570,118 @@ When displaying metrics, charts, or diagrams:
 
 1. **Purposeful, not performative.** Every animation should communicate something: a state change, spatial relationship, or hierarchy. No animation for decoration.
 2. **Warm pacing.** Slightly slower than typical tech-brand animations. The brand is not in a rush. Standard duration is `250ms`, not `150ms`.
-3. **Ease with intention.** Use `ease-out` for elements entering (welcoming), `ease-in` for elements leaving (respectful exit), `ease-in-out` for state changes.
+3. **Ease with intention.** `ease-out` for elements entering (welcoming), `ease-in` for elements leaving (respectful exit), `ease-in-out` for state changes. Each has a composite token (§8.4) so components don't pick by hand.
+4. **Exits are quicker than entrances.** Something the user dismissed should get out of the way: enter at `normal`, leave at `fast`.
+5. **Small distances.** Movement accompanies a fade and stays within `--space-2` (8px); a lift is `2px`. Nothing slides across the screen.
+6. **Cheap properties.** Animate `opacity`, `transform`/`translate`/`scale`/`rotate`, colors and `box-shadow`. Never `width`, `top`/`left` or `margin` — the one exception is the accordion's `block-size`, which only runs where the browser supports `interpolate-size`.
 
 ### 8.2 Duration Scale
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--duration-fast` | `150ms` | Micro-interactions: hover color changes, opacity shifts |
-| `--duration-normal` | `250ms` | Standard transitions: hover effects, active states |
-| `--duration-slow` | `400ms` | Larger transitions: card hover lift, section reveals |
-| `--duration-slower` | `600ms` | Page transitions, hero entrance animations |
+| `--duration-fast` | `150ms` | Hover colors, state changes, every exit |
+| `--duration-normal` | `250ms` | Entrances: dialogs, menus, toasts, tooltips, accordion panels |
+| `--duration-slow` | `400ms` | Larger surfaces: card hover lift, section reveals |
+| `--duration-slower` | `600ms` | Page-level changes: theme crossfade, view transitions. Stays `150ms` under reduced motion |
+| `--duration-loop` | `1600ms` | One cycle of an indefinite loader (shimmer, indeterminate bar; the spinner turns at half this). **Not** reduced — loaders change *what* they animate instead |
 
 ### 8.3 Easing
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--ease-default` | `cubic-bezier(0.25, 0.1, 0.25, 1)` | General purpose |
-| `--ease-out` | `cubic-bezier(0.0, 0.0, 0.2, 1)` | Elements entering view |
-| `--ease-in` | `cubic-bezier(0.4, 0.0, 1, 1)` | Elements leaving view |
-| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | Playful micro-interactions (use sparingly) |
+| `--ease-default` | `cubic-bezier(0.25, 0.1, 0.25, 1)` | Hover and color transitions |
+| `--ease-out` | `cubic-bezier(0, 0, 0.2, 1)` | Elements entering view |
+| `--ease-in` | `cubic-bezier(0.4, 0, 1, 1)` | Elements leaving view |
+| `--ease-in-out` | `cubic-bezier(0.4, 0, 0.2, 1)` | State changes (toggles, tab indicators, chevrons), loaders |
+| `--ease-spring` | `cubic-bezier(0.34, 1.56, 0.64, 1)` | The switch thumb only. Overshoot reads as playful; don't spread it |
 
 ### 8.4 Transition Composites
 
-Shorthand tokens combining duration and easing for common use:
+Shorthand tokens combining duration and easing. Use them as the time part of a `transition`: `transition: opacity var(--transition-enter);`.
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--transition-fast` | `150ms ease-default` | Micro-interactions |
-| `--transition-default` | `250ms ease-default` | Standard transitions |
-| `--transition-slow` | `400ms ease-default` | Larger transitions |
+| `--transition-fast` | `fast` + `ease-default` | Hover color changes |
+| `--transition-default` | `normal` + `ease-default` | General transitions |
+| `--transition-slow` | `slow` + `ease-default` | Larger surfaces |
+| `--transition-enter` | `normal` + `ease-out` | Something appearing: put it on the open state (`[open]`, `:popover-open`) |
+| `--transition-exit` | `fast` + `ease-in` | Something leaving: put it on the base (closed) state |
+| `--transition-state` | `fast` + `ease-in-out` | A control changing state in place |
 
-### 8.5 Reduced Motion
+Because a transition runs with the timing of the state it is heading *to*, an overlay declares the exit timing on its base rule and the enter timing on its open rule — that is the whole enter/exit pattern:
 
-**Always respect `prefers-reduced-motion`.** When active:
-- Set all durations to 0ms (except --duration-slower at 150ms for essential feedback).
-- Restrict transition-property to opacity, color, background-color, border-color, and box-shadow.
-- Disable all transform-based animations via `!important` override.
-- Disable parallax, scroll-triggered transforms, and auto-playing sequences.
+```css
+.mp-dialog {               /* closed: where an exit is heading */
+  opacity: 0;
+  transition: opacity var(--transition-exit),
+              overlay var(--duration-fast) allow-discrete,
+              display var(--duration-fast) allow-discrete;
+}
+.mp-dialog[open] {         /* open: where an entrance is heading */
+  opacity: 1;
+  transition: opacity var(--transition-enter),
+              overlay var(--duration-normal) allow-discrete,
+              display var(--duration-normal) allow-discrete;
+}
+@starting-style { .mp-dialog[open] { opacity: 0; } }  /* first frame of the entrance */
+```
+
+### 8.5 Component Recipes
+
+| Component | Motion | Reduced motion |
+|-----------|--------|----------------|
+| Button | Color on hover (`fast`); `translateY(1px)` on press; busy spinner turns once per `loop / 2` | No press offset; busy spinner pulses |
+| Card (`data-clickable`) | Shadow + border on hover; `-2px` lift | Shadow + border only |
+| Link (`data-standalone`) | Arrow nudges `4px` on hover | Arrow stays |
+| Checkbox / radio | Mark scales in (`state`) | Instant |
+| Switch | Thumb slides on `ease-spring` | Instant |
+| Tabs | Indicator color (`state`) | Instant |
+| Accordion | Chevron rotates (`state`); panel height (`enter`, where supported) | Instant |
+| Dialog | Fade + `8px` rise and backdrop fade: enter `normal`/`ease-out`, exit `fast`/`ease-in` | Instant |
+| Menu | Fade + `4px` drop, same enter/exit split | Instant |
+| Combobox | List fades + `4px` drop on open, quicker exit; chevron flips | Instant, no drop |
+| Tooltip | Fade + `4px` shift in after a `fast` delay (so passing the pointer over doesn't flash it), out at `fast` | Instant |
+| Toast | Fade + rise in; fade + fall out (`data-leaving`, set by `membrane.js`, removes after the exit) | Instant |
+| Progress (indeterminate) | Bar sweeps once per `loop` | Bar holds in the middle and pulses |
+| Spinner | Rotates once per `loop / 2` | Full ring that pulses |
+| Skeleton | Shimmer sweeps once per `loop` | Solid shape that pulses |
+
+**Hover is a pointer thing.** Hover-only effects (button fills, card lift) sit inside `@media (hover: hover)` so a tap on a touch screen doesn't leave them stuck on. Focus styles never depend on hover.
+
+**Loading thresholds.** Show nothing for waits under ~300ms; a spinner (or `aria-busy` on the button) for short waits with no known shape; skeletons when the layout of the incoming content is known; a determinate `<progress>` whenever progress is measurable. A loader that appears should stay at least ~500ms so it doesn't flicker.
+
+### 8.6 Reduced Motion
+
+**Always respect `prefers-reduced-motion`.** Reduced means *reduce*, not *remove*: state still has to be visible, and a loader must never freeze on a frame that looks finished. When the preference is set:
+
+- **Tokens:** `fast`, `normal`, `slow` and every `--transition-*` composite resolve to `0ms`. `--duration-slower` drops to `150ms` for essential feedback. `--duration-loop` is unchanged.
+- **Library components** (anything with an `mp-` class) handle it themselves, per the table in §8.5: movement — lifts, nudges, press offsets, sweeps, rotation — is removed, and loaders switch to an in-place opacity pulse.
+- **Everything else** gets a safety net in `base.css`: animations run once in ~0ms and transitions are restricted to `opacity`, `color`, `background-color`, `border-color` and `box-shadow`. Library elements are excluded so their pulses keep running.
+- `scroll-behavior` falls back to `auto`.
+- Don't add parallax, scroll-triggered transforms or auto-playing sequences. If a product needs one, gate it behind `@media (prefers-reduced-motion: no-preference)` rather than adding it unconditionally and undoing it later.
+
+### 8.7 Page Transitions
+
+The library doesn't animate navigation. Pages that want a soft change can opt in to the browser's View Transitions with the tokens:
+
+```css
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--duration-slower);
+    animation-timing-function: var(--ease-in-out);
+  }
+}
+```
+
+For in-page changes (the showcase's theme switch), wrap the DOM update in `document.startViewTransition(update)` when it exists and reduced motion is off; call `update()` directly otherwise.
+
+### 8.8 Other User Preferences
+
+- **`prefers-contrast: more`:** secondary text becomes primary, tertiary text darkens, default borders take the emphasis color, input borders strengthen, and the focus ring thickens to `--border-width-thick`.
+- **`forced-colors: active`:** components fall back to system colors; custom-drawn checkboxes and radios hand back to the platform control.
+- **Print:** `base.css` forces the light scheme and drops the page background; the navbar, skip link and toast region are hidden; component colors print exactly (`print-color-adjust: exact`); `mp-prose` prints the target of every external link after its text.
 
 ---
 
@@ -694,7 +714,7 @@ The apostrophe in D'Césares is a critical brand element. It must always be rend
 | `Isaac D'Césares` | Full formal (presentations, articles, institutional) |
 | `D'Césares` | Compact formal (navigation, footer, watermark) |
 | `idcesares` | Digital/developer contexts (GitHub, terminal, social handles) |
-| `dc` | Monogram / favicon (Fraunces, 700, terracotta on cream or cream on charcoal) |
+| `dc` | Monogram / favicon (Fraunces 700: terracotta `d` + teal `c` on cream, or cream on charcoal; see §10.3) |
 
 ### 10.2 Monogram
 
@@ -706,11 +726,26 @@ A two-letter monogram `dc` set in Fraunces Bold, lowercase, with tight tracking 
 - Watermark on slide decks (bottom-right, 30% opacity)
 - App icon contexts
 
-### 10.3 Clear Space
+### 10.3 Files
+
+The marks are outlined SVGs in `brand/` (generated by `scripts/render-brand-marks.py` from Fraunces 700, `WONK` 1, HarfBuzz-kerned). They need no font, and their viewBox is the ink bounds, so add clear space (§10.4) yourself. Download them from the showcase's Brand marks section or the CDN (`…/The-Membrane-Palette/brand/<file>`).
+
+| File | Mark | Use on |
+|------|------|--------|
+| `idcesares-logo-wordmark-primary.svg` | Isaac D’Césares, charcoal | Cream / light surfaces |
+| `idcesares-logo-wordmark-reversed.svg` | Isaac D’Césares, cream | Charcoal, teal, terracotta |
+| `idcesares-logo-compact-primary.svg` / `-reversed.svg` | D’Césares | Navigation, footers, watermarks |
+| `idcesares-logo-monogram-primary.svg` | `dc`, terracotta + teal | Light surfaces |
+| `idcesares-logo-monogram-reversed.svg` | `dc`, cream | Dark surfaces |
+| `idcesares-icon-monogram-light.svg` / `-dark.svg` | `dc` on a rounded cream / charcoal square | Favicon, avatars, app icons |
+
+The site's `apple-touch-icon` (`showcase/assets/idcesares-icon-monogram-touch.png`, 180×180, full bleed) is rendered from the monogram by `npm run render:social`. The wordmarks use the typographic apostrophe (’), which is the glyph the brand rule in §10.1 protects.
+
+### 10.4 Clear Space
 
 Minimum clear space around any brand mark = the height of the lowercase `d` in the wordmark. This ensures the mark always breathes.
 
-### 10.4 Color Combinations
+### 10.5 Color Combinations
 
 | Context | Mark Color | Background |
 |---------|-----------|------------|
@@ -718,7 +753,7 @@ Minimum clear space around any brand mark = the height of the lowercase `d` in t
 | Dark default | `--color-cream` | `--color-charcoal` |
 | Accent | `--color-cream` | `--color-terracotta` |
 | Digital | `--color-cream` | `--color-teal` |
-| Monochrome | `--color-neutral-700` | White |
+| Monochrome | `--color-neutral-700` | Light paper or single-color print (on screen, cream — never pure white) |
 
 ---
 
@@ -728,7 +763,7 @@ Minimum clear space around any brand mark = the height of the lowercase `d` in t
 
 - **Primary canvas:** Light mode (warm cream) as default, with dark mode support.
 - **Hero section:** Large Fraunces display heading, Instrument Sans body, profile photo with warm filter, terracotta primary CTA.
-- **Section backgrounds:** Alternate between cream and slightly darker cream (`--neutral-100`) to create rhythm without borders.
+- **Section backgrounds:** Alternate between `--color-bg-primary` and `--color-bg-secondary` (`.mp-section[data-tone="secondary"]`) to create rhythm without borders.
 - **Use `--gradient-warmth`** as a subtle ambient glow on key sections.
 - **Code samples** always in dark code blocks, even on light pages.
 - **Blog posts:** `--container-sm` width (640px max), Fraunces headings, Instrument Sans body, generous line height.
@@ -764,7 +799,7 @@ Minimum clear space around any brand mark = the height of the lowercase `d` in t
 
 - **Headings:** Fraunces (or Georgia as fallback for email clients)
 - **Body:** Instrument Sans (or Helvetica Neue as fallback)
-- **Accent color in emails:** Use terracotta `#B35530` for links and CTAs (high contrast, warm, identifiable)
+- **Color in emails:** the same rule as on screen (§2.4): links are teal `#1B756D`, and the one call to action per email is a terracotta `#B35530` button. Two terracotta elements would compete, exactly as two primary buttons would.
 - **Email signature:** Name in semibold, title in regular weight, `dcesares.dev` as a teal link.
 
 ### 11.4 AI Agent Configuration
@@ -783,6 +818,14 @@ TYPOGRAPHY CONSTRAINTS:
 - Body: Instrument Sans (clean, precise)
 - Code: JetBrains Mono
 - Maximum body text width: 65 characters per line
+
+UI CONSTRAINTS (when generating HTML/CSS):
+- Load membrane.css (fonts included: never add a Google Fonts link); build from mp- components and layout primitives before writing CSS
+- Load components/membrane.js when using Tabs, Menu, Combobox or Toast
+- Options are data-* attributes; use only values listed in components/manifest.json
+- States come from HTML/ARIA (disabled, aria-invalid, aria-current, aria-selected, aria-pressed, aria-busy, [open]), never classes
+- Custom CSS uses semantic tokens only (--color-text-*, --color-bg-*, --color-action-*, --space-*, --text-*)
+- At most one primary (terracotta) button per view
 
 VOICE CONSTRAINTS (from Brand Essence):
 - Articulate, warm, concrete, confident without arrogance
@@ -839,10 +882,10 @@ Primitives are immutable in both modes. **Never redefine a primitive inside a th
 ### 12.2 Dark Mode Rules
 
 1. **Accent colors lighten in dark mode** via each semantic token's `light-dark()` pair, to maintain WCAG AA contrast ratios (verified by the build's contrast gate — see §13.1).
-2. **Shadows deepen** in dark mode — each `--shadow-*` token carries its own darker, higher-opacity value via `light-dark()` (see §5.2). Cards do **not** swap to a border-only treatment in dark mode: `--border-default` is already present on cards in both modes (§6.2), so no separate dark-only mechanism is needed. *(v1.1 described a border-instead-of-shadow swap here; it was never implemented and was redundant with the always-on card border, so the claim has been retired rather than built.)*
+2. **Shadows deepen** in dark mode — each `--shadow-*` token carries its own darker, higher-opacity value via `light-dark()` (see §5.2). Cards do **not** swap to a border-only treatment in dark mode: `--border-default` is already present on cards in both modes (Card README), so no separate dark-only mechanism is needed. *(v1.1 described a border-instead-of-shadow swap here; it was never implemented and was redundant with the always-on card border, so the claim has been retired rather than built.)*
 3. **The membrane gradient remains the same direction** (terracotta → teal) but both endpoints lighten via `light-dark()` on `--gradient-membrane`.
 4. **Ambient glow stop-colors shift brighter** so background texture remains perceptible on dark surfaces.
-5. **Manual toggles support `[data-theme="dark"]` and the legacy `.theme-dark` class.** Both simply set `color-scheme: dark`; every semantic token's `light-dark()` pair does the rest.
+5. **Manual toggles use `[data-theme="dark"|"light"]`.** The legacy `.theme-dark` class still works but is **deprecated** (removal in v3.0.0): two switches for one state make generated code inconsistent. Either simply sets `color-scheme: dark`; every semantic token's `light-dark()` pair does the rest.
 6. **Photos may receive a subtle `brightness(0.92)` filter** in dark mode to prevent them from blowing out against dark surfaces. The factor is available as `--photo-dim-dark` (a plain number, e.g. `filter: brightness(var(--photo-dim-dark))`); it is not applied automatically since photo treatment is author-controlled per image, not a global rule.
 
 ---
@@ -857,24 +900,95 @@ Primitives are immutable in both modes. **Never redefine a primitive inside a th
 
 All text must meet **WCAG AA minimum** (4.5:1 for body text, 3:1 for large text and UI components). Target **AAA** (7:1 / 4.5:1) where possible.
 
-> **v2.0 enforcement:** The build script (`npm run build:tokens`) verifies 40 foreground/background pairs in both light and dark mode before writing CSS output. The build aborts if any pair regresses. Run it after any token change.
+> **Enforcement:** `npm run build:tokens` verifies every pair below in both light and dark mode before writing CSS output, and aborts if any pair regresses. v2.1 extended the gate from 20 pairs to cover hover fills, status and register washes (over page and card surfaces), inverse and elevated surfaces, form-control boundaries (1.4.11), chart series and every code syntax color.
 
-Verified contrast ratios (light mode / dark mode):
+Every pair below is verified by the build in both modes; a translucent background (a `-bg` tint) is composited over `--color-bg-primary` first. This table is generated by `npm run build:tokens` — edit the `GATE` list in `scripts/build-tokens.mjs`, not this table.
 
-| Foreground | Background | Light | Dark | Level |
-|-----------|------------|-------|------|-------|
-| `--color-text-primary` | `--color-bg-primary` | 13.9:1 | 14.5:1 | AAA |
-| `--color-text-primary` | `--color-bg-secondary` | 12.6:1 | 13.0:1 | AAA |
-| `--color-text-secondary` | `--color-bg-primary` | 6.7:1 | 6.4:1 | AA |
-| `--color-text-tertiary` | `--color-bg-primary` | 5.1:1 | 5.2:1 | AA |
-| `--color-text-tertiary` | `--color-bg-secondary` | 4.6:1 | 4.7:1 | AA |
-| `--color-text-accent` | `--color-bg-primary` | 5.1:1 | 6.5:1 | AA |
-| `--color-text-on-accent` | `--color-action-primary` | 4.9:1 | 8.3:1 | AA / AAA |
-| `--color-success-text` | `--color-bg-primary` | 5.7:1 | 7.8:1 | AA |
-| `--color-warning-text` | `--color-bg-primary` | 5.0:1 | 9.1:1 | AA |
-| `--color-error-text` | `--color-bg-primary` | 5.5:1 | 5.1:1 | AA |
-| `--color-focus` | `--color-bg-primary` | 5.1:1 | 6.5:1 | AA (WCAG 1.4.11) |
-| `--color-focus` | `--color-bg-secondary` | 4.6:1 | 5.8:1 | AA |
+<!-- GENERATED:CONTRAST-TABLE -->
+| Foreground | Background | Light | Dark | Min | Use |
+|---|---|---|---|---|---|
+| `--color-text-primary` | `--color-bg-primary` | 13.93 | 14.48 | 7.0 | body text, AAA target |
+| `--color-text-primary` | `--color-bg-secondary` | 12.64 | 13.00 | 7.0 | body text on cards |
+| `--color-text-primary` | `--color-bg-elevated` | 13.93 | 12.50 | 7.0 | body text in dialogs/popovers |
+| `--color-text-primary` | `--color-bg-active` | 11.52 | 11.12 | 7.0 | selected rows/items |
+| `--color-text-secondary` | `--color-bg-primary` | 6.73 | 6.39 | 4.5 | supporting text |
+| `--color-text-secondary` | `--color-bg-secondary` | 6.10 | 5.74 | 4.5 | supporting text on cards |
+| `--color-text-secondary` | `--color-bg-tertiary` | 5.32 | 5.01 | 4.5 | neutral tags |
+| `--color-text-secondary` | `--color-bg-elevated` | 6.73 | 5.52 | 4.5 | supporting text in dialogs |
+| `--color-text-secondary` | `--color-bg-hover` | 6.04 | 5.53 | 4.5 | hovered nav links / ghost buttons |
+| `--color-text-tertiary` | `--color-bg-primary` | 5.12 | 5.23 | 4.5 | metadata/placeholder |
+| `--color-text-tertiary` | `--color-bg-secondary` | 4.64 | 4.69 | 4.5 | metadata on cards |
+| `--color-text-tertiary` | `--color-bg-elevated` | 5.12 | 4.51 | 4.5 | metadata in dialogs |
+| `--color-text-accent` | `--color-bg-primary` | 5.11 | 6.45 | 4.5 | links |
+| `--color-text-accent` | `--color-bg-secondary` | 4.64 | 5.79 | 4.5 | links on cards |
+| `--color-text-inverse` | `--color-bg-inverse` | 12.64 | 12.64 | 4.5 | tooltips |
+| `--color-text-on-accent` | `--color-action-primary` | 4.93 | 5.18 | 4.5 | primary button label |
+| `--color-text-on-accent` | `--color-action-primary-hover` | 5.92 | 6.22 | 4.5 | primary button label, hover |
+| `--color-text-on-accent` | `--color-action-secondary` | 5.51 | 6.45 | 4.5 | secondary button label, hover fill |
+| `--color-text-on-accent` | `--color-action-secondary-hover` | 6.51 | 7.44 | 4.5 | checked controls, pressed secondary |
+| `--color-text-on-accent` | `--color-error` | 5.05 | 5.14 | 4.5 | danger button label |
+| `--color-text-on-accent` | `--color-error-hover` | 6.06 | 6.19 | 4.5 | danger button label, hover |
+| `--color-action-primary` | `--color-bg-primary` | 4.57 | 5.18 | 3.0 | primary action affordance |
+| `--color-action-secondary` | `--color-bg-primary` | 5.11 | 6.45 | 3.0 | secondary action affordance |
+| `--color-action-secondary` | `--color-bg-secondary` | 4.64 | 5.79 | 3.0 | secondary action on cards |
+| `--color-action-secondary` | `--color-bg-tertiary` | 4.04 | 5.06 | 3.0 | progress value vs track |
+| `--color-border-input` | `--color-bg-primary` | 4.11 | 3.88 | 3.0 | form control boundary |
+| `--color-border-input` | `--color-bg-secondary` | 3.73 | 3.48 | 3.0 | form control boundary on cards |
+| `--color-border-input` | `--color-bg-elevated` | 4.11 | 3.35 | 3.0 | form control boundary in dialogs |
+| `--color-focus` | `--color-bg-primary` | 5.11 | 6.45 | 3.0 | focus ring (WCAG 1.4.11) |
+| `--color-focus` | `--color-bg-secondary` | 4.64 | 5.79 | 3.0 | focus ring on cards |
+| `--color-focus` | `--color-bg-elevated` | 5.11 | 5.57 | 3.0 | focus ring in dialogs |
+| `--color-human-text` | `--color-bg-primary` | 6.26 | 6.57 | 4.5 | human-register text |
+| `--color-human-text` | `--color-bg-secondary` | 5.68 | 5.89 | 4.5 | human-register text on cards |
+| `--color-human-text` | `--color-human-bg` | 5.51 | 5.77 | 4.5 | human tag / callout |
+| `--color-human-text` | `--color-human-bg` | 5.02 | 5.15 | 4.5 | human tag on a card |
+| `--color-digital-text` | `--color-bg-primary` | 7.23 | 6.45 | 4.5 | digital-register text |
+| `--color-digital-text` | `--color-bg-secondary` | 6.56 | 5.79 | 4.5 | digital-register text on cards |
+| `--color-digital-text` | `--color-digital-bg` | 6.32 | 5.54 | 4.5 | digital tag / callout |
+| `--color-digital-text` | `--color-digital-bg` | 5.76 | 4.95 | 4.5 | digital tag on a card |
+| `--color-success` | `--color-bg-primary` | 3.68 | 7.78 | 3.0 | success icon/fill |
+| `--color-success-text` | `--color-bg-primary` | 5.68 | 7.78 | 4.5 | success text |
+| `--color-success-text` | `--color-bg-secondary` | 5.15 | 6.98 | 4.5 | success text on cards |
+| `--color-success-text` | `--color-success-bg` | 5.09 | 6.55 | 4.5 | success alert/badge |
+| `--color-success-text` | `--color-success-bg` | 4.65 | 5.77 | 4.5 | success badge on a card |
+| `--color-warning-text` | `--color-bg-primary` | 6.08 | 9.06 | 4.5 | warning text |
+| `--color-warning-text` | `--color-bg-secondary` | 5.51 | 8.13 | 4.5 | warning text on cards |
+| `--color-warning-text` | `--color-warning-bg` | 5.63 | 7.49 | 4.5 | warning alert/badge |
+| `--color-warning-text` | `--color-warning-bg` | 5.15 | 6.66 | 4.5 | warning badge on a card |
+| `--color-error` | `--color-bg-primary` | 4.69 | 5.14 | 3.0 | error icon/fill, invalid border |
+| `--color-error-text` | `--color-bg-primary` | 6.20 | 6.44 | 4.5 | error text |
+| `--color-error-text` | `--color-bg-secondary` | 5.63 | 5.78 | 4.5 | error text on cards |
+| `--color-error-text` | `--color-error-bg` | 5.42 | 5.70 | 4.5 | error alert/badge |
+| `--color-error-text` | `--color-error-bg` | 4.94 | 5.10 | 4.5 | error badge on a card |
+| `--color-info-text` | `--color-bg-primary` | 7.23 | 6.45 | 4.5 | info text |
+| `--color-info-text` | `--color-info-bg` | 6.32 | 5.54 | 4.5 | info alert/badge |
+| `--color-info-text` | `--color-info-bg` | 5.76 | 4.95 | 4.5 | info badge on a card |
+| `--color-success-text` | `--color-bg-elevated` | 5.68 | 6.71 | 4.5 | success toast title |
+| `--color-warning-text` | `--color-bg-elevated` | 6.08 | 7.82 | 4.5 | warning toast title |
+| `--color-error-text` | `--color-bg-elevated` | 6.20 | 5.56 | 4.5 | error toast title, danger menu item |
+| `--color-text-primary` | `--color-bg-hover` | 11.31 | 11.06 | 7.0 | hovered rows on a card |
+| `--color-text-primary` | `--color-bg-active` | 11.52 | 9.39 | 7.0 | active combobox option (popup) |
+| `--color-text-secondary` | `--color-bg-elevated` | 6.73 | 5.52 | 4.5 | combobox empty message, menu labels |
+| `--color-focus` | `--color-bg-active` | 4.23 | 4.18 | 3.0 | active-option marker (popup) |
+| `--color-chart-1` | `--color-bg-primary` | 4.57 | 5.18 | 3.0 | chart series 1 on page |
+| `--color-chart-1` | `--color-bg-secondary` | 4.15 | 4.65 | 3.0 | chart series 1 on a card |
+| `--color-chart-2` | `--color-bg-primary` | 3.61 | 5.87 | 3.0 | chart series 2 on page |
+| `--color-chart-2` | `--color-bg-secondary` | 3.27 | 5.27 | 3.0 | chart series 2 on a card |
+| `--color-chart-3` | `--color-bg-primary` | 3.86 | 5.46 | 3.0 | chart series 3 on page |
+| `--color-chart-3` | `--color-bg-secondary` | 3.50 | 4.91 | 3.0 | chart series 3 on a card |
+| `--color-chart-4` | `--color-bg-primary` | 6.00 | 3.57 | 3.0 | chart series 4 on page |
+| `--color-chart-4` | `--color-bg-secondary` | 5.44 | 3.21 | 3.0 | chart series 4 on a card |
+| `--color-chart-5` | `--color-bg-primary` | 3.80 | 5.58 | 3.0 | chart series 5 on page |
+| `--color-chart-5` | `--color-bg-secondary` | 3.45 | 5.01 | 3.0 | chart series 5 on a card |
+| `--color-chart-6` | `--color-bg-primary` | 3.62 | 4.65 | 3.0 | chart series 6 on page |
+| `--color-chart-6` | `--color-bg-secondary` | 3.29 | 4.18 | 3.0 | chart series 6 on a card |
+| `--code-text` | `--code-bg` | 12.04 | 12.04 | 4.5 | code text |
+| `--code-keyword` | `--code-bg` | 5.16 | 5.16 | 4.5 | syntax: keyword |
+| `--code-string` | `--code-bg` | 7.95 | 7.95 | 4.5 | syntax: string |
+| `--code-function` | `--code-bg` | 8.64 | 8.64 | 4.5 | syntax: function |
+| `--code-comment` | `--code-bg` | 5.11 | 5.11 | 4.5 | syntax: comment |
+| `--code-number` | `--code-bg` | 8.18 | 8.18 | 4.5 | syntax: number |
+<!-- /GENERATED:CONTRAST-TABLE -->
 
 ### 13.2 Focus States
 
@@ -883,7 +997,7 @@ Verified contrast ratios (light mode / dark mode):
 | `--focus-ring` | `var(--border-width-medium) solid var(--color-focus)` |
 | `--focus-ring-offset` | `2px` |
 
-`--color-focus` is a dedicated semantic token, distinct from `--color-action-secondary`, so the ring's contrast can be tuned independently of the teal action color — its dark-mode value maps to `--color-teal-light` specifically because raw `--color-teal` measured 3.1:1 on charcoal (below the 3:1 WCAG 1.4.11 minimum with no margin). See §13.1 for the verified ratio.
+`--color-focus` is a dedicated semantic token, distinct from `--color-action-secondary`, so the ring's contrast can be tuned independently of the teal action color — its dark-mode value maps to `--color-teal-light` specifically because raw `--color-teal` measured 3.1:1 on charcoal: technically at the 3:1 WCAG 1.4.11 minimum, with no margin for rendering differences. See §13.1 for the verified ratio.
 
 Focus states use the following properties:
 
@@ -897,7 +1011,17 @@ Never remove focus outlines. They are a feature, not a flaw.
 
 ### 13.3 Touch Targets
 
-Minimum touch target: 44×44px (WCAG 2.5.5). All buttons, links, and interactive elements must meet this minimum.
+Target size: **44×44px** (`--size-touch-target`, WCAG 2.5.5 AAA) for buttons, inputs, tabs and nav links; never below **24×24px** (WCAG 2.5.8 AA) for anything interactive.
+
+Control heights come from `--size-control-sm` (36px), `--size-control-md` (44px) and `--size-control-lg` (52px). The compact size exists for dense, pointer-driven UI. Under `@media (pointer: coarse)` every compact control grows back to the 44px `--size-touch-target`: small buttons and inputs, pill tabs, menu items, combobox options and the toast close button (tested in `tests/motion.spec.mjs`).
+
+### 13.4 Component accessibility
+
+- **State via ARIA** (§6.2): every visual state is keyed off the semantic attribute, so it is also announced.
+- **Focus** is a 2px `--focus-ring` with a 2px offset on every interactive part. Components that live inside scroll containers (tabs, accordion summaries) draw it inset so it isn't clipped.
+- **Forced colors:** custom-drawn controls (checkbox, radio, switch, select chevron) hand rendering back to the platform under `forced-colors: active`; buttons keep a transparent border that High Contrast mode paints.
+- **Native first:** dialogs use `<dialog>` + `showModal()`, menus use `popover`, accordions use `<details>`, progress uses `<progress>` — focus trapping, keyboard handling and announcements come from the browser.
+- **Tested, not asserted:** `npm test` runs axe-core on the showcase and every pattern page in both themes, checks phone-width overflow, and drives the keyboard patterns (tabs, dialog, tooltip, menu, combobox, toast, skip link) in Chromium, Firefox and WebKit on every CI run, and compares every gallery example with a visual baseline.
 
 ---
 
@@ -908,13 +1032,14 @@ Consistent naming across all brand assets:
 ```
 Pattern:  idcesares-{type}-{descriptor}-{variant}.{ext}
 Examples:
-  idcesares-logo-monogram-cream.svg
+  idcesares-logo-monogram-primary.svg   (brand/, §10.3)
+  idcesares-icon-monogram-dark.svg
   idcesares-photo-profile-2026.jpg
   idcesares-card-linkedin-dark.png
   idcesares-slide-title-charcoal.pptx
 ```
 
-**Color mode suffixes:** `-light`, `-dark`, `-cream`, `-charcoal`
+**Color and mode suffixes:** `-primary` (default colors), `-reversed` (for dark backgrounds), `-light`, `-dark`, `-cream`, `-charcoal`
 **Size suffixes:** `-sm`, `-md`, `-lg`, `-xl`, `-2x`, `-3x`
 **Platform suffixes:** `-linkedin`, `-instagram`, `-github`, `-web`
 
@@ -922,13 +1047,15 @@ Examples:
 
 ## 15. Design Token Summary
 
-All tokens are generated from `tokens/membrane.tokens.json` into `tokens/design-tokens.css` and `tokens/base.css`.
+All tokens are generated from `tokens/membrane.tokens.json` into `tokens/design-tokens.css` and `tokens/base.css`, plus a Tailwind v4 theme and a resolved-value JSON. Fonts come from `fonts/fonts.json` into `fonts/fonts.css`.
 
 ```
 tokens/
 ├── membrane.tokens.json   ← Source of truth (DTCG-flavored JSON — edit this)
 ├── design-tokens.css      ← Generated: @layer tokens — pure custom properties
-└── base.css               ← Generated: @layer base — element rules (optional)
+├── base.css               ← Generated: @layer base — element rules (optional)
+├── membrane-tailwind.css  ← Generated: Tailwind v4 theme (mp- utilities)
+└── tokens.resolved.json   ← Generated: every token's light/dark value as hex
 ```
 
 ### Token architecture
@@ -936,7 +1063,7 @@ tokens/
 Three tiers:
 - **Tier 1 — Primitives:** raw values, immutable across modes. (`--color-terracotta`, `--color-neutral-*`, etc.)
 - **Tier 2 — Semantics:** intent-named, carry their own `light-dark()` pair. (**Consume these in components.**)
-- **Tier 3 — Component recipes:** documented as patterns in §6; not emitted as tokens.
+- **Tier 3 — Component tokens:** `--mp-<component>-*` custom properties declared inside each component's CSS (e.g. `--mp-button-bg`), defaulting to semantic tokens. Override them on an instance; they are listed in each README's generated API section and in `components/manifest.json`.
 
 ### Token naming convention: `--{category}-{property}-{variant}`
 
@@ -954,6 +1081,11 @@ Three tiers:
 --border-width-thick        (border, width — v2.0)
 --radius-md                 (border-radius, scale)
 --elevation-modal           (shadow, semantic — v2.0)
+--color-human-bg            (color, semantic wash — v2.1)
+--color-action-primary-hover (color, semantic mix — v2.1)
+--size-control-md           (size, control height — v2.1)
+--measure                   (layout, line length — v2.1)
+--mp-button-bg              (component token, Tier 3 — v2.1)
 --z-nav                     (z-index, layer)
 --state-disabled-opacity    (interaction, state — v2.0)
 --opacity-subtle            (opacity, scale)
@@ -968,7 +1100,7 @@ Three tiers:
 
 ### Naming note
 
-Numeric suffixes mean different things in different categories — `--color-neutral-100` is a lightness step; `--color-terracotta-10` is an alpha wash (10% opacity). This is a known inconsistency preserved for backwards compatibility. New tokens use explicit suffixes (`--color-tint-terracotta-10`) where ambiguity would arise.
+Numeric suffixes mean different things in different categories — `--color-neutral-100` is a lightness step; `--color-terracotta-10` is an alpha wash (10% opacity). This is a known inconsistency preserved for backwards compatibility. New washes use an explicit role suffix instead of a number (`--color-human-bg`, `--color-success-bg`), and pair with a `-text` token of the same family.
 
 ### Token lifecycle & deprecation policy
 
@@ -982,6 +1114,46 @@ Tokens are a public API — renaming or removing one is a breaking change for ev
 3. **One full major version of overlap, minimum.** A token marked deprecated in `v2.x` is not deleted before `v3.0.0`. This gives consumers a real window to migrate, discoverable by grepping their own CSS for the token name against the CHANGELOG's migration notes.
 4. **Removal happens in the CHANGELOG's "Removed" section**, with the same token name and the version it was first deprecated in, so the history stays traceable — mirroring the removed-token entries already in this CHANGELOG (see `--state-hover-opacity`/`--state-pressed-opacity` for the pre-1.0 precedent of removing something that was never actually adopted, versus a true deprecation-then-removal cycle for something consumers may already depend on).
 5. **This does not apply to pre-release churn.** Tokens added and removed within the same unreleased version (as happened during the v2.0 rebuild in this document's history) are not deprecations — nothing shipped, so there's nothing to migrate away from.
+
+---
+
+## 16. Content, Localization & Patterns
+
+The components carry the visual brand; the words carry the voice. These rules translate `BRAND-VOICE.md` into interface copy.
+
+### 16.1 Interface writing
+
+| Element | Rule | Do | Don't |
+|---|---|---|---|
+| Buttons | A verb for what happens, ≤ 3 words. The primary CTA may use the signature phrase. | "Save draft", "Let's co-create" | "OK", "Submit", "Click here" |
+| Links | Say where they go; make sense out of context. | "Read the case study" | "Learn more", "here" |
+| Errors | What happened → why (if known) → how to fix. No blame, no codes alone. | "Handles can't contain spaces — try 'idcesares'." | "Invalid input", "Error 422" |
+| Empty states | What this place is for → why it's empty → one next action. | "Your reading list starts here…" | "No data", "Nothing to see here 🙃" |
+| Confirmations | Name the consequence, then two specific choices. | "Publish this workshop?" · "Publish" / "Not yet" | "Are you sure?" · "Yes" / "No" |
+| Toasts | Past tense, what was done. | "Draft saved" | "Success!" |
+| Labels | Sentence case, nouns, no colons. Overlines/badges are the only uppercase. | "Email address" | "EMAIL ADDRESS:" |
+
+Never use the hype or credential-forward vocabulary listed in `BRAND-VOICE.md` §4 in UI copy either.
+
+### 16.2 Localization (pt-BR and beyond)
+
+- **Set `lang`.** `<html lang="en">` or `lang="pt-BR"`; mark inline phrases in the other language: `<span lang="pt-BR">Vamos cocriar?</span>` so screen readers switch pronunciation.
+- **Budget for expansion.** Portuguese runs 20–30% longer than English. Components wrap or reflow by design (clusters wrap, grids auto-fit, navbars scroll); buttons do not wrap, so keep their labels short in every language.
+- **Format with `Intl`, never by hand.** Numbers, dates and percentages differ: `3,214` / `3.214`, `6.2%` / `6,2%`, `2 October 2026` / `2 de outubro de 2026`. Use `Intl.NumberFormat(locale)` and `Intl.DateTimeFormat(locale)`; put machine-readable dates in `<time datetime>`.
+- **Right-to-left is supported.** Components use logical properties (`margin-inline`, `inset-inline-start`, `border-inline-start`) and `membrane.js` mirrors tab arrow keys under `dir="rtl"`.
+- **Fonts cover Latin Extended** (Fraunces, Instrument Sans and JetBrains Mono all include Portuguese diacritics). Other scripts fall back to the system stack.
+
+### 16.3 Page patterns
+
+Full pages built only from the library live in `examples/` and are linted on every build exactly like component examples (no invented classes or values):
+
+| Pattern | File | Shows |
+|---|---|---|
+| Starter | `examples/starter.html` | Landing page: navbar, hero, cards, form, themed footer |
+| Article | `examples/article.html` | Long-form essay: breadcrumb, byline, prose, pull quote, related cards |
+| Dashboard | `examples/dashboard.html` | Product UI: stats, chart, steps, tabs, table, empty state, menu, toast |
+
+Start new pages by copying the closest pattern.
 
 ---
 

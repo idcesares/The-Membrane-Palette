@@ -7,9 +7,140 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+---
+
+## [2.1.0] — 2026-10-11
+
+### Why
+
+An assessment of v2.0 (written up in [`docs/AUDIT-2026-10.md`](docs/AUDIT-2026-10.md)) found that the system stopped at tokens: components existed only as prose recipes in `DESIGN-SYSTEM.md` §6 and as showcase-local CSS that had already drifted from them, so every consumer re-implemented every component. It also found contrast failures the v2.0 gate didn't cover (form-control borders, tag text on tints, code comments) and nothing an agent could consume beyond prose. This release adds a real component library and makes the docs machine-readable and build-verified. No token was renamed or removed.
+
+### Added — component library
+
+- **35 framework-free CSS components** in `components/<name>/`. The first 25: Layout (container, stack, cluster, grid, section, surface, visually-hidden), Prose, Button, Link (+ skip link), Field (+ fieldset), Input (input/textarea/select), Choice (checkbox/radio), Switch, Card, Tag, Badge, Avatar, Quote, Code (+ kbd, code block, Prism/highlight.js mappings), Divider, Table, Stat, Alert, Progress (+ spinner), Tooltip, Dialog, Navbar, Breadcrumb, Tabs, Accordion.
+- **One API convention:** `mp-` root class, BEM parts, options as `data-*` attributes with closed value sets, and **state from native attributes/ARIA** (`aria-invalid`, `aria-current`, `aria-selected`, `aria-pressed`, `aria-busy`, `disabled`, `[open]`) so visuals and assistive tech can't disagree. All components live in `@layer components`.
+- **Tier 3 component tokens:** each component exposes `--mp-<name>-*` knobs that default to semantic tokens; variants only reassign knobs.
+- `membrane.css` — one generated stylesheet with tokens + base + components. `components/membrane-components.css` — components only.
+- `components/membrane.js` — behaviors (~5 KB gzipped): WAI-ARIA tabs (click, arrows, Home/End, RTL), menu keys and positioning, combobox filtering and keys, the toast API, tooltip Escape-dismiss (WCAG 1.4.13), and fallbacks for dialog invoker commands and `closedby="any"`. Tabs, Menu, Combobox and Toast need it; everything else works without it.
+- `scripts/build-components.mjs` (`npm run build:components`) — **lints** every component (no raw colors, no unknown/deprecated tokens, no Tier 1 primitives, knobs must be `--mp-*`) and every README example (no classes, attributes or values the CSS doesn't implement; unique ids; labelled icon-only buttons; `alt` on images), then writes the bundles, the manifest, `llms.txt`, each README's API section and the showcase gallery.
+- **Coverage lint:** every class and `data-*` value a component implements must be demonstrated in its README examples, so the showcase is guaranteed to render all of them (token scales and runtime state can opt out via an `exempt:` frontmatter line).
+- `npm run build:system` runs both builds in order.
+- **And ten more:** Combobox (WAI-ARIA list autocomplete, accent-insensitive filtering, live result count), Text (tone + reading measure, so pages need no inline styles), Chart (figure, legend, single/stacked bar list), Icon (Lucide-style line icons sized by `--size-icon-*`), Skeleton, Empty state, Toast (`MembranePalette.toast()` + `data-mp-toast`), Pagination, Steps (course progress) and Menu (native `popover`, anchor-positioned, WAI-ARIA menu keys).
+- **Page patterns:** `examples/article.html` and `examples/dashboard.html` next to the starter; all `examples/*.html` are linted by the component build like README examples.
+
+### Added — data visualization
+
+- `--color-chart-1` … `--color-chart-6` (terracotta, teal, amber, burgundy, steel blue, green): a categorical palette **searched and validated** per mode — lightness band, chroma floor, adjacent color-blind separation (worst ΔE 11.5, OKLab ×100), normal-vision separation (≥ 16) and ≥ 3:1 on page and cards. Gate-checked on every build. Scatter-type charts are capped at 2 series (slots 1 and 3 collapse for deuteranopes when adjacent) — documented, not hidden.
+- `DESIGN-SYSTEM.md` §7.4 rewritten as rules: fixed order, color follows the entity, one-hue magnitude, terracotta↔teal polarity, status kept separate, thin marks, one y-axis.
+
+### Added — platforms & testing
+
+- `tokens/membrane-tailwind.css` — a Tailwind v4 theme generated from the tokens. Tailwind namespaces that collide with the system's own names (`--radius-md`, `--text-sm`, `--shadow-sm`, `--ease-in`…) are reset so load order can never override the system; the system is exposed as `mp-` utilities and the default palette is removed, so off-brand classes don't compile. Verified against Tailwind 4.1.
+- `tokens/tokens.resolved.json` — every token's resolved light/dark value (hex for colors) for charting libraries, native apps and tools.
+- `npm test` — Playwright + axe-core: every page in both themes, phone-width overflow, and keyboard/focus/ARIA behavior of tabs, dialog, tooltip, menu, combobox, toast, skip link and forms. Runs as a second CI job. It found two real bugs on its first run (an unfocusable scrolling code block, two regions with the same name) — both fixed.
+- `CONTRIBUTING.md` — sources vs generated files, the build loop, adding a token or component.
+- `DESIGN-SYSTEM.md` §16 — interface writing rules, pt-BR localization (expansion, `Intl` formatting, `lang` on mixed-language phrases, RTL), and the page-pattern index.
+
+### Added — for agents
+
+- `components/manifest.json` — every component's classes, allowed attribute values, styled states, knobs, consumed tokens and HTML examples. Generated.
+- `llms.txt` (repo root and site) and `llms-full.txt` (site) per [llmstxt.org](https://llmstxt.org), including the house rules for generating UI.
+- `examples/starter.html` — a complete page built only from the library.
+- `DESIGN-SYSTEM.md` §11.4 constraint block gained UI rules.
+
+### Added — tokens
+
+- Surfaces: `--color-bg-elevated` (lighter in dark mode), `--color-bg-inverse` / `--color-text-inverse`, `--color-bg-hover` / `--color-bg-active` (translucent state washes).
+- `--color-border-input` — ≥3:1 boundary for form controls (WCAG 1.4.11).
+- Hover fills: `--color-action-primary-hover`, `--color-action-secondary-hover`, `--color-error-hover` — oklab mixes toward `--color-text-primary`, so label contrast rises on hover in both modes.
+- Register pairs: `--color-human-text` / `--color-human-bg`, `--color-digital-text` / `--color-digital-bg`.
+- Status washes: `--color-success-bg`, `--color-warning-bg`, `--color-error-bg`, `--color-info-bg`, plus `--color-info-text`.
+- `--size-control-sm/md/lg` (36/44/52px), `--measure` (65ch), `--ease-in-out` (§8.1 rule 3 had no token).
+- Token types `mix` (oklab color-mix of two tokens, resolved exactly by the gate) and `tint` on semantic tokens.
+- Descriptions on every semantic token (they feed the manifest and the spec table).
+
+### Added — fonts, brand marks and types
+
+- **Self-hosted fonts.** Fraunces, Instrument Sans and JetBrains Mono ship in `fonts/` as variable woff2 files (SIL OFL), latin and latin-ext subsets, declared with `unicode-range` and `font-display: swap`. `membrane.css` includes them, so pages drop the Google Fonts link and make no third-party requests (a test enforces it). `fonts/fonts.css` serves the split-file setup.
+- **Metric-matched fallbacks:** `"Fraunces Fallback"`, `"Instrument Sans Fallback"` and `"JetBrains Mono Fallback"` are local Times New Roman, Arial and Courier New with `size-adjust` and ascent/descent overrides measured by `scripts/measure-fonts.py`, so the swap barely moves the layout. The `--font-*` stacks include them.
+- **Brand marks** in `brand/`: the wordmark, compact wordmark and `dc` monogram (primary and reversed), plus light and dark app icons. They're set in Fraunces 700 with WONK=1, kerned with HarfBuzz and outlined to SVG paths (`scripts/render-brand-marks.py`). The showcase favicon and apple-touch icon use them, and a new Brand marks section offers each file for download. Spec §10.3 lists the files.
+- **TypeScript types** in `components/membrane.d.ts`, generated from the manifest:
+  - `MpAttrs<"button">` (each component's allowed options);
+  - `MpClass`, `MpToken` (public tokens only), `MpKnob` and `MpStyle`;
+  - `window.MembranePalette`.
+
+  Boolean options are typed as presence-only, so a framework can't render `data-x="false"`. `npm run lint:types` proves invalid values fail to compile.
+
+### Added — motion & user preferences
+
+- `--transition-enter` (normal + ease-out), `--transition-exit` (fast + ease-in), `--transition-state` (fast + ease-in-out). Dialog, backdrop, menu, tooltip and toast now enter slowly and leave quickly, as §8.1 always specified. Toasts animate out: `membrane.js` sets a runtime `data-leaving` attribute and removes the element after the exit.
+- `--duration-loop` (1600ms) for indefinite loaders, kept under reduced motion.
+- **Reduced motion reduces instead of removing.** Spinner, indeterminate progress and skeleton pulse in place instead of freezing on a frame. Card lift, standalone-link nudge and button press offset are removed.
+- Hover-only effects are gated on `@media (hover: hover)`, so a tap no longer leaves a button filled or a card lifted on touch screens.
+- `prefers-contrast: more` also strengthens input borders and thickens the focus ring.
+- Print: light scheme, no page background, navbar/skip link/toast region hidden, exact component colors, and `mp-prose` prints external link targets.
+- Pages with a navbar get `scroll-padding-top`, so anchored headings aren't hidden under it.
+- Showcase theme switch crossfades with a view transition (`--duration-slower`), skipped under reduced motion.
+- `DESIGN-SYSTEM.md` §8 rewritten: composites, the enter/exit pattern, a per-component recipe table, loading thresholds, reduced-motion behavior, a page-transition recipe and other user preferences.
+- `tests/motion.spec.mjs` covers full motion, reduced motion and touch emulation.
+
+### Added — publishing
+
+- A 1200×630 social preview rendered from the live tokens (`npm run render:social`), with `og:image` and a `summary_large_image` Twitter card.
+- A 404 page, built only from library components; Cloudflare serves it for missing paths.
+- `_headers`:
+  - `nosniff`, referrer and permissions policies, and frame protection;
+  - CORS on `llms.txt`, the manifest, the tokens and `membrane.css`, so agents and tools can fetch them cross-origin;
+  - short cache lifetimes on unversioned files.
+- **Cross-browser:** the Playwright suite runs in Chromium, Firefox and WebKit. **Visual regression:** every gallery example is compared, in both themes, with committed Chromium baselines.
+- `npm run lint:html` (html-validate) on every built page, plus link-integrity tests: every same-origin URL and `#fragment` on the site resolves, and every relative link in the Markdown points at a file. Both are part of `npm test`.
+- The sitemap lists the example pages.
+- [`docs/RELEASING.md`](docs/RELEASING.md) — the release checklist: tag, pinned `@2` CDN URLs, jsDelivr purge, deploy and smoke test.
+
+### Changed
+
+- **Contrast gate: 20 → 81 pairs (162 checks).** Now covers hover fills, every `-text` on its `-bg` wash (composited over both the page and card surfaces), elevated/inverse surfaces, form-control boundaries and focus rings on every surface, and all code syntax colors. Translucent backgrounds are composited over the page before measuring.
+- `DESIGN-SYSTEM.md` §6 replaced: the prose recipes are superseded by the library; §6 now documents conventions, catalog, brand rules and how to contribute a component. §2.3 (semantic colors) and §13.1 (contrast) tables are **generated** from the token source, so they can no longer drift. Added §13.4 (component accessibility); corrected the touch-target citation (2.5.5 is AAA; 2.5.8 AA is 24px).
+- Showcase structure: foundations first (Palette → Typography → Rhythm), then Components, then Reference. The component gallery has a sticky index that tracks the current component, an "API at a glance" row generated from each component's CSS, and a "View HTML" disclosure with a copy button on every example. The type specimen shows the full scale with its tokens. The hero register map no longer breaks token names mid-word, and the hero stacks below 1200px.
+- Showcase rebuilt on the library (navbar, buttons, inputs, tables, code blocks), with a generated component gallery, a composed specimen, and dark-mode previews that use real `data-theme` subtrees instead of hard-coded hex. Theme is applied before first paint and follows the OS until toggled. Skip link added; mobile horizontal overflow fixed.
+- `@layer tokens, base, components;` order is declared at the top of every generated stylesheet.
+- `tokens/base.css` now sets page defaults — `box-sizing: border-box`, `body` canvas/text/font/margin, text-size-adjust — all wrapped in `:where()` (zero specificity), so a page linking `membrane.css` needs no CSS of its own and any rule you write still wins. If you relied on the browser's 8px body margin with `base.css` loaded, set it back explicitly.
+- The digital register no longer lists colors that don't exist: "Slate" was never a token (Charcoal is the dark anchor) and Steel Blue now exists only as data color `--color-chart-5`.
+- CI runs both builds and fails if **any** generated file is stale (previously only the two token CSS files were checked).
+- `package.json` `exports` now maps `.` to `membrane.css` and adds `./components`, `./components.js`, `./manifest.json`, `./tailwind`, `./tokens.resolved.json`, `./fonts.css` and `./types` (npm is still not a supported channel; no published consumers).
 - `package.json` name changed from `@idcesares/design-system` (a scope/name that was never published and didn't match the repository) to `@idcesares/the-membrane-palette`. `package-lock.json` regenerated to match.
-- Removed npm as a documented delivery path for now — `README.md`, `CLAUDE.md`, and `AGENTS.md` no longer describe an `npm install` / `npm publish` flow for the tokens. The jsDelivr CDN link is the only supported integration path until npm distribution is set up.
-- Fixed the jsDelivr CDN URL in `README.md`: dropped the `@2` version pin (no matching release tag exists) — `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css`.
+- Removed npm as a documented delivery path for now — the jsDelivr CDN link is the only supported integration path until npm distribution is set up.
+
+### Fixed
+
+- Field, Fieldset, Stat, Tabs and Alert content are grids; when a parent grid stretched them, the extra height was distributed across their rows (an input drifted away from its label in a two-column form). They now pin rows to the top (`align-content: start`).
+- Narrow Navbar: the horizontally scrolling link row now fades at its trailing edge, so a clipped row reads as scrollable.
+- Showcase section overlines rendered at lede size because `.section-heading p` also matched them.
+- `--color-warning-text` `#8A6420` → `#7A571B`, `--color-error-text` `#B23A3A` → `#A53434` (dark `#E86060` → `#F07C78`), and dark-mode `--color-human-text` `#E08A6A`: found by running axe-core against the new showcase — on card surfaces the status/register washes composite darker (light) or lighter (dark) than on the page, which the gate didn't measure. The gate now checks every wash over cards too.
+- Secondary buttons paint `--color-bg-primary` instead of `transparent`, so their teal label keeps its gated contrast on tinted surfaces such as alerts.
+- `--code-comment` `#7D776E` → `#958F84`: was 3.7:1 on `--code-bg`, failing WCAG AA for text; now 5.2:1.
+- Form inputs had only `--color-border-default` as their boundary (≈1.3:1 on cream, failing 1.4.11) — `.mp-input` and the choice controls use `--color-border-input`.
+- The showcase input removed its focus outline and relied on a 15%-alpha glow; every component now keeps the 2px focus ring.
+- Spec §6.5 tag recipe (`--color-action-primary` text on `--color-terracotta-10`) was never contrast-checked; tags now use gate-checked register pairs.
+- The jsDelivr CDN URL in `README.md` dropped its `@2` version pin (no matching release tag exists).
+- Spec §15 referenced `--color-tint-*` tokens that never existed.
+- The former spec §8.5 claimed reduced motion disabled transform animations; nothing did. The base.css reduced-motion safety net now skips library classes (which handle reduced motion themselves) instead of freezing their loaders.
+- The showcase's register map and neutral rail had `aria-label` on role-less `<div>`s, which screen readers ignore; they are now labelled groups.
+- The starter page's "Writing" nav link pointed at a section that didn't exist.
+
+### Deprecated
+
+- `--text-sm`, `--text-base`, `--text-md`, `--text-lg`, `--text-xl` — compatibility aliases. Use `--text-small`, `--text-body`, `--text-h4`, `--text-h3`, `--text-h2`. They still work and will not be removed before v3.0.0.
+- `.theme-dark` — the legacy dark-mode class. Use `data-theme="dark"` (which also offers `"light"` and works on any subtree). Still works; removal no earlier than v3.0.0.
+
+### Migration guide
+
+Nothing breaks. To adopt:
+
+- Replace hand-built buttons/cards/inputs with the library: link `membrane.css` and follow each component's README. Pages that already link `tokens/design-tokens.css` + `tokens/base.css` can add `components/membrane-components.css`.
+- If you styled form controls yourself, switch their border to `--color-border-input`.
+- If you used `--color-terracotta-10` / `--color-teal-10` behind text, switch to `--color-human-bg` / `--color-digital-bg` with `--color-human-text` / `--color-digital-text`.
+- Replace any `filter: brightness(…)` hover with the `-hover` tokens.
 
 ---
 

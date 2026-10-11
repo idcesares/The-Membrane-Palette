@@ -1,0 +1,61 @@
+/* Field — label, control, hint and error message as one unit; Fieldset
+   groups related controls (radio groups, checkbox lists) under a legend. */
+
+.mp-field {
+  display: grid;
+  align-content: start;
+  gap: var(--space-2);
+  min-width: 0;
+  font-family: var(--font-sans);
+}
+
+.mp-field__label,
+.mp-fieldset__legend {
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-small);
+}
+
+.mp-field__required {
+  margin-inline-start: var(--space-1);
+  color: var(--color-error-text);
+}
+
+.mp-field__optional {
+  margin-inline-start: var(--space-1);
+  color: var(--color-text-tertiary);
+  font-weight: var(--weight-regular);
+}
+
+.mp-field__hint,
+.mp-field__error {
+  margin: 0;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+.mp-field__hint {
+  color: var(--color-text-secondary);
+}
+
+.mp-field__error {
+  color: var(--color-error-text);
+  font-weight: var(--weight-medium);
+}
+
+.mp-fieldset {
+  display: grid;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.mp-fieldset__legend {
+  margin-block-end: var(--space-2);
+  padding: 0;
+}

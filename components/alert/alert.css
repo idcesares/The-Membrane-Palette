@@ -1,0 +1,80 @@
+/* Alert — an inline message that explains state: info, success, warning,
+   error, or a human-register editorial note. */
+
+.mp-alert {
+  --mp-alert-accent: var(--color-info);
+  --mp-alert-bg: var(--color-info-bg);
+  --mp-alert-title: var(--color-info-text);
+
+  box-sizing: border-box;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border: var(--border-width-thin) solid color-mix(in srgb, var(--mp-alert-accent) 30%, transparent);
+  border-inline-start: var(--border-width-thick) solid var(--mp-alert-accent);
+  border-radius: var(--radius-md);
+  background-color: var(--mp-alert-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+.mp-alert[data-tone="success"] {
+  --mp-alert-accent: var(--color-success);
+  --mp-alert-bg: var(--color-success-bg);
+  --mp-alert-title: var(--color-success-text);
+}
+
+.mp-alert[data-tone="warning"] {
+  --mp-alert-accent: var(--color-warning);
+  --mp-alert-bg: var(--color-warning-bg);
+  --mp-alert-title: var(--color-warning-text);
+}
+
+.mp-alert[data-tone="error"] {
+  --mp-alert-accent: var(--color-error);
+  --mp-alert-bg: var(--color-error-bg);
+  --mp-alert-title: var(--color-error-text);
+}
+
+.mp-alert[data-tone="human"] {
+  --mp-alert-accent: var(--color-action-primary);
+  --mp-alert-bg: var(--color-human-bg);
+  --mp-alert-title: var(--color-human-text);
+}
+
+.mp-alert__icon {
+  flex: none;
+  width: var(--size-icon-sm);
+  height: var(--size-icon-sm);
+  color: var(--mp-alert-accent);
+}
+
+.mp-alert__content {
+  display: grid;
+  flex: 1;
+  align-content: start;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.mp-alert__content > p {
+  margin: 0;
+}
+
+.mp-alert__title {
+  margin: 0;
+  color: var(--mp-alert-title);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-small);
+}
+
+.mp-alert__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}

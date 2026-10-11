@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Quality pipeline</title>
+<link rel="stylesheet" href="../../../membrane.css">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .lane { display: grid; grid-template-columns: 9rem 1fr 2rem 1fr 2rem 1fr; align-items: stretch; }
+  .lane + .lane { margin-top: var(--space-4); }
+  .lane__name { align-self: center; margin: 0; padding-right: var(--space-4); color: var(--color-text-secondary); font: var(--weight-semibold) var(--text-xs) / 1.4 var(--font-sans); letter-spacing: var(--tracking-label); text-transform: uppercase; }
+  .lane__name span { display: block; margin-top: var(--space-1); color: var(--color-text-tertiary); font-weight: var(--weight-medium); letter-spacing: 0; text-transform: none; }
+  .stage { display: grid; align-content: start; gap: var(--space-2); }
+  .stage__head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); }
+  .step { display: inline-grid; place-items: center; width: 1.5rem; height: 1.5rem; border-radius: var(--radius-full); background: var(--color-action-secondary); color: var(--color-text-on-accent); font: var(--weight-semibold) var(--text-xs) / 1 var(--font-sans); }
+  .stage .box__title { margin: 0; }
+  .stage .box__title code { font-family: var(--font-mono); font-size: 0.875rem; }
+  .checks { display: grid; gap: var(--space-1); margin: 0; padding: 0; list-style: none; font-size: var(--text-xs); line-height: 1.45; }
+  .checks li { display: flex; gap: var(--space-2); }
+  .checks li::before { content: ""; flex: none; width: 0.4rem; height: 0.4rem; margin-top: 0.45em; border-radius: 50%; background: var(--color-border-emphasis); }
+  .stage--gate { border-color: var(--color-action-secondary); }
+  .stage--gate .checks li::before { background: var(--color-action-secondary); }
+  .lane .arrow { align-self: center; width: calc(100% - 8px); margin-inline: 4px; }
+  .turn { height: var(--space-4); margin: var(--space-1) 0 calc(-1 * var(--space-1)) 9rem; border: 2px solid var(--color-border-emphasis); border-top: 0; border-radius: 0 0 var(--radius-md) var(--radius-md); width: calc(100% - 9rem - 2px); box-sizing: border-box; display: none; }
+  .legend { display: flex; gap: var(--space-6); margin-top: var(--space-6); color: var(--color-text-secondary); font-size: var(--text-xs); }
+  .legend span { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .legend i { width: 1rem; height: 0.75rem; border-radius: var(--radius-sm); border: 2px solid var(--color-border-emphasis); background: var(--color-bg-secondary); }
+  .legend i.gate { border-color: var(--color-action-secondary); }
+</style>
+</head>
+<body>
+<figure class="fig" style="margin:0">
+  <p class="fig__kicker">How quality is enforced</p>
+  <h1 class="fig__title">Edit a source, and the build either agrees or stops</h1>
+  <p class="fig__lede">Nothing generated is edited by hand. Every gate runs in CI on each push and pull request (and locally through the build and <code class="mono">npm test</code>), so a contrast failure, an invented class or a broken page can't reach the CDN.</p>
+
+  <div class="lane">
+    <p class="lane__name">Build<span>fails fast, no output</span></p>
+    <section class="stage box">
+      <div class="stage__head"><span class="step">1</span></div>
+      <p class="box__title">Edit sources</p>
+      <ul class="checks">
+        <li>tokens/membrane.tokens.json</li>
+        <li>components/&lt;name&gt;/ CSS + README</li>
+        <li>fonts/fonts.json · membrane.js</li>
+      </ul>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="stage box stage--gate">
+      <div class="stage__head"><span class="step">2</span><span class="mp-badge" data-tone="digital">gate</span></div>
+      <p class="box__title"><code>build:tokens</code></p>
+      <ul class="checks">
+        <li>OKLCH round-trip on every color</li>
+        <li>162 WCAG contrast checks, light and dark, washes over page and cards</li>
+      </ul>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="stage box stage--gate">
+      <div class="stage__head"><span class="step">3</span><span class="mp-badge" data-tone="digital">gate</span></div>
+      <p class="box__title"><code>build:components</code></p>
+      <ul class="checks">
+        <li>Token lint: semantic tokens only</li>
+        <li>Docs lint: examples use only real classes and values</li>
+        <li>Coverage: every option is demonstrated</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="lane">
+    <p class="lane__name">Verify &amp; ship<span>on every push and PR</span></p>
+    <section class="stage box">
+      <div class="stage__head"><span class="step">4</span></div>
+      <p class="box__title">Generated, committed</p>
+      <ul class="checks">
+        <li>membrane.css · fonts.css · Tailwind theme</li>
+        <li>manifest.json · membrane.d.ts · llms.txt</li>
+        <li>spec tables · showcase gallery · README APIs</li>
+      </ul>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="stage box stage--gate">
+      <div class="stage__head"><span class="step">5</span><span class="mp-badge" data-tone="digital">gate</span></div>
+      <p class="box__title"><code>npm test</code></p>
+      <ul class="checks">
+        <li>html-validate · TypeScript check</li>
+        <li>axe, links, keyboard, motion in Chromium, Firefox, WebKit</li>
+        <li>130 visual baselines</li>
+      </ul>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="stage box stage--gate">
+      <div class="stage__head"><span class="step">6</span><span class="mp-badge" data-tone="digital">gate</span></div>
+      <p class="box__title">CI, then ship</p>
+      <ul class="checks">
+        <li>Fails if any generated file is stale</li>
+        <li>jsDelivr CDN (pinned by tag)</li>
+        <li>Cloudflare site + llms-full.txt</li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="legend" aria-hidden="true">
+    <span><i class="gate"></i>Gate: a failure stops the pipeline</span>
+    <span><i></i>Step: produces or edits files</span>
+  </div>
+</figure>
+</body>
+</html>

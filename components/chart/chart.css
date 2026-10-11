@@ -1,0 +1,140 @@
+/* Chart — a figure shell (title, legend, caption) plus a CSS bar list for
+   the most common education metric: one value per category. Series colors
+   come from the validated --color-chart-* palette, assigned in order.
+   Values are always printed, so identity and magnitude never rely on color. */
+
+.mp-chart {
+  --mp-chart-bar: 0.75rem;
+
+  box-sizing: border-box;
+  display: grid;
+  align-content: start;
+  gap: var(--space-4);
+  min-width: 0;
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+.mp-chart__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-6);
+}
+
+.mp-chart__title {
+  margin: 0;
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-small);
+}
+
+.mp-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+}
+
+.mp-chart__key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mp-chart__key::before {
+  content: "";
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--mp-chart-color);
+}
+
+/* Series slots — fixed order, never cycled. */
+.mp-chart [data-series="1"] { --mp-chart-color: var(--color-chart-1); }
+.mp-chart [data-series="2"] { --mp-chart-color: var(--color-chart-2); }
+.mp-chart [data-series="3"] { --mp-chart-color: var(--color-chart-3); }
+.mp-chart [data-series="4"] { --mp-chart-color: var(--color-chart-4); }
+.mp-chart [data-series="5"] { --mp-chart-color: var(--color-chart-5); }
+.mp-chart [data-series="6"] { --mp-chart-color: var(--color-chart-6); }
+
+.mp-chart__bars {
+  display: grid;
+  grid-template-columns: minmax(6rem, max-content) minmax(0, 1fr) max-content;
+  align-items: center;
+  gap: var(--space-3) var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+/* Each row lays its three parts onto the shared columns (subgrid keeps the
+   <li> a real list item; display: contents can drop its role). */
+.mp-chart__row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
+  align-items: center;
+}
+
+.mp-chart__label {
+  color: var(--color-text-secondary);
+}
+
+.mp-chart__track {
+  display: flex;
+  gap: 2px;
+  height: var(--mp-chart-bar);
+  overflow: hidden;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background-color: var(--color-bg-hover);
+}
+
+.mp-chart__fill {
+  --mp-chart-value: 0%;
+  --mp-chart-color: var(--color-chart-1);
+
+  /* May shrink, so stacked segments absorb their 2px gaps proportionally. */
+  flex: 0 1 auto;
+  width: var(--mp-chart-value);
+  /* Data end is rounded; the baseline end stays square. */
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background-color: var(--mp-chart-color);
+}
+
+/* Stacked bars: only the last segment's data end is rounded. */
+.mp-chart__fill:not(:last-child) {
+  border-radius: 0;
+}
+
+.mp-chart__value {
+  color: var(--color-text-primary);
+  font-variant-numeric: tabular-nums;
+  font-weight: var(--weight-medium);
+  text-align: end;
+}
+
+.mp-chart__caption {
+  color: var(--color-text-tertiary);
+  font-size: var(--text-xs);
+  line-height: var(--leading-small);
+}
+
+/* Keep the data visible when the OS replaces colors. */
+@media (forced-colors: active) {
+  .mp-chart__fill {
+    background-color: CanvasText;
+  }
+
+  .mp-chart__key::before {
+    border: var(--border-width-thin) solid CanvasText;
+  }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Findings</title>
+<link rel="stylesheet" href="../../../membrane.css">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .layout { display: grid; grid-template-columns: 1fr 14rem; gap: var(--space-10); align-items: start; }
+  .mp-chart { --mp-chart-bar: 1.1rem; }
+  .mp-chart__bars { font-size: var(--text-small); }
+  .mp-chart__value strong { font-weight: var(--weight-semibold); }
+  .totals { display: grid; gap: var(--space-4); margin: 0; padding: var(--space-5); border: var(--border-default); border-radius: var(--radius-lg); background: var(--color-bg-secondary); }
+  .totals .mp-stat__value { font-size: var(--text-h2); }
+  .sev { display: grid; gap: var(--space-2); margin: 0; padding: 0; list-style: none; font-size: var(--text-small); }
+  .sev li { display: flex; align-items: center; gap: var(--space-2); }
+  .sev i { width: 0.75rem; height: 0.75rem; border-radius: var(--radius-sm); }
+  .sev b { margin-left: auto; font-weight: var(--weight-semibold); }
+</style>
+</head>
+<body>
+<figure class="fig" style="margin:0">
+  <p class="fig__kicker">What the assessment found</p>
+  <h1 class="fig__title">48 findings, every one answered in v2.1</h1>
+  <p class="fig__lede">Grouped by area and stacked by severity. High means a user-facing defect or a gap that blocks adoption; medium, drift that would become a defect; low, polish. Two follow-ups stay open by design: the release tag and the v3.0.0 alias removal.</p>
+  <div class="layout">
+    <figure class="mp-chart" aria-labelledby="findings-title">
+      <div class="mp-chart__header">
+        <p class="mp-chart__title" id="findings-title">Findings by area</p>
+        <ul class="mp-chart__legend">
+          <li class="mp-chart__key" style="--mp-chart-color: light-dark(#944425, #D4724F)">High</li>
+          <li class="mp-chart__key" style="--mp-chart-color: #B35530">Medium</li>
+          <li class="mp-chart__key" style="--mp-chart-color: light-dark(#D4724F, #944425)">Low</li>
+        </ul>
+      </div>
+      <ul class="mp-chart__bars">
+      <li class="mp-chart__row"><span class="mp-chart__label">Components</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 37.50%; --mp-chart-color: light-dark(#944425, #D4724F)"></span><span class="mp-chart__fill" style="--mp-chart-value: 62.50%; --mp-chart-color: #B35530"></span></span><span class="mp-chart__value"><strong>8</strong> · 3 high</span></li>
+      <li class="mp-chart__row"><span class="mp-chart__label">Accessibility</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 50.00%; --mp-chart-color: light-dark(#944425, #D4724F)"></span><span class="mp-chart__fill" style="--mp-chart-value: 25.00%; --mp-chart-color: #B35530"></span><span class="mp-chart__fill" style="--mp-chart-value: 25.00%; --mp-chart-color: light-dark(#D4724F, #944425)"></span></span><span class="mp-chart__value"><strong>8</strong> · 4 high</span></li>
+      <li class="mp-chart__row"><span class="mp-chart__label">Tokens and color</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 12.50%; --mp-chart-color: light-dark(#944425, #D4724F)"></span><span class="mp-chart__fill" style="--mp-chart-value: 37.50%; --mp-chart-color: #B35530"></span><span class="mp-chart__fill" style="--mp-chart-value: 50.00%; --mp-chart-color: light-dark(#D4724F, #944425)"></span></span><span class="mp-chart__value"><strong>8</strong> · 1 high</span></li>
+      <li class="mp-chart__row"><span class="mp-chart__label">Agent and developer readiness</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 37.50%; --mp-chart-color: light-dark(#944425, #D4724F)"></span><span class="mp-chart__fill" style="--mp-chart-value: 37.50%; --mp-chart-color: #B35530"></span><span class="mp-chart__fill" style="--mp-chart-value: 12.50%; --mp-chart-color: light-dark(#D4724F, #944425)"></span></span><span class="mp-chart__value"><strong>7</strong> · 3 high</span></li>
+      <li class="mp-chart__row"><span class="mp-chart__label">Motion and preferences</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 12.50%; --mp-chart-color: light-dark(#944425, #D4724F)"></span><span class="mp-chart__fill" style="--mp-chart-value: 50.00%; --mp-chart-color: #B35530"></span><span class="mp-chart__fill" style="--mp-chart-value: 12.50%; --mp-chart-color: light-dark(#D4724F, #944425)"></span></span><span class="mp-chart__value"><strong>6</strong> · 1 high</span></li>
+      <li class="mp-chart__row"><span class="mp-chart__label">Testing, brand and publishing</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 12.50%; --mp-chart-color: light-dark(#944425, #D4724F)"></span><span class="mp-chart__fill" style="--mp-chart-value: 62.50%; --mp-chart-color: #B35530"></span></span><span class="mp-chart__value"><strong>6</strong> · 1 high</span></li>
+      <li class="mp-chart__row"><span class="mp-chart__label">Documentation and drift</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 37.50%; --mp-chart-color: #B35530"></span><span class="mp-chart__fill" style="--mp-chart-value: 25.00%; --mp-chart-color: light-dark(#D4724F, #944425)"></span></span><span class="mp-chart__value"><strong>5</strong></span></li>
+      </ul>
+      <figcaption class="mp-chart__caption">Bar length is the number of findings; the longest bar is 8.</figcaption>
+    </figure>
+    <div class="totals">
+      <div class="mp-stat">
+        <p class="mp-stat__label">Findings</p>
+        <p class="mp-stat__value">48</p>
+      </div>
+      <ul class="sev">
+        <li><i style="background: light-dark(#944425, #D4724F)"></i>High<b>13</b></li>
+        <li><i style="background: #B35530"></i>Medium<b>25</b></li>
+        <li><i style="background: light-dark(#D4724F, #944425)"></i>Low<b>10</b></li>
+      </ul>
+      <div class="mp-stat">
+        <p class="mp-stat__label">Still open</p>
+        <p class="mp-stat__value">0</p>
+        <p class="mp-stat__delta">2 follow-ups deferred on purpose</p>
+      </div>
+    </div>
+  </div>
+</figure>
+</body>
+</html>

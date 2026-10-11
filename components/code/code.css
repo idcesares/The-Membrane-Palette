@@ -1,0 +1,87 @@
+/* Code — inline code, keyboard keys, and always-dark code blocks.
+   Syntax classes also cover Prism (.token.*) and highlight.js (.hljs-*). */
+
+.mp-code {
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  overflow-wrap: anywhere;
+}
+
+.mp-kbd {
+  display: inline-block;
+  padding: 0.0625em 0.4em;
+  border: var(--border-width-thin) solid var(--color-border-emphasis);
+  border-block-end-width: var(--border-width-medium);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  font-family: var(--font-mono);
+  font-size: 0.8125em;
+  line-height: var(--leading-small);
+  white-space: nowrap;
+}
+
+.mp-code-block {
+  box-sizing: border-box;
+  overflow: hidden;
+  min-width: 0;
+  margin: 0;
+  border: var(--border-width-thin) solid var(--code-border);
+  border-radius: var(--radius-md);
+  background-color: var(--code-bg);
+  box-shadow: var(--elevation-raised);
+  color: var(--code-text);
+}
+
+.mp-code-block:has(pre:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-code-block__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-block-end: var(--border-width-thin) solid var(--code-border);
+  color: var(--code-comment);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.mp-code-block pre {
+  margin: 0;
+  padding: var(--space-5) var(--space-6);
+  overflow-x: auto;
+  background: transparent;
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--leading-code);
+  tab-size: 2;
+}
+
+.mp-code-block pre:focus-visible {
+  outline: none;
+}
+
+.mp-code-block code {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+.mp-code-block :is(.mp-syntax-keyword, .token.keyword, .token.atrule, .hljs-keyword) { color: var(--code-keyword); }
+.mp-code-block :is(.mp-syntax-string, .token.string, .token.attr-value, .hljs-string) { color: var(--code-string); }
+.mp-code-block :is(.mp-syntax-function, .token.function, .token.property, .hljs-title, .hljs-attr) { color: var(--code-function); }
+.mp-code-block :is(.mp-syntax-number, .token.number, .token.boolean, .hljs-number, .hljs-literal) { color: var(--code-number); }
+.mp-code-block :is(.mp-syntax-comment, .token.comment, .hljs-comment) {
+  color: var(--code-comment);
+  font-style: italic;
+}

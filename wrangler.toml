@@ -1,6 +1,10 @@
+# Cloudflare Workers with static assets. Cloudflare's Workers Builds
+# integration deploys dist/ on every push (build: npm run build); run
+# `npm run deploy` to deploy by hand. Missing paths get dist/404.html, and
+# dist/_headers is applied to the responses.
 name = "idcesares-design-system"
 compatibility_date = "2026-05-11"
-pages_build_output_dir = "./dist"
 
 [assets]
 directory = "./dist"
+not_found_handling = "404-page"

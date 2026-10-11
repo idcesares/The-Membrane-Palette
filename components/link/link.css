@@ -1,0 +1,80 @@
+/* Link — inline and standalone text links, plus the skip link. */
+
+.mp-link {
+  border-radius: var(--radius-sm);
+  color: var(--color-text-accent);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border-width-thin);
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 0.2em;
+  transition: color var(--transition-fast), text-decoration-color var(--transition-fast);
+}
+
+.mp-link:hover {
+  text-decoration-color: currentColor;
+}
+
+.mp-link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+/* Inherits the surrounding text color — for links inside dense metadata. */
+.mp-link[data-variant="quiet"] {
+  color: inherit;
+}
+
+/* A call-to-action link that sits on its own line. */
+.mp-link[data-variant="standalone"] {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: var(--size-touch-target);
+  font-weight: var(--weight-medium);
+  text-decoration-color: transparent;
+}
+
+.mp-link[data-variant="standalone"]::after {
+  content: "→" / "";
+  transition: translate var(--transition-fast);
+}
+
+.mp-link[data-variant="standalone"]:hover {
+  text-decoration-color: currentColor;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mp-link[data-variant="standalone"]:hover::after {
+    translate: var(--space-1) 0;
+  }
+}
+
+/* First focusable element on every page: jumps keyboard users past the nav. */
+.mp-skip-link {
+  position: absolute;
+  inset-block-start: var(--space-3);
+  inset-inline-start: var(--space-3);
+  z-index: var(--z-tooltip);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-bg-inverse);
+  color: var(--color-text-inverse);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  text-decoration: none;
+  translate: 0 calc(-100% - var(--space-8));
+  transition: translate var(--transition-fast);
+}
+
+@media print {
+  .mp-skip-link {
+    display: none;
+  }
+}
+
+.mp-skip-link:focus {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  translate: 0 0;
+}

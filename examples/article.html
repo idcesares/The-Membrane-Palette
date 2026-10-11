@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article pattern · The Membrane Palette</title>
+  <!-- CDN: https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css -->
+  <link rel="stylesheet" href="../membrane.css">
+</head>
+<body>
+  <a class="mp-skip-link" href="#main">Skip to content</a>
+
+  <header class="mp-navbar">
+    <div class="mp-navbar__inner">
+      <a class="mp-navbar__brand" href="#main">D'Césares</a>
+      <nav class="mp-navbar__nav" aria-label="Primary">
+        <ul class="mp-navbar__links">
+          <li><a class="mp-navbar__link" href="#main">Workshops</a></li>
+          <li><a class="mp-navbar__link" href="#main" aria-current="page">Writing</a></li>
+          <li><a class="mp-navbar__link" href="#main">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <article>
+      <header class="mp-section" data-size="sm">
+        <div class="mp-container" data-size="sm">
+          <div class="mp-stack" data-gap="5">
+            <nav class="mp-breadcrumb" aria-label="Breadcrumb">
+              <ol class="mp-breadcrumb__list">
+                <li class="mp-breadcrumb__item"><a class="mp-breadcrumb__link" href="#main">Writing</a></li>
+                <li class="mp-breadcrumb__item"><a class="mp-breadcrumb__link" href="#main" aria-current="page">Institutional memory</a></li>
+              </ol>
+            </nav>
+            <p class="mp-text type-label" data-tone="human">Essay · 8 min read</p>
+            <h1 class="type-display">Learning platforms with institutional memory</h1>
+            <p class="mp-text type-body-lg" data-tone="muted">What changes when a course remembers every cohort that took it — and why that memory belongs to the teachers, not the tool.</p>
+            <div class="mp-cluster" data-gap="3">
+              <span class="mp-avatar" role="img" aria-label="Isaac D'Césares">ID</span>
+              <div>
+                <p class="mp-text type-small">Isaac D'Césares</p>
+                <p class="mp-text type-small" data-tone="subtle"><time datetime="2026-10-02">2 October 2026</time></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="mp-container" data-size="sm">
+        <div class="mp-prose">
+          <p>Every cohort leaves traces: the questions that came up in week two, the example that finally made tokenization click, the assignment nobody finished. Most platforms throw those traces away at the end of term.</p>
+          <h2>What a course could remember</h2>
+          <p>A course with memory keeps three things: <strong>the questions</strong> learners actually asked, <strong>the examples</strong> that worked, and <strong>the drop-off points</strong> where people quietly left.</p>
+          <ul>
+            <li>Questions become the next cohort's FAQ — written by peers, not by us.</li>
+            <li>Examples are versioned with the material they explain.</li>
+            <li>Drop-off points are reviewed by facilitators before the next run.</li>
+          </ul>
+          <blockquote>Learning happens best when people build things that matter to them.</blockquote>
+          <h2>Where the memory lives</h2>
+          <p>The simplest implementation is a plain file next to the syllabus. Inline code like <code>cohort.questions</code> stays readable; longer samples go in a block:</p>
+          <pre tabindex="0"><code>// Keep the memory with the material
+const memory = await loadCohort("ai-literacy-1", { since: "2025-02" });
+memory.questions.filter((q) =&gt; q.upvotes &gt; 3);</code></pre>
+          <p>None of this needs a new platform. It needs a decision about who owns what the course learns.</p>
+        </div>
+
+        <figure class="mp-quote" data-variant="pull" aria-hidden="true">
+          <blockquote class="mp-quote__text"><p>The memory belongs to the teachers, not the tool.</p></blockquote>
+        </figure>
+
+        <div class="mp-alert" data-tone="human">
+          <div class="mp-alert__content">
+            <p class="mp-alert__title">Try it with your next cohort</p>
+            <p>Start with one shared document of questions. That's the whole first version.</p>
+          </div>
+        </div>
+      </div>
+
+      <section class="mp-section" aria-labelledby="related-title">
+        <div class="mp-container" data-size="lg">
+          <div class="mp-stack" data-gap="6">
+            <hr class="mp-divider" data-size="sm">
+            <h2 class="type-h2" id="related-title">Keep reading</h2>
+            <div class="mp-grid">
+              <article class="mp-card">
+                <p class="mp-card__overline">Essay</p>
+                <h3 class="mp-card__title"><a class="mp-card__link" href="#main">The membrane between people and systems</a></h3>
+                <p class="mp-card__body">A field guide to designing where pedagogy meets code.</p>
+                <div class="mp-card__footer"><span class="mp-tag" data-tone="human">Pedagogy</span></div>
+              </article>
+              <article class="mp-card" data-tone="digital">
+                <p class="mp-card__overline">Case study</p>
+                <h3 class="mp-card__title"><a class="mp-card__link" href="#main">Teaching AI literacy at scale</a></h3>
+                <p class="mp-card__body">How 3,000 educators co-designed their own assistant.</p>
+                <div class="mp-card__footer"><span class="mp-tag" data-tone="digital">LLMs</span></div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="mp-section mp-surface" data-size="sm" data-theme="dark">
+    <div class="mp-container">
+      <p class="mp-text type-small" data-tone="muted">Built at the membrane between the human and the digital.</p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,45 +1,136 @@
 name: CI
 
 on:
+  # Every branch, so a change is verified on GitHub's runners before a pull
+  # request exists; pull requests into master; and on demand.
   push:
-    branches: [master]
   pull_request:
     branches: [master]
+  workflow_dispatch:
+
+# A newer push to the same ref cancels the run it supersedes.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
-    name: Build tokens & showcase
+    name: Build tokens, components & showcase
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version-file: .nvmrc
           cache: npm
 
       - run: npm ci
 
       # Regenerates tokens/design-tokens.css and tokens/base.css from
-      # tokens/membrane.tokens.json. Fails the build if any color fails
-      # its OKLCH round-trip, or if any of the 40 gated contrast pairs
-      # (light + dark) falls below its WCAG minimum. This is the
-      # primary regression check for this repo.
+      # tokens/membrane.tokens.json. Fails if any color fails its OKLCH
+      # round-trip, or if any gated contrast pair (light + dark, including
+      # hover fills, status washes and code syntax colors) falls below its
+      # WCAG minimum.
       - name: Build tokens (OKLCH round-trip + WCAG contrast gate)
         run: npm run build:tokens
 
-      # Confirms the generated tokens are consistent with what's
-      # committed, so nobody merges hand-edited or stale generated CSS.
+      # Lints every component against the token system (no raw colors, no
+      # Tier 1 primitives, no deprecated or unknown tokens) and every README
+      # example against the component CSS (no invented classes or values),
+      # then writes the bundles, manifest, llms.txt and generated docs.
+      - name: Build components (token lint + docs lint)
+        run: npm run build:components
+
+      # Every generated artifact is committed so the CDN can serve it.
+      # Fail if anything the two builds wrote differs from what's committed.
       - name: Verify generated files are up to date
         run: |
-          if ! git diff --quiet -- tokens/design-tokens.css tokens/base.css; then
-            echo "::error::tokens/design-tokens.css or tokens/base.css is out of date."
-            echo "Run 'npm run build:tokens' locally and commit the result."
-            git diff -- tokens/design-tokens.css tokens/base.css
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::Generated files are out of date. Run 'npm run build:system' locally and commit the result."
+            git status --porcelain
+            git --no-pager diff --stat
             exit 1
           fi
 
-      # Assembles dist/ the same way the Cloudflare Pages deploy does,
-      # to catch showcase/marker or asset-copy regressions before merge.
-      - name: Build showcase (Cloudflare Pages assembly)
+      # Assembles dist/ the same way the Cloudflare deploy does.
+      - name: Build showcase (Cloudflare assembly)
         run: npm run build
+
+  test:
+    name: Accessibility & behavior tests (Playwright + axe)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium, Firefox and WebKit for Playwright
+        run: npx playwright install --with-deps chromium firefox webkit
+
+      # Builds dist/, validates its HTML and type-checks the generated
+      # TypeScript, then serves it and runs, in Chromium, Firefox and WebKit:
+      # axe-core on every page in light and dark mode, phone-width overflow,
+      # link integrity and self-containment, the keyboard / focus / ARIA
+      # behavior of tabs, dialog, tooltip, menu, combobox and toast, and
+      # motion under full, reduced and touch settings.
+      - name: Run tests
+        run: npm test
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results/
+          retention-days: 7
+
+  visual:
+    name: Visual baselines (Playwright container)
+    runs-on: ubuntu-latest
+    # Pixels depend on the machine's font rasterizer, so baselines are
+    # recorded and compared in one canonical image. Keep its tag equal to
+    # the @playwright/test version in package.json. Locally:
+    #   docker run --rm -v "$PWD":/work -w /work mcr.microsoft.com/playwright:v1.56.1-noble \
+    #     sh -c "npm ci && npm run test:visual -- --update-snapshots"
+    container:
+      image: mcr.microsoft.com/playwright:v1.56.1-noble
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      # Every gallery example in light and dark against the committed
+      # baselines in tests/visual.spec.mjs-snapshots/.
+      - name: Compare with baselines
+        run: npm run test:visual
+
+      # On a mismatch, record fresh baselines in this same image and upload
+      # them: review the diff in playwright-visual, and if the change was
+      # intended, commit the files from visual-baselines.
+      - name: Record fresh baselines
+        if: failure()
+        run: npx playwright test --project=visual --update-snapshots
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-baselines
+          path: tests/visual.spec.mjs-snapshots/
+          retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-visual
+          path: test-results/
+          retention-days: 7

@@ -1,0 +1,129 @@
+/* Steps — progress through an ordered sequence: course modules, onboarding,
+   a multi-page form. aria-current="step" marks the current step;
+   data-status="complete" marks finished ones (content state, not styling). */
+
+.mp-steps {
+  counter-reset: mp-step;
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--font-sans);
+}
+
+.mp-steps__item {
+  --mp-steps-marker: 2rem;
+  --mp-steps-ring: var(--color-border-input);
+  --mp-steps-line: var(--color-border-default);
+
+  counter-increment: mp-step;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--mp-steps-marker) minmax(0, 1fr);
+  column-gap: var(--space-4);
+  padding-bottom: var(--space-6);
+}
+
+.mp-steps__item:last-child {
+  padding-bottom: 0;
+}
+
+/* Marker: the step number, a check when complete. */
+.mp-steps__item::before {
+  content: counter(mp-step);
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  width: var(--mp-steps-marker);
+  height: var(--mp-steps-marker);
+  border: var(--border-width-medium) solid var(--mp-steps-ring);
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+  font-weight: var(--weight-semibold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Connector from this marker down to the next. */
+.mp-steps__item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  inset-block: calc(var(--mp-steps-marker) + var(--space-1)) var(--space-1);
+  inset-inline-start: calc(var(--mp-steps-marker) / 2 - var(--border-width-thin));
+  width: var(--border-width-medium);
+  border-radius: var(--radius-full);
+  background-color: var(--mp-steps-line);
+}
+
+.mp-steps__item[data-status="complete"] {
+  --mp-steps-ring: var(--color-action-secondary);
+  --mp-steps-line: var(--color-action-secondary);
+}
+
+.mp-steps__item[data-status="complete"]::before {
+  content: "✓" / "";
+  background-color: var(--color-action-secondary);
+  color: var(--color-text-on-accent);
+}
+
+.mp-steps__item[aria-current="step"] {
+  --mp-steps-ring: var(--color-action-primary);
+}
+
+.mp-steps__item[aria-current="step"]::before {
+  color: var(--color-human-text);
+  box-shadow: 0 0 0 var(--space-1) var(--color-human-bg);
+}
+
+.mp-steps__label {
+  grid-column: 2;
+  align-self: center;
+  min-height: var(--mp-steps-marker);
+  display: flex;
+  align-items: center;
+  margin: 0;
+  color: var(--color-text-primary);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-small);
+}
+
+.mp-steps__item:not([data-status="complete"], [aria-current="step"]) .mp-steps__label {
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-medium);
+}
+
+.mp-steps__description {
+  grid-column: 2;
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+/* Horizontal: markers in a row, labels underneath. */
+.mp-steps[data-orientation="horizontal"] {
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+}
+
+.mp-steps[data-orientation="horizontal"] .mp-steps__item {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  row-gap: var(--space-2);
+  padding: 0 var(--space-2);
+  text-align: center;
+}
+
+.mp-steps[data-orientation="horizontal"] .mp-steps__label,
+.mp-steps[data-orientation="horizontal"] .mp-steps__description {
+  grid-column: 1;
+  min-height: 0;
+}
+
+.mp-steps[data-orientation="horizontal"] .mp-steps__item:not(:last-child)::after {
+  inset-block: calc(var(--mp-steps-marker) / 2 - var(--border-width-thin)) auto;
+  inset-inline: calc(50% + var(--mp-steps-marker) / 2 + var(--space-2)) calc(-50% + var(--mp-steps-marker) / 2 + var(--space-2));
+  width: auto;
+  height: var(--border-width-medium);
+}

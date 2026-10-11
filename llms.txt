@@ -1,0 +1,73 @@
+# The Membrane Palette
+
+> A token-based design system and framework-free CSS component library where human warmth meets digital precision. Terracotta (human register) and deep teal (digital register) on warm cream, Fraunces + Instrument Sans + JetBrains Mono, automatic dark mode, WCAG contrast gate-checked at build time. Use it by linking one stylesheet and writing semantic HTML with `mp-` classes.
+
+Rules for generating UI with this system:
+
+- Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css` (tokens + base + components). Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
+- Don't add a Google Fonts (or any other font) link: `membrane.css` already declares self-hosted Fraunces, Instrument Sans and JetBrains Mono.
+- Compose from components (`.mp-button`, `.mp-card`, `.mp-field`…) and layout primitives (`.mp-container`, `.mp-stack`, `.mp-cluster`, `.mp-grid`) before writing CSS.
+- Options are `data-*` attributes (`data-variant="secondary"`); only the values listed in the manifest exist.
+- States come from semantic HTML/ARIA (`disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-selected`, `aria-busy`), never from extra classes.
+- In custom CSS use semantic tokens only (`--color-text-primary`, `--color-bg-secondary`, `--color-action-primary`, `--space-6`, `--text-h2`). Never hex values, never Tier 1 primitives like `--color-terracotta`.
+- At most one primary (terracotta) button per view. Cream not white, charcoal not black.
+- Charts use `--color-chart-1`…`-6` in order (never cycled); status meaning uses status tokens with a label.
+- Custom motion uses the composites: `--transition-enter` on the open state, `--transition-exit` on the closed one, `--transition-state` for toggles. Animate opacity, transforms, colors and box-shadow (never layout properties), put hover effects inside `@media (hover: hover)`, and remove movement under `prefers-reduced-motion`.
+- Writing Tailwind? Import `tokens/membrane-tailwind.css` and use only `mp-` utilities (`bg-mp-surface`, `text-mp-fg`, `bg-mp-primary`); off-brand classes like `bg-blue-500` don't exist.
+
+## Start here
+
+- [Component manifest (JSON)](components/manifest.json): every component's classes, allowed attribute values, states, knobs, tokens and HTML examples
+- [TypeScript types](components/membrane.d.ts): the same API as types (MpAttrs<"button">, MpClass, MpToken) for framework code
+- [Brand marks](DESIGN-SYSTEM.md#103-files): outlined SVG wordmark and `dc` monogram in brand/ — use the files, never retype the name in Fraunces
+- [Design system specification](DESIGN-SYSTEM.md): principles, color, type, spacing, motion, dark mode, accessibility
+- [Token source (DTCG JSON)](tokens/membrane.tokens.json): every token with descriptions; the only file with authority over values
+- [Brand voice](BRAND-VOICE.md): tone and vocabulary for any copy you write alongside the UI
+
+## Components
+
+- [Layout](components/layout/README.md): Container, Stack, Cluster, Grid, Section and Surface primitives that compose any page without custom layout CSS.
+- [Text](components/text/README.md): Tone (muted, subtle, human, digital) and reading measure for running copy — combine with the .type-* size classes instead of writing inline color or max-width.
+- [Prose](components/prose/README.md): One class that styles long-form HTML — articles, Markdown output, CMS content — with the full typographic system.
+- [Button](components/button/README.md): Pill-shaped action trigger. Primary is terracotta (one per view), secondary is a teal outline, ghost is quiet, danger is destructive.
+- [Link](components/link/README.md): Text links — inline, quiet and standalone call-to-action — plus the skip link every page should start with.
+- [Field](components/field/README.md): Wraps one form control with its label, hint and error message; Fieldset groups related controls under a legend.
+- [Input](components/input/README.md): One class for text inputs, textareas and selects, with a ≥3:1 control boundary, visible focus ring, and invalid/disabled/read-only states.
+- [Combobox](components/combobox/README.md): A text input that suggests options as you type — accent-insensitive filtering, arrow-key navigation and a result count for screen readers, via membrane.js.
+- [Choice](components/choice/README.md): Checkbox and radio controls drawn in the brand style, inside a clickable .mp-choice label row with optional description.
+- [Switch](components/switch/README.md): An on/off toggle for settings that take effect immediately — a native checkbox with role="switch".
+- [Card](components/card/README.md): A contained unit — overline, serif title, body, footer, optional media — with standard, featured and flat variants and an accessible whole-card link.
+- [Tag](components/tag/README.md): A pill that names a topic or category, colored by register — human (terracotta), digital (teal) or neutral. Can be a link, a toggle, or removable.
+- [Badge](components/badge/README.md): A compact, uppercase, non-interactive label for status and metadata — info, success, warning, error, or a register tone.
+- [Avatar](components/avatar/README.md): A person as a warm-filtered photo or Fraunces initials; digital tone uses monospace for bots and systems. Groups overlap.
+- [Quote](components/quote/README.md): Blockquote with attribution in Fraunces italic; the pull variant renders the brand's signature phrases large and centered.
+- [Code](components/code/README.md): Inline code, keyboard keys, and always-dark code blocks with gate-checked syntax colors that also style Prism and highlight.js output.
+- [Divider](components/divider/README.md): A fading hairline between sections — or a full-width solid rule inside panels. Prefer whitespace first.
+- [Table](components/table/README.md): Data tables with a quiet uppercase header, tabular numerals, end-aligned numbers, compact/striped/interactive variants and a scrolling frame.
+- [Stat](components/stat/README.md): A headline metric — label, Fraunces numeral, and a delta whose arrow (trend) and color (sentiment) are set independently.
+- [Chart](components/chart/README.md): A figure shell (title, legend, caption) and a CSS bar list — single, multi-series or stacked — colored by the validated --color-chart-* palette, with every value printed.
+- [Icon](components/icon/README.md): Sizes and colors an inline line-icon SVG from the --size-icon-* tokens (20/24/32/48px) and the register/status text colors.
+- [Alert](components/alert/README.md): An inline message about state — info, success, warning, error — or a human-register editorial note, with optional icon and actions.
+- [Progress](components/progress/README.md): Native <progress> bars (determinate or indeterminate, three sizes, register tones) and a spinner for short unmeasured waits.
+- [Skeleton](components/skeleton/README.md): Placeholder text lines, circles and blocks that hold a layout's shape while content loads; they pulse in place under reduced motion.
+- [Empty state](components/empty-state/README.md): What a view shows before it has content — icon on a warm wash, Fraunces title, one sentence of guidance and the next action.
+- [Toast](components/toast/README.md): A brief, polite confirmation of something the person just did — one live region per page, MembranePalette.toast() or a data-mp-toast button, auto-dismissed unless it's an error.
+- [Tooltip](components/tooltip/README.md): A short inverse-colored hint shown on hover and keyboard focus — CSS-only, hoverable, Escape-dismissible with membrane.js.
+- [Dialog](components/dialog/README.md): A modal built on native <dialog> — focus trapping, Escape and the backdrop come from the browser; header, body and footer slots.
+- [Navbar](components/navbar/README.md): Sticky translucent site header with brand, uppercase links (aria-current marks the active page) and an actions slot; collapses by its own width.
+- [Breadcrumb](components/breadcrumb/README.md): The path from site root to the current page, as an ordered list with decorative separators and aria-current on the last item.
+- [Tabs](components/tabs/README.md): WAI-ARIA tabs — underline or pill (segmented) style; aria-selected drives the visuals, membrane.js adds click and arrow-key behavior.
+- [Accordion](components/accordion/README.md): Expandable sections on native <details>/<summary> — no script, keyboard-ready, exclusive with a shared name, animated where supported.
+- [Pagination](components/pagination/README.md): Numbered page links with previous/next; aria-current marks the current page (teal pill), and narrow containers collapse to previous · current · next.
+- [Steps](components/steps/README.md): Progress through an ordered sequence — course modules, onboarding, a multi-page form — vertical or horizontal, with complete, current and upcoming steps.
+- [Menu](components/menu/README.md): A list of actions in a native popover — opened by a popovertarget button, light-dismissed by the browser, arrow-key navigable with membrane.js.
+
+## Optional
+
+- [Starter page](examples/starter.html): a complete landing page to copy from
+- [Article pattern](examples/article.html): long-form essay page
+- [Dashboard pattern](examples/dashboard.html): product UI with stats, a chart, a table, tabs, steps, pagination, an empty state, a menu and toasts
+- [Tailwind v4 theme](tokens/membrane-tailwind.css): mp- utilities mapped onto the semantic tokens
+- [Resolved tokens (JSON)](tokens/tokens.resolved.json): every token's light and dark value as plain hex, for charting libraries and native apps
+- [Live showcase](https://membrane-palette.dcesares.dev/): every component rendered in light and dark mode
+- [Changelog](CHANGELOG.md): versions, deprecations, migration notes

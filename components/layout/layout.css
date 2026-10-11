@@ -1,0 +1,101 @@
+/* Layout primitives — compose pages from these instead of writing layout CSS.
+   Gaps map 1:1 to the spacing scale: data-gap="4" → var(--space-4). */
+
+.mp-container {
+  --mp-container-max: var(--container-xl);
+  box-sizing: border-box;
+  width: min(100% - 2 * var(--site-margin), var(--mp-container-max));
+  margin-inline: auto;
+}
+
+.mp-container[data-size="sm"] { --mp-container-max: var(--container-sm); }
+.mp-container[data-size="md"] { --mp-container-max: var(--container-md); }
+.mp-container[data-size="lg"] { --mp-container-max: var(--container-lg); }
+
+.mp-stack {
+  --mp-gap: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--mp-gap);
+  min-width: 0;
+}
+
+.mp-cluster {
+  --mp-gap: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--mp-gap);
+  min-width: 0;
+}
+
+.mp-cluster[data-justify="between"] { justify-content: space-between; }
+.mp-cluster[data-justify="center"] { justify-content: center; }
+.mp-cluster[data-justify="end"] { justify-content: flex-end; }
+.mp-cluster[data-align="start"] { align-items: flex-start; }
+.mp-cluster[data-align="baseline"] { align-items: baseline; }
+
+.mp-grid {
+  --mp-gap: var(--space-6);
+  --mp-grid-min: 16rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--mp-grid-min), 100%), 1fr));
+  gap: var(--mp-gap);
+  min-width: 0;
+}
+
+.mp-grid[data-min="sm"] { --mp-grid-min: 12rem; }
+.mp-grid[data-min="lg"] { --mp-grid-min: 22rem; }
+
+/* The primitive owns spacing between its children: default margins on
+   headings and paragraphs would otherwise stack on top of the gap. */
+:is(.mp-stack, .mp-cluster, .mp-grid) > * {
+  margin-block: 0;
+}
+
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="0"] { --mp-gap: 0; }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="1"] { --mp-gap: var(--space-1); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="2"] { --mp-gap: var(--space-2); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="3"] { --mp-gap: var(--space-3); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="4"] { --mp-gap: var(--space-4); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="5"] { --mp-gap: var(--space-5); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="6"] { --mp-gap: var(--space-6); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="8"] { --mp-gap: var(--space-8); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="10"] { --mp-gap: var(--space-10); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="12"] { --mp-gap: var(--space-12); }
+:is(.mp-stack, .mp-cluster, .mp-grid)[data-gap="16"] { --mp-gap: var(--space-16); }
+
+/* Vertical rhythm for page sections. */
+.mp-section {
+  --mp-section-space: var(--space-20);
+  box-sizing: border-box;
+  padding-block: var(--mp-section-space);
+}
+
+.mp-section[data-size="sm"] { --mp-section-space: var(--space-12); }
+.mp-section[data-size="lg"] { --mp-section-space: var(--space-32); }
+
+.mp-section[data-tone="secondary"] {
+  background-color: var(--color-bg-secondary);
+}
+
+/* Paints a themed surface. Required wherever data-theme flips a subtree,
+   because the subtree otherwise shows its parent's background. */
+.mp-surface {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+.mp-surface[data-tone="secondary"] { background-color: var(--color-bg-secondary); }
+.mp-surface[data-tone="elevated"] { background-color: var(--color-bg-elevated); }
+
+/* Hidden visually, still announced by screen readers. Becomes visible on focus
+   so it can also host skip links and other focusable helpers. */
+.mp-visually-hidden:not(:focus, :active, :focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

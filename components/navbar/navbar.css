@@ -1,0 +1,132 @@
+/* Navbar — the sticky, translucent site header. Responds to its own width
+   (container query), not the viewport, so it also works inside panels. */
+
+.mp-navbar {
+  box-sizing: border-box;
+  position: sticky;
+  top: 0;
+  z-index: var(--z-nav);
+  container-type: inline-size;
+  border-block-end: var(--border-default);
+  background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
+  backdrop-filter: blur(var(--blur-backdrop));
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+/* In-page anchors land below the sticky bar instead of under it. */
+:root:has(.mp-navbar) {
+  scroll-padding-top: calc(var(--size-nav) + var(--space-4));
+}
+
+@media print {
+  .mp-navbar {
+    display: none;
+  }
+}
+
+.mp-navbar__inner {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  width: min(100% - 2 * var(--site-margin), var(--container-xl));
+  min-height: var(--size-nav);
+  margin-inline: auto;
+}
+
+.mp-navbar__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-family: var(--font-serif);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-bold);
+  letter-spacing: var(--tracking-heading);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.mp-navbar__nav {
+  margin-inline-start: auto;
+}
+
+.mp-navbar__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mp-navbar__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--size-touch-target);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  color: var(--color-text-secondary);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-label);
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.mp-navbar__link:hover {
+  background-color: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+.mp-navbar__link[aria-current="page"] {
+  color: var(--color-human-text);
+  text-decoration-line: underline;
+  text-decoration-thickness: var(--border-width-medium);
+  text-decoration-color: var(--color-action-primary);
+  text-underline-offset: 0.5em;
+}
+
+:is(.mp-navbar__brand, .mp-navbar__link):focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* Narrow: brand + actions on top, links in a horizontally scrolling row. */
+@container (max-width: 48rem) {
+  .mp-navbar__inner {
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    min-height: var(--size-nav-mobile);
+  }
+
+  .mp-navbar__actions {
+    margin-inline-start: auto;
+  }
+
+  .mp-navbar__nav {
+    order: 3;
+    width: 100%;
+    margin-inline: calc(-1 * var(--space-3));
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* Fade the trailing edge so a clipped row reads as "scroll for more". */
+    mask-image: linear-gradient(to right, currentColor calc(100% - var(--space-8)), transparent);
+  }
+
+  .mp-navbar__links {
+    flex-wrap: nowrap;
+    /* Room to scroll the last link clear of the fade. */
+    padding-inline-end: var(--space-8);
+  }
+}

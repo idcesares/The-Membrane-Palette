@@ -1,0 +1,150 @@
+/* Long-form content styled from plain HTML (Markdown output, CMS content).
+   Every descendant selector is wrapped in :where() so one class can style
+   a whole article while staying trivially overridable. */
+
+.mp-prose {
+  max-width: var(--measure);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  overflow-wrap: break-word;
+}
+
+.mp-prose :where(h1, h2, h3, h4) {
+  margin-block: 1.75em 0.5em;
+  color: var(--color-text-primary);
+}
+
+.mp-prose :where(h1, h2, h3) {
+  font-family: var(--font-serif);
+}
+
+.mp-prose :where(h1) {
+  font-size: var(--text-h1);
+  font-weight: var(--weight-bold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.mp-prose :where(h2) {
+  font-size: var(--text-h2);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.mp-prose :where(h3) {
+  font-size: var(--text-h3);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-subheading);
+  letter-spacing: var(--tracking-subheading);
+}
+
+.mp-prose :where(h4) {
+  font-family: var(--font-sans);
+  font-size: var(--text-h4);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-subheading);
+}
+
+.mp-prose :where(p, ul, ol, dl, blockquote, pre, figure, table) {
+  margin-block: 0 1.25em;
+}
+
+.mp-prose > :where(:first-child) { margin-block-start: 0; }
+.mp-prose > :where(:last-child) { margin-block-end: 0; }
+
+.mp-prose :where(a) {
+  color: var(--color-text-accent);
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 0.2em;
+  border-radius: var(--radius-sm);
+}
+
+.mp-prose :where(a:hover) { text-decoration-color: currentColor; }
+
+.mp-prose :where(a:focus-visible) {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-prose :where(strong, b) { font-weight: var(--weight-semibold); }
+
+.mp-prose :where(ul, ol) { padding-inline-start: 1.5em; }
+.mp-prose :where(li + li) { margin-block-start: 0.375em; }
+.mp-prose :where(li)::marker { color: var(--color-text-tertiary); }
+
+.mp-prose :where(blockquote) {
+  margin-inline: 0;
+  padding-inline-start: var(--space-6);
+  border-inline-start: var(--border-width-thick) solid var(--color-action-primary);
+  font-family: var(--font-serif);
+  font-size: var(--text-body-lg);
+  font-style: italic;
+  line-height: var(--leading-body-lg);
+}
+
+.mp-prose :where(:not(pre) > code) {
+  padding: 0.125em 0.375em;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-tertiary);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.mp-prose :where(pre) {
+  overflow-x: auto;
+  padding: var(--space-5) var(--space-6);
+  border: var(--border-width-thin) solid var(--code-border);
+  border-radius: var(--radius-md);
+  background-color: var(--code-bg);
+  color: var(--code-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: var(--leading-code);
+}
+
+.mp-prose :where(hr) {
+  height: var(--border-width-thin);
+  margin-block: var(--space-12);
+  border: 0;
+  background: var(--gradient-divider);
+}
+
+.mp-prose :where(img, video) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-lg);
+}
+
+.mp-prose :where(figcaption) {
+  margin-block-start: var(--space-2);
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+.mp-prose :where(table) {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-small);
+}
+
+.mp-prose :where(th, td) {
+  padding: var(--space-2) var(--space-3);
+  border-block-end: var(--border-default);
+  text-align: start;
+}
+
+.mp-prose :where(th) { font-weight: var(--weight-semibold); }
+
+/* On paper a link can't be clicked: print where it goes. */
+@media print {
+  .mp-prose :where(a[href^="http"])::after {
+    content: " (" attr(href) ")";
+    color: var(--color-text-secondary);
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+  }
+}

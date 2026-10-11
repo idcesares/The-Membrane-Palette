@@ -1,0 +1,16 @@
+/* Text — tone and line length for running copy, so pages never need inline
+   color or max-width styles. Pair with the .type-* size composites. */
+
+.mp-text {
+  margin: 0;
+}
+
+.mp-text[data-tone="muted"] { color: var(--color-text-secondary); }
+.mp-text[data-tone="subtle"] { color: var(--color-text-tertiary); }
+.mp-text[data-tone="human"] { color: var(--color-human-text); }
+.mp-text[data-tone="digital"] { color: var(--color-digital-text); }
+
+/* Cap line length at the reading measure (65ch). */
+.mp-text[data-measure] {
+  max-width: var(--measure);
+}

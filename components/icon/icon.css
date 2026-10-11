@@ -1,0 +1,28 @@
+/* Icon — sizes and colors an inline SVG from the icon tokens. Line icons
+   only (outlined, rounded caps), per DESIGN-SYSTEM.md §7.3. */
+
+.mp-icon {
+  --mp-icon-size: var(--size-icon-md);
+
+  display: inline-block;
+  flex: none;
+  width: var(--mp-icon-size);
+  height: var(--mp-icon-size);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vertical-align: middle;
+}
+
+.mp-icon[data-size="sm"] { --mp-icon-size: var(--size-icon-sm); }
+.mp-icon[data-size="lg"] { --mp-icon-size: var(--size-icon-lg); }
+.mp-icon[data-size="xl"] { --mp-icon-size: var(--size-icon-xl); }
+
+/* Accent icons carry a register or status; the default inherits text color. */
+.mp-icon[data-tone="human"] { color: var(--color-human-text); }
+.mp-icon[data-tone="digital"] { color: var(--color-digital-text); }
+.mp-icon[data-tone="success"] { color: var(--color-success-text); }
+.mp-icon[data-tone="warning"] { color: var(--color-warning-text); }
+.mp-icon[data-tone="error"] { color: var(--color-error-text); }

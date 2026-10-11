@@ -1,0 +1,54 @@
+/* Skeleton — placeholder shapes while content loads. Decorative: the region
+   that is loading carries aria-busy and a status message. */
+
+.mp-skeleton {
+  --mp-skeleton-width: 100%;
+  --mp-skeleton-height: 1rem;
+
+  display: block;
+  width: var(--mp-skeleton-width);
+  height: var(--mp-skeleton-height);
+  border-radius: var(--radius-sm);
+  background:
+    linear-gradient(90deg, transparent, var(--color-bg-hover), transparent) 0 0 / 50% 100% no-repeat,
+    var(--color-bg-active);
+  animation: mp-skeleton-shimmer var(--duration-loop) var(--ease-in-out) infinite;
+}
+
+/* Text lines: body line height, slightly shorter last line. */
+.mp-skeleton[data-variant="text"] {
+  --mp-skeleton-height: 0.75em;
+  margin-block: 0.4em;
+}
+
+.mp-skeleton[data-variant="text"]:last-child:not(:only-child) {
+  --mp-skeleton-width: 60%;
+}
+
+.mp-skeleton[data-variant="circle"] {
+  --mp-skeleton-width: var(--space-10);
+  --mp-skeleton-height: var(--space-10);
+  border-radius: var(--radius-full);
+}
+
+.mp-skeleton[data-variant="block"] {
+  --mp-skeleton-height: var(--space-32);
+  border-radius: var(--radius-lg);
+}
+
+@keyframes mp-skeleton-shimmer {
+  from { background-position: -100% 0, 0 0; }
+  to { background-position: 200% 0, 0 0; }
+}
+
+@keyframes mp-skeleton-pulse {
+  50% { opacity: 0.55; }
+}
+
+/* Reduced motion: the shimmer's sweep becomes a slow in-place pulse. */
+@media (prefers-reduced-motion: reduce) {
+  .mp-skeleton {
+    background: var(--color-bg-active);
+    animation: mp-skeleton-pulse var(--duration-loop) var(--ease-in-out) infinite;
+  }
+}

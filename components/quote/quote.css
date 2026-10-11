@@ -1,0 +1,58 @@
+/* Quote — a <figure> holding a blockquote and its attribution.
+   The pull variant is for the brand's signature phrases. */
+
+.mp-quote {
+  box-sizing: border-box;
+  margin: var(--space-8) 0;
+  padding-inline-start: var(--space-6);
+  border-inline-start: var(--border-width-thick) solid var(--color-action-primary);
+}
+
+.mp-quote__text {
+  margin: 0;
+  color: var(--color-text-primary);
+  font-family: var(--font-serif);
+  font-size: var(--text-body-lg);
+  font-style: italic;
+  font-weight: var(--weight-regular);
+  line-height: var(--leading-body-lg);
+}
+
+.mp-quote__text > p {
+  margin: 0;
+}
+
+.mp-quote__text > p + p {
+  margin-top: var(--space-3);
+}
+
+.mp-quote__source {
+  margin-top: var(--space-3);
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  font-style: normal;
+  line-height: var(--leading-small);
+}
+
+.mp-quote__source cite {
+  color: var(--color-text-primary);
+  font-style: normal;
+  font-weight: var(--weight-medium);
+}
+
+.mp-quote[data-variant="pull"] {
+  max-width: var(--container-sm);
+  margin: var(--space-12) auto;
+  padding: 0;
+  border: 0;
+  text-align: center;
+}
+
+.mp-quote[data-variant="pull"] .mp-quote__text {
+  color: var(--color-human-text);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}

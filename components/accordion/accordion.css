@@ -1,0 +1,88 @@
+/* Accordion — native <details>/<summary> disclosure. Adjacent accordions
+   share borders; give them the same name="" to allow only one open. */
+
+.mp-accordion {
+  border-block-end: var(--border-default);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+.mp-accordion:not(.mp-accordion + .mp-accordion) {
+  border-block-start: var(--border-default);
+}
+
+.mp-accordion__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: var(--size-control-md);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-body);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-small);
+  list-style: none;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.mp-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Chevron: a rotated corner, pointing down when closed and up when open. */
+.mp-accordion__summary::after {
+  content: "";
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-block-end: var(--border-width-medium) solid var(--color-text-secondary);
+  border-inline-end: var(--border-width-medium) solid var(--color-text-secondary);
+  rotate: 45deg;
+  translate: 0 -25%;
+  transition: rotate var(--transition-state), translate var(--transition-state);
+}
+
+.mp-accordion[open] > .mp-accordion__summary::after {
+  rotate: 225deg;
+  translate: 0 25%;
+}
+
+.mp-accordion__summary:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.mp-accordion__summary:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: calc(-1 * var(--border-width-medium));
+}
+
+.mp-accordion__content {
+  padding: 0 var(--space-2) var(--space-5);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+}
+
+.mp-accordion__content > :first-child { margin-top: 0; }
+.mp-accordion__content > :last-child { margin-bottom: 0; }
+
+/* Smooth open/close where the browser can animate to height: auto. */
+@supports (interpolate-size: allow-keywords) {
+  .mp-accordion {
+    interpolate-size: allow-keywords;
+  }
+
+  .mp-accordion::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size var(--transition-enter),
+      content-visibility var(--duration-normal) allow-discrete;
+  }
+
+  .mp-accordion[open]::details-content {
+    block-size: auto;
+  }
+}

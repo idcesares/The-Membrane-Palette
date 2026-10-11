@@ -1,0 +1,122 @@
+/* Choice — the clickable label row that wraps a checkbox, radio or switch,
+   plus the custom-drawn checkbox and radio controls themselves. */
+
+.mp-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding-block: var(--space-2);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--text-body);
+  line-height: var(--leading-body-lg);
+  cursor: pointer;
+}
+
+.mp-choice__description {
+  display: block;
+  color: var(--color-text-secondary);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+.mp-choice:has(:disabled) {
+  opacity: var(--state-disabled-opacity);
+  cursor: not-allowed;
+}
+
+.mp-checkbox,
+.mp-radio {
+  --mp-choice-size: 1.25rem;
+
+  box-sizing: border-box;
+  appearance: none;
+  display: inline-grid;
+  flex: none;
+  place-content: center;
+  width: var(--mp-choice-size);
+  height: var(--mp-choice-size);
+  /* Centers the 20px control on the first line of a body-size label. */
+  margin: 0.125rem 0 0;
+  border: var(--border-width-medium) solid var(--color-border-input);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg-primary);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.mp-radio {
+  border-radius: var(--radius-full);
+}
+
+.mp-checkbox::before,
+.mp-radio::before {
+  content: "";
+  background-color: var(--color-text-on-accent);
+  scale: 0;
+  transition: scale var(--transition-state);
+}
+
+.mp-checkbox::before {
+  width: 0.75rem;
+  height: 0.75rem;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+}
+
+.mp-radio::before {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: var(--radius-full);
+}
+
+.mp-checkbox:checked,
+.mp-checkbox:indeterminate,
+.mp-radio:checked {
+  border-color: var(--color-action-secondary);
+  background-color: var(--color-action-secondary);
+}
+
+.mp-checkbox:checked::before,
+.mp-checkbox:indeterminate::before,
+.mp-radio:checked::before {
+  scale: 1;
+}
+
+.mp-checkbox:indeterminate::before {
+  clip-path: inset(40% 5%);
+}
+
+.mp-checkbox:hover:not(:disabled, :checked, :indeterminate),
+.mp-radio:hover:not(:disabled, :checked) {
+  border-color: var(--color-text-secondary);
+}
+
+.mp-checkbox:focus-visible,
+.mp-radio:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-checkbox[aria-invalid="true"],
+.mp-radio[aria-invalid="true"] {
+  border-color: var(--color-error);
+}
+
+.mp-checkbox:disabled,
+.mp-radio:disabled {
+  cursor: not-allowed;
+}
+
+/* Custom-drawn checks vanish when the OS forces colors; hand the control
+   back to the platform there. */
+@media (forced-colors: active) {
+  .mp-checkbox,
+  .mp-radio {
+    appearance: auto;
+  }
+
+  .mp-checkbox::before,
+  .mp-radio::before {
+    display: none;
+  }
+}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Token architecture</title>
+<link rel="stylesheet" href="../../../membrane.css">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .tiers { display: grid; grid-template-columns: minmax(0,1fr) 1.25rem minmax(0,1.12fr) 1.25rem minmax(0,1fr) 1.25rem minmax(0,0.86fr); grid-template-rows: repeat(4, auto); align-items: stretch; }
+  .tier { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: var(--space-3); }
+  .tier .box__title { margin: 0; }
+  .count { margin: 0; font: var(--weight-bold) var(--text-h2) / 1 var(--font-serif); }
+  .count small { margin-left: var(--space-2); color: var(--color-text-secondary); font: var(--weight-medium) var(--text-xs) / 1 var(--font-sans); }
+  .chips { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-2); margin: 0; padding: 0; list-style: none; }
+  .chip { padding: 0.15rem var(--space-2); font-size: 0.6875rem !important; border-radius: var(--radius-sm); background: var(--color-bg-primary); border: var(--border-default); font-family: var(--font-mono); font-size: 0.75rem; white-space: nowrap; }
+  .tier--1 .chip { color: var(--color-text-secondary); }
+  .tier--comp .stack { display: grid; gap: var(--space-3); justify-items: start; }
+  .tier--comp .mp-input { width: 100%; pointer-events: none; }
+  .tiers > .arrow { grid-row: 1 / span 4; align-self: center; }
+  .tiers > :nth-child(1) { grid-column: 1; grid-row: 1 / span 4; }
+  .tiers > :nth-child(2) { grid-column: 2; }
+  .tiers > :nth-child(3) { grid-column: 3; grid-row: 1 / span 4; }
+  .tiers > :nth-child(4) { grid-column: 4; }
+  .tiers > :nth-child(5) { grid-column: 5; grid-row: 1 / span 4; }
+  .tiers > :nth-child(6) { grid-column: 6; }
+  .tiers > :nth-child(7) { grid-column: 7; grid-row: 1 / span 4; }
+  .tiers > .arrow { width: calc(100% - 6px); margin-inline: 3px; }
+  .trace .mp-button { white-space: nowrap; }
+  .trace { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3) var(--space-1); margin-top: var(--space-8); padding: var(--space-5) var(--space-6); border: var(--border-default); border-radius: var(--radius-lg); }
+  .trace__label { flex-basis: 100%; margin: 0; }
+  .trace .arrow { width: 1.25rem; flex: none; margin-inline: var(--space-1); }
+  .trace .chip { font-size: 0.6875rem !important; }
+  .hex { display: inline-flex; align-items: center; gap: var(--space-2); font-family: var(--font-mono); font-size: 0.8125rem; }
+  .hex i { width: 1rem; height: 1rem; border-radius: var(--radius-sm); }
+  .ld { display: grid; gap: var(--space-1); }
+  .ld small { color: var(--color-text-secondary); font-size: 0.6875rem; font-family: var(--font-sans); }
+  .tier--1 .box { opacity: 1; }
+</style>
+</head>
+<body>
+<figure class="fig" style="margin:0">
+  <p class="fig__kicker">How it is built</p>
+  <h1 class="fig__title">Three tiers of tokens, then components</h1>
+  <p class="fig__lede">Raw values never reach a component. Each tier may only consume the one before it, and the build enforces that: a component that names a primitive, a raw color or a deprecated token fails the lint.</p>
+
+  <div class="tiers">
+    <section class="tier tier--1 box">
+      <p class="box__label">Tier 1 · Primitives</p>
+      <p class="count">33<small>values</small></p>
+      <ul class="chips">
+        <li class="chip">--color-terracotta</li>
+        <li class="chip">--color-teal</li>
+        <li class="chip">--color-cream</li>
+        <li class="chip">--color-neutral-300</li>
+      </ul>
+      <p class="box__note">The raw palette. Immutable: the same in light and dark.</p>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="tier box">
+      <p class="box__label">Tier 2 · Semantic</p>
+      <p class="count">181<small>roles and scales</small></p>
+      <ul class="chips">
+        <li class="chip">--color-action-primary</li>
+        <li class="chip">--color-text-primary</li>
+        <li class="chip">--space-6 · --text-h2</li>
+        <li class="chip">--transition-enter</li>
+      </ul>
+      <p class="box__note">What a value is <em>for</em>. Colors theme through <code class="mono">light-dark()</code>; 162 contrast checks guard them.</p>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="tier box">
+      <p class="box__label">Tier 3 · Knobs</p>
+      <p class="count">56<small>per-component</small></p>
+      <ul class="chips">
+        <li class="chip">--mp-button-bg</li>
+        <li class="chip">--mp-card-padding</li>
+        <li class="chip">--mp-input-border</li>
+        <li class="chip">--mp-tag-fg</li>
+      </ul>
+      <p class="box__note">Declared on a component's root, defaulting to Tier 2. Override one to restyle one instance.</p>
+    </section>
+    <span class="arrow" aria-hidden="true"></span>
+    <section class="tier tier--comp box">
+      <p class="box__label">Components</p>
+      <p class="count">35<small>components</small></p>
+      <div class="stack">
+        <button class="mp-button" type="button" data-size="sm">Button</button>
+        <span class="mp-tag" data-tone="digital">mp-tag</span>
+        <input class="mp-input" data-size="sm" size="6" value="mp-input" aria-label="Example input" readonly>
+      </div>
+      <p class="box__note">An <code class="mono">mp-</code> class, <code class="mono">data-*</code> options, state from ARIA, all in <code class="mono">@layer components</code>.</p>
+    </section>
+  </div>
+
+  <div class="trace">
+    <p class="box__label trace__label">Trace one value</p>
+    <span class="ld"><span class="hex"><i style="background: #B35530"></i>#B35530</span><span class="hex"><i style="background: #D4724F"></i>#D4724F</span><small>light · dark value</small></span>
+    <span class="arrow" aria-hidden="true"></span>
+    <span class="chip">--color-terracotta</span>
+    <span class="arrow" aria-hidden="true"></span>
+    <span class="chip">--color-action-primary</span>
+    <span class="arrow" aria-hidden="true"></span>
+    <span class="chip">--mp-button-bg</span>
+    <span class="arrow" aria-hidden="true"></span>
+    <button class="mp-button" type="button" data-size="sm">Primary</button>
+  </div>
+</figure>
+</body>
+</html>

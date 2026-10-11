@@ -1,6 +1,6 @@
 /* ============================================================
    Isaac D'Césares — Brand Design Tokens · The Membrane Palette
-   Version 2.0.0
+   Version 2.1.0
 
    GENERATED FILE — do not edit by hand.
    Source of truth:  tokens/membrane.tokens.json
@@ -11,7 +11,8 @@
      Tier 2 semantic tokens via light-dark().
    - Dark mode follows the OS via `color-scheme: light dark`.
      Manual override: set data-theme="dark" | "light" on any
-     element (or the legacy .theme-dark class on <html>).
+     element. (.theme-dark still works but is deprecated: removal
+     in v3.0.0; use data-theme="dark".)
    - Colors are emitted as OKLCH (round-trip-verified against
      the sRGB source values); derived tints use color-mix().
    - This file is pure custom properties + color-scheme wiring.
@@ -21,6 +22,9 @@
    Requires: Chrome/Edge 123+, Firefox 120+, Safari 17.5+
    (light-dark(), color-mix(), oklch(), @layer).
    ============================================================ */
+
+/* Cascade order for the whole system. Unlayered consumer CSS beats all three. */
+@layer tokens, base, components;
 
 @layer tokens {
 
@@ -61,28 +65,52 @@
     /* --------------------------------------------------------
        3. COLORS — Semantic (Tier 2 — consume these; each carries its light/dark pair)
        -------------------------------------------------------- */
-    --color-text-primary:      light-dark(var(--color-neutral-800), var(--color-neutral-100));
-    --color-text-secondary:    light-dark(var(--color-neutral-600), var(--color-neutral-400));
-    --color-text-tertiary:     light-dark(oklch(52.0033% 0.01577 78.182), oklch(64.564% 0.01625 80.681));  /* #6E685F / #938D83 */
-    --color-text-accent:       light-dark(var(--color-teal), var(--color-teal-light));
-    --color-text-on-accent:    light-dark(oklch(100% 0 0), var(--color-charcoal));  /* #FFFFFF */
-    --color-bg-primary:        light-dark(var(--color-cream), var(--color-charcoal));
-    --color-bg-secondary:      light-dark(var(--color-neutral-100), oklch(26.2393% 0.00925 285.745));  /* #242429 */
-    --color-bg-tertiary:       light-dark(var(--color-neutral-200), oklch(30.3577% 0.01071 285.745));  /* #2E2E34 */
-    --color-border-default:    light-dark(var(--color-neutral-200), oklch(34.9675% 0.01835 307.879));  /* #3D3842 */
-    --color-border-emphasis:   light-dark(var(--color-neutral-300), var(--color-neutral-600));
-    --color-overlay-bg:        oklch(22.2774% 0.0079 274.573 / 0.7);  /* rgba(26, 27, 31, 0.70) */
-    --color-action-primary:    light-dark(var(--color-terracotta), var(--color-terracotta-light));
-    --color-action-secondary:  light-dark(var(--color-teal), var(--color-teal-light));
-    --color-focus:             light-dark(var(--color-teal), var(--color-teal-light));
-    --color-success:           light-dark(var(--color-sage), var(--color-sage-light));
-    --color-success-text:      light-dark(oklch(48.7525% 0.06453 158.491), var(--color-sage-light));  /* #3E6B52 */
-    --color-warning:           light-dark(var(--color-amber), var(--color-amber-light));
-    --color-warning-text:      light-dark(oklch(52.999% 0.0959 78.02), var(--color-amber-light));  /* #8A6420 */
-    --color-error:             light-dark(oklch(56.0538% 0.16845 24.362), oklch(66.1538% 0.16952 22.888));  /* #C44040 / #E86060 */
-    --color-error-text:        light-dark(oklch(52.2663% 0.15601 24.289), oklch(66.1538% 0.16952 22.888));  /* #B23A3A / #E86060 */
-    --color-info:              light-dark(var(--color-teal), var(--color-teal-light));
-    --color-selection:         color-mix(in srgb, light-dark(var(--color-terracotta), var(--color-terracotta-light)) 20%, transparent);
+    --color-text-primary:            light-dark(var(--color-neutral-800), var(--color-neutral-100));
+    --color-text-secondary:          light-dark(var(--color-neutral-600), var(--color-neutral-400));
+    --color-text-tertiary:           light-dark(oklch(52.0033% 0.01577 78.182), oklch(64.564% 0.01625 80.681));  /* #6E685F / #938D83 */
+    --color-text-accent:             light-dark(var(--color-teal), var(--color-teal-light));
+    --color-text-on-accent:          light-dark(oklch(100% 0 0), var(--color-charcoal));  /* #FFFFFF */
+    --color-bg-primary:              light-dark(var(--color-cream), var(--color-charcoal));
+    --color-bg-secondary:            light-dark(var(--color-neutral-100), oklch(26.2393% 0.00925 285.745));  /* #242429 */
+    --color-bg-tertiary:             light-dark(var(--color-neutral-200), oklch(30.3577% 0.01071 285.745));  /* #2E2E34 */
+    --color-border-default:          light-dark(var(--color-neutral-200), oklch(34.9675% 0.01835 307.879));  /* #3D3842 */
+    --color-border-emphasis:         light-dark(var(--color-neutral-300), var(--color-neutral-600));
+    --color-overlay-bg:              oklch(22.2774% 0.0079 274.573 / 0.7);  /* rgba(26, 27, 31, 0.70) */
+    --color-action-primary:          light-dark(var(--color-terracotta), var(--color-terracotta-light));
+    --color-action-secondary:        light-dark(var(--color-teal), var(--color-teal-light));
+    --color-focus:                   light-dark(var(--color-teal), var(--color-teal-light));
+    --color-success:                 light-dark(var(--color-sage), var(--color-sage-light));
+    --color-success-text:            light-dark(oklch(48.7525% 0.06453 158.491), var(--color-sage-light));  /* #3E6B52 */
+    --color-warning:                 light-dark(var(--color-amber), var(--color-amber-light));
+    --color-warning-text:            light-dark(oklch(48.2731% 0.08766 76.875), var(--color-amber-light));  /* #7A571B */
+    --color-error:                   light-dark(oklch(56.0538% 0.16845 24.362), oklch(66.1538% 0.16952 22.888));  /* #C44040 / #E86060 */
+    --color-error-text:              light-dark(oklch(49.2673% 0.14881 24.416), oklch(71.686% 0.14343 23.344));  /* #A53434 / #F07C78 */
+    --color-info:                    light-dark(var(--color-teal), var(--color-teal-light));
+    --color-selection:               color-mix(in srgb, light-dark(var(--color-terracotta), var(--color-terracotta-light)) 20%, transparent);
+    --color-bg-elevated:             light-dark(var(--color-cream), oklch(27.5214% 0.01098 285.656));  /* #27272D */
+    --color-bg-inverse:              light-dark(var(--color-neutral-800), var(--color-neutral-100));
+    --color-text-inverse:            light-dark(var(--color-neutral-100), var(--color-neutral-800));
+    --color-bg-hover:                color-mix(in srgb, light-dark(var(--color-neutral-800), var(--color-neutral-100)) 6%, transparent);
+    --color-bg-active:               color-mix(in srgb, light-dark(var(--color-neutral-800), var(--color-neutral-100)) 10%, transparent);
+    --color-border-input:            light-dark(var(--color-neutral-500), var(--color-neutral-500));
+    --color-action-primary-hover:    color-mix(in oklab, var(--color-action-primary), var(--color-text-primary) 16%);
+    --color-action-secondary-hover:  color-mix(in oklab, var(--color-action-secondary), var(--color-text-primary) 16%);
+    --color-error-hover:             color-mix(in oklab, var(--color-error), var(--color-text-primary) 16%);
+    --color-human-text:              light-dark(var(--color-terracotta-dark), oklch(71.6284% 0.11483 41.071));  /* #E08A6A */
+    --color-human-bg:                color-mix(in srgb, light-dark(var(--color-terracotta), var(--color-terracotta-light)) 10%, transparent);
+    --color-digital-text:            light-dark(var(--color-teal-dark), var(--color-teal-light));
+    --color-digital-bg:              color-mix(in srgb, light-dark(var(--color-teal), var(--color-teal-light)) 10%, transparent);
+    --color-info-text:               light-dark(var(--color-teal-dark), var(--color-teal-light));
+    --color-success-bg:              color-mix(in srgb, light-dark(var(--color-sage), var(--color-sage-light)) 10%, transparent);
+    --color-warning-bg:              color-mix(in srgb, light-dark(var(--color-amber), var(--color-amber-light)) 10%, transparent);
+    --color-error-bg:                color-mix(in srgb, var(--color-error) 10%, transparent);
+    --color-info-bg:                 color-mix(in srgb, light-dark(var(--color-teal), var(--color-teal-light)) 10%, transparent);
+    --color-chart-1:                 light-dark(oklch(55.9604% 0.13265 41.129), oklch(65.6421% 0.13269 40.109));  /* #B35530 / #D4724F */
+    --color-chart-2:                 light-dark(oklch(59.0959% 0.10351 186.292), oklch(66.1129% 0.11599 185.941));  /* #009187 / #00A99D */
+    --color-chart-3:                 light-dark(oklch(59.0942% 0.10525 76.159), oklch(66.0496% 0.10536 76.27));  /* #A1742A / #B78941 */
+    --color-chart-4:                 light-dark(oklch(50.0078% 0.13542 4.176), oklch(56.9314% 0.13521 3.925));  /* #9F3B5A / #B6506E */
+    --color-chart-5:                 light-dark(oklch(58.9605% 0.10485 250.022), oklch(66.0911% 0.10452 249.669));  /* #4981B9 / #5E97D0 */
+    --color-chart-6:                 light-dark(oklch(59.1083% 0.10547 149.808), oklch(59.9834% 0.14961 150.164));  /* #4B8F5B / #25984D */
 
     /* --------------------------------------------------------
        4. COLORS — Derived Tints (computed, mode-aware)
@@ -124,15 +152,15 @@
     --code-keyword:   oklch(66.9873% 0.14753 36.812);  /* #E07050 */
     --code-string:    oklch(75.9196% 0.10108 154.467);  /* #7BC494 */
     --code-function:  oklch(79.8318% 0.13495 82.221);  /* #E8B44A */
-    --code-comment:   oklch(57.1893% 0.01541 78.201);  /* #7D776E */
+    --code-comment:   oklch(65.1983% 0.01751 82.782);  /* #958F84 */
     --code-number:    oklch(76.673% 0.10131 188.804);  /* #5AC8C0 */
 
     /* --------------------------------------------------------
        8. TYPOGRAPHY — Font Stacks
        -------------------------------------------------------- */
-    --font-serif:  'Fraunces', 'Georgia', 'Times New Roman', serif;
-    --font-sans:   'Instrument Sans', 'Inter', 'Helvetica Neue', sans-serif;
-    --font-mono:   'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+    --font-serif:  'Fraunces', 'Fraunces Fallback', 'Georgia', 'Times New Roman', serif;
+    --font-sans:   'Instrument Sans', 'Instrument Sans Fallback', 'Inter', 'Helvetica Neue', 'Arial', sans-serif;
+    --font-mono:   'JetBrains Mono', 'JetBrains Mono Fallback', 'Fira Code', 'Consolas', monospace;
 
     /* --------------------------------------------------------
        9. TYPOGRAPHY — Scale (fluid; ratio ≈1.2 small steps → ≈1.375 at display)
@@ -147,10 +175,15 @@
     --text-small:    0.875rem;
     --text-xs:       0.75rem;
     --text-code:     clamp(0.875rem, 0.25vw + 0.8rem, 0.9375rem);
+    /* @deprecated --text-sm — Use --text-small. Two names for one size makes generated code inconsistent; removal no earlier than v3.0.0. */
     --text-sm:       var(--text-small);
+    /* @deprecated --text-base — Use --text-body. Removal no earlier than v3.0.0. */
     --text-base:     var(--text-body);
+    /* @deprecated --text-md — Use --text-h4. Removal no earlier than v3.0.0. */
     --text-md:       var(--text-h4);
+    /* @deprecated --text-lg — Use --text-h3. Removal no earlier than v3.0.0. */
     --text-lg:       var(--text-h3);
+    /* @deprecated --text-xl — Use --text-h2. Removal no earlier than v3.0.0. */
     --text-xl:       var(--text-h2);
 
     /* --------------------------------------------------------
@@ -208,6 +241,9 @@
     --size-icon-lg:       32px;
     --size-icon-xl:       48px;
     --size-touch-target:  44px;
+    --size-control-sm:    36px;
+    --size-control-md:    44px;
+    --size-control-lg:    52px;
     --size-nav:           64px;
     --size-nav-mobile:    56px;
 
@@ -220,6 +256,7 @@
     --container-xl:    1200px;
     --container-full:  100%;
     --site-margin:  clamp(1.5rem, 5vw, 5rem);
+    --measure:      65ch;
 
     /* --------------------------------------------------------
        16. BORDER RADIUS
@@ -259,13 +296,18 @@
     --duration-normal:  250ms;
     --duration-slow:    400ms;
     --duration-slower:  600ms;
+    --duration-loop:    1600ms;
     --ease-default:  cubic-bezier(0.25, 0.1, 0.25, 1);
     --ease-out:      cubic-bezier(0, 0, 0.2, 1);
     --ease-in:       cubic-bezier(0.4, 0, 1, 1);
+    --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
     --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
     --transition-fast:     var(--duration-fast) var(--ease-default);
     --transition-default:  var(--duration-normal) var(--ease-default);
     --transition-slow:     var(--duration-slow) var(--ease-default);
+    --transition-enter:    var(--duration-normal) var(--ease-out);
+    --transition-exit:     var(--duration-fast) var(--ease-in);
+    --transition-state:    var(--duration-fast) var(--ease-in-out);
 
     /* --------------------------------------------------------
        20. OPACITY & STATE LAYERS
@@ -320,7 +362,7 @@
   /* Manual theme override — works on :root or any subtree. */
   [data-theme="light"] { color-scheme: light; }
   [data-theme="dark"],
-  .theme-dark { color-scheme: dark; }
+  .theme-dark { color-scheme: dark; } /* @deprecated .theme-dark: use [data-theme="dark"]; removal in v3.0.0 */
 
   /* ===========================================================
      REDUCED MOTION — token-level fallbacks (pure custom props;
@@ -337,6 +379,10 @@
       --transition-fast:    0ms var(--ease-default);
       --transition-default: 0ms var(--ease-default);
       --transition-slow:    0ms var(--ease-default);
+      --transition-enter:   0ms var(--ease-out);
+      --transition-exit:    0ms var(--ease-in);
+      --transition-state:   0ms var(--ease-in-out);
+      /* --duration-loop is not reduced: loaders swap to an opacity pulse. */
     }
   }
 
@@ -349,6 +395,8 @@
       --color-text-secondary: var(--color-text-primary);
       --color-text-tertiary:  light-dark(var(--color-neutral-700), var(--color-neutral-300));
       --color-border-default: var(--color-border-emphasis);
+      --color-border-input:   var(--color-text-secondary);
+      --focus-ring:           var(--border-width-thick) solid var(--color-focus);
     }
   }
 

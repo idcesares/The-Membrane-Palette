@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The membrane</title>
+<link rel="stylesheet" href="../../../membrane.css">
+<link rel="stylesheet" href="figure.css">
+<style>
+  .registers { display: grid; grid-template-columns: 1fr 1.15fr 1fr; grid-template-rows: repeat(4, auto); column-gap: var(--space-4); }
+  .reg { display: grid; grid-row: span 4; grid-template-rows: subgrid; row-gap: var(--space-5); align-content: start; padding: var(--space-6); border-radius: var(--radius-lg); border: var(--border-default); }
+  .reg--human { background: var(--color-human-bg); }
+  .reg--membrane { background: var(--color-bg-secondary); position: relative; }
+  .reg--digital { background: var(--color-digital-bg); }
+  .reg__name { margin: 0; font: var(--weight-semibold) var(--text-h4) / 1.2 var(--font-serif); }
+  .reg--human .box__label { color: var(--color-human-text); }
+  .reg--digital .box__label { color: var(--color-digital-text); }
+  .specimen { margin: 0; font-size: 2.75rem; line-height: 1; }
+  .specimen small { display: block; margin-top: var(--space-2); color: var(--color-text-secondary); font: var(--weight-medium) var(--text-xs) / 1.3 var(--font-sans); }
+  .words { margin: 0; color: var(--color-text-secondary); font-size: var(--text-small); line-height: var(--leading-small); }
+  .bridge { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: var(--space-3); margin-top: var(--space-8); }
+  .bridge__line { height: 4px; border-radius: 2px; }
+  .bridge__line--l { background: linear-gradient(90deg, var(--color-chart-1), var(--color-border-emphasis)); }
+  .bridge__line--r { background: linear-gradient(90deg, var(--color-border-emphasis), var(--color-chart-2)); }
+  .demo { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-5); border: var(--border-default); border-radius: var(--radius-full); background: var(--color-bg-primary); box-shadow: var(--elevation-raised); }
+  .demo .mp-button { pointer-events: none; }
+  .reg .list { align-content: start; }
+</style>
+</head>
+<body>
+<figure class="fig" style="margin:0">
+  <p class="fig__kicker">The idea</p>
+  <h1 class="fig__title">Two registers, one membrane between them</h1>
+  <p class="fig__lede">Every decision sorts into a register. Warm tones and a serif carry the human side, cool tones and monospace carry the digital side, and the neutral canvas is where they meet. Most interfaces live on the membrane and borrow an accent from each side.</p>
+
+  <div class="registers">
+    <section class="reg reg--human">
+      <div>
+        <p class="box__label">Human register</p>
+        <p class="reg__name">Warm · pedagogical · tactile</p>
+      </div>
+      <p class="specimen" style="font-family: var(--font-serif); font-weight: 700">Aa<small>Fraunces — headings, voice</small></p>
+      <ul class="list">
+        <li class="swatch"><i style="background: var(--color-terracotta)"></i><span>Terracotta<small>#B35530 · primary</small></span></li>
+        <li class="swatch"><i style="background: var(--color-amber)"></i><span>Amber<small>#D49A3A</small></span></li>
+        <li class="swatch"><i style="background: var(--color-burgundy)"></i><span>Burgundy<small>#7A3345</small></span></li>
+      </ul>
+      <p class="words">Education, community, ethics, making.</p>
+    </section>
+
+    <section class="reg reg--membrane">
+      <div>
+        <p class="box__label">The membrane</p>
+        <p class="reg__name">Translation zone — the canvas</p>
+      </div>
+      <p class="specimen" style="font-family: var(--font-sans); font-weight: 600">Aa<small>Instrument Sans — body, interface</small></p>
+      <ul class="list">
+        <li class="swatch"><i style="background: var(--color-cream)"></i><span>Warm Cream<small>#FAF6EE · never white</small></span></li>
+        <li class="swatch"><i style="background: var(--color-neutral-300)"></i><span>Warm Gray<small>neutral-50 → 900</small></span></li>
+      </ul>
+      <p class="words">Where most UI sits: neutral surfaces, an accent from either side.</p>
+    </section>
+
+    <section class="reg reg--digital">
+      <div>
+        <p class="box__label">Digital register</p>
+        <p class="reg__name">Precise · deep · code</p>
+      </div>
+      <p class="specimen" style="font-family: var(--font-mono); font-weight: 500; font-size: 2.4rem">Aa<small style="font-family: var(--font-sans)">JetBrains Mono — code, data</small></p>
+      <ul class="list">
+        <li class="swatch"><i style="background: var(--color-teal)"></i><span>Deep Teal<small>#1B756D · secondary</small></span></li>
+        <li class="swatch"><i style="background: var(--color-charcoal)"></i><span>Charcoal<small>#1A1B1F · never black</small></span></li>
+      </ul>
+      <p class="words">AI, systems, precision, depth.</p>
+    </section>
+  </div>
+
+  <div class="bridge" aria-hidden="true">
+    <span class="bridge__line bridge__line--l"></span>
+    <div class="demo">
+      <button class="mp-button" type="button" data-size="sm">Let's co-create</button>
+      <span class="mp-tag" data-tone="human">Pedagogy</span>
+      <span class="mp-tag" data-tone="digital">TypeScript</span>
+      <button class="mp-button" type="button" data-size="sm" data-variant="secondary">See the code</button>
+    </div>
+    <span class="bridge__line bridge__line--r"></span>
+  </div>
+  <p class="fig__foot">In practice: one row of real components on the membrane — the primary action is terracotta, the secondary is teal, and each tag names its register. Colors shown are Tier 1 primitives; components only ever use the semantic tokens built from them.</p>
+</figure>
+</body>
+</html>

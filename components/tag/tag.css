@@ -1,0 +1,78 @@
+/* Tag — a pill naming a topic or category. Tone says which register the
+   topic belongs to. Can be a link, a button, or carry a remove button. */
+
+.mp-tag {
+  --mp-tag-bg: var(--color-bg-tertiary);
+  --mp-tag-fg: var(--color-text-secondary);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  min-height: 1.75rem;
+  padding: var(--space-1) var(--space-3);
+  border: 0;
+  border-radius: var(--radius-full);
+  background-color: var(--mp-tag-bg);
+  color: var(--mp-tag-fg);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  line-height: var(--leading-label);
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.mp-tag[data-tone="human"] {
+  --mp-tag-bg: var(--color-human-bg);
+  --mp-tag-fg: var(--color-human-text);
+}
+
+.mp-tag[data-tone="digital"] {
+  --mp-tag-bg: var(--color-digital-bg);
+  --mp-tag-fg: var(--color-digital-text);
+}
+
+a.mp-tag,
+button.mp-tag {
+  cursor: pointer;
+  transition: box-shadow var(--transition-fast);
+}
+
+a.mp-tag:hover,
+button.mp-tag:hover {
+  box-shadow: inset 0 0 0 var(--border-width-thin) currentColor;
+}
+
+.mp-tag:is(a, button):focus-visible,
+.mp-tag__remove:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-tag[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 var(--border-width-medium) currentColor;
+}
+
+.mp-tag__remove {
+  appearance: none;
+  display: inline-grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-inline: 0 calc(-1 * var(--space-2));
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: var(--text-small);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.mp-tag__remove:hover {
+  background-color: var(--color-bg-hover);
+}

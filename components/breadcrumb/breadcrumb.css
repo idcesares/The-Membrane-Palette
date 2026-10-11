@@ -1,0 +1,53 @@
+/* Breadcrumb — the path from the site root to the current page. */
+
+.mp-breadcrumb {
+  color: var(--color-text-secondary);
+  font-family: var(--font-sans);
+  font-size: var(--text-small);
+  line-height: var(--leading-small);
+}
+
+.mp-breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mp-breadcrumb__item {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.mp-breadcrumb__item + .mp-breadcrumb__item::before {
+  content: "/" / "";
+  color: var(--color-text-tertiary);
+}
+
+.mp-breadcrumb__link {
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  text-decoration-line: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 0.2em;
+}
+
+.mp-breadcrumb__link:hover {
+  color: var(--color-text-primary);
+  text-decoration-color: currentColor;
+}
+
+.mp-breadcrumb__link:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-breadcrumb__link[aria-current="page"] {
+  color: var(--color-text-primary);
+  font-weight: var(--weight-medium);
+  text-decoration: none;
+}

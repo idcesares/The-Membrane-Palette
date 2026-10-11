@@ -1,0 +1,82 @@
+/* Switch — an on/off checkbox (role="switch") drawn as a track and thumb.
+   Wrap it in .mp-choice like any other choice control. */
+
+.mp-switch {
+  --mp-switch-width: 2.75rem;
+  --mp-switch-height: 1.5rem;
+  --mp-switch-thumb: 1.125rem;
+  --mp-switch-inset: 0.125rem;
+  --mp-switch-travel: calc(var(--mp-switch-width) - var(--mp-switch-thumb) - 2 * var(--border-width-medium) - 2 * var(--mp-switch-inset));
+
+  box-sizing: border-box;
+  appearance: none;
+  position: relative;
+  flex: none;
+  width: var(--mp-switch-width);
+  height: var(--mp-switch-height);
+  margin: 0;
+  border: var(--border-width-medium) solid var(--color-border-input);
+  border-radius: var(--radius-full);
+  background-color: var(--color-border-input);
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.mp-switch::before {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: var(--mp-switch-inset);
+  width: var(--mp-switch-thumb);
+  height: var(--mp-switch-thumb);
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg-primary);
+  box-shadow: var(--shadow-sm);
+  translate: 0 -50%;
+  /* The one place the spring easing belongs: a small, physical toggle. */
+  transition: translate var(--duration-normal) var(--ease-spring), background-color var(--transition-state);
+}
+
+.mp-switch:checked {
+  border-color: var(--color-action-secondary);
+  background-color: var(--color-action-secondary);
+}
+
+.mp-switch:checked::before {
+  background-color: var(--color-text-on-accent);
+  translate: var(--mp-switch-travel) -50%;
+}
+
+.mp-switch:checked:dir(rtl)::before {
+  translate: calc(-1 * var(--mp-switch-travel)) -50%;
+}
+
+.mp-switch:hover:not(:disabled, :checked) {
+  border-color: var(--color-text-secondary);
+}
+
+.mp-switch:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.mp-switch:disabled {
+  cursor: not-allowed;
+}
+
+.mp-choice > .mp-switch {
+  margin-block-start: 0;
+}
+
+@media (forced-colors: active) {
+  .mp-switch {
+    appearance: auto;
+    width: auto;
+    height: auto;
+    border: 0;
+  }
+
+  .mp-switch::before {
+    display: none;
+  }
+}

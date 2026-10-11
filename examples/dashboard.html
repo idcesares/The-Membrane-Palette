@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard pattern · The Membrane Palette</title>
+  <!-- CDN: https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css
+            https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js -->
+  <link rel="stylesheet" href="../membrane.css">
+  <script src="../components/membrane.js" defer></script>
+</head>
+<body>
+  <a class="mp-skip-link" href="#main">Skip to content</a>
+
+  <header class="mp-navbar">
+    <div class="mp-navbar__inner">
+      <a class="mp-navbar__brand" href="#main">Cohort desk</a>
+      <nav class="mp-navbar__nav" aria-label="Primary">
+        <ul class="mp-navbar__links">
+          <li><a class="mp-navbar__link" href="#main" aria-current="page">Overview</a></li>
+          <li><a class="mp-navbar__link" href="#cohorts">Cohorts</a></li>
+          <li><a class="mp-navbar__link" href="#main">Materials</a></li>
+        </ul>
+      </nav>
+      <div class="mp-navbar__actions">
+        <button class="mp-button" type="button" data-variant="ghost" data-size="sm" popovertarget="dashboard-menu" aria-haspopup="menu" aria-expanded="false">Ana Lima</button>
+        <div class="mp-menu" id="dashboard-menu" popover role="menu" aria-label="Account">
+          <button class="mp-menu__item" type="button" role="menuitem">Profile</button>
+          <button class="mp-menu__item" type="button" role="menuitem">Notifications</button>
+          <hr class="mp-menu__separator">
+          <button class="mp-menu__item" type="button" role="menuitem">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="mp-section" data-size="sm">
+    <div class="mp-container">
+      <div class="mp-stack" data-gap="8">
+        <div class="mp-cluster" data-justify="between" data-align="baseline">
+          <div class="mp-stack" data-gap="1">
+            <p class="mp-text type-label" data-tone="human">Term 2 · 2026</p>
+            <h1 class="type-h1">Good morning, Ana</h1>
+          </div>
+          <button class="mp-button" type="button" data-mp-toast="Report exported" data-mp-toast-body="Saved to Materials › Reports." data-mp-toast-tone="success">Export report</button>
+        </div>
+
+        <div class="mp-grid" data-min="sm">
+          <div class="mp-card" data-variant="flat">
+            <div class="mp-stat">
+              <p class="mp-stat__label">Active learners</p>
+              <p class="mp-stat__value">1,600</p>
+              <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">12% vs. term 1</p>
+            </div>
+          </div>
+          <div class="mp-card" data-variant="flat">
+            <div class="mp-stat">
+              <p class="mp-stat__label">Completion</p>
+              <p class="mp-stat__value">71%</p>
+              <p class="mp-stat__delta" data-trend="up" data-sentiment="positive">5 pts</p>
+            </div>
+          </div>
+          <div class="mp-card" data-variant="flat">
+            <div class="mp-stat">
+              <p class="mp-stat__label">Drop-out</p>
+              <p class="mp-stat__value">6.2%</p>
+              <p class="mp-stat__delta" data-trend="down" data-sentiment="positive">2.1 pts lower</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mp-grid" data-min="lg">
+          <section class="mp-card" aria-labelledby="chart-cohorts-title">
+            <figure class="mp-chart" aria-labelledby="chart-cohorts-title">
+              <div class="mp-chart__header">
+                <h2 class="mp-chart__title" id="chart-cohorts-title">Completion by cohort</h2>
+              </div>
+              <ul class="mp-chart__bars">
+                <li class="mp-chart__row"><span class="mp-chart__label">AI Literacy I</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 82%"></span></span><span class="mp-chart__value">82%</span></li>
+                <li class="mp-chart__row"><span class="mp-chart__label">Prompting</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 64%"></span></span><span class="mp-chart__value">64%</span></li>
+                <li class="mp-chart__row"><span class="mp-chart__label">Builders' Lab</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 47%"></span></span><span class="mp-chart__value">47%</span></li>
+              </ul>
+            </figure>
+          </section>
+          <section class="mp-card" aria-labelledby="next-title">
+            <h2 class="mp-card__title" id="next-title">Your next session</h2>
+            <ol class="mp-steps" aria-label="AI Literacy I modules">
+              <li class="mp-steps__item" data-status="complete"><p class="mp-steps__label">Start from the classroom<span class="mp-visually-hidden"> (completed)</span></p></li>
+              <li class="mp-steps__item" aria-current="step"><p class="mp-steps__label">How models actually work</p><p class="mp-steps__description">Thursday, 14:00 · Online</p></li>
+              <li class="mp-steps__item"><p class="mp-steps__label">Design the assistant</p></li>
+            </ol>
+          </section>
+        </div>
+
+        <section class="mp-stack" data-gap="4" id="cohorts" aria-labelledby="cohorts-title">
+          <div class="mp-cluster" data-justify="between">
+            <h2 class="type-h2" id="cohorts-title">Cohorts</h2>
+            <div class="mp-tabs" data-variant="pill">
+              <div class="mp-tabs__list" role="tablist" aria-label="Cohort filter">
+                <button class="mp-tabs__tab" type="button" role="tab" id="dash-tab-active" aria-controls="dash-panel-active" aria-selected="true">Active</button>
+                <button class="mp-tabs__tab" type="button" role="tab" id="dash-tab-archived" aria-controls="dash-panel-archived" aria-selected="false" tabindex="-1">Archived</button>
+              </div>
+            </div>
+          </div>
+          <div class="mp-tabs__panel" role="tabpanel" id="dash-panel-active" aria-labelledby="dash-tab-active" tabindex="0">
+            <div class="mp-table-wrap" tabindex="0" role="region" aria-label="Active cohorts table">
+              <table class="mp-table" data-variant="interactive">
+                <caption class="mp-visually-hidden">Active cohorts</caption>
+                <thead>
+                  <tr><th scope="col">Cohort</th><th scope="col">Format</th><th scope="col" data-align="end">Learners</th><th scope="col">Status</th></tr>
+                </thead>
+                <tbody>
+                  <tr><th scope="row">AI Literacy I</th><td>Online</td><td data-align="end">1,240</td><td><span class="mp-badge" data-tone="success">Live</span></td></tr>
+                  <tr><th scope="row">Prompting for Teachers</th><td>Hybrid</td><td data-align="end">318</td><td><span class="mp-badge" data-tone="info">Enrolling</span></td></tr>
+                  <tr><th scope="row">Builders' Lab</th><td>In person</td><td data-align="end">42</td><td><span class="mp-badge">Draft</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="mp-tabs__panel" role="tabpanel" id="dash-panel-archived" aria-labelledby="dash-tab-archived" tabindex="0" hidden>
+            <div class="mp-empty" data-variant="bordered">
+              <h3 class="mp-empty__title">Nothing archived yet</h3>
+              <p class="mp-empty__body">Cohorts move here a month after their last session, with their questions and materials intact.</p>
+            </div>
+          </div>
+          <nav class="mp-pagination" aria-label="Cohort pages">
+            <ul class="mp-pagination__list">
+              <li class="mp-pagination__item"><a class="mp-pagination__link" aria-disabled="true">← Previous</a></li>
+              <li class="mp-pagination__item"><a class="mp-pagination__link" href="#cohorts" aria-current="page">1</a></li>
+              <li class="mp-pagination__item"><a class="mp-pagination__link" href="#cohorts">2</a></li>
+              <li class="mp-pagination__item"><a class="mp-pagination__link" href="#cohorts" rel="next">Next →</a></li>
+            </ul>
+          </nav>
+        </section>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

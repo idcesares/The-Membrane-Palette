@@ -1,6 +1,6 @@
 /* ============================================================
    The Membrane Palette — base layer (optional)
-   Version 2.0.0
+   Version 2.1.0
 
    GENERATED FILE — do not edit by hand.
    Source of truth:  tokens/membrane.tokens.json + scripts/build-tokens.mjs
@@ -11,7 +11,30 @@
    in @layer base, so any unlayered consumer CSS wins.
    ============================================================ */
 
+@layer tokens, base, components;
+
 @layer base {
+
+  /* Page defaults. Zero specificity (:where), so any rule you write wins. */
+  :where(*, *::before, *::after) {
+    box-sizing: border-box;
+  }
+
+  :where(html) {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  :where(body) {
+    margin: 0;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 
   ::selection {
     background: var(--color-selection);
@@ -23,17 +46,47 @@
   }
 
   /* ===========================================================
-     REDUCED MOTION — restrict animation to safe properties
+     REDUCED MOTION — "reduce", not "remove".
+     Library components (mp-*) manage their own reduced motion:
+     transitions go instant through the duration tokens, surfaces
+     stop lifting, and loaders swap rotation/sliding for a gentle
+     opacity pulse so they still say "working". This rule is the
+     safety net for everything else on the page: animations run
+     once and end, and only color/opacity may still transition.
      =========================================================== */
 
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    :where(html) {
+      scroll-behavior: auto !important;
+    }
+
+    :not([class^="mp-"], [class*=" mp-"]),
+    :not([class^="mp-"], [class*=" mp-"])::before,
+    :not([class^="mp-"], [class*=" mp-"])::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-property: opacity, color, background-color, border-color, box-shadow !important;
-      scroll-behavior: auto !important;
+    }
+  }
+
+  /* ===========================================================
+     PRINT — light scheme everywhere (including dark subtrees),
+     no page tint, and component fills printed as designed so
+     white-on-terracotta labels and code blocks stay legible.
+     =========================================================== */
+
+  @media print {
+    :where(:root, [data-theme], .theme-dark) {
+      color-scheme: light;
+    }
+
+    :where(body) {
+      background: none;
+    }
+
+    :where([class^="mp-"], [class*=" mp-"]) {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
   }
 
