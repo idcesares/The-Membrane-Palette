@@ -7,6 +7,10 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+### Changed
+
+- **Brand marks in interfaces (`DESIGN-SYSTEM.md` §10.6, new).** The navbar brand on Isaac's own sites is now the `dc` monogram instead of the compact wordmark: it is the only mark that shows both registers, it matches the favicon, and it doesn't repeat the name the page title already gives. The compact wordmark moves to the footer sign-off and to co-branded headers. §10.6 also documents inlining the SVG with the action tokens so the monogram rethemes in dark mode, the accessible name on the link, and minimum sizes. §10.1–10.3 and §11.1 updated to match. Guidance only: no token, class or file changed.
+
 ---
 
 ## [2.1.0] — 2026-10-11

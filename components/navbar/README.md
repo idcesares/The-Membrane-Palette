@@ -36,6 +36,7 @@ The site header. Sticky, 64px tall (`--size-nav`), translucent with a `--blur-ba
 
 - Wrap links in `<nav aria-label="Primary">`; mark the current page with `aria-current="page"` (that attribute drives the active style).
 - Put a [skip link](../link/README.md) before the navbar.
+- The brand link needs an accessible name (`aria-label`) when it holds a mark instead of text. On Isaac's own sites the brand is the inlined `dc` monogram, themed with the action tokens; see `DESIGN-SYSTEM.md` §10.6.
 - Links keep a 44px target height.
 
 ## API
