@@ -1,5 +1,5 @@
 # Isaac D'Césares — Brand Design System
-> **Version 2.1 · October 2026**
+> **Version 2.2 · October 2026**
 > *The visual translation of the brand essence into a coherent, reproducible system.*
 
 ---

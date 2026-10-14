@@ -7,9 +7,34 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+---
+
+## [2.2.0] — 2026-10-14
+
+### Why
+
+The visual and component system had matured faster than the verbal layer. Brand voice, mutable biography and interface guidance lived together, so outdated or illustrative copy could be interpreted by agents as factual identity. v2.2 separates those responsibilities and makes the boundary machine-checkable without changing the public component or token API.
+
+### Added
+
+- **Verbal System v2 authorities:** `PROFILE.md` for factual identity, `VOICE.md` for observed communication behavior and adaptive registers, and a reduced `BRAND-VOICE.md` for public-brand application.
+- **Writing-evidence classes:** `OBSERVED`, `APPROVED` and `ILLUSTRATIVE`, with an explicit rule that writing examples never become biographical evidence by inference.
+- **Automated verbal guard:** `npm run check:verbal` and CI enforcement for authority discovery, current role/academic wording, obsolete Builder semantics, unsupported biographical claims and misleading sample content.
+
 ### Changed
 
-- **Brand marks in interfaces (`DESIGN-SYSTEM.md` §10.6, new).** The navbar brand on Isaac's own sites is now the `dc` monogram instead of the compact wordmark: it is the only mark that shows both registers, it matches the favicon, and it doesn't repeat the name the page title already gives. The compact wordmark moves to the footer sign-off and to co-branded headers. §10.6 also documents inlining the SVG with the action tokens so the monogram rethemes in dark mode, the accessible name on the link, and minimum sizes. §10.1–10.3 and §11.1 updated to match. Guidance only: no token, class or file changed.
+- **Public identity:** `Researcher · Educator · Developer` / `Pesquisador · Educador · Desenvolvedor`. `Builder` is no longer a personal identity label; technical/aesthetic uses are described as making, technical craft, code or development according to context.
+- **Stable voice, adaptive register:** institutional, academic, teaching, developer, social and informal writing now share one voice while adapting density, formality and vocabulary to the audience.
+- **Agent contract:** `llms.txt`, `AGENTS.md`, `CLAUDE.md`, the README and `DESIGN-SYSTEM.md` distinguish factual, verbal, brand and UI authority and explicitly prohibit inferring biography from examples.
+- **Interface copy:** buttons default to concrete action labels; `Let's co-create` / `Vamos cocriar?` remains optional campaign language rather than a universal CTA.
+- **Sample safety:** portfolio-like demo copy is explicitly fictional/neutral where no verified case exists; generated manifest/showcase content follows the source examples.
+- **Design semantics:** Amber's description is now `Making energy`; the code register is described as technical craft rather than Builder identity. No token name, component class or attribute changed.
+- **Brand marks in interfaces:** the navbar brand on Isaac's own sites uses the `dc` monogram; the compact wordmark signs the footer and co-branded headers. `DESIGN-SYSTEM.md` §10.6 documents theming, accessible naming and minimum sizes.
+
+### Fixed
+
+- Removed unsupported/outdated brand-copy claims that could imply a director-level Sesc title, a completed UFRJ master's degree, invented durations of AI specialization or fabricated first-person memories.
+- Corrected the coupling that allowed brand examples to act as de facto biography for AI agents.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "The Membrane Palette",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "generated": "Do not edit — produced by scripts/build-tokens.mjs",
   "modes": {
     "light": {

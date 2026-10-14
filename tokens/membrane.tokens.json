@@ -1,372 +1,1476 @@
 {
   "$description": "The Membrane Palette — single source of truth. DTCG-flavored token file (hex shorthand for colors, {dot.path} aliases, $extensions.mode.dark for dark values, custom $types: tint, cssValue). Edit THIS file, then run `npm run build:tokens` to regenerate tokens/design-tokens.css and tokens/base.css. Never hand-edit the generated CSS.",
-  "$version": "2.1.0",
-
+  "$version": "2.2.0",
   "color": {
     "primitive": {
       "$description": "Tier 1 — raw palette values. Immutable: primitives never change between light and dark mode. Theming happens exclusively in the semantic tier.",
-      "$extensions": { "cssPrefix": "--color-" },
-      "terracotta":       { "$type": "color", "$value": "#B35530", "$description": "Primary brand. The human register: earth, hands, making, Brazilian clay." },
-      "terracotta-light": { "$type": "color", "$value": "#D4724F" },
-      "terracotta-dark":  { "$type": "color", "$value": "#944425" },
-      "teal":             { "$type": "color", "$value": "#1B756D", "$description": "Secondary brand. The digital register: technology, depth, Rio's ocean." },
-      "teal-light":       { "$type": "color", "$value": "#3AAFA8" },
-      "teal-dark":        { "$type": "color", "$value": "#145C56" },
-      "cream":            { "$type": "color", "$value": "#FAF6EE", "$description": "Light canvas. Never pure white." },
-      "charcoal":         { "$type": "color", "$value": "#1A1B1F", "$description": "Dark canvas. Never pure black." },
-      "amber":            { "$type": "color", "$value": "#D49A3A", "$description": "Making energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text." },
-      "amber-light":      { "$type": "color", "$value": "#E8B44A" },
-      "burgundy":         { "$type": "color", "$value": "#7A3345", "$description": "Heritage depth." },
-      "burgundy-light":   { "$type": "color", "$value": "#9A4558" },
-      "sage":             { "$type": "color", "$value": "#5A8A6E", "$description": "Growth. Fill/icon use; use semantic success-text for text on light surfaces." },
-      "sage-light":       { "$type": "color", "$value": "#6FBF8A" }
+      "$extensions": {
+        "cssPrefix": "--color-"
+      },
+      "terracotta": {
+        "$type": "color",
+        "$value": "#B35530",
+        "$description": "Primary brand. The human register: earth, hands, making, Brazilian clay."
+      },
+      "terracotta-light": {
+        "$type": "color",
+        "$value": "#D4724F"
+      },
+      "terracotta-dark": {
+        "$type": "color",
+        "$value": "#944425"
+      },
+      "teal": {
+        "$type": "color",
+        "$value": "#1B756D",
+        "$description": "Secondary brand. The digital register: technology, depth, Rio's ocean."
+      },
+      "teal-light": {
+        "$type": "color",
+        "$value": "#3AAFA8"
+      },
+      "teal-dark": {
+        "$type": "color",
+        "$value": "#145C56"
+      },
+      "cream": {
+        "$type": "color",
+        "$value": "#FAF6EE",
+        "$description": "Light canvas. Never pure white."
+      },
+      "charcoal": {
+        "$type": "color",
+        "$value": "#1A1B1F",
+        "$description": "Dark canvas. Never pure black."
+      },
+      "amber": {
+        "$type": "color",
+        "$value": "#D49A3A",
+        "$description": "Making energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text."
+      },
+      "amber-light": {
+        "$type": "color",
+        "$value": "#E8B44A"
+      },
+      "burgundy": {
+        "$type": "color",
+        "$value": "#7A3345",
+        "$description": "Heritage depth."
+      },
+      "burgundy-light": {
+        "$type": "color",
+        "$value": "#9A4558"
+      },
+      "sage": {
+        "$type": "color",
+        "$value": "#5A8A6E",
+        "$description": "Growth. Fill/icon use; use semantic success-text for text on light surfaces."
+      },
+      "sage-light": {
+        "$type": "color",
+        "$value": "#6FBF8A"
+      }
     },
-
     "neutral": {
+      "50": {
+        "$type": "color",
+        "$value": "#FAF6EE"
+      },
+      "100": {
+        "$type": "color",
+        "$value": "#F0EBE1"
+      },
+      "200": {
+        "$type": "color",
+        "$value": "#E2DCD2"
+      },
+      "300": {
+        "$type": "color",
+        "$value": "#C8C1B5"
+      },
+      "400": {
+        "$type": "color",
+        "$value": "#A39D93"
+      },
+      "500": {
+        "$type": "color",
+        "$value": "#7D776E"
+      },
+      "600": {
+        "$type": "color",
+        "$value": "#5C564E"
+      },
+      "700": {
+        "$type": "color",
+        "$value": "#3D3832"
+      },
+      "800": {
+        "$type": "color",
+        "$value": "#2A2622"
+      },
+      "900": {
+        "$type": "color",
+        "$value": "#1A1B1F"
+      },
       "$description": "Tier 1 — warm-tinted neutral ramp. Every gray carries a subtle amber undertone.",
-      "$extensions": { "cssPrefix": "--color-neutral-" },
-      "50":  { "$type": "color", "$value": "#FAF6EE" },
-      "100": { "$type": "color", "$value": "#F0EBE1" },
-      "200": { "$type": "color", "$value": "#E2DCD2" },
-      "300": { "$type": "color", "$value": "#C8C1B5" },
-      "400": { "$type": "color", "$value": "#A39D93" },
-      "500": { "$type": "color", "$value": "#7D776E" },
-      "600": { "$type": "color", "$value": "#5C564E" },
-      "700": { "$type": "color", "$value": "#3D3832" },
-      "800": { "$type": "color", "$value": "#2A2622" },
-      "900": { "$type": "color", "$value": "#1A1B1F" }
+      "$extensions": {
+        "cssPrefix": "--color-neutral-"
+      }
     },
-
     "semantic": {
       "$description": "Tier 2 — intent-named tokens. These are what applications should consume. Each carries its own light/dark pair via light-dark(); primitives stay immutable.",
-      "$extensions": { "cssPrefix": "--color-" },
-      "text-primary":     { "$type": "color", "$value": "{color.neutral.800}", "$extensions": { "mode": { "dark": "{color.neutral.100}" } }, "$description": "Primary body text and headings." },
-      "text-secondary":   { "$type": "color", "$value": "{color.neutral.600}", "$extensions": { "mode": { "dark": "{color.neutral.400}" } }, "$description": "Supporting text: ledes, descriptions, captions." },
-      "text-tertiary":    { "$type": "color", "$value": "#6E685F", "$extensions": { "mode": { "dark": "#938D83" } }, "$description": "Metadata, placeholders. v2.0: darkened from neutral-400 (2.5:1) to pass WCAG AA 4.5:1 on bg-primary and bg-secondary." },
-      "text-accent":      { "$type": "color", "$value": "{color.primitive.teal}", "$extensions": { "mode": { "dark": "{color.primitive.teal-light}" } }, "$description": "Inline links and interactive text." },
-      "text-on-accent":   { "$type": "color", "$value": "#FFFFFF", "$extensions": { "mode": { "dark": "{color.primitive.charcoal}" } }, "$description": "v2.0: flips to charcoal in dark mode — white on the lightened terracotta was 3.3:1." },
-      "bg-primary":       { "$type": "color", "$value": "{color.primitive.cream}", "$extensions": { "mode": { "dark": "{color.primitive.charcoal}" } }, "$description": "Page background — the membrane surface." },
-      "bg-secondary":     { "$type": "color", "$value": "{color.neutral.100}", "$extensions": { "mode": { "dark": "#242429" } }, "$description": "Cards and alternating sections." },
-      "bg-tertiary":      { "$type": "color", "$value": "{color.neutral.200}", "$extensions": { "mode": { "dark": "#2E2E34" } }, "$description": "Nested containers, neutral tag fills, progress tracks." },
-      "border-default":   { "$type": "color", "$value": "{color.neutral.200}", "$extensions": { "mode": { "dark": "#3D3842" } }, "$description": "Decorative dividers and card outlines. Too faint to be the only boundary of a control — use border-input there." },
-      "border-emphasis":  { "$type": "color", "$value": "{color.neutral.300}", "$extensions": { "mode": { "dark": "{color.neutral.600}" } }, "$description": "Emphasized separation; hover border for quiet surfaces." },
-      "overlay-bg":       { "$type": "color", "$value": "rgba(26, 27, 31, 0.70)", "$description": "Scrims and image-readability layers. Intentionally identical in both modes." },
-      "action-primary":   { "$type": "color", "$value": "{color.primitive.terracotta}", "$extensions": { "mode": { "dark": "{color.primitive.terracotta-light}" } }, "$description": "Primary CTAs and key interactive accents. Replaces direct use of --color-terracotta on interactive elements." },
-      "action-secondary": { "$type": "color", "$value": "{color.primitive.teal}", "$extensions": { "mode": { "dark": "{color.primitive.teal-light}" } }, "$description": "Secondary/navigational actions." },
-      "focus":            { "$type": "color", "$value": "{color.primitive.teal}", "$extensions": { "mode": { "dark": "{color.primitive.teal-light}" } }, "$description": "Focus indicator color. v2.0: dark mode now remaps to teal-light (raw teal was ~3:1 on charcoal)." },
-      "success":          { "$type": "color", "$value": "{color.primitive.sage}", "$extensions": { "mode": { "dark": "{color.primitive.sage-light}" } }, "$description": "Fills, icons, large text (≥3:1). For body-size text use success-text." },
-      "success-text":     { "$type": "color", "$value": "#3E6B52", "$extensions": { "mode": { "dark": "{color.primitive.sage-light}" } }, "$description": "Success body text (≥4.5:1 on page, card, and success-bg)." },
-      "warning":          { "$type": "color", "$value": "{color.primitive.amber}", "$extensions": { "mode": { "dark": "{color.primitive.amber-light}" } }, "$description": "Fills and badges with dark text on top. Never use as text on light surfaces — 2.3:1." },
-      "warning-text":     { "$type": "color", "$value": "#7A571B", "$extensions": { "mode": { "dark": "{color.primitive.amber-light}" } }, "$description": "Warning body text (≥4.5:1 on page, card, and warning-bg)." },
-      "error":            { "$type": "color", "$value": "#C44040", "$extensions": { "mode": { "dark": "#E86060" } }, "$description": "Error fills, icons, invalid-control borders, danger buttons (≥3:1)." },
-      "error-text":       { "$type": "color", "$value": "#A53434", "$extensions": { "mode": { "dark": "#F07C78" } }, "$description": "Error body text and validation messages (≥4.5:1 on page, card, and error-bg)." },
-      "info":             { "$type": "color", "$value": "{color.primitive.teal}", "$extensions": { "mode": { "dark": "{color.primitive.teal-light}" } }, "$description": "Informational fills and icons." },
-      "selection":        { "$type": "cssValue", "$value": "color-mix(in srgb, light-dark({color.primitive.terracotta}, {color.primitive.terracotta-light}) 20%, transparent)", "$description": "Text selection highlight." },
-
-      "bg-elevated":      { "$type": "color", "$value": "{color.primitive.cream}", "$extensions": { "mode": { "dark": "#27272D" } }, "$description": "Surfaces that float above the page: dialogs, popovers, menus. In dark mode elevation reads as a lighter surface, not just a deeper shadow." },
-      "bg-inverse":       { "$type": "color", "$value": "{color.neutral.800}", "$extensions": { "mode": { "dark": "{color.neutral.100}" } }, "$description": "Inverted surface for tooltips and high-attention chips. Pair with text-inverse." },
-      "text-inverse":     { "$type": "color", "$value": "{color.neutral.100}", "$extensions": { "mode": { "dark": "{color.neutral.800}" } }, "$description": "Text on bg-inverse." },
-      "bg-hover":         { "$type": "tint", "$value": { "light": "{color.neutral.800}", "dark": "{color.neutral.100}", "amount": 0.06 }, "$description": "Neutral hover wash for quiet controls (ghost buttons, nav links, table rows, accordion summaries). Works on any surface because it is a translucent overlay." },
-      "bg-active":        { "$type": "tint", "$value": { "light": "{color.neutral.800}", "dark": "{color.neutral.100}", "amount": 0.10 }, "$description": "Neutral pressed/selected wash. Pair with bg-hover." },
-      "border-input":     { "$type": "color", "$value": "{color.neutral.500}", "$extensions": { "mode": { "dark": "{color.neutral.500}" } }, "$description": "Boundary of form controls (inputs, checkboxes, switches). ≥3:1 against page and card surfaces per WCAG 1.4.11 — border-default is decorative and too faint to be a control's only boundary." },
-
-      "action-primary-hover":   { "$type": "mix", "$value": { "base": "{color.semantic.action-primary}", "with": "{color.semantic.text-primary}", "amount": 0.16 }, "$description": "Hover/pressed fill for primary actions. Mixes toward text-primary, so it darkens in light mode and lightens in dark mode — contrast with text-on-accent always increases." },
-      "action-secondary-hover": { "$type": "mix", "$value": { "base": "{color.semantic.action-secondary}", "with": "{color.semantic.text-primary}", "amount": 0.16 }, "$description": "Hover/pressed fill for secondary actions." },
-      "error-hover":            { "$type": "mix", "$value": { "base": "{color.semantic.error}", "with": "{color.semantic.text-primary}", "amount": 0.16 }, "$description": "Hover/pressed fill for destructive actions." },
-
-      "human-text":       { "$type": "color", "$value": "{color.primitive.terracotta-dark}", "$extensions": { "mode": { "dark": "#E08A6A" } }, "$description": "Human-register text: overlines, tags, pull quotes, active nav. ≥4.5:1 on page, card, and human-bg surfaces." },
-      "human-bg":         { "$type": "tint", "$value": { "light": "{color.primitive.terracotta}", "dark": "{color.primitive.terracotta-light}", "amount": 0.10 }, "$description": "Human-register wash for tags, avatars, callouts. Pair with human-text." },
-      "digital-text":     { "$type": "color", "$value": "{color.primitive.teal-dark}", "$extensions": { "mode": { "dark": "{color.primitive.teal-light}" } }, "$description": "Digital-register text: tech-stack tags, code-adjacent labels. ≥4.5:1 on page, card, and digital-bg surfaces." },
-      "digital-bg":       { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.10 }, "$description": "Digital-register wash. Pair with digital-text." },
-      "info-text":        { "$type": "color", "$value": "{color.primitive.teal-dark}", "$extensions": { "mode": { "dark": "{color.primitive.teal-light}" } }, "$description": "Informational body text (4.5:1 on page, card, and info-bg)." },
-      "success-bg":       { "$type": "tint", "$value": { "light": "{color.primitive.sage}", "dark": "{color.primitive.sage-light}", "amount": 0.10 }, "$description": "Success surface for alerts and badges. Pair with success-text." },
-      "warning-bg":       { "$type": "tint", "$value": { "light": "{color.primitive.amber}", "dark": "{color.primitive.amber-light}", "amount": 0.10 }, "$description": "Warning surface. Pair with warning-text." },
-      "error-bg":         { "$type": "tint", "$value": { "light": "{color.semantic.error}", "dark": "{color.semantic.error}", "amount": 0.10 }, "$description": "Error surface. Pair with error-text." },
-      "info-bg":          { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.10 }, "$description": "Informational surface. Pair with info-text." },
-      "chart-1":          { "$type": "color", "$value": "#B35530", "$extensions": { "mode": { "dark": "#D4724F" } }, "$description": "Categorical chart series 1 (terracotta — human register; the brand's lead series). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
-      "chart-2":          { "$type": "color", "$value": "#009187", "$extensions": { "mode": { "dark": "#00A99D" } }, "$description": "Categorical chart series 2 (teal — digital register). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
-      "chart-3":          { "$type": "color", "$value": "#A1742A", "$extensions": { "mode": { "dark": "#B78941" } }, "$description": "Categorical chart series 3 (amber). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
-      "chart-4":          { "$type": "color", "$value": "#9F3B5A", "$extensions": { "mode": { "dark": "#B6506E" } }, "$description": "Categorical chart series 4 (burgundy). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
-      "chart-5":          { "$type": "color", "$value": "#4981B9", "$extensions": { "mode": { "dark": "#5E97D0" } }, "$description": "Categorical chart series 5 (steel blue). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." },
-      "chart-6":          { "$type": "color", "$value": "#4B8F5B", "$extensions": { "mode": { "dark": "#25984D" } }, "$description": "Categorical chart series 6 (green). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)." }
+      "$extensions": {
+        "cssPrefix": "--color-"
+      },
+      "text-primary": {
+        "$type": "color",
+        "$value": "{color.neutral.800}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.neutral.100}"
+          }
+        },
+        "$description": "Primary body text and headings."
+      },
+      "text-secondary": {
+        "$type": "color",
+        "$value": "{color.neutral.600}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.neutral.400}"
+          }
+        },
+        "$description": "Supporting text: ledes, descriptions, captions."
+      },
+      "text-tertiary": {
+        "$type": "color",
+        "$value": "#6E685F",
+        "$extensions": {
+          "mode": {
+            "dark": "#938D83"
+          }
+        },
+        "$description": "Metadata, placeholders. v2.0: darkened from neutral-400 (2.5:1) to pass WCAG AA 4.5:1 on bg-primary and bg-secondary."
+      },
+      "text-accent": {
+        "$type": "color",
+        "$value": "{color.primitive.teal}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.teal-light}"
+          }
+        },
+        "$description": "Inline links and interactive text."
+      },
+      "text-on-accent": {
+        "$type": "color",
+        "$value": "#FFFFFF",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.charcoal}"
+          }
+        },
+        "$description": "v2.0: flips to charcoal in dark mode — white on the lightened terracotta was 3.3:1."
+      },
+      "bg-primary": {
+        "$type": "color",
+        "$value": "{color.primitive.cream}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.charcoal}"
+          }
+        },
+        "$description": "Page background — the membrane surface."
+      },
+      "bg-secondary": {
+        "$type": "color",
+        "$value": "{color.neutral.100}",
+        "$extensions": {
+          "mode": {
+            "dark": "#242429"
+          }
+        },
+        "$description": "Cards and alternating sections."
+      },
+      "bg-tertiary": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$extensions": {
+          "mode": {
+            "dark": "#2E2E34"
+          }
+        },
+        "$description": "Nested containers, neutral tag fills, progress tracks."
+      },
+      "border-default": {
+        "$type": "color",
+        "$value": "{color.neutral.200}",
+        "$extensions": {
+          "mode": {
+            "dark": "#3D3842"
+          }
+        },
+        "$description": "Decorative dividers and card outlines. Too faint to be the only boundary of a control — use border-input there."
+      },
+      "border-emphasis": {
+        "$type": "color",
+        "$value": "{color.neutral.300}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.neutral.600}"
+          }
+        },
+        "$description": "Emphasized separation; hover border for quiet surfaces."
+      },
+      "overlay-bg": {
+        "$type": "color",
+        "$value": "rgba(26, 27, 31, 0.70)",
+        "$description": "Scrims and image-readability layers. Intentionally identical in both modes."
+      },
+      "action-primary": {
+        "$type": "color",
+        "$value": "{color.primitive.terracotta}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.terracotta-light}"
+          }
+        },
+        "$description": "Primary CTAs and key interactive accents. Replaces direct use of --color-terracotta on interactive elements."
+      },
+      "action-secondary": {
+        "$type": "color",
+        "$value": "{color.primitive.teal}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.teal-light}"
+          }
+        },
+        "$description": "Secondary/navigational actions."
+      },
+      "focus": {
+        "$type": "color",
+        "$value": "{color.primitive.teal}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.teal-light}"
+          }
+        },
+        "$description": "Focus indicator color. v2.0: dark mode now remaps to teal-light (raw teal was ~3:1 on charcoal)."
+      },
+      "success": {
+        "$type": "color",
+        "$value": "{color.primitive.sage}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.sage-light}"
+          }
+        },
+        "$description": "Fills, icons, large text (≥3:1). For body-size text use success-text."
+      },
+      "success-text": {
+        "$type": "color",
+        "$value": "#3E6B52",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.sage-light}"
+          }
+        },
+        "$description": "Success body text (≥4.5:1 on page, card, and success-bg)."
+      },
+      "warning": {
+        "$type": "color",
+        "$value": "{color.primitive.amber}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.amber-light}"
+          }
+        },
+        "$description": "Fills and badges with dark text on top. Never use as text on light surfaces — 2.3:1."
+      },
+      "warning-text": {
+        "$type": "color",
+        "$value": "#7A571B",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.amber-light}"
+          }
+        },
+        "$description": "Warning body text (≥4.5:1 on page, card, and warning-bg)."
+      },
+      "error": {
+        "$type": "color",
+        "$value": "#C44040",
+        "$extensions": {
+          "mode": {
+            "dark": "#E86060"
+          }
+        },
+        "$description": "Error fills, icons, invalid-control borders, danger buttons (≥3:1)."
+      },
+      "error-text": {
+        "$type": "color",
+        "$value": "#A53434",
+        "$extensions": {
+          "mode": {
+            "dark": "#F07C78"
+          }
+        },
+        "$description": "Error body text and validation messages (≥4.5:1 on page, card, and error-bg)."
+      },
+      "info": {
+        "$type": "color",
+        "$value": "{color.primitive.teal}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.teal-light}"
+          }
+        },
+        "$description": "Informational fills and icons."
+      },
+      "selection": {
+        "$type": "cssValue",
+        "$value": "color-mix(in srgb, light-dark({color.primitive.terracotta}, {color.primitive.terracotta-light}) 20%, transparent)",
+        "$description": "Text selection highlight."
+      },
+      "bg-elevated": {
+        "$type": "color",
+        "$value": "{color.primitive.cream}",
+        "$extensions": {
+          "mode": {
+            "dark": "#27272D"
+          }
+        },
+        "$description": "Surfaces that float above the page: dialogs, popovers, menus. In dark mode elevation reads as a lighter surface, not just a deeper shadow."
+      },
+      "bg-inverse": {
+        "$type": "color",
+        "$value": "{color.neutral.800}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.neutral.100}"
+          }
+        },
+        "$description": "Inverted surface for tooltips and high-attention chips. Pair with text-inverse."
+      },
+      "text-inverse": {
+        "$type": "color",
+        "$value": "{color.neutral.100}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.neutral.800}"
+          }
+        },
+        "$description": "Text on bg-inverse."
+      },
+      "bg-hover": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.neutral.800}",
+          "dark": "{color.neutral.100}",
+          "amount": 0.06
+        },
+        "$description": "Neutral hover wash for quiet controls (ghost buttons, nav links, table rows, accordion summaries). Works on any surface because it is a translucent overlay."
+      },
+      "bg-active": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.neutral.800}",
+          "dark": "{color.neutral.100}",
+          "amount": 0.1
+        },
+        "$description": "Neutral pressed/selected wash. Pair with bg-hover."
+      },
+      "border-input": {
+        "$type": "color",
+        "$value": "{color.neutral.500}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.neutral.500}"
+          }
+        },
+        "$description": "Boundary of form controls (inputs, checkboxes, switches). ≥3:1 against page and card surfaces per WCAG 1.4.11 — border-default is decorative and too faint to be a control's only boundary."
+      },
+      "action-primary-hover": {
+        "$type": "mix",
+        "$value": {
+          "base": "{color.semantic.action-primary}",
+          "with": "{color.semantic.text-primary}",
+          "amount": 0.16
+        },
+        "$description": "Hover/pressed fill for primary actions. Mixes toward text-primary, so it darkens in light mode and lightens in dark mode — contrast with text-on-accent always increases."
+      },
+      "action-secondary-hover": {
+        "$type": "mix",
+        "$value": {
+          "base": "{color.semantic.action-secondary}",
+          "with": "{color.semantic.text-primary}",
+          "amount": 0.16
+        },
+        "$description": "Hover/pressed fill for secondary actions."
+      },
+      "error-hover": {
+        "$type": "mix",
+        "$value": {
+          "base": "{color.semantic.error}",
+          "with": "{color.semantic.text-primary}",
+          "amount": 0.16
+        },
+        "$description": "Hover/pressed fill for destructive actions."
+      },
+      "human-text": {
+        "$type": "color",
+        "$value": "{color.primitive.terracotta-dark}",
+        "$extensions": {
+          "mode": {
+            "dark": "#E08A6A"
+          }
+        },
+        "$description": "Human-register text: overlines, tags, pull quotes, active nav. ≥4.5:1 on page, card, and human-bg surfaces."
+      },
+      "human-bg": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.terracotta}",
+          "dark": "{color.primitive.terracotta-light}",
+          "amount": 0.1
+        },
+        "$description": "Human-register wash for tags, avatars, callouts. Pair with human-text."
+      },
+      "digital-text": {
+        "$type": "color",
+        "$value": "{color.primitive.teal-dark}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.teal-light}"
+          }
+        },
+        "$description": "Digital-register text: tech-stack tags, code-adjacent labels. ≥4.5:1 on page, card, and digital-bg surfaces."
+      },
+      "digital-bg": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.teal}",
+          "dark": "{color.primitive.teal-light}",
+          "amount": 0.1
+        },
+        "$description": "Digital-register wash. Pair with digital-text."
+      },
+      "info-text": {
+        "$type": "color",
+        "$value": "{color.primitive.teal-dark}",
+        "$extensions": {
+          "mode": {
+            "dark": "{color.primitive.teal-light}"
+          }
+        },
+        "$description": "Informational body text (4.5:1 on page, card, and info-bg)."
+      },
+      "success-bg": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.sage}",
+          "dark": "{color.primitive.sage-light}",
+          "amount": 0.1
+        },
+        "$description": "Success surface for alerts and badges. Pair with success-text."
+      },
+      "warning-bg": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.amber}",
+          "dark": "{color.primitive.amber-light}",
+          "amount": 0.1
+        },
+        "$description": "Warning surface. Pair with warning-text."
+      },
+      "error-bg": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.semantic.error}",
+          "dark": "{color.semantic.error}",
+          "amount": 0.1
+        },
+        "$description": "Error surface. Pair with error-text."
+      },
+      "info-bg": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.teal}",
+          "dark": "{color.primitive.teal-light}",
+          "amount": 0.1
+        },
+        "$description": "Informational surface. Pair with info-text."
+      },
+      "chart-1": {
+        "$type": "color",
+        "$value": "#B35530",
+        "$extensions": {
+          "mode": {
+            "dark": "#D4724F"
+          }
+        },
+        "$description": "Categorical chart series 1 (terracotta — human register; the brand's lead series). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)."
+      },
+      "chart-2": {
+        "$type": "color",
+        "$value": "#009187",
+        "$extensions": {
+          "mode": {
+            "dark": "#00A99D"
+          }
+        },
+        "$description": "Categorical chart series 2 (teal — digital register). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)."
+      },
+      "chart-3": {
+        "$type": "color",
+        "$value": "#A1742A",
+        "$extensions": {
+          "mode": {
+            "dark": "#B78941"
+          }
+        },
+        "$description": "Categorical chart series 3 (amber). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)."
+      },
+      "chart-4": {
+        "$type": "color",
+        "$value": "#9F3B5A",
+        "$extensions": {
+          "mode": {
+            "dark": "#B6506E"
+          }
+        },
+        "$description": "Categorical chart series 4 (burgundy). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)."
+      },
+      "chart-5": {
+        "$type": "color",
+        "$value": "#4981B9",
+        "$extensions": {
+          "mode": {
+            "dark": "#5E97D0"
+          }
+        },
+        "$description": "Categorical chart series 5 (steel blue). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)."
+      },
+      "chart-6": {
+        "$type": "color",
+        "$value": "#4B8F5B",
+        "$extensions": {
+          "mode": {
+            "dark": "#25984D"
+          }
+        },
+        "$description": "Categorical chart series 6 (green). Assign in order, never cycle; validated as a set (adjacent CVD ΔE ≥ 11.5, ≥3:1 on page and cards in both modes)."
+      }
     },
-
     "tint": {
       "$description": "Derived alpha washes. v2.0: computed via color-mix() from the palette instead of hand-tuned rgba literals, and mode-aware (dark tints derive from the -light primitives).",
-      "$extensions": { "cssPrefix": "--color-" },
-      "terracotta-10": { "$type": "tint", "$value": { "light": "{color.primitive.terracotta}", "dark": "{color.primitive.terracotta-light}", "amount": 0.10 } },
-      "terracotta-20": { "$type": "tint", "$value": { "light": "{color.primitive.terracotta}", "dark": "{color.primitive.terracotta-light}", "amount": 0.20 } },
-      "teal-08":       { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.08 } },
-      "teal-10":       { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.10 } },
-      "teal-12":       { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.12 } },
-      "teal-20":       { "$type": "tint", "$value": { "light": "{color.primitive.teal}", "dark": "{color.primitive.teal-light}", "amount": 0.20 } },
-      "amber-10":      { "$type": "tint", "$value": { "light": "{color.primitive.amber}", "dark": "{color.primitive.amber-light}", "amount": 0.10 } },
-      "burgundy-10":   { "$type": "tint", "$value": { "light": "{color.primitive.burgundy}", "dark": "{color.primitive.burgundy-light}", "amount": 0.10 } },
-      "sage-10":       { "$type": "tint", "$value": { "light": "{color.primitive.sage}", "dark": "{color.primitive.sage-light}", "amount": 0.10 } }
+      "$extensions": {
+        "cssPrefix": "--color-"
+      },
+      "terracotta-10": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.terracotta}",
+          "dark": "{color.primitive.terracotta-light}",
+          "amount": 0.1
+        }
+      },
+      "terracotta-20": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.terracotta}",
+          "dark": "{color.primitive.terracotta-light}",
+          "amount": 0.2
+        }
+      },
+      "teal-08": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.teal}",
+          "dark": "{color.primitive.teal-light}",
+          "amount": 0.08
+        }
+      },
+      "teal-10": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.teal}",
+          "dark": "{color.primitive.teal-light}",
+          "amount": 0.1
+        }
+      },
+      "teal-12": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.teal}",
+          "dark": "{color.primitive.teal-light}",
+          "amount": 0.12
+        }
+      },
+      "teal-20": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.teal}",
+          "dark": "{color.primitive.teal-light}",
+          "amount": 0.2
+        }
+      },
+      "amber-10": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.amber}",
+          "dark": "{color.primitive.amber-light}",
+          "amount": 0.1
+        }
+      },
+      "burgundy-10": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.burgundy}",
+          "dark": "{color.primitive.burgundy-light}",
+          "amount": 0.1
+        }
+      },
+      "sage-10": {
+        "$type": "tint",
+        "$value": {
+          "light": "{color.primitive.sage}",
+          "dark": "{color.primitive.sage-light}",
+          "amount": 0.1
+        }
+      }
     }
   },
-
   "gradient": {
-    "$extensions": { "cssPrefix": "--gradient-" },
-    "membrane": { "$type": "cssValue", "$value": "linear-gradient(135deg, light-dark({color.primitive.terracotta}, {color.primitive.terracotta-light}) 0%, light-dark({color.primitive.teal}, {color.primitive.teal-light}) 100%)", "$description": "Signature gradient, human → digital. v2.0: endpoints now lighten in dark mode per spec §12.2." },
-    "warmth":   { "$type": "cssValue", "$value": "radial-gradient(ellipse 600px 300px at 15% 0%, color-mix(in srgb, light-dark({color.primitive.terracotta}, {color.primitive.terracotta-light}) 8%, transparent) 0%, transparent 70%)" },
-    "depth":    { "$type": "cssValue", "$value": "linear-gradient(180deg, {color.primitive.charcoal} 0%, #12131A 100%)" },
-    "divider":  { "$type": "cssValue", "$value": "linear-gradient(90deg, transparent, {color.semantic.border-default}, transparent)" },
-    "subtle":   { "$type": "cssValue", "$value": "linear-gradient(150deg, {color.semantic.bg-secondary} 8%, {color.semantic.bg-primary} 92%)" }
+    "$extensions": {
+      "cssPrefix": "--gradient-"
+    },
+    "membrane": {
+      "$type": "cssValue",
+      "$value": "linear-gradient(135deg, light-dark({color.primitive.terracotta}, {color.primitive.terracotta-light}) 0%, light-dark({color.primitive.teal}, {color.primitive.teal-light}) 100%)",
+      "$description": "Signature gradient, human → digital. v2.0: endpoints now lighten in dark mode per spec §12.2."
+    },
+    "warmth": {
+      "$type": "cssValue",
+      "$value": "radial-gradient(ellipse 600px 300px at 15% 0%, color-mix(in srgb, light-dark({color.primitive.terracotta}, {color.primitive.terracotta-light}) 8%, transparent) 0%, transparent 70%)"
+    },
+    "depth": {
+      "$type": "cssValue",
+      "$value": "linear-gradient(180deg, {color.primitive.charcoal} 0%, #12131A 100%)"
+    },
+    "divider": {
+      "$type": "cssValue",
+      "$value": "linear-gradient(90deg, transparent, {color.semantic.border-default}, transparent)"
+    },
+    "subtle": {
+      "$type": "cssValue",
+      "$value": "linear-gradient(150deg, {color.semantic.bg-secondary} 8%, {color.semantic.bg-primary} 92%)"
+    }
   },
-
   "glow": {
     "$description": "Ambient glow stop-colors for page-level radial gradients.",
-    "$extensions": { "cssPrefix": "--bg-glow-" },
-    "terracotta":   { "$type": "color", "$value": "rgba(179, 85, 48, 0.09)", "$extensions": { "mode": { "dark": "rgba(179, 85, 48, 0.12)" } } },
-    "teal":         { "$type": "color", "$value": "rgba(27, 117, 109, 0.10)", "$extensions": { "mode": { "dark": "rgba(58, 175, 168, 0.10)" } } },
-    "sage":         { "$type": "color", "$value": "rgba(90, 138, 110, 0.08)", "$extensions": { "mode": { "dark": "rgba(58, 175, 168, 0.08)" } } },
-    "focal":        { "$type": "color", "$value": "rgba(179, 85, 48, 0.06)", "$extensions": { "mode": { "dark": "rgba(179, 85, 48, 0.08)" } } },
-    "focal-loaded": { "$type": "color", "$value": "rgba(179, 85, 48, 0.10)", "$extensions": { "mode": { "dark": "rgba(179, 85, 48, 0.14)" } } }
+    "$extensions": {
+      "cssPrefix": "--bg-glow-"
+    },
+    "terracotta": {
+      "$type": "color",
+      "$value": "rgba(179, 85, 48, 0.09)",
+      "$extensions": {
+        "mode": {
+          "dark": "rgba(179, 85, 48, 0.12)"
+        }
+      }
+    },
+    "teal": {
+      "$type": "color",
+      "$value": "rgba(27, 117, 109, 0.10)",
+      "$extensions": {
+        "mode": {
+          "dark": "rgba(58, 175, 168, 0.10)"
+        }
+      }
+    },
+    "sage": {
+      "$type": "color",
+      "$value": "rgba(90, 138, 110, 0.08)",
+      "$extensions": {
+        "mode": {
+          "dark": "rgba(58, 175, 168, 0.08)"
+        }
+      }
+    },
+    "focal": {
+      "$type": "color",
+      "$value": "rgba(179, 85, 48, 0.06)",
+      "$extensions": {
+        "mode": {
+          "dark": "rgba(179, 85, 48, 0.08)"
+        }
+      }
+    },
+    "focal-loaded": {
+      "$type": "color",
+      "$value": "rgba(179, 85, 48, 0.10)",
+      "$extensions": {
+        "mode": {
+          "dark": "rgba(179, 85, 48, 0.14)"
+        }
+      }
+    }
   },
-
   "code": {
     "$description": "Code blocks are always dark, in both modes.",
-    "$extensions": { "cssPrefix": "--code-" },
-    "bg":       { "$type": "color", "$value": "#1E1F26" },
-    "text":     { "$type": "color", "$value": "#E2DCD2" },
-    "border":   { "$type": "color", "$value": "rgba(255, 255, 255, 0.06)" },
-    "keyword":  { "$type": "color", "$value": "#E07050" },
-    "string":   { "$type": "color", "$value": "#7BC494" },
-    "function": { "$type": "color", "$value": "#E8B44A" },
-    "comment":  { "$type": "color", "$value": "#958F84", "$description": "v2.1: lightened from #7D776E (3.7:1 on code-bg, failing WCAG AA for text) to 5.2:1." },
-    "number":   { "$type": "color", "$value": "#5AC8C0" }
+    "$extensions": {
+      "cssPrefix": "--code-"
+    },
+    "bg": {
+      "$type": "color",
+      "$value": "#1E1F26"
+    },
+    "text": {
+      "$type": "color",
+      "$value": "#E2DCD2"
+    },
+    "border": {
+      "$type": "color",
+      "$value": "rgba(255, 255, 255, 0.06)"
+    },
+    "keyword": {
+      "$type": "color",
+      "$value": "#E07050"
+    },
+    "string": {
+      "$type": "color",
+      "$value": "#7BC494"
+    },
+    "function": {
+      "$type": "color",
+      "$value": "#E8B44A"
+    },
+    "comment": {
+      "$type": "color",
+      "$value": "#958F84",
+      "$description": "v2.1: lightened from #7D776E (3.7:1 on code-bg, failing WCAG AA for text) to 5.2:1."
+    },
+    "number": {
+      "$type": "color",
+      "$value": "#5AC8C0"
+    }
   },
-
   "font": {
-    "$extensions": { "cssPrefix": "--font-" },
-    "serif": { "$type": "fontFamily", "$value": ["Fraunces", "Fraunces Fallback", "Georgia", "Times New Roman", "serif"] },
-    "sans":  { "$type": "fontFamily", "$value": ["Instrument Sans", "Instrument Sans Fallback", "Inter", "Helvetica Neue", "Arial", "sans-serif"] },
-    "mono":  { "$type": "fontFamily", "$value": ["JetBrains Mono", "JetBrains Mono Fallback", "Fira Code", "Consolas", "monospace"] }
+    "$extensions": {
+      "cssPrefix": "--font-"
+    },
+    "serif": {
+      "$type": "fontFamily",
+      "$value": [
+        "Fraunces",
+        "Fraunces Fallback",
+        "Georgia",
+        "Times New Roman",
+        "serif"
+      ]
+    },
+    "sans": {
+      "$type": "fontFamily",
+      "$value": [
+        "Instrument Sans",
+        "Instrument Sans Fallback",
+        "Inter",
+        "Helvetica Neue",
+        "Arial",
+        "sans-serif"
+      ]
+    },
+    "mono": {
+      "$type": "fontFamily",
+      "$value": [
+        "JetBrains Mono",
+        "JetBrains Mono Fallback",
+        "Fira Code",
+        "Consolas",
+        "monospace"
+      ]
+    }
   },
-
   "text": {
     "$description": "Fluid type scale. Modulated ratio: ≈1.20 between small steps, widening to ≈1.375 at display sizes.",
-    "$extensions": { "cssPrefix": "--text-" },
-    "display": { "$type": "cssValue", "$value": "clamp(2.25rem, 3.5vw + 1rem, 3.75rem)" },
-    "h1":      { "$type": "cssValue", "$value": "clamp(1.875rem, 2.5vw + 1rem, 2.75rem)" },
-    "h2":      { "$type": "cssValue", "$value": "clamp(1.5rem, 2vw + 0.75rem, 2rem)" },
-    "h3":      { "$type": "cssValue", "$value": "clamp(1.25rem, 1.5vw + 0.5rem, 1.5rem)" },
-    "h4":      { "$type": "cssValue", "$value": "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)" },
-    "body-lg": { "$type": "cssValue", "$value": "clamp(1.0625rem, 0.5vw + 0.9rem, 1.1875rem)" },
-    "body":    { "$type": "cssValue", "$value": "clamp(1rem, 0.25vw + 0.9rem, 1.0625rem)" },
-    "small":   { "$type": "cssValue", "$value": "0.875rem" },
-    "xs":      { "$type": "cssValue", "$value": "0.75rem" },
-    "code":    { "$type": "cssValue", "$value": "clamp(0.875rem, 0.25vw + 0.8rem, 0.9375rem)" },
-    "sm":      { "$type": "cssValue", "$value": "{text.small}", "$description": "Compatibility alias.", "$deprecated": "Use --text-small. Two names for one size makes generated code inconsistent; removal no earlier than v3.0.0." },
-    "base":    { "$type": "cssValue", "$value": "{text.body}", "$description": "Compatibility alias.", "$deprecated": "Use --text-body. Removal no earlier than v3.0.0." },
-    "md":      { "$type": "cssValue", "$value": "{text.h4}", "$description": "Compatibility alias.", "$deprecated": "Use --text-h4. Removal no earlier than v3.0.0." },
-    "lg":      { "$type": "cssValue", "$value": "{text.h3}", "$description": "Compatibility alias.", "$deprecated": "Use --text-h3. Removal no earlier than v3.0.0." },
-    "xl":      { "$type": "cssValue", "$value": "{text.h2}", "$description": "Compatibility alias.", "$deprecated": "Use --text-h2. Removal no earlier than v3.0.0." }
+    "$extensions": {
+      "cssPrefix": "--text-"
+    },
+    "display": {
+      "$type": "cssValue",
+      "$value": "clamp(2.25rem, 3.5vw + 1rem, 3.75rem)"
+    },
+    "h1": {
+      "$type": "cssValue",
+      "$value": "clamp(1.875rem, 2.5vw + 1rem, 2.75rem)"
+    },
+    "h2": {
+      "$type": "cssValue",
+      "$value": "clamp(1.5rem, 2vw + 0.75rem, 2rem)"
+    },
+    "h3": {
+      "$type": "cssValue",
+      "$value": "clamp(1.25rem, 1.5vw + 0.5rem, 1.5rem)"
+    },
+    "h4": {
+      "$type": "cssValue",
+      "$value": "clamp(1.125rem, 1vw + 0.5rem, 1.25rem)"
+    },
+    "body-lg": {
+      "$type": "cssValue",
+      "$value": "clamp(1.0625rem, 0.5vw + 0.9rem, 1.1875rem)"
+    },
+    "body": {
+      "$type": "cssValue",
+      "$value": "clamp(1rem, 0.25vw + 0.9rem, 1.0625rem)"
+    },
+    "small": {
+      "$type": "cssValue",
+      "$value": "0.875rem"
+    },
+    "xs": {
+      "$type": "cssValue",
+      "$value": "0.75rem"
+    },
+    "code": {
+      "$type": "cssValue",
+      "$value": "clamp(0.875rem, 0.25vw + 0.8rem, 0.9375rem)"
+    },
+    "sm": {
+      "$type": "cssValue",
+      "$value": "{text.small}",
+      "$description": "Compatibility alias.",
+      "$deprecated": "Use --text-small. Two names for one size makes generated code inconsistent; removal no earlier than v3.0.0."
+    },
+    "base": {
+      "$type": "cssValue",
+      "$value": "{text.body}",
+      "$description": "Compatibility alias.",
+      "$deprecated": "Use --text-body. Removal no earlier than v3.0.0."
+    },
+    "md": {
+      "$type": "cssValue",
+      "$value": "{text.h4}",
+      "$description": "Compatibility alias.",
+      "$deprecated": "Use --text-h4. Removal no earlier than v3.0.0."
+    },
+    "lg": {
+      "$type": "cssValue",
+      "$value": "{text.h3}",
+      "$description": "Compatibility alias.",
+      "$deprecated": "Use --text-h3. Removal no earlier than v3.0.0."
+    },
+    "xl": {
+      "$type": "cssValue",
+      "$value": "{text.h2}",
+      "$description": "Compatibility alias.",
+      "$deprecated": "Use --text-h2. Removal no earlier than v3.0.0."
+    }
   },
-
   "leading": {
-    "$extensions": { "cssPrefix": "--leading-" },
-    "display":    { "$type": "number", "$value": 1.1 },
-    "heading":    { "$type": "number", "$value": 1.2 },
-    "subheading": { "$type": "number", "$value": 1.3 },
-    "body":       { "$type": "number", "$value": 1.6 },
-    "body-lg":    { "$type": "number", "$value": 1.5 },
-    "small":      { "$type": "number", "$value": 1.5 },
-    "code":       { "$type": "number", "$value": 1.6 },
-    "label":      { "$type": "number", "$value": 1.2 }
+    "$extensions": {
+      "cssPrefix": "--leading-"
+    },
+    "display": {
+      "$type": "number",
+      "$value": 1.1
+    },
+    "heading": {
+      "$type": "number",
+      "$value": 1.2
+    },
+    "subheading": {
+      "$type": "number",
+      "$value": 1.3
+    },
+    "body": {
+      "$type": "number",
+      "$value": 1.6
+    },
+    "body-lg": {
+      "$type": "number",
+      "$value": 1.5
+    },
+    "small": {
+      "$type": "number",
+      "$value": 1.5
+    },
+    "code": {
+      "$type": "number",
+      "$value": 1.6
+    },
+    "label": {
+      "$type": "number",
+      "$value": 1.2
+    }
   },
-
   "tracking": {
-    "$extensions": { "cssPrefix": "--tracking-" },
-    "display":    { "$type": "cssValue", "$value": "-0.02em" },
-    "heading":    { "$type": "cssValue", "$value": "-0.015em" },
-    "subheading": { "$type": "cssValue", "$value": "-0.01em" },
-    "body":       { "$type": "cssValue", "$value": "0" },
-    "small":      { "$type": "cssValue", "$value": "0.01em" },
-    "label":      { "$type": "cssValue", "$value": "0.08em" }
+    "$extensions": {
+      "cssPrefix": "--tracking-"
+    },
+    "display": {
+      "$type": "cssValue",
+      "$value": "-0.02em"
+    },
+    "heading": {
+      "$type": "cssValue",
+      "$value": "-0.015em"
+    },
+    "subheading": {
+      "$type": "cssValue",
+      "$value": "-0.01em"
+    },
+    "body": {
+      "$type": "cssValue",
+      "$value": "0"
+    },
+    "small": {
+      "$type": "cssValue",
+      "$value": "0.01em"
+    },
+    "label": {
+      "$type": "cssValue",
+      "$value": "0.08em"
+    }
   },
-
   "weight": {
-    "$extensions": { "cssPrefix": "--weight-" },
-    "regular":  { "$type": "number", "$value": 400 },
-    "medium":   { "$type": "number", "$value": 500 },
-    "semibold": { "$type": "number", "$value": 600 },
-    "bold":     { "$type": "number", "$value": 700 }
+    "$extensions": {
+      "cssPrefix": "--weight-"
+    },
+    "regular": {
+      "$type": "number",
+      "$value": 400
+    },
+    "medium": {
+      "$type": "number",
+      "$value": 500
+    },
+    "semibold": {
+      "$type": "number",
+      "$value": 600
+    },
+    "bold": {
+      "$type": "number",
+      "$value": 700
+    }
   },
-
   "space": {
+    "1": {
+      "$type": "dimension",
+      "$value": "0.25rem"
+    },
+    "2": {
+      "$type": "dimension",
+      "$value": "0.5rem"
+    },
+    "3": {
+      "$type": "dimension",
+      "$value": "0.75rem"
+    },
+    "4": {
+      "$type": "dimension",
+      "$value": "1rem"
+    },
+    "5": {
+      "$type": "dimension",
+      "$value": "1.25rem"
+    },
+    "6": {
+      "$type": "dimension",
+      "$value": "1.5rem"
+    },
+    "8": {
+      "$type": "dimension",
+      "$value": "2rem"
+    },
+    "10": {
+      "$type": "dimension",
+      "$value": "2.5rem"
+    },
+    "12": {
+      "$type": "dimension",
+      "$value": "3rem"
+    },
+    "16": {
+      "$type": "dimension",
+      "$value": "4rem"
+    },
+    "20": {
+      "$type": "dimension",
+      "$value": "5rem"
+    },
+    "24": {
+      "$type": "dimension",
+      "$value": "6rem"
+    },
+    "32": {
+      "$type": "dimension",
+      "$value": "8rem"
+    },
     "$description": "4px base unit.",
-    "$extensions": { "cssPrefix": "--space-" },
-    "1":  { "$type": "dimension", "$value": "0.25rem" },
-    "2":  { "$type": "dimension", "$value": "0.5rem" },
-    "3":  { "$type": "dimension", "$value": "0.75rem" },
-    "4":  { "$type": "dimension", "$value": "1rem" },
-    "5":  { "$type": "dimension", "$value": "1.25rem" },
-    "6":  { "$type": "dimension", "$value": "1.5rem" },
-    "8":  { "$type": "dimension", "$value": "2rem" },
-    "10": { "$type": "dimension", "$value": "2.5rem" },
-    "12": { "$type": "dimension", "$value": "3rem" },
-    "16": { "$type": "dimension", "$value": "4rem" },
-    "20": { "$type": "dimension", "$value": "5rem" },
-    "24": { "$type": "dimension", "$value": "6rem" },
-    "32": { "$type": "dimension", "$value": "8rem" }
+    "$extensions": {
+      "cssPrefix": "--space-"
+    }
   },
-
   "size": {
     "$description": "Fixed element sizes (new in v2.0 — previously documented in prose only).",
-    "$extensions": { "cssPrefix": "--size-" },
-    "icon-sm":      { "$type": "dimension", "$value": "20px", "$description": "Inline icons." },
-    "icon-md":      { "$type": "dimension", "$value": "24px", "$description": "Standard icons." },
-    "icon-lg":      { "$type": "dimension", "$value": "32px", "$description": "Feature icons." },
-    "icon-xl":      { "$type": "dimension", "$value": "48px", "$description": "Hero icons." },
-    "touch-target": { "$type": "dimension", "$value": "44px", "$description": "Minimum interactive target (WCAG 2.5.5 AAA; the AA floor in 2.5.8 is 24px)." },
-    "control-sm":   { "$type": "dimension", "$value": "36px", "$description": "Compact control height for dense, pointer-driven UI. Components grow it to control-md on coarse pointers." },
-    "control-md":   { "$type": "dimension", "$value": "44px", "$description": "Default control height (buttons, inputs, tabs). Equals touch-target." },
-    "control-lg":   { "$type": "dimension", "$value": "52px", "$description": "Prominent control height (hero CTAs)." },
-    "nav":          { "$type": "dimension", "$value": "64px", "$description": "Navigation bar height, desktop." },
-    "nav-mobile":   { "$type": "dimension", "$value": "56px", "$description": "Navigation bar height, mobile." }
+    "$extensions": {
+      "cssPrefix": "--size-"
+    },
+    "icon-sm": {
+      "$type": "dimension",
+      "$value": "20px",
+      "$description": "Inline icons."
+    },
+    "icon-md": {
+      "$type": "dimension",
+      "$value": "24px",
+      "$description": "Standard icons."
+    },
+    "icon-lg": {
+      "$type": "dimension",
+      "$value": "32px",
+      "$description": "Feature icons."
+    },
+    "icon-xl": {
+      "$type": "dimension",
+      "$value": "48px",
+      "$description": "Hero icons."
+    },
+    "touch-target": {
+      "$type": "dimension",
+      "$value": "44px",
+      "$description": "Minimum interactive target (WCAG 2.5.5 AAA; the AA floor in 2.5.8 is 24px)."
+    },
+    "control-sm": {
+      "$type": "dimension",
+      "$value": "36px",
+      "$description": "Compact control height for dense, pointer-driven UI. Components grow it to control-md on coarse pointers."
+    },
+    "control-md": {
+      "$type": "dimension",
+      "$value": "44px",
+      "$description": "Default control height (buttons, inputs, tabs). Equals touch-target."
+    },
+    "control-lg": {
+      "$type": "dimension",
+      "$value": "52px",
+      "$description": "Prominent control height (hero CTAs)."
+    },
+    "nav": {
+      "$type": "dimension",
+      "$value": "64px",
+      "$description": "Navigation bar height, desktop."
+    },
+    "nav-mobile": {
+      "$type": "dimension",
+      "$value": "56px",
+      "$description": "Navigation bar height, mobile."
+    }
   },
-
   "container": {
-    "$extensions": { "cssPrefix": "--container-" },
-    "sm":   { "$type": "dimension", "$value": "640px" },
-    "md":   { "$type": "dimension", "$value": "768px" },
-    "lg":   { "$type": "dimension", "$value": "1024px" },
-    "xl":   { "$type": "dimension", "$value": "1200px" },
-    "full": { "$type": "cssValue", "$value": "100%" }
+    "$extensions": {
+      "cssPrefix": "--container-"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "640px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "768px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1024px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1200px"
+    },
+    "full": {
+      "$type": "cssValue",
+      "$value": "100%"
+    }
   },
-
   "layout": {
-    "$extensions": { "cssPrefix": "--" },
-    "site-margin": { "$type": "cssValue", "$value": "clamp(1.5rem, 5vw, 5rem)" },
-    "measure":     { "$type": "cssValue", "$value": "65ch", "$description": "Maximum line length for body copy (DESIGN-SYSTEM.md §3.5 rule 5)." }
+    "$extensions": {
+      "cssPrefix": "--"
+    },
+    "site-margin": {
+      "$type": "cssValue",
+      "$value": "clamp(1.5rem, 5vw, 5rem)"
+    },
+    "measure": {
+      "$type": "cssValue",
+      "$value": "65ch",
+      "$description": "Maximum line length for body copy (DESIGN-SYSTEM.md §3.5 rule 5)."
+    }
   },
-
   "radius": {
-    "$extensions": { "cssPrefix": "--radius-" },
-    "sm":   { "$type": "dimension", "$value": "4px" },
-    "md":   { "$type": "dimension", "$value": "8px" },
-    "lg":   { "$type": "dimension", "$value": "12px" },
-    "xl":   { "$type": "dimension", "$value": "16px" },
-    "full": { "$type": "dimension", "$value": "999px" }
+    "$extensions": {
+      "cssPrefix": "--radius-"
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "4px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "8px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "12px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "16px"
+    },
+    "full": {
+      "$type": "dimension",
+      "$value": "999px"
+    }
   },
-
   "border-width": {
     "$description": "New in v2.0 — previously literal 1/2/3px values scattered through the spec.",
-    "$extensions": { "cssPrefix": "--border-width-" },
-    "thin":   { "$type": "dimension", "$value": "1px" },
-    "medium": { "$type": "dimension", "$value": "2px" },
-    "thick":  { "$type": "dimension", "$value": "3px" }
+    "$extensions": {
+      "cssPrefix": "--border-width-"
+    },
+    "thin": {
+      "$type": "dimension",
+      "$value": "1px"
+    },
+    "medium": {
+      "$type": "dimension",
+      "$value": "2px"
+    },
+    "thick": {
+      "$type": "dimension",
+      "$value": "3px"
+    }
   },
-
   "border": {
-    "$extensions": { "cssPrefix": "--border-" },
-    "default":  { "$type": "cssValue", "$value": "{border-width.thin} solid {color.semantic.border-default}" },
-    "emphasis": { "$type": "cssValue", "$value": "{border-width.thin} solid {color.semantic.border-emphasis}" },
-    "accent":   { "$type": "cssValue", "$value": "{border-width.medium} solid {color.semantic.action-primary}" }
+    "$extensions": {
+      "cssPrefix": "--border-"
+    },
+    "default": {
+      "$type": "cssValue",
+      "$value": "{border-width.thin} solid {color.semantic.border-default}"
+    },
+    "emphasis": {
+      "$type": "cssValue",
+      "$value": "{border-width.thin} solid {color.semantic.border-emphasis}"
+    },
+    "accent": {
+      "$type": "cssValue",
+      "$value": "{border-width.medium} solid {color.semantic.action-primary}"
+    }
   },
-
   "shadow": {
     "$description": "Warm-tinted in light mode, deeper true-dark in dark mode via light-dark() per stop.",
-    "$extensions": { "cssPrefix": "--shadow-" },
-    "sm": { "$type": "cssValue", "$value": "0 1px 3px light-dark(rgba(26, 27, 31, 0.06), rgba(0, 0, 0, 0.20)), 0 1px 2px light-dark(rgba(26, 27, 31, 0.04), rgba(0, 0, 0, 0.15))" },
-    "md": { "$type": "cssValue", "$value": "0 4px 12px light-dark(rgba(26, 27, 31, 0.08), rgba(0, 0, 0, 0.25)), 0 2px 4px light-dark(rgba(26, 27, 31, 0.04), rgba(0, 0, 0, 0.15))" },
-    "lg": { "$type": "cssValue", "$value": "0 12px 32px light-dark(rgba(26, 27, 31, 0.12), rgba(0, 0, 0, 0.30)), 0 4px 8px light-dark(rgba(26, 27, 31, 0.06), rgba(0, 0, 0, 0.20))" },
-    "glow-warm": { "$type": "cssValue", "$value": "0 0 24px light-dark(rgba(179, 85, 48, 0.15), rgba(212, 114, 79, 0.20))" },
-    "glow-teal": { "$type": "cssValue", "$value": "0 0 24px light-dark(rgba(27, 117, 109, 0.15), rgba(58, 175, 168, 0.20))", "$description": "v2.0: dark variant added (was unmapped)." }
+    "$extensions": {
+      "cssPrefix": "--shadow-"
+    },
+    "sm": {
+      "$type": "cssValue",
+      "$value": "0 1px 3px light-dark(rgba(26, 27, 31, 0.06), rgba(0, 0, 0, 0.20)), 0 1px 2px light-dark(rgba(26, 27, 31, 0.04), rgba(0, 0, 0, 0.15))"
+    },
+    "md": {
+      "$type": "cssValue",
+      "$value": "0 4px 12px light-dark(rgba(26, 27, 31, 0.08), rgba(0, 0, 0, 0.25)), 0 2px 4px light-dark(rgba(26, 27, 31, 0.04), rgba(0, 0, 0, 0.15))"
+    },
+    "lg": {
+      "$type": "cssValue",
+      "$value": "0 12px 32px light-dark(rgba(26, 27, 31, 0.12), rgba(0, 0, 0, 0.30)), 0 4px 8px light-dark(rgba(26, 27, 31, 0.06), rgba(0, 0, 0, 0.20))"
+    },
+    "glow-warm": {
+      "$type": "cssValue",
+      "$value": "0 0 24px light-dark(rgba(179, 85, 48, 0.15), rgba(212, 114, 79, 0.20))"
+    },
+    "glow-teal": {
+      "$type": "cssValue",
+      "$value": "0 0 24px light-dark(rgba(27, 117, 109, 0.15), rgba(58, 175, 168, 0.20))",
+      "$description": "v2.0: dark variant added (was unmapped)."
+    }
   },
-
   "elevation": {
     "$description": "Semantic elevation aliases (new in v2.0). Use these on components so elevation intent survives retheming.",
-    "$extensions": { "cssPrefix": "--elevation-" },
-    "raised":  { "$type": "cssValue", "$value": "{shadow.sm}" },
-    "overlay": { "$type": "cssValue", "$value": "{shadow.md}" },
-    "modal":   { "$type": "cssValue", "$value": "{shadow.lg}" }
+    "$extensions": {
+      "cssPrefix": "--elevation-"
+    },
+    "raised": {
+      "$type": "cssValue",
+      "$value": "{shadow.sm}"
+    },
+    "overlay": {
+      "$type": "cssValue",
+      "$value": "{shadow.md}"
+    },
+    "modal": {
+      "$type": "cssValue",
+      "$value": "{shadow.lg}"
+    }
   },
-
   "duration": {
     "$description": "Under prefers-reduced-motion, fast/normal/slow fall to 0ms and slower to 150ms (see design-tokens.css). loop is exempt: loading loops switch to an opacity pulse instead of stopping.",
-    "$extensions": { "cssPrefix": "--duration-" },
-    "fast":   { "$type": "duration", "$value": "150ms", "$description": "Micro-interactions: hover color, press, exits." },
-    "normal": { "$type": "duration", "$value": "250ms", "$description": "Standard: entrances, state changes, popovers." },
-    "slow":   { "$type": "duration", "$value": "400ms", "$description": "Larger surfaces: card lift, section reveals." },
-    "slower": { "$type": "duration", "$value": "600ms", "$description": "Page-level: view transitions, hero entrance. Stays 150ms under reduced motion for essential feedback." },
-    "loop":   { "$type": "duration", "$value": "1600ms", "$description": "Period of continuous loading loops (progress, skeleton; spinners turn at half). New in v2.1 — replaces literal seconds in components." }
+    "$extensions": {
+      "cssPrefix": "--duration-"
+    },
+    "fast": {
+      "$type": "duration",
+      "$value": "150ms",
+      "$description": "Micro-interactions: hover color, press, exits."
+    },
+    "normal": {
+      "$type": "duration",
+      "$value": "250ms",
+      "$description": "Standard: entrances, state changes, popovers."
+    },
+    "slow": {
+      "$type": "duration",
+      "$value": "400ms",
+      "$description": "Larger surfaces: card lift, section reveals."
+    },
+    "slower": {
+      "$type": "duration",
+      "$value": "600ms",
+      "$description": "Page-level: view transitions, hero entrance. Stays 150ms under reduced motion for essential feedback."
+    },
+    "loop": {
+      "$type": "duration",
+      "$value": "1600ms",
+      "$description": "Period of continuous loading loops (progress, skeleton; spinners turn at half). New in v2.1 — replaces literal seconds in components."
+    }
   },
-
   "ease": {
-    "$extensions": { "cssPrefix": "--ease-" },
-    "default": { "$type": "cubicBezier", "$value": [0.25, 0.1, 0.25, 1], "$description": "General purpose: hover and color changes." },
-    "out":     { "$type": "cubicBezier", "$value": [0.0, 0.0, 0.2, 1], "$description": "Entering: decelerates into place (welcoming)." },
-    "in":      { "$type": "cubicBezier", "$value": [0.4, 0.0, 1, 1], "$description": "Leaving: accelerates away (a respectful exit)." },
-    "in-out":  { "$type": "cubicBezier", "$value": [0.4, 0.0, 0.2, 1], "$description": "State changes that neither enter nor leave (§8.1 rule 3). New in v2.1 — the rule existed without a token." },
-    "spring":  { "$type": "cubicBezier", "$value": [0.34, 1.56, 0.64, 1], "$description": "Playful overshoot for small toggles only (the switch thumb). Never on surfaces or text." }
+    "$extensions": {
+      "cssPrefix": "--ease-"
+    },
+    "default": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.25,
+        0.1,
+        0.25,
+        1
+      ],
+      "$description": "General purpose: hover and color changes."
+    },
+    "out": {
+      "$type": "cubicBezier",
+      "$value": [
+        0,
+        0,
+        0.2,
+        1
+      ],
+      "$description": "Entering: decelerates into place (welcoming)."
+    },
+    "in": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.4,
+        0,
+        1,
+        1
+      ],
+      "$description": "Leaving: accelerates away (a respectful exit)."
+    },
+    "in-out": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.4,
+        0,
+        0.2,
+        1
+      ],
+      "$description": "State changes that neither enter nor leave (§8.1 rule 3). New in v2.1 — the rule existed without a token."
+    },
+    "spring": {
+      "$type": "cubicBezier",
+      "$value": [
+        0.34,
+        1.56,
+        0.64,
+        1
+      ],
+      "$description": "Playful overshoot for small toggles only (the switch thumb). Never on surfaces or text."
+    }
   },
-
   "transition": {
     "$description": "Duration + easing composites. Use enter/exit/state for anything that appears, disappears or changes state; fast/default/slow for hover feedback.",
-    "$extensions": { "cssPrefix": "--transition-" },
-    "fast":    { "$type": "cssValue", "$value": "{duration.fast} {ease.default}" },
-    "default": { "$type": "cssValue", "$value": "{duration.normal} {ease.default}" },
-    "slow":    { "$type": "cssValue", "$value": "{duration.slow} {ease.default}" },
-    "enter":   { "$type": "cssValue", "$value": "{duration.normal} {ease.out}", "$description": "Something appearing: dialogs, menus, toasts, tooltips. New in v2.1." },
-    "exit":    { "$type": "cssValue", "$value": "{duration.fast} {ease.in}", "$description": "Something leaving — faster than its entrance, so the interface never waits on a goodbye. New in v2.1." },
-    "state":   { "$type": "cssValue", "$value": "{duration.fast} {ease.in-out}", "$description": "A control changing state in place: switch, checkbox, tab indicator, chevron. New in v2.1." }
+    "$extensions": {
+      "cssPrefix": "--transition-"
+    },
+    "fast": {
+      "$type": "cssValue",
+      "$value": "{duration.fast} {ease.default}"
+    },
+    "default": {
+      "$type": "cssValue",
+      "$value": "{duration.normal} {ease.default}"
+    },
+    "slow": {
+      "$type": "cssValue",
+      "$value": "{duration.slow} {ease.default}"
+    },
+    "enter": {
+      "$type": "cssValue",
+      "$value": "{duration.normal} {ease.out}",
+      "$description": "Something appearing: dialogs, menus, toasts, tooltips. New in v2.1."
+    },
+    "exit": {
+      "$type": "cssValue",
+      "$value": "{duration.fast} {ease.in}",
+      "$description": "Something leaving — faster than its entrance, so the interface never waits on a goodbye. New in v2.1."
+    },
+    "state": {
+      "$type": "cssValue",
+      "$value": "{duration.fast} {ease.in-out}",
+      "$description": "A control changing state in place: switch, checkbox, tab indicator, chevron. New in v2.1."
+    }
   },
-
   "opacity": {
-    "$extensions": { "cssPrefix": "--opacity-" },
-    "subtle":  { "$type": "number", "$value": 0.10 },
-    "light":   { "$type": "number", "$value": 0.20 },
-    "medium":  { "$type": "number", "$value": 0.50 },
-    "overlay": { "$type": "number", "$value": 0.70 },
-    "heavy":   { "$type": "number", "$value": 0.85 }
+    "$extensions": {
+      "cssPrefix": "--opacity-"
+    },
+    "subtle": {
+      "$type": "number",
+      "$value": 0.1
+    },
+    "light": {
+      "$type": "number",
+      "$value": 0.2
+    },
+    "medium": {
+      "$type": "number",
+      "$value": 0.5
+    },
+    "overlay": {
+      "$type": "number",
+      "$value": 0.7
+    },
+    "heavy": {
+      "$type": "number",
+      "$value": 0.85
+    }
   },
-
   "state": {
     "$description": "Interaction state opacity (new in v2.0). Hover/active feedback in this system is brightness()-filter-based (see §6.1) rather than opacity-overlay-based, so only the disabled state — which every component genuinely needs — is tokenized here.",
-    "$extensions": { "cssPrefix": "--state-" },
-    "disabled-opacity": { "$type": "number", "$value": 0.50 }
+    "$extensions": {
+      "cssPrefix": "--state-"
+    },
+    "disabled-opacity": {
+      "$type": "number",
+      "$value": 0.5
+    }
   },
-
   "z": {
-    "$extensions": { "cssPrefix": "--z-" },
-    "base":     { "$type": "number", "$value": 0 },
-    "dropdown": { "$type": "number", "$value": 10 },
-    "sticky":   { "$type": "number", "$value": 20 },
-    "nav":      { "$type": "number", "$value": 100 },
-    "overlay":  { "$type": "number", "$value": 200 },
-    "modal":    { "$type": "number", "$value": 300 },
-    "toast":    { "$type": "number", "$value": 400 },
-    "tooltip":  { "$type": "number", "$value": 500 }
+    "$extensions": {
+      "cssPrefix": "--z-"
+    },
+    "base": {
+      "$type": "number",
+      "$value": 0
+    },
+    "dropdown": {
+      "$type": "number",
+      "$value": 10
+    },
+    "sticky": {
+      "$type": "number",
+      "$value": 20
+    },
+    "nav": {
+      "$type": "number",
+      "$value": 100
+    },
+    "overlay": {
+      "$type": "number",
+      "$value": 200
+    },
+    "modal": {
+      "$type": "number",
+      "$value": 300
+    },
+    "toast": {
+      "$type": "number",
+      "$value": 400
+    },
+    "tooltip": {
+      "$type": "number",
+      "$value": 500
+    }
   },
-
   "focus": {
-    "$extensions": { "cssPrefix": "--focus-" },
-    "ring":        { "$type": "cssValue", "$value": "{border-width.medium} solid {color.semantic.focus}" },
-    "ring-offset": { "$type": "dimension", "$value": "2px" }
+    "$extensions": {
+      "cssPrefix": "--focus-"
+    },
+    "ring": {
+      "$type": "cssValue",
+      "$value": "{border-width.medium} solid {color.semantic.focus}"
+    },
+    "ring-offset": {
+      "$type": "dimension",
+      "$value": "2px"
+    }
   },
-
   "blur": {
-    "$extensions": { "cssPrefix": "--blur-" },
-    "backdrop": { "$type": "dimension", "$value": "12px", "$description": "Backdrop blur for translucent surfaces (nav bars, veils)." }
+    "$extensions": {
+      "cssPrefix": "--blur-"
+    },
+    "backdrop": {
+      "$type": "dimension",
+      "$value": "12px",
+      "$description": "Backdrop blur for translucent surfaces (nav bars, veils)."
+    }
   },
-
   "photo": {
-    "$extensions": { "cssPrefix": "--photo-" },
-    "warmth":        { "$type": "cssValue", "$value": "sepia(0.05) saturate(1.05) brightness(1.02)" },
-    "border-radius": { "$type": "cssValue", "$value": "{radius.lg}" },
-    "shadow":        { "$type": "cssValue", "$value": "{shadow.md}" },
-    "dim-dark":      { "$type": "number", "$value": 0.92, "$description": "Recommended brightness() factor for photos on dark surfaces (spec §12.2 rule 6). Applied by the consumer, not automatically." }
+    "$extensions": {
+      "cssPrefix": "--photo-"
+    },
+    "warmth": {
+      "$type": "cssValue",
+      "$value": "sepia(0.05) saturate(1.05) brightness(1.02)"
+    },
+    "border-radius": {
+      "$type": "cssValue",
+      "$value": "{radius.lg}"
+    },
+    "shadow": {
+      "$type": "cssValue",
+      "$value": "{shadow.md}"
+    },
+    "dim-dark": {
+      "$type": "number",
+      "$value": 0.92,
+      "$description": "Recommended brightness() factor for photos on dark surfaces (spec §12.2 rule 6). Applied by the consumer, not automatically."
+    }
   },
-
   "breakpoint": {
     "$description": "For reference in media queries — custom properties cannot be used there. Emitted as comments in CSS and as data here for tooling.",
-    "$extensions": { "cssPrefix": "--bp-", "cssComment": true },
-    "sm": { "$type": "dimension", "$value": "640px" },
-    "md": { "$type": "dimension", "$value": "768px" },
-    "lg": { "$type": "dimension", "$value": "1024px" },
-    "xl": { "$type": "dimension", "$value": "1280px" }
+    "$extensions": {
+      "cssPrefix": "--bp-",
+      "cssComment": true
+    },
+    "sm": {
+      "$type": "dimension",
+      "$value": "640px"
+    },
+    "md": {
+      "$type": "dimension",
+      "$value": "768px"
+    },
+    "lg": {
+      "$type": "dimension",
+      "$value": "1024px"
+    },
+    "xl": {
+      "$type": "dimension",
+      "$value": "1280px"
+    }
   }
 }

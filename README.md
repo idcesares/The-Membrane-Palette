@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/version-2.1.0-B35530?style=flat-square" alt="Version 2.1.0">
+  <img src="https://img.shields.io/badge/version-2.2.0-B35530?style=flat-square" alt="Version 2.2.0">
   <img src="https://img.shields.io/badge/components-35-1B756D?style=flat-square" alt="35 components">
   <img src="https://img.shields.io/badge/tokens-DTCG_JSON_→_CSS-1B756D?style=flat-square" alt="DTCG JSON">
   <img src="https://img.shields.io/badge/colors-OKLCH-5A8A6E?style=flat-square" alt="OKLCH">
