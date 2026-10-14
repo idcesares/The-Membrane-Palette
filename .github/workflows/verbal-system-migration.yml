@@ -28,7 +28,7 @@ jobs:
       - run: npm ci
 
       - name: Apply strict source migration
-        run: node scripts/migrate-verbal-v2.mjs
+        run: node scripts/migrate-verbal-v2-fixed.mjs
 
       - name: Regenerate committed outputs
         run: npm run build:system
