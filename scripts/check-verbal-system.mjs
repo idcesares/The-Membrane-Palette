@@ -10,25 +10,29 @@ const load = async (file) => {
     return await readFile(path.join(root, file), "utf8");
   } catch (error) {
     if (error?.code === "ENOENT") {
-      errors.push(`${file}: required Verbal System v2 authority file is missing`);
+      errors.push(`${file}: required Verbal System v2 file is missing`);
       return "";
     }
     throw error;
   }
 };
 
+const tracked = [
+  "PROFILE.md",
+  "VOICE.md",
+  "BRAND-VOICE.md",
+  "DESIGN-SYSTEM.md",
+  "AGENTS.md",
+  "CLAUDE.md",
+  "llms.txt",
+  "tokens/membrane.tokens.json",
+  "components/button/README.md",
+  "components/card/README.md",
+  "examples/article.html",
+];
+
 const files = Object.fromEntries(
-  await Promise.all(
-    [
-      "PROFILE.md",
-      "VOICE.md",
-      "BRAND-VOICE.md",
-      "DESIGN-SYSTEM.md",
-      "AGENTS.md",
-      "CLAUDE.md",
-      "tokens/membrane.tokens.json",
-    ].map(async (file) => [file, await load(file)])
-  )
+  await Promise.all(tracked.map(async (file) => [file, await load(file)]))
 );
 
 const requireText = (file, text) => {
@@ -52,12 +56,16 @@ requireText("VOICE.md", "ILLUSTRATIVE");
 requireText("BRAND-VOICE.md", "Researcher · Educator · Developer");
 requireText("BRAND-VOICE.md", "PROFILE.md");
 requireText("BRAND-VOICE.md", "VOICE.md");
+requireText("BRAND-VOICE.md", "optional campaign language");
 
-for (const file of ["AGENTS.md", "CLAUDE.md"]) {
+for (const file of ["AGENTS.md", "CLAUDE.md", "llms.txt"]) {
   requireText(file, "PROFILE.md");
   requireText(file, "VOICE.md");
   requireText(file, "BRAND-VOICE.md");
   requireText(file, "DESIGN-SYSTEM.md");
+  requireText(file, "Never infer biography from examples");
+}
+for (const file of ["AGENTS.md", "CLAUDE.md"]) {
   forbid(file, /builder\/code register/i, "obsolete builder/code register remains");
 }
 
@@ -73,10 +81,16 @@ forbid("DESIGN-SYSTEM.md", /builder\/code register/i, "obsolete builder/code reg
 forbid("DESIGN-SYSTEM.md", /Default CTA:\s*["“]?Let's co-create/i, "co-create remains documented as a default CTA");
 forbid("tokens/membrane.tokens.json", /Builder energy/i, "obsolete Builder energy token description remains");
 
+for (const file of ["components/card/README.md", "examples/article.html"]) {
+  forbid(file, /How 3,000 educators co-designed their own assistant\./i, "unsupported portfolio-like metric remains in sample content");
+}
+forbid("components/button/README.md", /Builders' Lab/i, "obsolete Builder sample identity remains");
+forbid("components/button/README.md", /write labels as verbs in the brand voice:\s*["“]?Let's co-create/i, "co-create remains privileged as a generic button example");
+
 if (errors.length) {
   console.error("Verbal System v2 guard failed:\n");
   for (const error of errors) console.error(`- ${error}`);
   process.exit(1);
 }
 
-console.log("✓ Verbal System v2 authority and factuality guard passed");
+console.log("✓ Verbal System v2 authority, factuality and sample-safety guard passed");
