@@ -2,6 +2,17 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Verbal System
+
+The repo separates personal facts, writing behavior, brand expression and visual/UI rules. Treat them as distinct authorities:
+
+1. `PROFILE.md` — factual identity and current biographical claims.
+2. `VOICE.md` — writing behavior and register adaptation.
+3. `BRAND-VOICE.md` — public-facing brand application.
+4. `DESIGN-SYSTEM.md` — visual and interface behavior.
+
+Never infer biography from examples. If a requested personal claim is not supported by `PROFILE.md` or a specific verified project source, omit it or mark it for verification. Writing examples classified as `OBSERVED`, `APPROVED` and `ILLUSTRATIVE` have different evidentiary status; illustrative copy must never be promoted into personal history.
+
 ## Commands
 
 ```bash
@@ -9,6 +20,7 @@ npm run build:tokens      # Regenerate tokens/design-tokens.css, base.css, membr
 npm run build:components  # Lint components + README examples + pattern pages, then write components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt, the README API sections and the showcase gallery
 npm run build:system      # Both of the above, in order — run this after any source change
 npm run build             # Cloudflare build: build:system, then assembles dist/ (adds llms-full.txt)
+npm run check:verbal      # Validate Verbal System v2 authorities, factuality boundaries and obsolete identity semantics
 npm test                  # Build, html-validate dist/, type-check membrane.d.ts, serve dist/, run Playwright in Chromium/Firefox/WebKit: axe-core on every page in both themes, phone-width overflow, link integrity + self-containment, keyboard/focus/ARIA, motion (full/reduced/touch)
 npm run test:visual       # Pixel baselines of every gallery example, light + dark. Canonical only inside mcr.microsoft.com/playwright:v1.56.1-noble (CI's `visual` job). After an INTENDED visual change, commit the baselines CI uploads as the `visual-baselines` artifact, or record them in that image (command in tests/visual.spec.mjs)
 npm run render:social     # Re-render the og:image and apple-touch icon in showcase/assets/ (manual; commit the PNGs)
@@ -18,7 +30,7 @@ npm run preview           # Alias of dev
 npm run deploy            # Build, then `wrangler deploy` — uploads dist/ as Cloudflare Workers static assets per wrangler.toml. Pushes are also deployed by Cloudflare's Workers Builds integration (releases: docs/RELEASING.md)
 ```
 
-Three layers of checks, all in CI (`.github/workflows/ci.yml`): the contrast gate (`build:tokens`), the component/docs/coverage lint (`build:components`), and the browser suite (`npm test`, `tests/*.spec.mjs`). CI also fails if any committed generated file differs from a fresh build. Run `npm test` after changing component CSS, `membrane.js`, the showcase or an example page. `dist/` is gitignored and fully generated — never commit it or hand-edit it.
+Four layers of checks live in CI (`.github/workflows/ci.yml`): the verbal authority/factuality guard (`check:verbal`), the contrast gate (`build:tokens`), the component/docs/coverage lint (`build:components`), and the browser suite (`npm test`, `tests/*.spec.mjs`). CI also fails if any committed generated file differs from a fresh build. Run `npm test` after changing component CSS, `membrane.js`, the showcase or an example page. `dist/` is gitignored and fully generated — never commit it or hand-edit it.
 
 ## Architecture
 
@@ -63,7 +75,7 @@ Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. 
 **Typography:** self-hosted (`fonts/`), each with a metric-matched `"<Family> Fallback"` face in the font stack.
 - `Fraunces` (variable serif) = human/heading register
 - `Instrument Sans` = digital/body register
-- `JetBrains Mono` = builder/code register
+- `JetBrains Mono` = technical craft / code register
 
 **Spacing:** 4px base unit (`--space-1` = 0.25rem, scale to `--space-32`)
 
