@@ -1,4 +1,4 @@
-name: Verbal System v2 migration
+name: Verbal System v2 release preparation
 
 on:
   push:
@@ -8,11 +8,11 @@ permissions:
   contents: write
 
 concurrency:
-  group: verbal-system-v2-migration
+  group: verbal-system-v2-release-prep
   cancel-in-progress: true
 
 jobs:
-  migrate:
+  prepare:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
@@ -26,12 +26,6 @@ jobs:
           cache: npm
 
       - run: npm ci
-
-      - name: Apply strict source migration
-        run: node scripts/migrate-verbal-v2-fixed.mjs
-
-      - name: Repair generated-index template escaping
-        run: node scripts/fix-verbal-template-escaping.mjs
 
       - name: Prepare v2.2.0 release metadata
         run: node scripts/prepare-verbal-v2-release.mjs
@@ -51,7 +45,7 @@ jobs:
       - name: Commit release-candidate sources and generated outputs
         run: |
           if [ -z "$(git status --porcelain)" ]; then
-            echo "Release-candidate migration already applied; nothing to commit."
+            echo "Release-candidate preparation already applied; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
