@@ -32,7 +32,7 @@ Every inner selector is wrapped in `:where()`, so the whole component has the sp
     <li>Cool precision for systems and code</li>
   </ul>
   <blockquote>Learning happens best when people build things that matter to them.</blockquote>
-  <p id="prose-notes">Inline <code>code</code> keeps the builder register visible without taking over the paragraph.</p>
+  <p id="prose-notes">Inline <code>code</code> keeps the code register visible without taking over the paragraph.</p>
 </article>
 ```
 

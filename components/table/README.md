@@ -23,7 +23,7 @@ For genuinely tabular data. Numbers use tabular figures so columns line up; nume
     <tbody>
       <tr><th scope="row">AI Literacy I</th><td>Online</td><td data-align="end">1,240</td><td><span class="mp-badge" data-tone="success">Live</span></td></tr>
       <tr><th scope="row">Prompting for Teachers</th><td>Hybrid</td><td data-align="end">318</td><td><span class="mp-badge" data-tone="info">Enrolling</span></td></tr>
-      <tr><th scope="row">Builders' Lab</th><td>In person</td><td data-align="end">42</td><td><span class="mp-badge">Draft</span></td></tr>
+      <tr><th scope="row">Developers' Lab</th><td>In person</td><td data-align="end">42</td><td><span class="mp-badge">Draft</span></td></tr>
     </tbody>
   </table>
 </div>

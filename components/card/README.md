@@ -75,9 +75,9 @@ Media example:
 
 ```html
 <article class="mp-card">
-  <p class="mp-card__overline">Case study</p>
+  <p class="mp-card__overline">Sample case</p>
   <h3 class="mp-card__title"><a class="mp-card__link" href="#components">Teaching AI literacy at scale</a></h3>
-  <p class="mp-card__body">How 3,000 educators co-designed their own assistant.</p>
+  <p class="mp-card__body">A fictional program for testing collaborative AI-literacy workflows.</p>
   <div class="mp-card__footer">
     <span class="mp-tag" data-tone="human">Education</span>
     <span class="mp-tag" data-tone="digital">LLMs</span>

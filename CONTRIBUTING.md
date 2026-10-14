@@ -55,7 +55,7 @@ Commit the regenerated files together with your source change. CI runs all three
 
 ## Writing
 
-Interface copy follows `DESIGN-SYSTEM.md` §16 and `BRAND-VOICE.md`: verbs on buttons, errors that say how to fix, empty states that teach, no hype words.
+Interface copy follows `DESIGN-SYSTEM.md` §16 and `VOICE.md`; public-brand expression also uses `BRAND-VOICE.md`, and any personal claim must come from `PROFILE.md`. Buttons name actions, errors say how to fix the problem, and empty states teach the next step.
 
 ## Pull requests
 

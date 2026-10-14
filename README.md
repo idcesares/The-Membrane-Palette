@@ -83,7 +83,10 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`tokens/tokens.resolved.json`](tokens/tokens.resolved.json) | **Generated.** Every token's light and dark value as plain hex, for charting libraries, native apps and tools. |
 | [`fonts/`](fonts/) | **Self-hosted fonts** (SIL OFL): Fraunces, Instrument Sans, JetBrains Mono as variable woff2, plus `fonts.css` (generated from `fonts.json`, already inside `membrane.css`). |
 | [`brand/`](brand/) | **Brand marks** as outlined SVG: wordmark, compact, `dc` monogram, app icons. |
-| [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
+| [`PROFILE.md`](PROFILE.md) | **Factual authority.** Current role, academic wording, public identity and explicit non-inferences. |
+| [`VOICE.md`](VOICE.md) | **Writing authority.** Observed voice, evidence classes and adaptive registers. |
+| [`BRAND-VOICE.md`](BRAND-VOICE.md) | **Brand application.** How the voice is expressed publicly without inventing biography. |
+| [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Visual/UI specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
 | [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; visual baselines of every component gallery example, recorded in the Playwright container; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
@@ -115,7 +118,7 @@ A **design system with a framework-free CSS component library**. Link one styles
   </div>
   <label class="mp-choice"><input class="mp-switch" type="checkbox" role="switch"> Remind me a day before</label>
   <div class="mp-cluster">
-    <button class="mp-button" type="submit">Let's co-create</button>
+    <button class="mp-button" type="submit">Join workshop</button>
     <button class="mp-button" type="button" data-variant="ghost">Maybe later</button>
   </div>
 </form>
@@ -136,7 +139,9 @@ This repo is written to be machine-consumable, not just human-readable. If you'r
 | [`components/membrane.d.ts`](components/membrane.d.ts) | The same API as TypeScript types, when generating framework code. |
 | [`examples/starter.html`](examples/starter.html) | A complete, correct page to start from. |
 | [`DESIGN-SYSTEM.md` §11.4](DESIGN-SYSTEM.md#114-ai-agent-configuration) | A copy-pasteable visual + UI + voice constraint block. |
-| [`BRAND-VOICE.md`](BRAND-VOICE.md) | Tone and vocabulary for any copy you write alongside the UI. |
+| [`PROFILE.md`](PROFILE.md) | Facts about Isaac: current role, academic status and approved biographical claims. |
+| [`VOICE.md`](VOICE.md) | How Isaac naturally writes, including register adaptation and example evidence classes. |
+| [`BRAND-VOICE.md`](BRAND-VOICE.md) | How that voice is applied in public brand material. |
 | [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) | Operating instructions for agents *changing this repo* (identical content). |
 
 Everything an agent reads is **generated from the source and linted**: the build fails if a README example uses a class, attribute value or token the CSS doesn't implement, so the docs can't teach a model something that doesn't exist.
@@ -175,7 +180,7 @@ Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/ba
 Load `tokens/design-tokens.css` and `fonts/fonts.css` on the page too (the utilities reference the token custom properties, and `font-mp-*` needs the font faces). Tailwind's default palette is removed, so only on-brand utilities exist:
 
 ```html
-<button class="bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent rounded-full px-6 py-2">Let's co-create</button>
+<button class="bg-mp-primary hover:bg-mp-primary-hover text-mp-on-accent rounded-full px-6 py-2">Join workshop</button>
 <article class="bg-mp-surface-2 text-mp-fg border border-mp-border rounded-mp-lg shadow-mp-raised p-6">
   <h3 class="font-mp-display text-mp-h3">…</h3>
 </article>
@@ -328,7 +333,7 @@ Each component declares `--mp-<component>-*` knobs that default to semantic toke
 --color-charcoal:   oklch(…)   /* Dark canvas. Never pure black. */
 
 /* Accents (spice — use sparingly) */
---color-amber:    oklch(…)     /* Builder energy. Fill/badge use only. */
+--color-amber:    oklch(…)     /* Making energy. Fill/badge use only. */
 --color-burgundy: oklch(…)     /* Heritage depth. */
 --color-sage:     oklch(…)     /* Growth. Fill/icon; use --color-success-text for text. */
 ```

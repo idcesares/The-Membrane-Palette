@@ -7,7 +7,7 @@ summary: Inline code, keyboard keys, and always-dark code blocks with gate-check
 
 # Code
 
-The builder register. Code blocks are **always dark**, even on light pages; every syntax color is checked at ≥4.5:1 on `--code-bg`. Syntax classes are provided in three spellings — `.mp-syntax-*`, Prism's `.token.*` and highlight.js's `.hljs-*` — so you can drop in highlighter output unchanged.
+The technical-craft register. Code blocks are **always dark**, even on light pages; every syntax color is checked at ≥4.5:1 on `--code-bg`. Syntax classes are provided in three spellings — `.mp-syntax-*`, Prism's `.token.*` and highlight.js's `.hljs-*` — so you can drop in highlighter output unchanged.
 
 ## Examples
 

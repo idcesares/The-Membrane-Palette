@@ -30,7 +30,7 @@ await cp(path.join(root, "showcase", "assets"), path.join(dist, "assets"), { rec
 for (const dir of ["tokens", "components", "examples", "fonts", "brand"]) {
   await cp(path.join(root, dir), path.join(dist, dir), { recursive: true });
 }
-for (const file of ["membrane.css", "llms.txt", "DESIGN-SYSTEM.md", "BRAND-VOICE.md", "CHANGELOG.md"]) {
+for (const file of ["membrane.css", "llms.txt", "PROFILE.md", "VOICE.md", "BRAND-VOICE.md", "DESIGN-SYSTEM.md", "CHANGELOG.md"]) {
   await cp(path.join(root, file), path.join(dist, file));
 }
 
@@ -43,6 +43,9 @@ const manifest = JSON.parse(await readFile(path.join(root, "components", "manife
 const ordered = manifest.components.map((c) => c.slug).filter((s) => componentDirs.includes(s));
 const sections = [
   await readFile(path.join(root, "llms.txt"), "utf8"),
+  await readFile(path.join(root, "PROFILE.md"), "utf8"),
+  await readFile(path.join(root, "VOICE.md"), "utf8"),
+  await readFile(path.join(root, "BRAND-VOICE.md"), "utf8"),
   ...(await Promise.all(ordered.map((s) => readFile(path.join(root, "components", s, "README.md"), "utf8")))),
   await readFile(path.join(root, "DESIGN-SYSTEM.md"), "utf8"),
 ];

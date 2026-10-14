@@ -26,7 +26,7 @@ The site header. Sticky, 64px tall (`--size-nav`), translucent with a `--blur-ba
       </ul>
     </nav>
     <div class="mp-navbar__actions">
-      <a class="mp-button" href="#components" data-size="sm">Let's co-create</a>
+      <a class="mp-button" href="#components" data-size="sm">See the work</a>
     </div>
   </div>
 </header>
