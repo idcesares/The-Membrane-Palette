@@ -27,6 +27,12 @@ jobs:
 
       - run: npm ci
 
+      # Verbal System v2 is an authority contract, not just prose. This guard
+      # fails if required source docs disappear, stale biography comes back,
+      # or Builder/default-CTA semantics regress into current guidance.
+      - name: Check verbal system authorities and factuality
+        run: npm run check:verbal
+
       # Regenerates tokens/design-tokens.css and tokens/base.css from
       # tokens/membrane.tokens.json. Fails if any color fails its OKLCH
       # round-trip, or if any gated contrast pair (light + dark, including
