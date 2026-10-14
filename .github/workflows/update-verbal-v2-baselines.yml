@@ -28,6 +28,9 @@ jobs:
       - name: Record baselines in canonical image
         run: npm run test:visual -- --update-snapshots
 
+      - name: Trust the checked-out repository inside the container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
       - name: Prove only the reviewed Button/Navbar baselines changed
         run: |
           changed="$(git status --porcelain tests/visual.spec.mjs-snapshots/ | awk '{print $2}' | sort)"
