@@ -33,17 +33,29 @@ jobs:
       - name: Repair generated-index template escaping
         run: node scripts/fix-verbal-template-escaping.mjs
 
+      - name: Prepare v2.2.0 release metadata
+        run: node scripts/prepare-verbal-v2-release.mjs
+
       - name: Regenerate committed outputs
         run: npm run build:system
 
-      - name: Commit migrated sources and generated outputs
+      - name: Validate verbal authorities
+        run: npm run check:verbal
+
+      - name: Install Chromium for social asset rendering
+        run: npx playwright install --with-deps chromium
+
+      - name: Render versioned social assets
+        run: npm run render:social
+
+      - name: Commit release-candidate sources and generated outputs
         run: |
           if [ -z "$(git status --porcelain)" ]; then
-            echo "Migration already applied; nothing to commit."
+            echo "Release-candidate migration already applied; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "feat: apply Verbal System v2 semantics"
+          git commit -m "chore: prepare Verbal System v2.2.0 release candidate"
           git push origin HEAD:verbal-system-v2
