@@ -1,0 +1,57 @@
+name: Normalize Verbal System v2 token diff
+
+on:
+  push:
+    branches: [verbal-system-v2]
+
+permissions:
+  contents: write
+
+jobs:
+  normalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: verbal-system-v2
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Restore token source formatting and apply only intended edits
+        run: |
+          git show origin/master:tokens/membrane.tokens.json > tokens/membrane.tokens.json
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('tokens/membrane.tokens.json')
+          s = p.read_text()
+          assert s.count('"$version": "2.1.0"') == 1
+          assert s.count('Builder energy. Fill/badge use only') == 1
+          s = s.replace('"$version": "2.1.0"', '"$version": "2.2.0"', 1)
+          s = s.replace('Builder energy. Fill/badge use only', 'Making energy. Fill/badge use only', 1)
+          p.write_text(s)
+          PY
+
+      - name: Regenerate derived files
+        run: npm run build:system
+
+      - name: Verify verbal contract
+        run: npm run check:verbal
+
+      - name: Commit normalized source and derived outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tokens/membrane.tokens.json tokens/design-tokens.css tokens/base.css tokens/membrane-tailwind.css tokens/tokens.resolved.json fonts/fonts.css components/manifest.json components/membrane.d.ts components/membrane-components.css membrane.css llms.txt showcase/index.html DESIGN-SYSTEM.md README.md components/*/README.md
+          if git diff --cached --quiet; then
+            echo "No normalization changes needed."
+            exit 0
+          fi
+          git commit -m "chore: minimize v2.2 token source diff"
+          git push origin HEAD:verbal-system-v2
