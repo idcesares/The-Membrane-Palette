@@ -30,6 +30,9 @@ jobs:
       - name: Apply strict source migration
         run: node scripts/migrate-verbal-v2-fixed.mjs
 
+      - name: Repair generated-index template escaping
+        run: node scripts/fix-verbal-template-escaping.mjs
+
       - name: Regenerate committed outputs
         run: npm run build:system
 
