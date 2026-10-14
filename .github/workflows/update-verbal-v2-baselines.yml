@@ -26,7 +26,7 @@ jobs:
       - run: npm ci
 
       - name: Record baselines in canonical image
-        run: npx playwright test --project=visual --update-snapshots
+        run: npm run test:visual -- --update-snapshots
 
       - name: Prove only the reviewed Button/Navbar baselines changed
         run: |
