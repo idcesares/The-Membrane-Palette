@@ -39,7 +39,7 @@ Checked controls use the teal **digital** register (`--color-action-secondary`),
 <fieldset class="mp-fieldset">
   <legend class="mp-fieldset__legend">Audience</legend>
   <label class="mp-choice"><input class="mp-radio" type="radio" name="choice-audience" checked> Educators</label>
-  <label class="mp-choice"><input class="mp-radio" type="radio" name="choice-audience"> Builders</label>
+  <label class="mp-choice"><input class="mp-radio" type="radio" name="choice-audience"> Developers</label>
   <label class="mp-choice"><input class="mp-radio" type="radio" name="choice-audience"> Researchers</label>
 </fieldset>
 ```

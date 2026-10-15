@@ -31,7 +31,7 @@ The border uses `--color-border-input`, which is gate-checked at ≥3:1 against 
   </div>
   <div class="mp-field">
     <label class="mp-field__label" for="input-message">Message</label>
-    <textarea class="mp-input" id="input-message" rows="3">Vamos cocriar?</textarea>
+    <textarea class="mp-input" id="input-message" rows="3">Tell us what you want to explore.</textarea>
   </div>
 </div>
 ```

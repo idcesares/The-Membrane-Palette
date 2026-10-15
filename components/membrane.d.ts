@@ -1,6 +1,6 @@
 /* ============================================================
    The Membrane Palette — TypeScript types
-   Version 2.1.0
+   Version 2.2.0
 
    GENERATED FILE — do not edit by hand.
    Source:          components/manifest.json (from the component CSS)

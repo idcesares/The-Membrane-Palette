@@ -1,6 +1,6 @@
 {
   "name": "The Membrane Palette",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "generated": "Do not edit — produced by scripts/build-tokens.mjs",
   "modes": {
     "light": {
@@ -230,7 +230,7 @@
     "--color-amber": {
       "path": "color.primitive.amber",
       "type": "color",
-      "description": "Builder energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text."
+      "description": "Making energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text."
     },
     "--color-amber-light": {
       "path": "color.primitive.amber-light",

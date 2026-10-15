@@ -32,7 +32,7 @@ Buttons commit an action: submit, save, open, delete. They are pills — rounded
 
 ```html
 <div class="mp-cluster">
-  <button class="mp-button" type="button">Let's co-create</button>
+  <button class="mp-button" type="button">Save draft</button>
   <button class="mp-button" type="button" data-variant="secondary">See the work</button>
   <button class="mp-button" type="button" data-variant="ghost">Cancel</button>
   <button class="mp-button" type="button" data-variant="danger">Delete draft</button>
@@ -68,7 +68,7 @@ Buttons commit an action: submit, save, open, delete. They are pills — rounded
 ```html
 <div class="mp-grid" data-min="sm" data-gap="4">
   <article class="mp-card">
-    <h3 class="mp-card__title">Builders' Lab</h3>
+    <h3 class="mp-card__title">Prototype Lab</h3>
     <p class="mp-card__body">Two days, twelve seats, one deployed tool.</p>
     <div class="mp-card__footer"><button class="mp-button" type="button" data-full-width>Join the waitlist</button></div>
   </article>
@@ -100,7 +100,7 @@ Buttons commit an action: submit, save, open, delete. They are pills — rounded
 
 ## Do / Don't
 
-- **Do** write labels as verbs in the brand voice: "Let's co-create", "Save draft".
+- **Do** name the action with a short verb phrase: "Save draft", "Start workshop".
 - **Don't** put two primary buttons side by side — demote one to `secondary`.
 - **Don't** set `min-height` or colors by hand; change a `--mp-button-*` knob if you must.
 

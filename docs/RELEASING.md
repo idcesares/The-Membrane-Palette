@@ -23,8 +23,8 @@ The CDN is the only distribution channel (npm publishing isn't set up), and jsDe
 
 ```bash
 git switch master && git pull
-git tag -a v2.1.0 -m "v2.1.0"
-git push origin v2.1.0
+git tag -a v2.2.0 -m "v2.2.0"
+git push origin v2.2.0
 ```
 
 Optionally, create a GitHub release from the tag and paste the changelog section into it.
@@ -36,7 +36,7 @@ jsDelivr resolves tags as semver, so after the first tag these URLs work:
 | URL | Serves | Use for |
 |---|---|---|
 | `…/gh/idcesares/The-Membrane-Palette@2/membrane.css` | latest `2.x.y` | **Recommended.** Fixes and additions arrive; breaking changes never do |
-| `…/gh/idcesares/The-Membrane-Palette@2.1.0/membrane.css` | exactly that release | Apps that upgrade deliberately |
+| `…/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css` | exactly that release | Apps that upgrade deliberately |
 | `…/gh/idcesares/The-Membrane-Palette/membrane.css` | latest commit on the default branch | Trying things out only |
 
 Append `.min.css` / `.min.js` to any file for jsDelivr's minified copy: `membrane.min.css`, `components/membrane.min.js`.

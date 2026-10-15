@@ -31,7 +31,7 @@ Tag vs. [Badge](../badge/README.md): a tag is a *topic* (sentence case, pill, ca
 <div class="mp-cluster" data-gap="2">
   <a class="mp-tag" data-tone="digital" href="#components">#design-tokens</a>
   <button class="mp-tag" type="button" data-tone="human" aria-pressed="true">Educators</button>
-  <button class="mp-tag" type="button" aria-pressed="false">Builders</button>
+  <button class="mp-tag" type="button" aria-pressed="false">Developers</button>
   <span class="mp-tag" data-tone="digital">
     OKLCH
     <button class="mp-tag__remove" type="button" aria-label="Remove OKLCH">×</button>

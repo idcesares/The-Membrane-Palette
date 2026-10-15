@@ -1,6 +1,6 @@
 {
   "name": "The Membrane Palette",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "generated": "Do not edit — produced by scripts/build-components.mjs from components/*/",
   "install": {
     "allInOne": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css\">",
@@ -256,7 +256,7 @@
       "examples": [
         {
           "title": "Article body",
-          "html": "<article class=\"mp-prose\">\n  <h2>Translation, not decoration</h2>\n  <p>Every element should answer one question: <strong>what does this translate?</strong> If it cannot, it does not belong. Read the <a href=\"#prose-notes\">notes</a> for the full argument.</p>\n  <ul>\n    <li>Warm surfaces for human moments</li>\n    <li>Cool precision for systems and code</li>\n  </ul>\n  <blockquote>Learning happens best when people build things that matter to them.</blockquote>\n  <p id=\"prose-notes\">Inline <code>code</code> keeps the builder register visible without taking over the paragraph.</p>\n</article>"
+          "html": "<article class=\"mp-prose\">\n  <h2>Translation, not decoration</h2>\n  <p>Every element should answer one question: <strong>what does this translate?</strong> If it cannot, it does not belong. Read the <a href=\"#prose-notes\">notes</a> for the full argument.</p>\n  <ul>\n    <li>Warm surfaces for human moments</li>\n    <li>Cool precision for systems and code</li>\n  </ul>\n  <blockquote>Learning happens best when people build things that matter to them.</blockquote>\n  <p id=\"prose-notes\">Inline <code>code</code> keeps the code register visible without taking over the paragraph.</p>\n</article>"
         }
       ]
     },
@@ -345,7 +345,7 @@
       "examples": [
         {
           "title": "Variants",
-          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\">Let's co-create</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\">See the work</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Cancel</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"danger\">Delete draft</button>\n</div>"
+          "html": "<div class=\"mp-cluster\">\n  <button class=\"mp-button\" type=\"button\">Save draft</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"secondary\">See the work</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"ghost\">Cancel</button>\n  <button class=\"mp-button\" type=\"button\" data-variant=\"danger\">Delete draft</button>\n</div>"
         },
         {
           "title": "Sizes",
@@ -357,7 +357,7 @@
         },
         {
           "title": "Full width",
-          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">Builders' Lab</h3>\n    <p class=\"mp-card__body\">Two days, twelve seats, one deployed tool.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-full-width>Join the waitlist</button></div>\n  </article>\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">AI Literacy I</h3>\n    <p class=\"mp-card__body\">Six weeks, online, starting from your classroom.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-full-width>Read the syllabus</button></div>\n  </article>\n</div>"
+          "html": "<div class=\"mp-grid\" data-min=\"sm\" data-gap=\"4\">\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">Prototype Lab</h3>\n    <p class=\"mp-card__body\">Two days, twelve seats, one deployed tool.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-full-width>Join the waitlist</button></div>\n  </article>\n  <article class=\"mp-card\">\n    <h3 class=\"mp-card__title\">AI Literacy I</h3>\n    <p class=\"mp-card__body\">Six weeks, online, starting from your classroom.</p>\n    <div class=\"mp-card__footer\"><button class=\"mp-button\" type=\"button\" data-variant=\"secondary\" data-full-width>Read the syllabus</button></div>\n  </article>\n</div>"
         },
         {
           "title": "States",
@@ -541,7 +541,7 @@
       "examples": [
         {
           "title": "Text, select, textarea",
-          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-name\">Full name</label>\n    <input class=\"mp-input\" id=\"input-name\" type=\"text\" autocomplete=\"name\" placeholder=\"Isaac D'Césares\">\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-topic\">Topic</label>\n    <select class=\"mp-input\" id=\"input-topic\">\n      <option>AI in education</option>\n      <option>Learning design</option>\n      <option>Developer tooling</option>\n    </select>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-message\">Message</label>\n    <textarea class=\"mp-input\" id=\"input-message\" rows=\"3\">Vamos cocriar?</textarea>\n  </div>\n</div>"
+          "html": "<div class=\"mp-stack\">\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-name\">Full name</label>\n    <input class=\"mp-input\" id=\"input-name\" type=\"text\" autocomplete=\"name\" placeholder=\"Isaac D'Césares\">\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-topic\">Topic</label>\n    <select class=\"mp-input\" id=\"input-topic\">\n      <option>AI in education</option>\n      <option>Learning design</option>\n      <option>Developer tooling</option>\n    </select>\n  </div>\n  <div class=\"mp-field\">\n    <label class=\"mp-field__label\" for=\"input-message\">Message</label>\n    <textarea class=\"mp-input\" id=\"input-message\" rows=\"3\">Tell us what you want to explore.</textarea>\n  </div>\n</div>"
         },
         {
           "title": "Sizes and states",
@@ -683,7 +683,7 @@
         },
         {
           "title": "Radios",
-          "html": "<fieldset class=\"mp-fieldset\">\n  <legend class=\"mp-fieldset__legend\">Audience</legend>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\" checked> Educators</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\"> Builders</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\"> Researchers</label>\n</fieldset>"
+          "html": "<fieldset class=\"mp-fieldset\">\n  <legend class=\"mp-fieldset__legend\">Audience</legend>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\" checked> Educators</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\"> Developers</label>\n  <label class=\"mp-choice\"><input class=\"mp-radio\" type=\"radio\" name=\"choice-audience\"> Researchers</label>\n</fieldset>"
         }
       ]
     },
@@ -832,7 +832,7 @@
         },
         {
           "title": "Clickable card",
-          "html": "<article class=\"mp-card\">\n  <p class=\"mp-card__overline\">Case study</p>\n  <h3 class=\"mp-card__title\"><a class=\"mp-card__link\" href=\"#components\">Teaching AI literacy at scale</a></h3>\n  <p class=\"mp-card__body\">How 3,000 educators co-designed their own assistant.</p>\n  <div class=\"mp-card__footer\">\n    <span class=\"mp-tag\" data-tone=\"human\">Education</span>\n    <span class=\"mp-tag\" data-tone=\"digital\">LLMs</span>\n  </div>\n</article>"
+          "html": "<article class=\"mp-card\">\n  <p class=\"mp-card__overline\">Sample case</p>\n  <h3 class=\"mp-card__title\"><a class=\"mp-card__link\" href=\"#components\">Teaching AI literacy at scale</a></h3>\n  <p class=\"mp-card__body\">A fictional program for testing collaborative AI-literacy workflows.</p>\n  <div class=\"mp-card__footer\">\n    <span class=\"mp-tag\" data-tone=\"human\">Education</span>\n    <span class=\"mp-tag\" data-tone=\"digital\">LLMs</span>\n  </div>\n</article>"
         }
       ]
     },
@@ -897,7 +897,7 @@
         },
         {
           "title": "Interactive",
-          "html": "<div class=\"mp-cluster\" data-gap=\"2\">\n  <a class=\"mp-tag\" data-tone=\"digital\" href=\"#components\">#design-tokens</a>\n  <button class=\"mp-tag\" type=\"button\" data-tone=\"human\" aria-pressed=\"true\">Educators</button>\n  <button class=\"mp-tag\" type=\"button\" aria-pressed=\"false\">Builders</button>\n  <span class=\"mp-tag\" data-tone=\"digital\">\n    OKLCH\n    <button class=\"mp-tag__remove\" type=\"button\" aria-label=\"Remove OKLCH\">×</button>\n  </span>\n</div>"
+          "html": "<div class=\"mp-cluster\" data-gap=\"2\">\n  <a class=\"mp-tag\" data-tone=\"digital\" href=\"#components\">#design-tokens</a>\n  <button class=\"mp-tag\" type=\"button\" data-tone=\"human\" aria-pressed=\"true\">Educators</button>\n  <button class=\"mp-tag\" type=\"button\" aria-pressed=\"false\">Developers</button>\n  <span class=\"mp-tag\" data-tone=\"digital\">\n    OKLCH\n    <button class=\"mp-tag__remove\" type=\"button\" aria-label=\"Remove OKLCH\">×</button>\n  </span>\n</div>"
         }
       ]
     },
@@ -1251,7 +1251,7 @@
       "examples": [
         {
           "title": "Table in a scrolling frame",
-          "html": "<div class=\"mp-table-wrap\" tabindex=\"0\" role=\"region\" aria-labelledby=\"table-cohorts-caption\">\n  <table class=\"mp-table\" data-variant=\"interactive\">\n    <caption id=\"table-cohorts-caption\">Cohorts, 2026</caption>\n    <thead>\n      <tr><th scope=\"col\">Cohort</th><th scope=\"col\">Format</th><th scope=\"col\" data-align=\"end\">Learners</th><th scope=\"col\">Status</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">AI Literacy I</th><td>Online</td><td data-align=\"end\">1,240</td><td><span class=\"mp-badge\" data-tone=\"success\">Live</span></td></tr>\n      <tr><th scope=\"row\">Prompting for Teachers</th><td>Hybrid</td><td data-align=\"end\">318</td><td><span class=\"mp-badge\" data-tone=\"info\">Enrolling</span></td></tr>\n      <tr><th scope=\"row\">Builders' Lab</th><td>In person</td><td data-align=\"end\">42</td><td><span class=\"mp-badge\">Draft</span></td></tr>\n    </tbody>\n  </table>\n</div>"
+          "html": "<div class=\"mp-table-wrap\" tabindex=\"0\" role=\"region\" aria-labelledby=\"table-cohorts-caption\">\n  <table class=\"mp-table\" data-variant=\"interactive\">\n    <caption id=\"table-cohorts-caption\">Cohorts, 2026</caption>\n    <thead>\n      <tr><th scope=\"col\">Cohort</th><th scope=\"col\">Format</th><th scope=\"col\" data-align=\"end\">Learners</th><th scope=\"col\">Status</th></tr>\n    </thead>\n    <tbody>\n      <tr><th scope=\"row\">AI Literacy I</th><td>Online</td><td data-align=\"end\">1,240</td><td><span class=\"mp-badge\" data-tone=\"success\">Live</span></td></tr>\n      <tr><th scope=\"row\">Prompting for Teachers</th><td>Hybrid</td><td data-align=\"end\">318</td><td><span class=\"mp-badge\" data-tone=\"info\">Enrolling</span></td></tr>\n      <tr><th scope=\"row\">Developers' Lab</th><td>In person</td><td data-align=\"end\">42</td><td><span class=\"mp-badge\">Draft</span></td></tr>\n    </tbody>\n  </table>\n</div>"
         },
         {
           "title": "Compact and striped",
@@ -1383,7 +1383,7 @@
       "examples": [
         {
           "title": "Single series",
-          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-completion-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-completion-title\">Course completion by cohort</p>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">AI Literacy I</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 82%\"></span></span><span class=\"mp-chart__value\">82%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Prompting for Teachers</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 64%\"></span></span><span class=\"mp-chart__value\">64%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Builders' Lab</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 47%\"></span></span><span class=\"mp-chart__value\">47%</span></li>\n  </ul>\n  <figcaption class=\"mp-chart__caption\">Learners who finished every module, 2026.</figcaption>\n</figure>"
+          "html": "<figure class=\"mp-chart\" aria-labelledby=\"chart-completion-title\">\n  <div class=\"mp-chart__header\">\n    <p class=\"mp-chart__title\" id=\"chart-completion-title\">Course completion by cohort</p>\n  </div>\n  <ul class=\"mp-chart__bars\">\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">AI Literacy I</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 82%\"></span></span><span class=\"mp-chart__value\">82%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Prompting for Teachers</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 64%\"></span></span><span class=\"mp-chart__value\">64%</span></li>\n    <li class=\"mp-chart__row\"><span class=\"mp-chart__label\">Developers' Lab</span><span class=\"mp-chart__track\"><span class=\"mp-chart__fill\" style=\"--mp-chart-value: 47%\"></span></span><span class=\"mp-chart__value\">47%</span></li>\n  </ul>\n  <figcaption class=\"mp-chart__caption\">Learners who finished every module, 2026.</figcaption>\n</figure>"
         },
         {
           "title": "Stacked, with legend",
@@ -1949,7 +1949,7 @@
       "examples": [
         {
           "title": "Site header",
-          "html": "<header class=\"mp-navbar\">\n  <div class=\"mp-navbar__inner\">\n    <a class=\"mp-navbar__brand\" href=\"#components\">D'Césares</a>\n    <nav class=\"mp-navbar__nav\" aria-label=\"Primary\">\n      <ul class=\"mp-navbar__links\">\n        <li><a class=\"mp-navbar__link\" href=\"#components\" aria-current=\"page\">Work</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">Writing</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">Workshops</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">About</a></li>\n      </ul>\n    </nav>\n    <div class=\"mp-navbar__actions\">\n      <a class=\"mp-button\" href=\"#components\" data-size=\"sm\">Let's co-create</a>\n    </div>\n  </div>\n</header>"
+          "html": "<header class=\"mp-navbar\">\n  <div class=\"mp-navbar__inner\">\n    <a class=\"mp-navbar__brand\" href=\"#components\">D'Césares</a>\n    <nav class=\"mp-navbar__nav\" aria-label=\"Primary\">\n      <ul class=\"mp-navbar__links\">\n        <li><a class=\"mp-navbar__link\" href=\"#components\" aria-current=\"page\">Work</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">Writing</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">Workshops</a></li>\n        <li><a class=\"mp-navbar__link\" href=\"#components\">About</a></li>\n      </ul>\n    </nav>\n    <div class=\"mp-navbar__actions\">\n      <a class=\"mp-button\" href=\"#components\" data-size=\"sm\">See the work</a>\n    </div>\n  </div>\n</header>"
         }
       ]
     },

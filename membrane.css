@@ -1,6 +1,6 @@
 /* ============================================================
    The Membrane Palette — all-in-one stylesheet
-   Version 2.1.0
+   Version 2.2.0
 
    GENERATED FILE — do not edit by hand.
    Sources:         components/<name>/<name>.css
@@ -13,7 +13,7 @@
 
 /* ============================================================
    The Membrane Palette — self-hosted fonts
-   Version 2.1.0
+   Version 2.2.0
 
    GENERATED FILE — do not edit by hand.
    Source of truth:  fonts/fonts.json
@@ -166,7 +166,7 @@
 
 /* ============================================================
    Isaac D'Césares — Brand Design Tokens · The Membrane Palette
-   Version 2.1.0
+   Version 2.2.0
 
    GENERATED FILE — do not edit by hand.
    Source of truth:  tokens/membrane.tokens.json
@@ -580,7 +580,7 @@
 
 /* ============================================================
    The Membrane Palette — base layer (optional)
-   Version 2.1.0
+   Version 2.2.0
 
    GENERATED FILE — do not edit by hand.
    Source of truth:  tokens/membrane.tokens.json + scripts/build-tokens.mjs
@@ -759,7 +759,7 @@
 
 /* ============================================================
    The Membrane Palette — component library
-   Version 2.1.0
+   Version 2.2.0
 
    GENERATED FILE — do not edit by hand.
    Sources:         components/<name>/<name>.css

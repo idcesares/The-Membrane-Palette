@@ -1,6 +1,6 @@
 {
   "$description": "The Membrane Palette — single source of truth. DTCG-flavored token file (hex shorthand for colors, {dot.path} aliases, $extensions.mode.dark for dark values, custom $types: tint, cssValue). Edit THIS file, then run `npm run build:tokens` to regenerate tokens/design-tokens.css and tokens/base.css. Never hand-edit the generated CSS.",
-  "$version": "2.1.0",
+  "$version": "2.2.0",
 
   "color": {
     "primitive": {
@@ -14,7 +14,7 @@
       "teal-dark":        { "$type": "color", "$value": "#145C56" },
       "cream":            { "$type": "color", "$value": "#FAF6EE", "$description": "Light canvas. Never pure white." },
       "charcoal":         { "$type": "color", "$value": "#1A1B1F", "$description": "Dark canvas. Never pure black." },
-      "amber":            { "$type": "color", "$value": "#D49A3A", "$description": "Builder energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text." },
+      "amber":            { "$type": "color", "$value": "#D49A3A", "$description": "Making energy. Fill/badge use only — fails text contrast on cream; use semantic warning-text for text." },
       "amber-light":      { "$type": "color", "$value": "#E8B44A" },
       "burgundy":         { "$type": "color", "$value": "#7A3345", "$description": "Heritage depth." },
       "burgundy-light":   { "$type": "color", "$value": "#9A4558" },

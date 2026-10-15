@@ -41,7 +41,7 @@ The six series colors are a **validated categorical palette**, not picks: each l
   <ul class="mp-chart__bars">
     <li class="mp-chart__row"><span class="mp-chart__label">AI Literacy I</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 82%"></span></span><span class="mp-chart__value">82%</span></li>
     <li class="mp-chart__row"><span class="mp-chart__label">Prompting for Teachers</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 64%"></span></span><span class="mp-chart__value">64%</span></li>
-    <li class="mp-chart__row"><span class="mp-chart__label">Builders' Lab</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 47%"></span></span><span class="mp-chart__value">47%</span></li>
+    <li class="mp-chart__row"><span class="mp-chart__label">Developers' Lab</span><span class="mp-chart__track"><span class="mp-chart__fill" style="--mp-chart-value: 47%"></span></span><span class="mp-chart__value">47%</span></li>
   </ul>
   <figcaption class="mp-chart__caption">Learners who finished every module, 2026.</figcaption>
 </figure>

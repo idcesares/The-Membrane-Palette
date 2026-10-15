@@ -1,6 +1,6 @@
 {
   "name": "@idcesares/the-membrane-palette",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "private": true,
   "description": "The Membrane Palette — a token-based design system and framework-free CSS component library where human warmth meets digital precision.",
   "author": "Isaac D'Césares <isaac.dcesares@gmail.com>",
@@ -58,6 +58,7 @@
     "build:components": "node scripts/build-components.mjs",
     "build:system": "npm run build:tokens && npm run build:components",
     "build": "node scripts/build-cloudflare-pages.mjs",
+    "check:verbal": "node scripts/check-verbal-system.mjs",
     "render:social": "node scripts/render-social-image.mjs",
     "render:figures": "node scripts/render-doc-figures.mjs",
     "lint:html": "html-validate dist/index.html dist/404.html \"dist/examples/*.html\"",

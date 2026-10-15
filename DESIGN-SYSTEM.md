@@ -1,20 +1,20 @@
 # Isaac D'Césares — Brand Design System
-> **Version 2.1 · October 2026**
+> **Version 2.2 · October 2026**
 > *The visual translation of the brand essence into a coherent, reproducible system.*
 
 ---
 
 ## 0. How to Use This Document
 
-This design system is the **single source of truth** for every visual and interactive expression of the Isaac D'Césares brand — from the personal website to social media cards, presentation decks, GitHub profiles, institutional materials, and AI-generated content.
+This design system is the **visual and interactive authority** for the Isaac D'Césares brand — from the personal website to social media cards, presentation decks, GitHub profiles and institutional materials. Personal facts live in `PROFILE.md`; writing behavior lives in `VOICE.md`; public brand expression lives in `BRAND-VOICE.md`.
 
 **For designers:** Follow the tokens, scales, and component patterns. Every decision has intent — do not substitute without understanding the reasoning.
 
 **For developers:** Link `membrane.css` (tokens + base + components) and build with the component library in `components/` (§6). The CSS custom properties in `tokens/design-tokens.css` are **generated** from `tokens/membrane.tokens.json`; edit the JSON source and run `npm run build:system`. When you write your own CSS, consume Tier 2 semantic tokens (`--color-action-primary`, `--color-text-tertiary`, etc.), never Tier 1 primitives (`--color-terracotta`) or raw color values — the component build enforces exactly this rule on the library itself.
 
-**For AI agents:** Start from `llms.txt` and `components/manifest.json` — the manifest lists every component's classes, the only valid `data-*` values, the ARIA states it styles, and copyable HTML. Use this document as your style constraint: validate output against Section 1 (Principles), Section 2 (Color), Section 3 (Typography) and Section 6 (Components) at minimum, and §11.4 for a ready-made constraint block.
+**For AI agents:** Start from `llms.txt` and `components/manifest.json` for the UI API. Read `PROFILE.md` before making claims about Isaac, `VOICE.md` for writing behavior and register adaptation, and `BRAND-VOICE.md` for public-facing brand expression. Use this document as the visual/UI constraint: validate output against Section 1 (Principles), Section 2 (Color), Section 3 (Typography) and Section 6 (Components) at minimum, and §11.4 for a ready-made constraint block.
 
-**The test for any output:** Does it hold both the human register and the digital register simultaneously? Is it warm without being casual? Is it precise without being cold?
+**The test for visual output:** Is the chosen register meaningful for the content? When human and digital concerns meet, does the interface hold them coherently? Is it warm without being casual and precise without being cold? For factual and verbal output, use the authority hierarchy above rather than inferring from visual principles.
 
 ---
 
@@ -89,7 +89,7 @@ Alpha washes of the palette, computed with `color-mix()` and mode-aware (dark mo
 
 | Token | Name | Hex | HSL | Role |
 |-------|------|-----|-----|------|
-| `--color-amber` | Amber Gold | `#D49A3A` | `37, 64%, 53%` | **Builder energy.** Making, creation, sunlight, optimism. Used sparingly for highlights, badges, "new" indicators, callout borders. |
+| `--color-amber` | Amber Gold | `#D49A3A` | `37, 64%, 53%` | **Making energy.** Making, creation, sunlight, optimism. Used sparingly for highlights, badges, "new" indicators, callout borders. |
 | `--color-burgundy` | Burgundy | `#7A3345` | `345, 41%, 34%` | **Heritage depth.** The D'Césares lineage, intellectual depth, gravitas. Used for deep emphasis, footnotes, premium contexts. |
 | `--color-sage` | Sage Green | `#5A8A6E` | `145, 21%, 45%` | **Growth.** Education, nature, Rio's vegetation, development. Used for success states, growth metrics, educational contexts. |
 
@@ -848,12 +848,18 @@ UI CONSTRAINTS (when generating HTML/CSS):
 - Custom CSS uses semantic tokens only (--color-text-*, --color-bg-*, --color-action-*, --space-*, --text-*)
 - At most one primary (terracotta) button per view
 
-VOICE CONSTRAINTS (from Brand Essence):
-- Articulate, warm, concrete, confident without arrogance
-- Never hype-driven ("disrupting", "revolutionizing")
-- Never credential-forward (titles follow impact)
-- Always hold both human and digital registers
-- Default CTA: "Let's co-create" / "Vamos cocriar?"
+VERBAL AUTHORITY:
+- PROFILE.md decides what is true about Isaac
+- VOICE.md decides how Isaac naturally communicates and adapts by register
+- BRAND-VOICE.md decides how that voice is expressed publicly
+- Never infer biography from a writing or UI example
+
+VOICE CONSTRAINTS:
+- Human, reflective, precise, contextual and concrete
+- Be as certain as the evidence allows; useful hedging is allowed
+- Avoid hype, abstraction without a referent and credential inflation
+- Adapt the register to the audience instead of forcing every text to sound branded
+- Buttons normally name the concrete action; “Let's co-create” / “Vamos cocriar?” is optional campaign copy only when the action is genuinely collaborative
 ```
 
 ---
@@ -1140,13 +1146,13 @@ Tokens are a public API — renaming or removing one is a breaking change for ev
 
 ## 16. Content, Localization & Patterns
 
-The components carry the visual brand; the words carry the voice. These rules translate `BRAND-VOICE.md` into interface copy.
+The components carry the visual brand; the words carry the voice. Interface copy follows `VOICE.md` for writing behavior, `BRAND-VOICE.md` for public-brand application, and `PROFILE.md` whenever copy makes a claim about Isaac.
 
 ### 16.1 Interface writing
 
 | Element | Rule | Do | Don't |
 |---|---|---|---|
-| Buttons | A verb for what happens, ≤ 3 words. The primary CTA may use the signature phrase. | "Save draft", "Let's co-create" | "OK", "Submit", "Click here" |
+| Buttons | A verb for what happens, ≤ 3 words. Name the concrete action; campaign language is exceptional. | "Save draft", "Start workshop" | "OK", "Submit", "Click here" |
 | Links | Say where they go; make sense out of context. | "Read the case study" | "Learn more", "here" |
 | Errors | What happened → why (if known) → how to fix. No blame, no codes alone. | "Handles can't contain spaces — try 'idcesares'." | "Invalid input", "Error 422" |
 | Empty states | What this place is for → why it's empty → one next action. | "Your reading list starts here…" | "No data", "Nothing to see here 🙃" |
@@ -1154,7 +1160,7 @@ The components carry the visual brand; the words carry the voice. These rules tr
 | Toasts | Past tense, what was done. | "Draft saved" | "Success!" |
 | Labels | Sentence case, nouns, no colons. Overlines/badges are the only uppercase. | "Email address" | "EMAIL ADDRESS:" |
 
-Never use the hype or credential-forward vocabulary listed in `BRAND-VOICE.md` §4 in UI copy either.
+Avoid hype, credential inflation and abstraction without a referent in UI copy. Ordinary professional vocabulary is valid when it names something specific; see `VOICE.md`.
 
 ### 16.2 Localization (pt-BR and beyond)
 
@@ -1179,7 +1185,9 @@ Start new pages by copying the closest pattern.
 ---
 
 > **Companion Documents:**
-> - `BRAND-VOICE.md` — Complete voice and tone guide with writing samples, vocabulary, and audience adaptation rules.
+> - `PROFILE.md` — factual identity and current biographical claims.
+> - `VOICE.md` — observed writing behavior, evidence classes and register adaptation.
+> - `BRAND-VOICE.md` — public-brand application layer.
 
 ---
 
