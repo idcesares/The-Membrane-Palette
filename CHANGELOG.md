@@ -7,13 +7,9 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
-### Fixed
-
-- Removed the remaining `Builder` identity wording from `DESIGN-SYSTEM.md` §3 and the README font table (`Developer` / technical-craft register). No token, class or attribute changed.
-
 ---
 
-## [2.2.0] — 2026-10-14
+## [2.2.0] — 2026-10-19
 
 ### Why
 
@@ -37,6 +33,7 @@ The visual and component system had matured faster than the verbal layer. Brand 
 
 ### Fixed
 
+- Removed the remaining `Builder` identity wording from `DESIGN-SYSTEM.md` §3 and the README font table (`Developer` / technical-craft register). No token, class or attribute changed.
 - Removed unsupported/outdated brand-copy claims that could imply a director-level Sesc title, a completed UFRJ master's degree, invented durations of AI specialization or fabricated first-person memories.
 - Corrected the coupling that allowed brand examples to act as de facto biography for AI agents.
 
