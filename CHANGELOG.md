@@ -7,6 +7,10 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+### Fixed
+
+- Removed the remaining `Builder` identity wording from `DESIGN-SYSTEM.md` §3 and the README font table (`Developer` / technical-craft register). No token, class or attribute changed.
+
 ---
 
 ## [2.2.0] — 2026-10-14

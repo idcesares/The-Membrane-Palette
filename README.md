@@ -346,7 +346,7 @@ Plus a 10-step warm-tinted neutral scale (`--color-neutral-50` → `--color-neut
 |------|----------|-------|
 | **Fraunces** (variable serif) | Human | Headings, display text |
 | **Instrument Sans** | Digital | Body text, UI |
-| **JetBrains Mono** | Builder | Code blocks, technical content |
+| **JetBrains Mono** | Developer | Code blocks, technical content |
 
 Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.75rem). Typography composite classes (`.type-display`, `.type-h1`…`.type-code`) ship in `tokens/base.css`.
 

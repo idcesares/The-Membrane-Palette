@@ -237,9 +237,9 @@ The typographic system encodes the same tension that defines the brand:
 
 - **Fraunces** (variable serif) = The human register. Warm, intellectual, with subtle optical personality. It has soft, organic curves and a wonky character that prevents it from feeling institutional. It says: *there is a person behind this thinking.*
 - **Instrument Sans** (sans-serif) = The digital register. Clean, geometric, technical — but not sterile. It has enough character to avoid feeling generic. It says: *this is built with precision.*
-- **JetBrains Mono** (monospace) = The builder register. Code, systems, the maker at work. It says: *this person ships.*
+- **JetBrains Mono** (monospace) = The technical-craft register. Code, systems, the maker at work. It says: *this person ships.*
 
-This triad mirrors the brand identity triad: **Researcher (Fraunces) · Educator (Instrument Sans) · Builder (JetBrains Mono).**
+This triad mirrors the brand identity triad: **Researcher (Fraunces) · Educator (Instrument Sans) · Developer (JetBrains Mono).**
 
 ### 3.2 Font Stack
 
