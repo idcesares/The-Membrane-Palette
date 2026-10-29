@@ -5,7 +5,7 @@
 Rules for generating UI with this system:
 
 - For claims about Isaac, read `PROFILE.md`; for writing behavior and register adaptation, read `VOICE.md`; for public brand expression, read `BRAND-VOICE.md`; for visual/UI behavior, read `DESIGN-SYSTEM.md`. Never infer biography from examples.
-- Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css` (tokens + base + components). Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
+- Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css` (tokens + base + components). Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/components/membrane.js` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
 - Don't add a Google Fonts (or any other font) link: `membrane.css` already declares self-hosted Fraunces, Instrument Sans and JetBrains Mono.
 - Compose from components (`.mp-button`, `.mp-card`, `.mp-field`…) and layout primitives (`.mp-container`, `.mp-stack`, `.mp-cluster`, `.mp-grid`) before writing CSS.
 - Options are `data-*` attributes (`data-variant="secondary"`); only the values listed in the manifest exist.

@@ -157,10 +157,10 @@ Everything an agent reads is **generated from the source and linted**: the build
 ```html
 <!-- Everything: tokens + base + components -->
 <link rel="stylesheet"
-  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css">
+  href="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css">
 
 <!-- Needed for Tabs, Menu, Combobox and Toast; adds tooltip Escape and dialog fallbacks -->
-<script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js" defer></script>
+<script src="https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/components/membrane.js" defer></script>
 
 ```
 
@@ -168,7 +168,7 @@ The fonts come with it: `membrane.css` declares self-hosted Fraunces, Instrument
 
 Only want the tokens? Link `tokens/design-tokens.css` (and optionally `tokens/base.css`) instead — the component bundle is a separate file, `components/membrane-components.css`, and the fonts are `fonts/fonts.css`.
 
-> **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. These URLs have no version pin, so they serve the latest commit on the default branch; pin to a release tag once one exists if you need a stable reference.
+> **Note:** Do not use `raw.githubusercontent.com` — GitHub serves raw files as `text/plain` and browsers reject them as stylesheets. The snippets above are pinned to release `2.2.0` (git tag `v2.2.0`). To follow later compatible 2.x releases, replace `@2.2.0` with `@2`. An unpinned jsDelivr URL tracks the default branch and is not an install target.
 
 ### Option B — Tailwind CSS v4
 

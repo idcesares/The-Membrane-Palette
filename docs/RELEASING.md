@@ -35,20 +35,20 @@ jsDelivr resolves tags as semver, so after the first tag these URLs work:
 
 | URL | Serves | Use for |
 |---|---|---|
-| `…/gh/idcesares/The-Membrane-Palette@2/membrane.css` | latest `2.x.y` | **Recommended.** Fixes and additions arrive; breaking changes never do |
-| `…/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css` | exactly that release | Apps that upgrade deliberately |
-| `…/gh/idcesares/The-Membrane-Palette/membrane.css` | latest commit on the default branch | Trying things out only |
+| `…/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css` | exactly that release | **Public install snippets**, and apps that upgrade deliberately |
+| `…/gh/idcesares/The-Membrane-Palette@2/membrane.css` | latest `2.x.y` | Optional. Fixes and additions arrive; breaking changes never do |
+| `…/gh/idcesares/The-Membrane-Palette/membrane.css` | latest commit on the default branch | Not an install target |
+
+`v2.2.0` is the first identifiable release tag. jsDelivr accepts `@2.2.0` (and `@2`, which currently resolves to that same tag). Public snippets use the exact release so they do not follow the default branch.
 
 Append `.min.css` / `.min.js` to any file for jsDelivr's minified copy: `membrane.min.css`, `components/membrane.min.js`.
 
-- [ ] **First release only:** switch the CDN URLs from unpinned to `@2` in these files:
+- [ ] On every release, after the tag exists, bump the exact pin (`@x.y.z`) in a follow-up commit. The tagged files do not need to reference themselves. Update:
   - `README.md` (Quick Start);
-  - `DESIGN-SYSTEM.md` §6.1;
+  - `DESIGN-SYSTEM.md` §6.1 and the brand-file CDN path in §10.3;
   - the install snippet in the `showcase/index.html` hero;
   - `llms.txt` and the `install` block of `components/manifest.json`, both generated: change the `CDN` constant in `scripts/build-components.mjs` and rebuild;
   - the comments in `examples/*.html`.
-
-  Commit the change after the tag. The tagged files don't need to reference themselves.
 - [ ] jsDelivr caches version ranges for up to 7 days. To make `@2` pick up the new tag right away, purge it:
   `curl https://purge.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2/membrane.css` (repeat for each file you changed).
 

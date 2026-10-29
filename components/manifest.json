@@ -3,13 +3,13 @@
   "version": "2.2.0",
   "generated": "Do not edit — produced by scripts/build-components.mjs from components/*/",
   "install": {
-    "allInOne": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/membrane.css\">",
-    "behaviors": "<script src=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane.js\" defer></script>",
+    "allInOne": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css\">",
+    "behaviors": "<script src=\"https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/components/membrane.js\" defer></script>",
     "split": [
-      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/fonts/fonts.css",
-      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/design-tokens.css",
-      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/tokens/base.css",
-      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/components/membrane-components.css"
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/fonts/fonts.css",
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/tokens/design-tokens.css",
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/tokens/base.css",
+      "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/components/membrane-components.css"
     ]
   },
   "conventions": {

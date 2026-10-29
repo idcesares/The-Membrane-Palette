@@ -34,7 +34,7 @@ const pkg = JSON.parse(await readFile(rel("package.json"), "utf8"));
 
 const REPO = "https://github.com/idcesares/The-Membrane-Palette";
 const DOCS_BASE = `${REPO}/blob/master/`;
-const CDN = "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette/";
+const CDN = "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/";
 const SITE = "https://membrane-palette.dcesares.dev/";
 
 /** Display order. A component folder missing from this list fails the build. */

@@ -7,6 +7,15 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+### Changed
+
+- Public CDN install snippets pin to release `2.2.0` (git tag `v2.2.0`) instead of the default branch. `@2` remains the optional compatible range. See [`docs/RELEASING.md`](docs/RELEASING.md).
+- Published OBSERVED examples in `VOICE.md` keep their sentence shape and replace names, internal systems, and non-public operational detail with `[redacted]`.
+
+### Security
+
+- Development audit: `axe-core` 4.14.0, `html-validate` 11.17.0, and npm overrides for `brace-expansion` 1.1.21, `compression` 1.8.2, and `fast-uri` 3.1.9. The showcase brand link's accessible name now includes the visible `dc` letters, which axe-core 4.14 flags when they are missing (`label-content-name-mismatch`).
+
 ---
 
 ## [2.2.0] — 2026-10-19
