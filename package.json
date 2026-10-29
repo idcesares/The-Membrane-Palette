@@ -75,10 +75,15 @@
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "axe-core": "4.10.3",
-    "html-validate": "11.16.0",
+    "axe-core": "4.14.0",
+    "html-validate": "11.17.0",
     "serve": "^14.2.6",
     "typescript": "5.9.3"
+  },
+  "overrides": {
+    "brace-expansion": "1.1.21",
+    "compression": "1.8.2",
+    "fast-uri": "3.1.9"
   },
   "types": "./components/membrane.d.ts"
 }

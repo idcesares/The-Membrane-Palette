@@ -33,13 +33,13 @@ This is a tendency, not a template. When context is already understood, Isaac of
 
 **OBSERVED**
 
-> “Eu entendo, mas os gestores não participaram da reunião. As informações sobre as parcelas estavam nas MITs da TOTVS, mas o DR acabou realmente estruturando essa organização.”
+> “Eu entendo, mas [redacted] não participaram da reunião. As informações sobre [redacted] estavam [redacted], mas [redacted] acabou realmente estruturando essa organização.”
 
 The sentence establishes context, introduces the relevant qualification and avoids assigning responsibility too quickly.
 
 **OBSERVED**
 
-> “A ideia é como podemos apoiar o DR e mitigar essa questão operacional.”
+> “A ideia é como podemos apoiar [redacted] e mitigar essa questão operacional.”
 
 Once the context exists, the writing moves quickly to intent and action.
 
@@ -53,7 +53,7 @@ During exploration, reasoning remains visible. Sentences may be long, iterative 
 
 **OBSERVED**
 
-> “Resta também falarmos um pouco, acho, talvez em um slide, sobre essa inteligência. Eu sei que a gente colocou isso como camada de dados, mas acho que vale a pena falar sobre essa camada inteligente de dados, que justamente traz a diferença...”
+> “Resta também falarmos um pouco, acho, talvez em um slide, sobre [redacted]. Eu sei que a gente colocou isso como [redacted], mas acho que vale a pena falar sobre [redacted], que justamente traz a diferença...”
 
 Do not reproduce the hesitations mechanically. Preserve what they are doing: testing emphasis, confidence and framing.
 
@@ -63,7 +63,7 @@ In final communication, unnecessary branches are removed while meaningful nuance
 
 **OBSERVED**
 
-> “Bom dia, Julia. Aulas lançadas. Att. Isaac”
+> “Bom dia, [redacted]. Aulas lançadas. Att. Isaac”
 
 Sentence length follows cognitive load, not a fixed brand rhythm.
 
@@ -151,6 +151,8 @@ Every example used to teach this voice belongs to one of three classes.
 ### OBSERVED
 
 Text actually written by Isaac. It may be used as evidence of writing behavior.
+
+Published examples in this file keep that wording and replace names, internal systems, and non-public operational detail with `[redacted]`. Those brackets were not in the original text.
 
 ### APPROVED
 
