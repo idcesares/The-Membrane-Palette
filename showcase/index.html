@@ -432,6 +432,31 @@
       font-size: var(--text-small);
     }
 
+    .composition-thumbnail {
+      display: block;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border-radius: var(--radius-sm);
+      border: var(--border-default);
+    }
+
+    .composition-thumbnail img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .composition-thumbnail .composition-thumbnail__dark { display: none; }
+    :root[data-theme="dark"] .composition-thumbnail__light { display: none; }
+    :root[data-theme="dark"] .composition-thumbnail__dark { display: block; }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) .composition-thumbnail__light { display: none; }
+      :root:not([data-theme="light"]) .composition-thumbnail__dark { display: block; }
+    }
+
     .data-palette {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
@@ -1002,6 +1027,7 @@
           <li><a class="mp-navbar__link" href="#type">Type</a></li>
           <li><a class="mp-navbar__link" href="#rhythm">Rhythm</a></li>
           <li><a class="mp-navbar__link" href="#components">Components</a></li>
+          <li><a class="mp-navbar__link" href="#compositions">Compositions</a></li>
           <li><a class="mp-navbar__link" href="#reference">Reference</a></li>
           <li><a class="mp-navbar__link" href="#brand">Brand</a></li>
         </ul>
@@ -3847,11 +3873,105 @@
       </div>
     </section>
 
+    <section class="band" id="compositions" aria-labelledby="compositions-title">
+      <div class="mp-container mp-stack" data-gap="8">
+        <div class="section-heading">
+          <div>
+            <p class="label">05 / Compositions</p>
+            <h2 id="compositions-title">Complete compositions</h2>
+          </div>
+          <p>Choose a reference by what someone needs to understand or do. These references connect the same components into visual compositions and complete tasks, including bilingual exploration and a form journey.</p>
+        </div>
+        <div class="mp-grid">
+          <article class="mp-card">
+            <div class="composition-thumbnail">
+              <img class="composition-thumbnail__light" src="../docs/composition/previews/workshop-light.png" alt="Workshop opening with a teaching question, preparation panel and learning journey." width="1440" height="1000" loading="lazy">
+              <img class="composition-thumbnail__dark" src="../docs/composition/previews/workshop-dark.png" alt="Workshop opening with a teaching question, preparation panel and learning journey." width="1440" height="1000" loading="lazy">
+            </div>
+            <p class="mp-card__overline">Invite someone to learn</p>
+            <h3 class="mp-card__title">Workshop</h3>
+            <p class="mp-card__body">A human opening, an ordered path and practical preparation. Use it to introduce a learning experience.</p>
+            <div class="mp-card__footer">
+              <a class="mp-link" href="../examples/workshop.html">View workshop</a>
+              <a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/workshop.html">Source for workshop</a>
+            </div>
+          </article>
+          <article class="mp-card" data-tone="digital">
+            <div class="composition-thumbnail">
+              <img class="composition-thumbnail__light" src="../docs/composition/previews/research-explainer-light.png" alt="Research question and diagram connecting human experience, interpretation and a digital record." width="1440" height="1000" loading="lazy">
+              <img class="composition-thumbnail__dark" src="../docs/composition/previews/research-explainer-dark.png" alt="Research question and diagram connecting human experience, interpretation and a digital record." width="1440" height="1000" loading="lazy">
+            </div>
+            <p class="mp-card__overline">Explain a relationship</p>
+            <h3 class="mp-card__title">Research explainer</h3>
+            <p class="mp-card__body">A question becomes a diagram, with the proposed method and limitation nearby. Use it for careful conceptual explanation.</p>
+            <div class="mp-card__footer">
+              <a class="mp-link" href="../examples/research-explainer.html">View research explainer</a>
+              <a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/research-explainer.html">Source for research explainer</a>
+            </div>
+          </article>
+          <article class="mp-card">
+            <div class="composition-thumbnail">
+              <img class="composition-thumbnail__light" src="../docs/composition/previews/presentation-light.png" alt="Presentation opening: Keep the question in view, with one supporting statement." width="1136" height="721" loading="lazy">
+              <img class="composition-thumbnail__dark" src="../docs/composition/previews/presentation-dark.png" alt="Presentation opening: Keep the question in view, with one supporting statement." width="1136" height="721" loading="lazy">
+            </div>
+            <p class="mp-card__overline">Present an argument</p>
+            <h3 class="mp-card__title">Presentation</h3>
+            <p class="mp-card__body">Six canvases move from a question to a method and a qualification. Read on a phone or print six landscape pages.</p>
+            <div class="mp-card__footer">
+              <a class="mp-link" href="../examples/presentation.html">View presentation</a>
+              <a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/presentation.html">Source for presentation</a>
+            </div>
+          </article>
+          <article class="mp-card" data-tone="digital">
+            <div class="composition-thumbnail">
+              <img class="composition-thumbnail__light" src="../docs/composition/previews/resource-explorer-light.png" alt="Resource explorer: an illustrative bilingual working reference." width="1440" height="1000" loading="lazy">
+              <img class="composition-thumbnail__dark" src="../docs/composition/previews/resource-explorer-dark.png" alt="Resource explorer: an illustrative bilingual working reference." width="1440" height="1000" loading="lazy">
+            </div>
+            <p class="mp-card__overline">Find and inspect</p>
+            <h3 class="mp-card__title">Resource explorer</h3>
+            <p class="mp-card__body">Search and filter a bilingual catalog, keep a selected resource in context, and explore cancel, retry, partial and empty states.</p>
+            <div class="mp-card__footer">
+              <a class="mp-link" href="../examples/resource-explorer.html">View resource explorer</a>
+              <a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/resource-explorer.html">Source for resource explorer</a>
+            </div>
+          </article>
+          <article class="mp-card" data-tone="digital">
+            <div class="composition-thumbnail">
+              <img class="composition-thumbnail__light" src="../docs/composition/previews/form-journey-light.png" alt="Form journey: an illustrative bilingual working reference." width="1440" height="1000" loading="lazy">
+              <img class="composition-thumbnail__dark" src="../docs/composition/previews/form-journey-dark.png" alt="Form journey: an illustrative bilingual working reference." width="1440" height="1000" loading="lazy">
+            </div>
+            <p class="mp-card__overline">Complete a task</p>
+            <h3 class="mp-card__title">Form journey</h3>
+            <p class="mp-card__body">Enter a learning goal, correct errors, review and edit your choices, then try a local confirmation with deliberate failure and retry.</p>
+            <div class="mp-card__footer">
+              <a class="mp-link" href="../examples/form-journey.html">View form journey</a>
+              <a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/form-journey.html">Source for form journey</a>
+            </div>
+          </article>
+          <article class="mp-card">
+            <div class="composition-thumbnail">
+              <img class="composition-thumbnail__light" src="../docs/composition/previews/visual-language-light.png" alt="Visual language specimen combining an organic trace with precise routes, editorial typography and warm surfaces." width="1440" height="1000" loading="lazy">
+              <img class="composition-thumbnail__dark" src="../docs/composition/previews/visual-language-dark.png" alt="Visual language specimen combining an organic trace with precise routes, editorial typography and warm surfaces." width="1440" height="1000" loading="lazy">
+            </div>
+            <p class="mp-card__overline">Compose with original artwork</p>
+            <h3 class="mp-card__title">Visual language</h3>
+            <p class="mp-card__body">Organic gestures meet precise frames across a website opening, presentation cover and teaching card. Includes six original constructions with editable SVG downloads.</p>
+            <div class="mp-card__footer">
+              <a class="mp-link" href="../examples/visual-language.html">View visual language</a>
+              <a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/examples/visual-language.html">Source for visual language</a>
+            </div>
+          </article>
+        </div>
+        <p class="mp-text type-small" data-tone="muted">All six contain illustrative content. See the <a class="mp-link" href="../docs/composition/README.md">composition guide</a> for adaptation notes, creative freedom and the visual review rubric, and the <a class="mp-link" href="../docs/visual-language/README.md">visual language guide</a> for motifs, arrangements and editable assets.</p>
+        <p class="mp-text type-small"><a class="mp-link" href="../docs/patterns/README.md">Complete task patterns</a> · <a class="mp-link" href="../docs/accessibility/README.md">Accessibility evidence and remaining checks</a></p>
+      </div>
+    </section>
+
     <section class="band" id="reference">
       <div class="mp-container">
         <div class="section-heading">
           <div>
-            <p class="label">05 / Reference</p>
+            <p class="label">06 / Reference</p>
             <h2>Every token, every ratio — generated, not hand-typed.</h2>
           </div>
           <p>The tables below are rendered from <code>tokens/membrane.tokens.json</code> by the same build that writes the CSS, and the component gallery above from each component's README. There is no second copy to fall out of sync.</p>
@@ -3909,11 +4029,13 @@
             <p class="label">For Agents</p>
             <h2>Readable by people and by models.</h2>
             <div class="mp-stack" data-gap="4">
-              <p class="type-small muted">Everything a code-generating agent needs is machine-readable and generated from the source, so it can't go stale.</p>
+              <p class="type-small muted">The component API and index are generated from source. Composition guidance adds reviewed examples of complete pieces.</p>
               <ul class="mp-stack agent-list" data-gap="2">
                 <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/manifest.json">components/manifest.json</a> — classes, allowed values, states, knobs, examples</li>
                 <li><a class="mp-link" href="../llms.txt">llms.txt</a> — the index and the house rules</li>
                 <li><a class="mp-link" href="../examples/starter.html">Starter</a>, <a class="mp-link" href="../examples/article.html">article</a> and <a class="mp-link" href="../examples/dashboard.html">dashboard</a> — full pages to copy, linted against the library</li>
+                <li><a class="mp-link" href="../docs/composition/README.md">Composition guide</a> — intent routes, creative freedom and a visual review rubric</li>
+                <li><a class="mp-link" href="../examples/workshop.html">Workshop</a>, <a class="mp-link" href="../examples/research-explainer.html">research explainer</a> and <a class="mp-link" href="../examples/presentation.html">presentation</a> — three rendered compositions with illustrative content</li>
                 <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/tokens/membrane-tailwind.css">Tailwind v4 theme</a> — only on-brand <code>mp-</code> utilities compile</li>
               </ul>
               <figure class="mp-code-block">
@@ -6591,7 +6713,7 @@
       <div class="mp-container">
         <div class="section-heading">
           <div>
-            <p class="label">06 / Brand marks</p>
+            <p class="label">07 / Brand marks</p>
             <h2>The name, outlined.</h2>
           </div>
           <p>Set in Fraunces 700 with <code>WONK</code>, shaped with real kerning and converted to paths, so the files need no font. Leave clear space equal to the height of the lowercase <em>d</em> on every side. Use the file — never retype, recolor or stretch the mark.</p>

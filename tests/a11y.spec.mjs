@@ -3,9 +3,9 @@
 import { test, expect } from "@playwright/test";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
+import { PAGES } from "./pages.mjs";
 
 const axeSource = readFileSync(createRequire(import.meta.url).resolve("axe-core/axe.min.js"), "utf8");
-const PAGES = ["/", "/examples/starter.html", "/examples/article.html", "/examples/dashboard.html", "/404.html"];
 
 for (const path of PAGES) {
   for (const colorScheme of ["light", "dark"]) {

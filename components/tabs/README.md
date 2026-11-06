@@ -49,6 +49,8 @@ Switch between views of related content without leaving the page. The visual sta
 - Required wiring: `role="tablist"` (with `aria-label`), `role="tab"` + `aria-controls` + `aria-selected`, `role="tabpanel"` + `aria-labelledby`; unselected tabs have `tabindex="-1"` and their panels `hidden`.
 - Keyboard (via `membrane.js`): Tab enters the list on the selected tab; ←/→ move and select (mirrored in RTL); Home/End jump; Tab again moves into the panel.
 
+Manual screen-reader and usability checks have not been recorded for this inventory. See the [accessibility evidence](../../docs/accessibility/README.md) for automated coverage, remaining checks and the result-recording protocol.
+
 ## API
 
 <!-- GENERATED:API -->

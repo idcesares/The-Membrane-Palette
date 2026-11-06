@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resource explorer · The Membrane Palette</title>
+  <link rel="stylesheet" href="../membrane.css">
+  <link rel="stylesheet" href="composition.css">
+  <link rel="stylesheet" href="resource-explorer.css">
+  <script type="module" src="resource-explorer.js"></script>
+</head>
+<body class="composition-page composition-explorer-document">
+  <a class="mp-skip-link" id="skip-link" href="#main">Skip to content</a>
+  <header class="composition-header">
+    <div class="mp-container composition-header__inner">
+      <a class="composition-brand" href="../showcase/index.html"><img src="../brand/idcesares-logo-monogram-primary.svg" alt="dc" width="40" height="40"><span class="type-small">The Membrane Palette</span></a>
+      <div class="mp-field composition-language">
+        <label class="mp-field__label" for="language"><span lang="pt-BR">Idioma</span> / <span lang="en">Language</span></label>
+        <select class="mp-input" id="language"><option value="en" lang="en">English</option><option value="pt-BR" lang="pt-BR">Português brasileiro</option></select>
+      </div>
+    </div>
+  </header>
+  <main class="mp-container mp-section mp-stack composition-explorer-page" id="main" data-gap="8">
+    <div class="mp-stack" data-gap="4">
+      <p class="composition-kicker" id="eyebrow">A working pattern / Learning resources</p>
+      <h1 class="type-display composition-title" id="explorer-title">Find a resource. Keep the context.</h1>
+      <p class="mp-text type-body-lg" id="intro" data-measure>Explore six Membrane references, narrow the collection and inspect a resource without losing your place.</p>
+      <p class="mp-text type-small" id="sample-label" data-tone="muted">Illustrative catalog. The resource links open existing English examples. Nothing is sent or saved.</p>
+    </div>
+    <noscript><div class="mp-alert"><div class="mp-alert__content"><p>This interactive reference needs JavaScript. Este exemplo interativo precisa de JavaScript. Read the <a class="mp-link" href="../docs/patterns/states-and-recovery.md">state and recovery guide</a> or open the <a class="mp-link" href="workshop.html">workshop reference</a>.</p></div></div></noscript>
+    <div class="mp-stack" data-gap="3">
+      <p class="mp-text type-small" id="results-status" role="status" aria-live="polite" aria-atomic="true">6 resources available.</p>
+      <div class="mp-cluster"><button class="mp-button composition-action" id="cancel-loading" type="button" data-variant="ghost" hidden>Cancel loading</button></div>
+      <progress class="mp-progress" id="load-progress" aria-label="Loading example resources" hidden></progress>
+          <div class="mp-alert" id="load-error" data-tone="error" hidden>
+            <div class="mp-alert__content"><p class="mp-alert__title" id="load-error-title">The catalog could not refresh</p><p id="load-error-body">Previous results are still available. Try loading the sample again.</p><div class="mp-alert__actions"><button class="mp-button composition-action" id="retry-loading" type="button" data-variant="secondary">Retry loading</button></div></div>
+          </div>
+          <div class="mp-alert" id="partial-notice" data-tone="warning" hidden>
+            <div class="mp-alert__content"><p class="mp-alert__title" id="partial-title">Some resources are unavailable</p><p id="partial-body">You can browse the available sample or retry the complete collection.</p><div class="mp-alert__actions"><button class="mp-button composition-action" id="retry-complete" type="button" data-variant="secondary">Load complete sample</button></div></div>
+          </div>
+
+    </div>
+    <div class="composition-explorer">
+      <section id="resource-browser" class="mp-stack" data-gap="5" aria-labelledby="browse-title">
+        <h2 class="type-h2" id="browse-title">Browse resources</h2>
+        <form id="search-form" class="mp-stack" data-gap="4" role="search">
+          <div class="mp-field">
+            <label class="mp-field__label" id="search-label" for="search-query">Search resources</label>
+            <input class="mp-input" id="search-query" name="query" type="search" aria-describedby="search-hint">
+            <p class="mp-field__hint" id="search-hint">Search titles and descriptions in English or Portuguese.</p>
+          </div>
+          <div class="mp-field">
+            <label class="mp-field__label" id="topic-label" for="topic">Topic</label>
+            <select class="mp-input" id="topic" name="topic"><option id="topic-all" value="all">All topics</option><option id="topic-teaching" value="teaching">Teaching</option><option id="topic-research" value="research">Research</option><option id="topic-design" value="design">Design and development</option></select>
+          </div>
+          <div class="mp-cluster"><button class="mp-button composition-action" id="search-button" type="submit">Search</button></div>
+        </form>
+        <div id="resource-results" class="mp-stack" data-gap="4" aria-busy="false">
+          <ul class="composition-resource-list" id="resource-list" aria-label="Available resources"></ul>
+          <div class="mp-empty" id="empty-state" data-variant="bordered" hidden>
+            <h3 class="mp-empty__title" id="empty-title">No resources match these filters</h3>
+            <p class="mp-empty__body" id="empty-body">Try a broader phrase or clear the filters.</p>
+            <div class="mp-empty__actions"><button class="mp-button composition-action" id="clear-filters" type="button" data-variant="secondary">Clear filters</button><button class="mp-button composition-action" id="populate-sample" type="button" data-variant="secondary" hidden>Use populated sample</button></div>
+          </div>
+        </div>
+      </section>
+      <section class="composition-resource-detail mp-stack" id="resource-detail" data-gap="5" aria-labelledby="detail-title">
+        <button class="mp-button composition-action" id="back-to-results" type="button" data-variant="ghost" hidden>Back to results</button>
+        <p class="mp-text type-label" id="detail-label" data-tone="digital">Read in context</p>
+        <h2 class="type-h2" id="detail-title" tabindex="-1">Choose a resource</h2>
+        <p class="mp-text" id="detail-description">Select a title to see its purpose and open the full reference.</p>
+        <p class="mp-text type-small" id="detail-topic" data-tone="muted" hidden></p>
+        <a class="mp-link" id="open-resource" href="workshop.html" hidden>Open English reference</a>
+        <p class="mp-text type-small composition-note" id="detail-note" data-tone="muted">The catalog copy is bilingual; the linked references remain in English. Selection is kept when the layout or language changes.</p>
+      </section>
+    </div>
+    <details class="mp-accordion" id="example-states">
+      <summary class="mp-accordion__summary" id="states-summary">Explore example states</summary>
+      <div class="mp-accordion__content mp-stack" data-gap="4">
+        <p class="mp-text type-small" id="states-intro">These controls deliberately simulate local catalog conditions. Loading is briefly delayed; no service is contacted.</p>
+        <div class="mp-field"><label class="mp-field__label" id="condition-label" for="sample-condition">Example condition</label><select class="mp-input" id="sample-condition"><option id="condition-ready" value="ready">Complete sample</option><option id="condition-loading" value="loading">Loading until canceled</option><option id="condition-partial" value="partial">Partial availability</option><option id="condition-empty" value="empty">Empty collection</option><option id="condition-error" value="error">Temporary failure</option></select></div>
+        <div class="mp-cluster"><button class="mp-button composition-action" id="load-sample" type="button" data-variant="secondary">Load selected sample</button></div>
+      </div>
+    </details>
+  </main>
+  <footer class="composition-footer"><div class="mp-container mp-stack" data-gap="3"><p class="mp-text type-small" id="pattern-note">Working reference: search, state recovery, bilingual content and adaptive list/detail.</p><div class="mp-cluster"><a class="mp-link" id="guide-link" href="../docs/patterns/README.md">Experience patterns</a><a class="mp-link" id="form-link" href="form-journey.html">Try the form journey</a><a class="mp-link" id="evidence-link" href="../docs/accessibility/README.md">Accessibility evidence</a></div></div></footer>
+</body>
+</html>

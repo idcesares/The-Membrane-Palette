@@ -60,3 +60,21 @@ Interface copy follows `DESIGN-SYSTEM.md` §16 and `VOICE.md`; public-brand expr
 ## Pull requests
 
 Branch from `master`, keep one concern per PR, and add an entry under `[Unreleased]` in `CHANGELOG.md` that leads with *why*.
+
+## Proposing a pattern or component
+
+Start with a real task and try the [existing components](DESIGN-SYSTEM.md#63-catalog), [composition guidance](docs/composition/README.md) and [task patterns](docs/patterns/README.md) first. A local composition is often enough. Proposals can be short; unknown user evidence is an honest starting point, not a reason to invent findings.
+
+```text
+Problem: Who needs to do what, and where do they get stuck?
+Existing alternatives: Which native elements, components or patterns were tried?
+User evidence: Observations, research or issue links; write "unknown" if unavailable.
+Contexts: Devices/layouts, languages, input methods, themes and relevant constraints.
+Usability/accessibility evidence: What was checked, with which method and outcome?
+Owner: Who maintains the proposal and follows up on unresolved evidence?
+Limitations: Unknowns, excluded cases and the next useful validation step.
+```
+
+Link a small working example when it clarifies the need. Retain native semantics, use the documented token/component contracts and keep illustrative content visibly labelled. Define empty, loading, error and recovery behavior where the task needs them. Explain any new API instead of treating page-specific styling as a library component.
+
+Component `stable`/`beta` status describes the API contract and its maturity; it does not mean users have validated the task or that assistive-technology testing has occurred. Record automated coverage separately from verified runs and manual observations in [accessibility evidence](docs/accessibility/README.md). Mark unperformed checks `not-tested`, with no invented testers, software versions or results. A proposal can advance with known evidence gaps when those gaps, an owner and the validation plan are explicit.

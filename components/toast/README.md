@@ -64,6 +64,8 @@ It creates the `.mp-toast-region` live region on first use. Toasts stay 6 second
 - The close button needs `aria-label="Dismiss"`; it's 36px, above the 24px minimum.
 - Don't put the only route to an action in a toast — it may be gone before someone reaches it.
 
+Manual screen-reader and usability checks have not been recorded for this inventory. See the [accessibility evidence](../../docs/accessibility/README.md) for automated coverage, remaining checks and the result-recording protocol.
+
 ## API
 
 <!-- GENERATED:API -->

@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "name": "Membrane visual assets",
+  "generated": "Edit scripts/render-visual-assets.mjs, then run npm run render:visuals. Colors resolve from semantic tokens.",
+  "license": "MIT — repository LICENSE",
+  "source": "scripts/render-visual-assets.mjs",
+  "colorSource": "tokens/membrane.tokens.json",
+  "assets": [
+    {
+      "id": "passage",
+      "title": "Passage",
+      "role": "focal",
+      "description": "An open organic trace meets a dotted boundary and continues as three aligned routes.",
+      "usage": "Website openings, editorial covers and section introductions about interpretation or translation.",
+      "limitations": "An expressive motif, not a measured process. Keep labels outside the artwork; preserve the crossing when cropping.",
+      "width": 800,
+      "height": 600,
+      "files": {
+        "light": "passage-light.svg",
+        "dark": "passage-dark.svg"
+      }
+    },
+    {
+      "id": "confluence",
+      "title": "Confluence",
+      "role": "focal",
+      "description": "Three independent curved paths gather at an open ring, then separate into a structured set of routes.",
+      "usage": "Presentation covers and introductions to collective inquiry or synthesis.",
+      "limitations": "Do not imply that different perspectives become equivalent. Use a labelled diagram for an actual method.",
+      "width": 800,
+      "height": 600,
+      "files": {
+        "light": "confluence-light.svg",
+        "dark": "confluence-dark.svg"
+      }
+    },
+    {
+      "id": "field-notes",
+      "title": "Field notes",
+      "role": "editorial",
+      "description": "A loose warm plane sits behind a precise open frame, with a curved observation trace and annotation anchors.",
+      "usage": "Teaching cards, editorial sidebars and introductory illustrations about observation.",
+      "limitations": "Anchors are decorative until connected to visible HTML labels. Never substitute this motif for actual evidence.",
+      "width": 800,
+      "height": 600,
+      "files": {
+        "light": "field-notes-light.svg",
+        "dark": "field-notes-dark.svg"
+      }
+    },
+    {
+      "id": "learning-loop",
+      "title": "Learning loop",
+      "role": "editorial",
+      "description": "An unfinished organic loop and an open rectangular route share two meeting points, leaving room for revision.",
+      "usage": "Reflection prompts, iteration stories and workshop material.",
+      "limitations": "The open loop suggests revisiting an idea; it does not encode a universal learning model or a progress value.",
+      "width": 800,
+      "height": 600,
+      "files": {
+        "light": "learning-loop-light.svg",
+        "dark": "learning-loop-dark.svg"
+      }
+    },
+    {
+      "id": "permeable-grid",
+      "title": "Permeable grid",
+      "role": "field",
+      "description": "An open dotted grid interrupted by three organic crossings, with generous blank intervals.",
+      "usage": "Cropped margins, section transitions and separate supporting fields.",
+      "limitations": "Decorative texture only. Keep text on its own solid surface and never treat dot counts as data.",
+      "width": 800,
+      "height": 400,
+      "files": {
+        "light": "permeable-grid-light.svg",
+        "dark": "permeable-grid-dark.svg"
+      }
+    },
+    {
+      "id": "trace-field",
+      "title": "Trace field",
+      "role": "field",
+      "description": "A family of independent warm curves becomes spaced, straight teal traces across an open seam.",
+      "usage": "Wide editorial strips, cover margins and transitions between sections.",
+      "limitations": "Decorative line field, not a chart, frequency scale or representation of recorded signals.",
+      "width": 800,
+      "height": 400,
+      "files": {
+        "light": "trace-field-light.svg",
+        "dark": "trace-field-dark.svg"
+      }
+    }
+  ]
+}

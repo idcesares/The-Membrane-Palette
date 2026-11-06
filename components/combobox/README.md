@@ -79,6 +79,8 @@ Without the script it is a plain text input and the list stays hidden, so nothin
 - `aria-disabled="true"` options stay visible, so the person learns they exist, but they can't be chosen. Put the reason in a `.mp-combobox__hint` ("Full").
 - The chosen value is the option's text. To submit something else, put it in `data-mp-value` on the option.
 
+Manual screen-reader and usability checks have not been recorded for this inventory. See the [accessibility evidence](../../docs/accessibility/README.md) for automated coverage, remaining checks and the result-recording protocol.
+
 ## API
 
 <!-- GENERATED:API -->
