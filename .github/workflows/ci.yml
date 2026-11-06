@@ -71,7 +71,9 @@ jobs:
 
   test:
     name: Accessibility & behavior tests (Playwright + axe)
-    runs-on: ubuntu-latest
+    # Keep the host within Playwright 1.56.1's supported OS set.
+    # ubuntu-latest now resolves to 26.04; this browser release targets Noble.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v5
 

@@ -20,6 +20,7 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ### Changed
 
+- Browser CI uses Ubuntu 24.04, which is supported by the pinned Playwright release; the moving `ubuntu-latest` label now selects an unsupported Ubuntu 26.04 host.
 - Action labels now prioritize a concise, clear verb phrase over a universal three-word limit; translation and enlarged-text readability determine when additional words are necessary.
 - Presentation printing uses a named landscape page and deck-scoped navigation rules. Workshop and research pages keep the reader's paper settings and their header/footer.
 - The 30-word slide limit is now an editorial starting point. Evidence canvases can retain necessary method, source and limitation text when hierarchy and readable type are preserved.
