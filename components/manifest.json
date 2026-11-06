@@ -23,7 +23,9 @@
     "layer": "All component CSS is in @layer components; unlayered CSS overrides it.",
     "behaviorHooks": "data-mp-* attributes are hooks for components/membrane.js (e.g. data-mp-toast). Valid on any element.",
     "tailwind": "Using Tailwind v4? Import tokens/membrane-tailwind.css: only mp- utilities exist (bg-mp-surface, text-mp-fg, bg-mp-primary, rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2); the default palette is removed. p-4 = --space-4.",
-    "patterns": "examples/*.html are complete pages (starter, article, dashboard) built only from the library and linted like the examples here."
+    "patterns": "examples/*.html include complete compositions and bilingual resource-explorer/form-journey interactions using the library, linted like component examples. See docs/composition/README.md for composition and docs/patterns/README.md for task behavior, states and recovery.",
+    "accessibilityEvidence": "docs/accessibility/evidence.json records automated coverage separately from manual screen-reader and usability evidence. Component API maturity does not imply manual verification.",
+    "visualLanguage": "docs/visual-language/README.md defines original organic/structural motifs, role choices and arrangements. brand/visuals/catalog.json lists self-contained light/dark SVGs; examples/visual-language.html demonstrates use. Keep actual-surface variants and readable diagram equivalents; motifs are not data or logos."
   },
   "categories": [
     "Layout",

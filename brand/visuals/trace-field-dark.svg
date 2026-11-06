@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="trace-field-title trace-field-description">
+  <title id="trace-field-title">Trace field</title>
+  <desc id="trace-field-description">A family of independent warm curves becomes spaced, straight teal traces across an open seam. Original Membrane illustration; not data.</desc>
+  <path d="M414 42v316" stroke="#F0EBE1" stroke-width="2" stroke-dasharray="2 12"/>
+  <path d="M68 65C176 5 282 127 414 65" stroke="#E08A6A" stroke-width="3"/><path d="M414 65h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="65" r="3" fill="#3AAFA8"/>
+  <path d="M68 103C176 52 282 156 414 103" stroke="#E08A6A" stroke-width="3"/><path d="M414 103h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="103" r="3" fill="#3AAFA8"/>
+  <path d="M68 141C176 99 282 185 414 141" stroke="#E08A6A" stroke-width="3"/><path d="M414 141h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="141" r="3" fill="#3AAFA8"/>
+  <path d="M68 179C176 146 282 214 414 179" stroke="#E08A6A" stroke-width="3"/><path d="M414 179h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="179" r="3" fill="#3AAFA8"/>
+  <path d="M68 217C176 193 282 243 414 217" stroke="#E08A6A" stroke-width="3"/><path d="M414 217h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="217" r="3" fill="#3AAFA8"/>
+  <path d="M68 255C176 240 282 272 414 255" stroke="#E08A6A" stroke-width="3"/><path d="M414 255h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="255" r="3" fill="#3AAFA8"/>
+  <path d="M68 293C176 287 282 301 414 293" stroke="#E08A6A" stroke-width="3"/><path d="M414 293h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="293" r="3" fill="#3AAFA8"/>
+  <path d="M68 331C176 334 282 330 414 331" stroke="#E08A6A" stroke-width="3"/><path d="M414 331h306" stroke="#3AAFA8" stroke-width="3"/><circle cx="732" cy="331" r="3" fill="#3AAFA8"/>
+</svg>

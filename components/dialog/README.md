@@ -71,6 +71,8 @@ The native `<dialog>` element opened with `showModal()` traps focus, makes the p
 - Put focus somewhere sensible: by default the first focusable element; add `autofocus` to the least destructive button for confirmations.
 - The page behind an open modal stops scrolling.
 
+Manual screen-reader and usability checks have not been recorded for this inventory. See the [accessibility evidence](../../docs/accessibility/README.md) for automated coverage, remaining checks and the result-recording protocol.
+
 ## API
 
 <!-- GENERATED:API -->

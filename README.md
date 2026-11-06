@@ -87,8 +87,12 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`VOICE.md`](VOICE.md) | **Writing authority.** Observed voice, evidence classes and adaptive registers. |
 | [`BRAND-VOICE.md`](BRAND-VOICE.md) | **Brand application.** How the voice is expressed publicly without inventing biography. |
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Visual/UI specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
-| [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, rendered — [live](https://membrane-palette.dcesares.dev/). |
+| [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, plus a [composition gallery](showcase/index.html#compositions) with previews and source links — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
+| [`docs/composition/`](docs/composition/README.md) | **Complete compositions.** Intent routes, fixed principles and creative freedom, a visual rubric, and rendered workshop, research explainer and presentation references. |
+| [`docs/patterns/`](docs/patterns/README.md) | **Complete tasks.** Forms, states/recovery, component selection, adaptive layouts, data explanations, optional AI interactions and incremental adoption. Working references: [resource explorer](examples/resource-explorer.html) and [form journey](examples/form-journey.html), both English/pt-BR. |
+| [`docs/visual-language/`](docs/visual-language/README.md) | **Visual expression.** Organic gestures and precise structures, icon/illustration/diagram arrangements, [six original SVG constructions](brand/visuals/catalog.json) in two themes, and a [working specimen](examples/visual-language.html). |
+| [`docs/accessibility/`](docs/accessibility/README.md) | **Inspectable evidence.** Automated coverage and outstanding manual screen-reader/usability checks, recorded separately from API maturity. |
 | [`tests/`](tests/) | **Tests** — in Chromium, Firefox and WebKit: axe-core in both themes, overflow, link integrity, keyboard and motion behavior; visual baselines of every component gallery example, recorded in the Playwright container; a TypeScript check of the generated types (`npm test`, after an html-validate pass). |
 | [`llms.txt`](llms.txt) | **Agent index** ([llmstxt.org](https://llmstxt.org)) with the house rules. |
 
@@ -139,14 +143,18 @@ This repo is written to be machine-consumable, not just human-readable. If you'r
 | [`components/membrane.d.ts`](components/membrane.d.ts) | The same API as TypeScript types, when generating framework code. |
 | [`examples/starter.html`](examples/starter.html) | A complete, correct page to start from. |
 | [`DESIGN-SYSTEM.md` §11.4](DESIGN-SYSTEM.md#114-ai-agent-configuration) | A copy-pasteable visual + UI + voice constraint block. |
+| [`docs/composition/README.md`](docs/composition/README.md) | How to compose complete pages, decks and artwork; choose the register, reference and review criteria. |
+| [`docs/patterns/README.md`](docs/patterns/README.md) | How whole tasks behave: entry, review, feedback, recovery and adaptive interaction; English/pt-BR references. |
+| [`docs/visual-language/README.md`](docs/visual-language/README.md) | Original motifs, visual roles, arrangements, theme handling and source-generated SVG assets. |
+| [`docs/accessibility/evidence.json`](docs/accessibility/evidence.json) | Automation scope and manual verification status. Covered test code and stable APIs do not establish manual accessibility or usability results. |
 | [`PROFILE.md`](PROFILE.md) | Facts about Isaac: current role, academic status and approved biographical claims. |
 | [`VOICE.md`](VOICE.md) | How Isaac naturally writes, including register adaptation and example evidence classes. |
 | [`BRAND-VOICE.md`](BRAND-VOICE.md) | How that voice is applied in public brand material. |
 | [`CLAUDE.md`](CLAUDE.md) / [`AGENTS.md`](AGENTS.md) | Operating instructions for agents *changing this repo* (identical content). |
 
-Everything an agent reads is **generated from the source and linted**: the build fails if a README example uses a class, attribute value or token the CSS doesn't implement, so the docs can't teach a model something that doesn't exist.
+The component API and agent index are **generated from source**, and documented HTML is linted: the build fails if a README example uses a class, attribute value or token the CSS doesn't implement. Composition guidance is authored and reviewed against rendered references.
 
-**The one rule that matters most when editing this repo:** `tokens/membrane.tokens.json` and `components/<name>/<name>.css` are sources; every other CSS file, the manifest, `llms.txt` and the marked regions of the READMEs, spec and showcase are build output. CI fails if they don't match a fresh `npm run build:system`.
+**The one rule that matters most when editing this repo:** `tokens/membrane.tokens.json` and `components/<name>/<name>.css` are library sources; bundled CSS, token/base/font CSS, the manifest, `llms.txt` and the marked regions of the READMEs, spec and showcase are build output. Local page styles such as `examples/composition.css` are authored sources. CI fails if generated artifacts don't match a fresh `npm run build:system`.
 
 <br>
 

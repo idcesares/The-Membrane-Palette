@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="field-notes-title field-notes-description">
+  <title id="field-notes-title">Field notes</title>
+  <desc id="field-notes-description">A loose warm plane sits behind a precise open frame, with a curved observation trace and annotation anchors. Original Membrane illustration; not data.</desc>
+  <path d="M128 113C177 62 277 113 325 95C391 71 451 118 427 190L388 362C367 438 248 486 173 420C101 358 59 188 128 113Z" fill="rgba(179, 85, 48, 0.1)"/>
+  <path d="M136 129C218 85 281 143 326 125" stroke="#944425" stroke-width="3"/>
+  <rect x="280" y="172" width="377" height="318" rx="6" fill="rgba(27, 117, 109, 0.1)" stroke="#145C56" stroke-width="3"/>
+  <g stroke="#C8C1B5" stroke-width="2" stroke-dasharray="2 11"><path d="M312 252h312M312 331h312M312 410h312M390 205v253M468 205v253M546 205v253"/></g>
+  <path d="M146 377C166 218 321 193 358 305C384 385 464 410 507 315C537 250 591 280 615 226" stroke="#944425" stroke-width="7"/>
+  <g stroke="#2A2622" stroke-width="2"><path d="M358 305l-36-74H218M507 315l54 83h140"/><circle cx="358" cy="305" r="10"/><circle cx="507" cy="315" r="10"/></g>
+  <g fill="#145C56"><rect x="272" y="164" width="16" height="16"/><rect x="649" y="482" width="16" height="16"/></g>
+</svg>

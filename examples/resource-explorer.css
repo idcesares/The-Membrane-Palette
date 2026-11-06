@@ -1,0 +1,33 @@
+/* Page geometry; appearance and interaction roles come from Membrane. */
+.composition-explorer-page { --mp-section-space: var(--space-12); }
+/* Scheme colors switch together; color interpolation can cross an unreadable pair. */
+.composition-explorer-document :is(.mp-link, .mp-input, .mp-button) { transition-property: box-shadow, transform; }
+.composition-explorer-document button[aria-disabled="true"] { cursor: progress; }
+.composition-language { inline-size: min(100%, 16rem); }
+/* WebKit's single-line native value can overflow at enlarged text sizes. */
+.composition-explorer-document select.mp-input { white-space: normal; }
+.composition-explorer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+  gap: var(--space-10);
+  align-items: start;
+}
+.composition-resource-list { display: grid; gap: var(--space-3); margin: 0; padding: 0; list-style: none; }
+.composition-resource-list > li { padding-block: var(--space-3); border-block-end: var(--border-default); min-inline-size: 0; }
+.composition-resource-button {
+  inline-size: 100%;
+  justify-content: start;
+  text-align: start;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.composition-resource-button[aria-current="true"] { background: var(--color-digital-bg); border-color: var(--color-action-secondary); }
+.composition-resource-meta { padding-inline: var(--space-4); margin-block: var(--space-2) 0; color: var(--color-text-secondary); font-size: var(--text-small); }
+.composition-resource-detail { padding: var(--space-8); border: var(--border-default); border-radius: var(--radius-lg); background: var(--color-bg-secondary); min-inline-size: 0; }
+.composition-resource-detail:focus { outline: var(--focus-ring); }
+@media (max-width: 55.999rem) {
+  .composition-explorer { grid-template-columns: minmax(0, 1fr); }
+  .composition-resource-detail { padding: var(--space-5); }
+}
+/* Native hidden must win over layout components that set display. */
+.composition-page [hidden] { display: none !important; }

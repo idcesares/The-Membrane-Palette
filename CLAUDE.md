@@ -18,13 +18,16 @@ Never infer biography from examples. If a requested personal claim is not suppor
 ```bash
 npm run build:tokens      # Regenerate tokens/design-tokens.css, base.css, membrane-tailwind.css, tokens.resolved.json, fonts/fonts.css and the spec/showcase token tables; runs the WCAG contrast gate (every `GATE` pair × light/dark) and aborts on failure
 npm run build:components  # Lint components + README examples + pattern pages, then write components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt, the README API sections and the showcase gallery
-npm run build:system      # Both of the above, in order — run this after any source change
+npm run build:system      # Tokens, original visual assets, then components — run after source changes
 npm run build             # Cloudflare build: build:system, then assembles dist/ (adds llms-full.txt)
 npm run check:verbal      # Validate Verbal System v2 authorities, factuality boundaries and obsolete identity semantics
+npm run test:build        # Check color/token build failures using temporary example-CSS fixtures
 npm test                  # Build, html-validate dist/, type-check membrane.d.ts, serve dist/, run Playwright in Chromium/Firefox/WebKit: axe-core on every page in both themes, phone-width overflow, link integrity + self-containment, keyboard/focus/ARIA, motion (full/reduced/touch)
 npm run test:visual       # Pixel baselines of every gallery example, light + dark. Canonical only inside mcr.microsoft.com/playwright:v1.56.1-noble (CI's `visual` job). After an INTENDED visual change, commit the baselines CI uploads as the `visual-baselines` artifact, or record them in that image (command in tests/visual.spec.mjs)
 npm run render:social     # Re-render the og:image and apple-touch icon in showcase/assets/ (manual; commit the PNGs)
 npm run render:figures    # Re-render the report figures (docs/figures/src/*.html → PNG, light + dark) after a visual change (manual; commit the PNGs)
+npm run render:visuals    # Regenerate brand/visuals/*.svg and catalog.json from source geometry + resolved semantic tokens
+npm run render:composition # Re-render composition previews (desktop, phone and deck canvases, light + dark); manual, commit the PNGs
 npm run dev               # Build, then start local dev server at localhost:3456
 npm run preview           # Alias of dev
 npm run deploy            # Build, then `wrangler deploy` — uploads dist/ as Cloudflare Workers static assets per wrangler.toml. Pushes are also deployed by Cloudflare's Workers Builds integration (releases: docs/RELEASING.md)
@@ -41,12 +44,14 @@ A **token-based design system with a framework-free CSS component library**:
 - `components/<name>/README.md` — **Component docs.** Frontmatter (`name`, `category`, `status`, `summary`), `## Examples` with `### Title` + ```` ```html ```` blocks (rendered in the showcase and copied into the manifest), and a generated `## API` section between `<!-- GENERATED:API -->` markers.
 - `components/membrane.js` — hand-written behaviors: tabs, menu and combobox keyboard patterns, toast API, tooltip Escape, dialog invoker fallback.
 - `fonts/fonts.json` — **source for the self-hosted fonts** (files, unicode ranges, measured fallback overrides). `build:tokens` writes `fonts/fonts.css`; `build:components` inlines it at the top of `membrane.css` with `fonts/` URLs. Pages need no Google Fonts link; a test fails on any third-party request. After replacing a font file, rerun `scripts/measure-fonts.py` (needs Python fontTools).
-- `brand/` — outlined brand-mark SVGs from `scripts/render-brand-marks.py` (needs fontTools + uharfbuzz and the full Fraunces variable font). Never hand-edit the paths.
+- `brand/` — outlined brand-mark SVGs from `scripts/render-brand-marks.py` (needs fontTools + uharfbuzz and the full Fraunces variable font). Never hand-edit the paths. `brand/visuals/*.svg` and `catalog.json` are separate generated original artwork from `scripts/render-visual-assets.mjs`, using resolved semantic tokens. Edit that source geometry. The [visual language guide](docs/visual-language/README.md) defines roles and arrangements; the [specimen](examples/visual-language.html) demonstrates website, presentation and teaching use. The build regenerates and ships these assets.
 - `scripts/build-tokens.mjs` / `scripts/build-components.mjs` — the two builds (see Commands).
 - **Generated, committed, never hand-edited:** `fonts/fonts.css`, `components/membrane.d.ts` (TypeScript types from the manifest), `tests/visual.spec.mjs-snapshots/` (recorded only in the Playwright container, never edited), `tokens/design-tokens.css`, `tokens/base.css` (includes `:where()`-level page defaults for `body`), `tokens/membrane-tailwind.css` (Tailwind v4 theme), `tokens/tokens.resolved.json`, `components/membrane-components.css`, `components/manifest.json`, `membrane.css`, `llms.txt`, and the `GENERATED:*` marker regions in `showcase/index.html`, `DESIGN-SYSTEM.md` and each component README.
 - `showcase/index.html` — static reference site; its gallery, token table and contrast matrix are generated.
 - `DESIGN-SYSTEM.md` — authoritative specification (§6 = component conventions).
-- `examples/*.html` — complete pages (starter, article, dashboard) built only from the library; linted by `build:components` exactly like README examples.
+- `examples/*.html` — complete page and composition references; linted by `build:components` like README examples. `examples/*.css` is authored local composition CSS, checked by the library's shared color/token guard. Local `--composition-*` and `--mp-*` knobs must be declared in the same stylesheet; design-token redefinitions are forbidden. Presentation printing uses the named `membrane-slide` page so other references keep their paper settings.
+- `docs/composition/` — intent routes, creative latitude, visual rubric and rendered previews. The showcase includes a Compositions gallery; the site build ships the guidance and includes it in `llms-full.txt`.
+- `docs/patterns/` and `docs/accessibility/` — complete task behavior, source-backed recommendations and evidence inventory. The English/pt-BR explorer and form journey are local demonstrations; they transmit and persist nothing. Keep manual accessibility/usability status honest, independent of automated coverage and API stability. The build ships these guides and public test sources for inspection.
 
 Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. npm publishing is not set up; the CDN link in `README.md` is the only supported channel.
 

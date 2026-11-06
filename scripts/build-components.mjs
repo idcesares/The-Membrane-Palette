@@ -82,6 +82,53 @@ const tokens = new Map(); // cssName -> { path, tier, deprecated, description }
 const stripComments = (css) => css.replace(/\/\*[\s\S]*?\*\//g, "");
 const uniq = (arr) => [...new Set(arr)];
 
+// CSS named colors are literals too; currentColor and transparent remain valid.
+const namedColors = `aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue blueviolet brown burlywood
+cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey darkturquoise darkviolet
+deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon
+lightblue lightcoral lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin navajowhite navy
+oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white whitesmoke yellow yellowgreen`.split(/\s+/);
+const namedColorPattern = new RegExp(`(?<![\\w-])(?:${namedColors.join("|")})(?![\\w-])`, "i");
+
+/** Keep validation and generated API metadata on the same CSS syntax. */
+function scanCustomProperties(src) {
+  const declarations = new Map();
+  for (const match of src.matchAll(/(?:^|[{;])\s*(--[a-z0-9_-]+)\s*:\s*([^;{}]+)(?=[;}])/gi)) {
+    if (!declarations.has(match[1])) declarations.set(match[1], match[2].replace(/\s+/g, " ").trim());
+  }
+  const references = uniq([...src.matchAll(/var\(\s*(--[a-z0-9_-]+)/gi)].map((match) => match[1]));
+  return { declarations, references };
+}
+
+/** Shared color/token contract for library and local composition styles. */
+function lintTokenCss(css, where, { prefixes = ["--mp-"] } = {}) {
+  const src = stripComments(css);
+  const { declarations, references: used } = scanCustomProperties(src);
+  const declared = new Set(declarations.keys());
+  const hex = src.match(/#[0-9a-f]{3,8}\b/gi);
+  if (hex) fail(where, `raw hex color(s) ${uniq(hex).join(", ")} — use a semantic token`);
+  const fn = src.match(/\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb|color|device-cmyk)\(/gi);
+  if (fn) fail(where, `raw color function(s) ${uniq(fn).join(", ")} — use a semantic token`);
+  // Inspect declaration values, excluding quoted copy and custom-property names.
+  const named = [...src.matchAll(/(?:^|[;{])\s*[\w-]+\s*:\s*([^;{}]+)(?=[;}])/g)]
+    .map((match) => match[1].replace(/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'/g, ""))
+    .find((value) => namedColorPattern.test(value));
+  if (named) fail(where, `named color in "${named.trim()}" — use a semantic token`);
+  const names = prefixes.map((prefix) => `${prefix}*`).join(" or ");
+  for (const key of declared) {
+    if (!prefixes.some((prefix) => key.startsWith(prefix))) {
+      fail(where, `custom property ${key} must be named ${names} — design tokens are only defined in tokens/membrane.tokens.json`);
+    }
+  }
+  for (const name of used) {
+    if (declared.has(name)) continue;
+    const token = tokens.get(name);
+    if (!token) fail(where, `var(${name}) is neither a design token nor a ${names} knob declared in this file`);
+    else if (token.tier === "primitive") fail(where, `var(${name}) is a Tier 1 primitive — consume a semantic token (--color-action-*, --color-*-text, --color-*-bg…)`);
+    else if (token.deprecated) fail(where, `var(${name}) is deprecated: ${token.deprecated}`);
+  }
+}
+
 function parseCss(slug, css) {
   const src = stripComments(css);
   const classes = uniq([...src.matchAll(/\.(mp-[a-z0-9-]+(?:__[a-z0-9-]+)?)/g)].map((m) => m[1]));
@@ -99,30 +146,10 @@ function parseCss(slug, css) {
     ...[...src.matchAll(/:(hover|active|focus-visible|focus-within|disabled|checked|indeterminate|invalid|modal|popover-open|dir\(rtl\))/g)].map((m) => `:${m[1]}`),
   ]).sort();
 
-  const knobs = new Map(); // --mp-* -> default value (first declaration)
-  for (const m of src.matchAll(/[{;]\s*(--[a-z0-9-]+)\s*:\s*([^;{}]+)(?=;)/g)) {
-    if (!knobs.has(m[1])) knobs.set(m[1], m[2].replace(/\s+/g, " ").trim());
-  }
-  const used = uniq([...src.matchAll(/var\((--[a-z0-9-]+)/g)].map((m) => m[1]));
+  const { declarations: knobs, references: used } = scanCustomProperties(src);
 
-  /* --- lint --- */
   const where = `components/${slug}/${slug}.css`;
-  const hex = src.match(/#[0-9a-f]{3,8}\b/gi);
-  if (hex) fail(where, `raw hex color(s) ${uniq(hex).join(", ")} — use a semantic token`);
-  const fn = src.match(/\b(?:rgba?|hsla?|oklch|oklab|lab|lch|hwb)\(/gi);
-  if (fn) fail(where, `raw color function(s) ${uniq(fn).join(", ")} — use a semantic token`);
-  const named = src.match(/:\s*[^;{}]*\b(white|black)\b/gi);
-  if (named) fail(where, `named color in "${named[0].trim()}" — use a semantic token`);
-  for (const k of knobs.keys()) {
-    if (!k.startsWith("--mp-")) fail(where, `custom property ${k} must be named --mp-* (component knob) — design tokens are only defined in tokens/membrane.tokens.json`);
-  }
-  for (const v of used) {
-    if (knobs.has(v)) continue;
-    const t = tokens.get(v);
-    if (!t) fail(where, `var(${v}) is neither a design token nor a --mp-* knob declared in this file`);
-    else if (t.tier === "primitive") fail(where, `var(${v}) is a Tier 1 primitive — consume a semantic token (--color-action-*, --color-*-text, --color-*-bg…)`);
-    else if (t.deprecated) fail(where, `var(${v}) is deprecated: ${t.deprecated}`);
-  }
+  lintTokenCss(css, where);
   if (roots.length === 0) fail(where, "declares no .mp-* root class");
 
   return {
@@ -224,6 +251,14 @@ for (const c of components) {
       idHint: " — example ids must be unique (they share one showcase page)",
     });
   }
+}
+
+// Local composition styles obey the same color/token contract as components.
+const exampleStyles = (await readdir(rel("examples"))).filter((f) => f.endsWith(".css")).sort();
+for (const file of exampleStyles) {
+  lintTokenCss(await readFile(rel("examples", file), "utf8"), `examples/${file}`, {
+    prefixes: ["--composition-", "--mp-"],
+  });
 }
 
 // Pattern pages: the same rules, ids unique per page.
@@ -382,7 +417,9 @@ const manifest = {
     layer: "All component CSS is in @layer components; unlayered CSS overrides it.",
     behaviorHooks: "data-mp-* attributes are hooks for components/membrane.js (e.g. data-mp-toast). Valid on any element.",
     tailwind: "Using Tailwind v4? Import tokens/membrane-tailwind.css: only mp- utilities exist (bg-mp-surface, text-mp-fg, bg-mp-primary, rounded-mp-lg, shadow-mp-raised, font-mp-display, text-mp-h2); the default palette is removed. p-4 = --space-4.",
-    patterns: "examples/*.html are complete pages (starter, article, dashboard) built only from the library and linted like the examples here.",
+    patterns: "examples/*.html include complete compositions and bilingual resource-explorer/form-journey interactions using the library, linted like component examples. See docs/composition/README.md for composition and docs/patterns/README.md for task behavior, states and recovery.",
+    accessibilityEvidence: "docs/accessibility/evidence.json records automated coverage separately from manual screen-reader and usability evidence. Component API maturity does not imply manual verification.",
+    visualLanguage: "docs/visual-language/README.md defines original organic/structural motifs, role choices and arrangements. brand/visuals/catalog.json lists self-contained light/dark SVGs; examples/visual-language.html demonstrates use. Keep actual-surface variants and readable diagram equivalents; motifs are not data or logos.",
   },
   categories: CATEGORIES,
   components: components.map((c) => ({
@@ -513,6 +550,9 @@ Rules for generating UI with this system:
 - Load \`${CDN}membrane.css\` (tokens + base + components). Load \`${CDN}components/membrane.js\` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
 - Don't add a Google Fonts (or any other font) link: \`membrane.css\` already declares self-hosted Fraunces, Instrument Sans and JetBrains Mono.
 - Compose from components (\`.mp-button\`, \`.mp-card\`, \`.mp-field\`…) and layout primitives (\`.mp-container\`, \`.mp-stack\`, \`.mp-cluster\`, \`.mp-grid\`) before writing CSS.
+- For complete pages, decks and artwork, start from [composition guidance](docs/composition/README.md). Separate [fixed principles from adaptable defaults](docs/composition/creative-latitude.md) and inspect the actual render with the [visual rubric](docs/composition/rubric.md). Example copy is illustrative, never evidence of personal achievements or research findings.
+- For complete tasks, use [experience patterns](docs/patterns/README.md): forms, states/recovery, component choices, adaptive layout, data explanations and optional AI interactions. [Accessibility evidence](docs/accessibility/README.md) distinguishes automated coverage from unperformed manual checks.
+- For original artwork, use the [visual language](docs/visual-language/README.md) and [SVG catalog](brand/visuals/catalog.json): organic gesture with precise structure. Choose icons, illustration, diagrams and decorative fields by their job; select artwork for its actual surface and retain meaningful text equivalents.
 - Options are \`data-*\` attributes (\`data-variant="secondary"\`); only the values listed in the manifest exist.
 - States come from semantic HTML/ARIA (\`disabled\`, \`aria-invalid="true"\`, \`aria-current="page"\`, \`aria-selected\`, \`aria-busy\`), never from extra classes.
 - In custom CSS use semantic tokens only (\`--color-text-primary\`, \`--color-bg-secondary\`, \`--color-action-primary\`, \`--space-6\`, \`--text-h2\`). Never hex values, never Tier 1 primitives like \`--color-terracotta\`.
@@ -541,6 +581,12 @@ ${CATEGORIES.map((cat) => components.filter((c) => c.meta.category === cat).map(
 - [Starter page](examples/starter.html): a complete landing page to copy from
 - [Article pattern](examples/article.html): long-form essay page
 - [Dashboard pattern](examples/dashboard.html): product UI with stats, a chart, a table, tabs, steps, pagination, an empty state, a menu and toasts
+- [Workshop composition](examples/workshop.html): human opening, learning journey and preparation; illustrative workshop
+- [Research explainer](examples/research-explainer.html): relationship diagram, proposed method and limitation; no study or findings
+- [Presentation](examples/presentation.html): six-canvas argument, responsive reading view and six landscape print pages; illustrative content
+- [Resource explorer](examples/resource-explorer.html): English/pt-BR search, filtering, adaptive list/detail, cancellation and recoverable local sample states
+- [Form journey](examples/form-journey.html): English/pt-BR validation, review/edit, simulated failure/retry and local confirmation; nothing transmitted
+- [Visual language specimen](examples/visual-language.html): original motifs, website opening, presentation cover, teaching card and editable light/dark SVGs
 - [Tailwind v4 theme](tokens/membrane-tailwind.css): mp- utilities mapped onto the semantic tokens
 - [Resolved tokens (JSON)](tokens/tokens.resolved.json): every token's light and dark value as plain hex, for charting libraries and native apps
 - [Live showcase](${SITE}): every component rendered in light and dark mode
@@ -621,6 +667,6 @@ html = html.replace(re, (_, a, b) => `${a}\n${renderGallery()}\n        ${b}`);
 await writeFile(SHOWCASE, html);
 
 const exampleCount = components.reduce((n, c) => n + c.examples.length, 0);
-console.log(`✓ Linted ${components.length} components, ${exampleCount} documented examples and ${examplePages.length} pattern pages against ${tokens.size} tokens`);
+console.log(`✓ Linted ${components.length} components, ${exampleCount} documented examples and ${examplePages.length} pattern pages and ${exampleStyles.length} local stylesheets against ${tokens.size} tokens`);
 console.log("✓ Wrote components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt");
 console.log(`✓ Regenerated API sections in ${components.length} READMEs and the showcase component gallery`);

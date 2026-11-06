@@ -7,8 +7,22 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ## [Unreleased]
 
+### Added
+
+- **Original visual language:** organic gestures and precise frames now have six reusable constructions, twelve standalone SVGs, an inspectable asset catalog and a working website/presentation/teaching specimen. Role and arrangement guidance turns the illustration direction into usable material; semantic-token generation keeps artwork aligned with themes.
+- **Experience patterns:** forms/review, loading and recovery, component/message choices, adaptive layouts, data explanation, optional AI interaction guidance and incremental adoption, adapted from official established-system guidance.
+- **Two bilingual working references:** a resource explorer with search/filter, adaptive detail, cancellation, partial/empty/failure recovery, and a local form journey with linked validation errors, preserved answers, review/edit and controlled failure/retry. Both run on local illustrative content with no transmission or persistence.
+- **Accessibility evidence:** a machine-readable coverage inventory and manual testing protocol distinguish API maturity, automated assertions and unperformed screen-reader/usability checks. Contribution proposals now record the user need, existing alternatives, evidence, ownership and limitations.
+- **Composition discovery and enforcement:** a showcase gallery with theme-aware thumbnails, intended uses, live previews and source links; shared token/color lint now covers `examples/*.css`, with build-regression checks in `npm run test:build` and the full test command.
+- **Composition guidance:** intent routes, meaningful human/digital registers, reusable layout moves, format/density guidance and a short rubric for inspecting finished work. Fixed brand, accessibility and factuality principles are distinguished from adaptable composition defaults.
+- **Three complete references:** an illustrative workshop page, research explainer and six-canvas presentation with responsive reading and landscape print layouts. Local semantic-token CSS arranges the compositions without expanding the component API. `npm run render:composition` regenerates desktop, phone and per-slide previews in both themes.
+- **Delivery and coverage:** the showcase, README, specification and generated agent index link to composition guidance; the site build ships and inlines it. Accessibility, phone-overflow and link suites discover every example page, with additional deck navigation, enlarged-text and print checks.
+
 ### Changed
 
+- Action labels now prioritize a concise, clear verb phrase over a universal three-word limit; translation and enlarged-text readability determine when additional words are necessary.
+- Presentation printing uses a named landscape page and deck-scoped navigation rules. Workshop and research pages keep the reader's paper settings and their header/footer.
+- The 30-word slide limit is now an editorial starting point. Evidence canvases can retain necessary method, source and limitation text when hierarchy and readable type are preserved.
 - Public CDN install snippets pin to release `2.2.0` (git tag `v2.2.0`) instead of the default branch. `@2` remains the optional compatible range. See [`docs/RELEASING.md`](docs/RELEASING.md).
 - Published OBSERVED examples in `VOICE.md` keep their sentence shape and replace names, internal systems, and non-public operational detail with `[redacted]`.
 

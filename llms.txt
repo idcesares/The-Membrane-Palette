@@ -8,6 +8,9 @@ Rules for generating UI with this system:
 - Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/membrane.css` (tokens + base + components). Load `https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/components/membrane.js` when you use Tabs, Menu, Combobox or Toast (they need it for keyboard behavior or rendering), Tooltip Escape-dismiss, or dialog invoker fallbacks.
 - Don't add a Google Fonts (or any other font) link: `membrane.css` already declares self-hosted Fraunces, Instrument Sans and JetBrains Mono.
 - Compose from components (`.mp-button`, `.mp-card`, `.mp-field`…) and layout primitives (`.mp-container`, `.mp-stack`, `.mp-cluster`, `.mp-grid`) before writing CSS.
+- For complete pages, decks and artwork, start from [composition guidance](docs/composition/README.md). Separate [fixed principles from adaptable defaults](docs/composition/creative-latitude.md) and inspect the actual render with the [visual rubric](docs/composition/rubric.md). Example copy is illustrative, never evidence of personal achievements or research findings.
+- For complete tasks, use [experience patterns](docs/patterns/README.md): forms, states/recovery, component choices, adaptive layout, data explanations and optional AI interactions. [Accessibility evidence](docs/accessibility/README.md) distinguishes automated coverage from unperformed manual checks.
+- For original artwork, use the [visual language](docs/visual-language/README.md) and [SVG catalog](brand/visuals/catalog.json): organic gesture with precise structure. Choose icons, illustration, diagrams and decorative fields by their job; select artwork for its actual surface and retain meaningful text equivalents.
 - Options are `data-*` attributes (`data-variant="secondary"`); only the values listed in the manifest exist.
 - States come from semantic HTML/ARIA (`disabled`, `aria-invalid="true"`, `aria-current="page"`, `aria-selected`, `aria-busy`), never from extra classes.
 - In custom CSS use semantic tokens only (`--color-text-primary`, `--color-bg-secondary`, `--color-action-primary`, `--space-6`, `--text-h2`). Never hex values, never Tier 1 primitives like `--color-terracotta`.
@@ -70,6 +73,12 @@ Rules for generating UI with this system:
 - [Starter page](examples/starter.html): a complete landing page to copy from
 - [Article pattern](examples/article.html): long-form essay page
 - [Dashboard pattern](examples/dashboard.html): product UI with stats, a chart, a table, tabs, steps, pagination, an empty state, a menu and toasts
+- [Workshop composition](examples/workshop.html): human opening, learning journey and preparation; illustrative workshop
+- [Research explainer](examples/research-explainer.html): relationship diagram, proposed method and limitation; no study or findings
+- [Presentation](examples/presentation.html): six-canvas argument, responsive reading view and six landscape print pages; illustrative content
+- [Resource explorer](examples/resource-explorer.html): English/pt-BR search, filtering, adaptive list/detail, cancellation and recoverable local sample states
+- [Form journey](examples/form-journey.html): English/pt-BR validation, review/edit, simulated failure/retry and local confirmation; nothing transmitted
+- [Visual language specimen](examples/visual-language.html): original motifs, website opening, presentation cover, teaching card and editable light/dark SVGs
 - [Tailwind v4 theme](tokens/membrane-tailwind.css): mp- utilities mapped onto the semantic tokens
 - [Resolved tokens (JSON)](tokens/tokens.resolved.json): every token's light and dark value as plain hex, for charting libraries and native apps
 - [Live showcase](https://membrane-palette.dcesares.dev/): every component rendered in light and dark mode

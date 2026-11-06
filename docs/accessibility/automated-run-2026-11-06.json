@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 1,
+  "recordedAt": "2026-11-06T10:46:53.034Z",
+  "kind": "Local automated execution record; no manual assistive-technology or usability evidence",
+  "revision": {
+    "baseCommit": "7a67fd14e5cdb50aa576f1035e67a5a7da42dcf6",
+    "workingTree": "uncommitted",
+    "sourceIdentification": "SHA-256 of text runtime/build/browser-test sources; excludes authored Markdown, previews and font binaries"
+  },
+  "environment": {
+    "os": "Debian GNU/Linux 13 (trixie)",
+    "node": "v24.19.0",
+    "playwright": "1.56.1",
+    "browserEngineVersions": {
+      "chromium": "141.0.7390.37",
+      "firefox": "142.0.1",
+      "webkit": "26.0"
+    },
+    "notes": "Playwright engines, not installed branded browsers or supported-version promises. WebKit used rootless library dependencies from /tmp/membrane-apt/libs/usr/lib/x86_64-linux-gnu. Host validation was skipped; actual engine launches and tests ran."
+  },
+  "verificationBasis": "Full suite followed by all explorer tests in all three engines after a scoped CSS correction. Latest outcomes replace earlier outcomes for the same test/project; this is not a claim that the initial full-suite invocation passed.",
+  "runs": [
+    {
+      "command": "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 LD_LIBRARY_PATH=\"/tmp/membrane-apt/libs/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\" PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/membrane-experience-full.json npm test -- --workers=3 --reporter=list,json",
+      "stats": {
+        "startTime": "2026-11-06T10:37:46.274Z",
+        "duration": 295921.496,
+        "expected": 345,
+        "skipped": 11,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "result": "failed",
+      "findings": [
+        {
+          "file": "resource-explorer.spec.mjs",
+          "title": "resource-explorer.spec.mjs › explorer reflows with enlarged pt-BR text",
+          "project": "webkit",
+          "status": "failed",
+          "skipReasons": []
+        }
+      ],
+      "sourceSha256": {
+        "components/accordion/accordion.css": "6f50cde4bc132f7de1ae1158d41123f4bd01d5c142d8d94bc00870f0a563fd66",
+        "components/alert/alert.css": "43a28c23a3e9622e36c9c968b2ad091750d67e468b81396d7cf288ac81d0e77e",
+        "components/avatar/avatar.css": "df35cf478050fca3ab3a28acfe762a313ab8e0f7a2984b3f44f90fad9fbadcef",
+        "components/badge/badge.css": "7f4a49d82569545b81e0bd92256ad03d57c5ab4bec48ec7248c8701a1ce3a690",
+        "components/breadcrumb/breadcrumb.css": "e42688f59bd65bdb2ec7b9c6052616fbd5b1f2f3df2dbaa4061db50ef36639dc",
+        "components/button/button.css": "3841212301f359b8c1af2c616333f7fb69874b1b5418541091e7fa61fd99ac9c",
+        "components/card/card.css": "5c73bbb9cc845c26b857f642a7b41d566463abfcab8795ce67c29480d723358c",
+        "components/chart/chart.css": "f5286335372db2ed2110c6184ff6689ae06786e1c04e6d5da7f20b4b3e2c5d62",
+        "components/choice/choice.css": "7b7b34e8c9bd6b3ee42ac56e19ff1c77d8166067692a89bfeb021abb585fc2c1",
+        "components/code/code.css": "cf3bf1db7e4f0ec17e4677a702d147c2f28242cdda34dc25637f67e07f7175cc",
+        "components/combobox/combobox.css": "0af1820d7da8f0c09687dd7563db6281425a36e598f9d097a9caddcf75e894f1",
+        "components/dialog/dialog.css": "737050d25e4d6eab604879d42e4a0ef2a7dc55c0c8c1efe6a6d24c5548b3ced4",
+        "components/divider/divider.css": "78538fe2f98a943dd5663348404c6aca5812d3624444c2e650b48c84d5a69a4f",
+        "components/empty-state/empty-state.css": "9e75f2d3f41e49c8bcba7f78ce3bae8385118a37eaf97093e1f371ea7a9fe1bb",
+        "components/field/field.css": "b1bcb3b65692efdd9df5e088cdc8e2db57ae08c8a951393b6eff7bfbfc7cdefc",
+        "components/icon/icon.css": "b1684c84d1f399acb35f635a4c8bda074032934baedcb9a12f1ddd41eb650be4",
+        "components/input/input.css": "1a21345020a6b287a69216d46586759c30280cefc49b0ce8ec689dc584d2b516",
+        "components/layout/layout.css": "dcc0177392cddad44a83b444f59aa19b08fd6f8982b398bdf20297ad0f5e6dee",
+        "components/link/link.css": "4b04278eab7971188d7f01d3eb0bbbec64768c9a54a984c4abfb8435c6bd1dbc",
+        "components/manifest.json": "e9009da079d4eed63a36f5e54278fc6ad4f6ad565d09cb7b6eaf171e0fb74784",
+        "components/membrane-components.css": "18b56b139c3500d31fc55b27929ee35bc5e403550f92e83f772f58730136651e",
+        "components/membrane.d.ts": "ad8d8cef2cd30bfb9593750c6cee900c75986cb6bdcea686dd72184b65a790bc",
+        "components/membrane.js": "25f6db61616d1525d63d68ae21a9cc05a08047886b7c3c505758c99e5612a32d",
+        "components/menu/menu.css": "b7cf92bcc2f466783003861bfc0580ab98344e948a97c32fcafbca8775bc8f87",
+        "components/navbar/navbar.css": "5bc1c3c3007023967796d8627bee3c90e02a26ecc51406577d1597eb0e3e73df",
+        "components/pagination/pagination.css": "999cb987b818b0725aa045fe3bbe21c97a82a369cc268f746e1cf6de0db904ce",
+        "components/progress/progress.css": "afd5805cf32907292ec35ef47505f7ed4439ba89f6ec0adcf179018808ccac79",
+        "components/prose/prose.css": "361f1719d41617962295ae269f747f9d5e97143cbe27a70f1eb13aac39285e51",
+        "components/quote/quote.css": "e50bedafd5574dfc3827fbc5c326a7be0b9a8ca5067ed4814e5741603d61b937",
+        "components/skeleton/skeleton.css": "8301e7271e17af5717cfcfe3bf25230a57d99916330548d386ac32e4327057b5",
+        "components/stat/stat.css": "e662180498a5eeac163139b2bfc0ccf9b21dc1378dc200a1ef9a66103dd184b1",
+        "components/steps/steps.css": "2e03368116dfd4d23793802f70c83cd2e9a541232962c0992721b4c9040a56cf",
+        "components/switch/switch.css": "a68df1b9833d41775f20197964a2b69b3c56459a04b5db5c156e6eb905a76d07",
+        "components/table/table.css": "b44f9be7c5f27668a2f6b8d022a37a47bbac0c7bc48af9a17482ee21cf1b5c50",
+        "components/tabs/tabs.css": "a48ccffe68583dd1e4015a9a63dcb0d49d0315f885d48568b8cba11dc39e653a",
+        "components/tag/tag.css": "3a03e3e10e4f06b9b31a2de851217e935c4f9441b5be9c7aaf945e5cf6594a29",
+        "components/text/text.css": "18e909c1895400b87052f586de90a196669f97e97057755427c364a95e8461c1",
+        "components/toast/toast.css": "5ee333c0dc062e67d3847d97d972d8a4b75aef3149d48d6a1f50ec157e17d935",
+        "components/tooltip/tooltip.css": "19f671957af4ac61dc4d76b858cd24ca012603b5c0adf54a1fc3183f85146484",
+        "examples/article.html": "434aea6c0a3882206043bbbe10f25e7f4d51b2c88113feed11875c73e820285f",
+        "examples/composition.css": "a4cbb281d29e766f5c1ecfa316f39d5ff473f648cf465469a6d21fc8de5ada25",
+        "examples/dashboard.html": "a1cfc953da4f4461b7c3130e36dd43f61cb1aa2e7135580bf003c6f3121c63ef",
+        "examples/form-journey.css": "8277b4afd23278b9f52942153522bda44bf9198688a28963bbb1c552419da5d2",
+        "examples/form-journey.html": "525b66db95f1fe30f32f9c65e74e4bf3ab703849b97f13f5ea8d57dd8104477d",
+        "examples/form-journey.js": "4e9d71c3ba7a0a11a68f886da86167a9f1ba4052992be77f845f115cfdfb8cdf",
+        "examples/presentation.html": "04396fb5cf08a7e3af7dd8e30d10774027996bbf3d6efeee93951bec45349c4e",
+        "examples/research-explainer.html": "8b0280d9f6fae2a561d482b579e0bd043b46c7902ea5f89020cb35444fc7201d",
+        "examples/resource-explorer.css": "7031b894b2dd0a0df8cce41e7778046062fc2b3ca7e2bfcdf5854c7ecec34cf6",
+        "examples/resource-explorer.html": "a727fe4073bd9a4665da59691c82cae1b054e9a12ad409ed2fda2f621233001e",
+        "examples/resource-explorer.js": "f07a23711fc774a88667fd39fff1cfcb50adb2fa0cd84b279346590e1bc29070",
+        "examples/starter.html": "b81e2051c7db624339d65b2ce07800b4a46340c8f6d883daab84d8d3c12fe419",
+        "examples/workshop.html": "31f5963d7040413f952b9f9543662f0ad0f2d172433e12968ff3e65cc1ea3ca4",
+        "fonts/fonts.css": "d4e1ff8bf942707bf6e501adcda1a7ded9a181ec949c6b24a440cb3d4aaf0e26",
+        "fonts/fonts.json": "77f69617500b14d82e018db2a361b11bde8b0add819fde8872ee8fca86d2bf9f",
+        "membrane.css": "07a9871dc85ab7b111b9f1ba88213c76271754368313ab6b42beff601a26866e",
+        "package-lock.json": "f72107aeadabbfa1292cbea591fdabb43a50bab1db737656d8ad59420f7ddd51",
+        "package.json": "74e03b373e1a14b5ec49da467aa28e7f655bc836f325e9a71f879c0e359be215",
+        "playwright.config.mjs": "4df75ebb92dcefe67b733098740dadbebc75674afaed4e73cce89245eda12240",
+        "scripts/build-cloudflare-pages.mjs": "f8ef5ad158c787b4d292cc79f5b3fb7e6dacdacf5c18ae82d80ba60bdb9c417f",
+        "scripts/build-components.mjs": "d31626a232b9df0373cabec35186d82df5d3cde8dd6545e6b986a4d383d48578",
+        "scripts/build-tokens.mjs": "87d42081e9d45cb4239eda1d2eee549bacd8e64f4d8ad8fdc8261e8abd7e1f79",
+        "scripts/check-verbal-system.mjs": "4f8613fe690cdf0f3cfc854d5ff10195228e287ee4226facb6d1c9daa1649284",
+        "scripts/render-composition.mjs": "e2a453fa20f8e8487bb754ac8fe5844ed23e3e772b9a58c1ae03539cf744fc0f",
+        "scripts/render-doc-figures.mjs": "8eadbd43d20fcc85ae95a8ce7298ec79d8250001d4af7dc21bacd3b1f2d581e6",
+        "scripts/render-social-image.mjs": "f16730b2f4e5def83ea51d875a975cdbf7978c77e2be6cc3cdf24326c219c039",
+        "showcase/404.html": "aa1efa7064a6d5d2ce57d156c00672b685fc0f4478ce5fd328bb8195eb6b2abe",
+        "showcase/index.html": "8c4cc7301b5d82329db75a542f15b0c570167101ae98e1b5fb23cd5b287a6dc1",
+        "tests/a11y.spec.mjs": "8d6619beb45c2a76a405066f78fe5e6c9c7c32bc83533043b06b72e5b0b6b846",
+        "tests/behavior.spec.mjs": "4637d98194e08a8d563a058a65f7fb39986f49d6bc60f8b52b539a4646775066",
+        "tests/composition.spec.mjs": "f03c6b19ca374224adea8bcf268c8f2317506072998b38b7a62d671ba0bb6e44",
+        "tests/form-journey.spec.mjs": "e8ded29967ac81b1cf6e8ff09f5eb5584c5adc7143c8446754c718beb496dea2",
+        "tests/links.spec.mjs": "df01dea71081ccd21d3325160ec0158d3b036f65e344ea23c71d277c7cf36b93",
+        "tests/motion.spec.mjs": "62cc93f28f172bc8b589a64d8b5c461c7ed7d65399ffffde2926e90eb01827ba",
+        "tests/pages.mjs": "741a337dee8314b4cfc3a1d482501edf5db430f7c136a03a8154e2ac9525f631",
+        "tests/resource-explorer.spec.mjs": "12593ece0c15ee85f5c9f6083561cb6588b34227f8697d8f9bc8eab6215aeedd",
+        "tests/types/check.ts": "184542a7977a624dc0dab33f9eaf10ed75e0e9bac04a72384f68ed8fe536f0cc",
+        "tests/visual.spec.mjs": "09f8d217c0232bbb1f89159fe8b6106e43f187163a3c481de1bfb5948981b1e1",
+        "tokens/base.css": "0facf84ed4e718767e73a84d9e1ccedf89bb71bb7b5683aebfbaab575a49019d",
+        "tokens/design-tokens.css": "5d3f84d788d7f02c14de15fc9847b890cf6c62adc2abfb58f28d6410cdac213e",
+        "tokens/membrane-tailwind.css": "234473648251521a719b17513710e3595273db26ced0591f9c7113dce4315591",
+        "tokens/membrane.tokens.json": "1c5fbdfee57c347f19679e64679a81a71d02c3d13991a6fd58c72102ae87e382",
+        "tokens/tokens.resolved.json": "bc2f428ba2006a2295fb66076936b52e5ef8328d64afc9274985e378d0b2994c"
+      }
+    },
+    {
+      "command": "npm run build && PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=1 LD_LIBRARY_PATH=\"/tmp/membrane-apt/libs/usr/lib/x86_64-linux-gnu${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}\" PLAYWRIGHT_JSON_OUTPUT_FILE=/tmp/membrane-experience-targeted.json npx playwright test tests/resource-explorer.spec.mjs --project=chromium --project=firefox --project=webkit --workers=3 --reporter=list,json",
+      "stats": {
+        "startTime": "2026-11-06T10:44:58.358Z",
+        "duration": 59422.382,
+        "expected": 63,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "result": "passed",
+      "correction": "Allow native select values to wrap locally; WebKit previously extended page overflow by 16px in Portuguese at 200% text. Regression also opens the state controls and selects partial availability.",
+      "changedFiles": [
+        "examples/resource-explorer.css",
+        "tests/resource-explorer.spec.mjs"
+      ],
+      "sourceSha256": {
+        "components/accordion/accordion.css": "6f50cde4bc132f7de1ae1158d41123f4bd01d5c142d8d94bc00870f0a563fd66",
+        "components/alert/alert.css": "43a28c23a3e9622e36c9c968b2ad091750d67e468b81396d7cf288ac81d0e77e",
+        "components/avatar/avatar.css": "df35cf478050fca3ab3a28acfe762a313ab8e0f7a2984b3f44f90fad9fbadcef",
+        "components/badge/badge.css": "7f4a49d82569545b81e0bd92256ad03d57c5ab4bec48ec7248c8701a1ce3a690",
+        "components/breadcrumb/breadcrumb.css": "e42688f59bd65bdb2ec7b9c6052616fbd5b1f2f3df2dbaa4061db50ef36639dc",
+        "components/button/button.css": "3841212301f359b8c1af2c616333f7fb69874b1b5418541091e7fa61fd99ac9c",
+        "components/card/card.css": "5c73bbb9cc845c26b857f642a7b41d566463abfcab8795ce67c29480d723358c",
+        "components/chart/chart.css": "f5286335372db2ed2110c6184ff6689ae06786e1c04e6d5da7f20b4b3e2c5d62",
+        "components/choice/choice.css": "7b7b34e8c9bd6b3ee42ac56e19ff1c77d8166067692a89bfeb021abb585fc2c1",
+        "components/code/code.css": "cf3bf1db7e4f0ec17e4677a702d147c2f28242cdda34dc25637f67e07f7175cc",
+        "components/combobox/combobox.css": "0af1820d7da8f0c09687dd7563db6281425a36e598f9d097a9caddcf75e894f1",
+        "components/dialog/dialog.css": "737050d25e4d6eab604879d42e4a0ef2a7dc55c0c8c1efe6a6d24c5548b3ced4",
+        "components/divider/divider.css": "78538fe2f98a943dd5663348404c6aca5812d3624444c2e650b48c84d5a69a4f",
+        "components/empty-state/empty-state.css": "9e75f2d3f41e49c8bcba7f78ce3bae8385118a37eaf97093e1f371ea7a9fe1bb",
+        "components/field/field.css": "b1bcb3b65692efdd9df5e088cdc8e2db57ae08c8a951393b6eff7bfbfc7cdefc",
+        "components/icon/icon.css": "b1684c84d1f399acb35f635a4c8bda074032934baedcb9a12f1ddd41eb650be4",
+        "components/input/input.css": "1a21345020a6b287a69216d46586759c30280cefc49b0ce8ec689dc584d2b516",
+        "components/layout/layout.css": "dcc0177392cddad44a83b444f59aa19b08fd6f8982b398bdf20297ad0f5e6dee",
+        "components/link/link.css": "4b04278eab7971188d7f01d3eb0bbbec64768c9a54a984c4abfb8435c6bd1dbc",
+        "components/manifest.json": "e9009da079d4eed63a36f5e54278fc6ad4f6ad565d09cb7b6eaf171e0fb74784",
+        "components/membrane-components.css": "18b56b139c3500d31fc55b27929ee35bc5e403550f92e83f772f58730136651e",
+        "components/membrane.d.ts": "ad8d8cef2cd30bfb9593750c6cee900c75986cb6bdcea686dd72184b65a790bc",
+        "components/membrane.js": "25f6db61616d1525d63d68ae21a9cc05a08047886b7c3c505758c99e5612a32d",
+        "components/menu/menu.css": "b7cf92bcc2f466783003861bfc0580ab98344e948a97c32fcafbca8775bc8f87",
+        "components/navbar/navbar.css": "5bc1c3c3007023967796d8627bee3c90e02a26ecc51406577d1597eb0e3e73df",
+        "components/pagination/pagination.css": "999cb987b818b0725aa045fe3bbe21c97a82a369cc268f746e1cf6de0db904ce",
+        "components/progress/progress.css": "afd5805cf32907292ec35ef47505f7ed4439ba89f6ec0adcf179018808ccac79",
+        "components/prose/prose.css": "361f1719d41617962295ae269f747f9d5e97143cbe27a70f1eb13aac39285e51",
+        "components/quote/quote.css": "e50bedafd5574dfc3827fbc5c326a7be0b9a8ca5067ed4814e5741603d61b937",
+        "components/skeleton/skeleton.css": "8301e7271e17af5717cfcfe3bf25230a57d99916330548d386ac32e4327057b5",
+        "components/stat/stat.css": "e662180498a5eeac163139b2bfc0ccf9b21dc1378dc200a1ef9a66103dd184b1",
+        "components/steps/steps.css": "2e03368116dfd4d23793802f70c83cd2e9a541232962c0992721b4c9040a56cf",
+        "components/switch/switch.css": "a68df1b9833d41775f20197964a2b69b3c56459a04b5db5c156e6eb905a76d07",
+        "components/table/table.css": "b44f9be7c5f27668a2f6b8d022a37a47bbac0c7bc48af9a17482ee21cf1b5c50",
+        "components/tabs/tabs.css": "a48ccffe68583dd1e4015a9a63dcb0d49d0315f885d48568b8cba11dc39e653a",
+        "components/tag/tag.css": "3a03e3e10e4f06b9b31a2de851217e935c4f9441b5be9c7aaf945e5cf6594a29",
+        "components/text/text.css": "18e909c1895400b87052f586de90a196669f97e97057755427c364a95e8461c1",
+        "components/toast/toast.css": "5ee333c0dc062e67d3847d97d972d8a4b75aef3149d48d6a1f50ec157e17d935",
+        "components/tooltip/tooltip.css": "19f671957af4ac61dc4d76b858cd24ca012603b5c0adf54a1fc3183f85146484",
+        "examples/article.html": "434aea6c0a3882206043bbbe10f25e7f4d51b2c88113feed11875c73e820285f",
+        "examples/composition.css": "a4cbb281d29e766f5c1ecfa316f39d5ff473f648cf465469a6d21fc8de5ada25",
+        "examples/dashboard.html": "a1cfc953da4f4461b7c3130e36dd43f61cb1aa2e7135580bf003c6f3121c63ef",
+        "examples/form-journey.css": "8277b4afd23278b9f52942153522bda44bf9198688a28963bbb1c552419da5d2",
+        "examples/form-journey.html": "525b66db95f1fe30f32f9c65e74e4bf3ab703849b97f13f5ea8d57dd8104477d",
+        "examples/form-journey.js": "4e9d71c3ba7a0a11a68f886da86167a9f1ba4052992be77f845f115cfdfb8cdf",
+        "examples/presentation.html": "04396fb5cf08a7e3af7dd8e30d10774027996bbf3d6efeee93951bec45349c4e",
+        "examples/research-explainer.html": "8b0280d9f6fae2a561d482b579e0bd043b46c7902ea5f89020cb35444fc7201d",
+        "examples/resource-explorer.css": "2600e26917202113f0d1998c11748b5b9c4d0b6a219f0fa4426d49217e0e8590",
+        "examples/resource-explorer.html": "a727fe4073bd9a4665da59691c82cae1b054e9a12ad409ed2fda2f621233001e",
+        "examples/resource-explorer.js": "f07a23711fc774a88667fd39fff1cfcb50adb2fa0cd84b279346590e1bc29070",
+        "examples/starter.html": "b81e2051c7db624339d65b2ce07800b4a46340c8f6d883daab84d8d3c12fe419",
+        "examples/workshop.html": "31f5963d7040413f952b9f9543662f0ad0f2d172433e12968ff3e65cc1ea3ca4",
+        "fonts/fonts.css": "d4e1ff8bf942707bf6e501adcda1a7ded9a181ec949c6b24a440cb3d4aaf0e26",
+        "fonts/fonts.json": "77f69617500b14d82e018db2a361b11bde8b0add819fde8872ee8fca86d2bf9f",
+        "membrane.css": "07a9871dc85ab7b111b9f1ba88213c76271754368313ab6b42beff601a26866e",
+        "package-lock.json": "f72107aeadabbfa1292cbea591fdabb43a50bab1db737656d8ad59420f7ddd51",
+        "package.json": "74e03b373e1a14b5ec49da467aa28e7f655bc836f325e9a71f879c0e359be215",
+        "playwright.config.mjs": "4df75ebb92dcefe67b733098740dadbebc75674afaed4e73cce89245eda12240",
+        "scripts/build-cloudflare-pages.mjs": "f8ef5ad158c787b4d292cc79f5b3fb7e6dacdacf5c18ae82d80ba60bdb9c417f",
+        "scripts/build-components.mjs": "d31626a232b9df0373cabec35186d82df5d3cde8dd6545e6b986a4d383d48578",
+        "scripts/build-tokens.mjs": "87d42081e9d45cb4239eda1d2eee549bacd8e64f4d8ad8fdc8261e8abd7e1f79",
+        "scripts/check-verbal-system.mjs": "4f8613fe690cdf0f3cfc854d5ff10195228e287ee4226facb6d1c9daa1649284",
+        "scripts/render-composition.mjs": "e2a453fa20f8e8487bb754ac8fe5844ed23e3e772b9a58c1ae03539cf744fc0f",
+        "scripts/render-doc-figures.mjs": "8eadbd43d20fcc85ae95a8ce7298ec79d8250001d4af7dc21bacd3b1f2d581e6",
+        "scripts/render-social-image.mjs": "f16730b2f4e5def83ea51d875a975cdbf7978c77e2be6cc3cdf24326c219c039",
+        "showcase/404.html": "aa1efa7064a6d5d2ce57d156c00672b685fc0f4478ce5fd328bb8195eb6b2abe",
+        "showcase/index.html": "8c4cc7301b5d82329db75a542f15b0c570167101ae98e1b5fb23cd5b287a6dc1",
+        "tests/a11y.spec.mjs": "8d6619beb45c2a76a405066f78fe5e6c9c7c32bc83533043b06b72e5b0b6b846",
+        "tests/behavior.spec.mjs": "4637d98194e08a8d563a058a65f7fb39986f49d6bc60f8b52b539a4646775066",
+        "tests/composition.spec.mjs": "f03c6b19ca374224adea8bcf268c8f2317506072998b38b7a62d671ba0bb6e44",
+        "tests/form-journey.spec.mjs": "e8ded29967ac81b1cf6e8ff09f5eb5584c5adc7143c8446754c718beb496dea2",
+        "tests/links.spec.mjs": "df01dea71081ccd21d3325160ec0158d3b036f65e344ea23c71d277c7cf36b93",
+        "tests/motion.spec.mjs": "62cc93f28f172bc8b589a64d8b5c461c7ed7d65399ffffde2926e90eb01827ba",
+        "tests/pages.mjs": "741a337dee8314b4cfc3a1d482501edf5db430f7c136a03a8154e2ac9525f631",
+        "tests/resource-explorer.spec.mjs": "4ceb31386a226760db9446b5240492e3f4fa0f48bf7986419dd10eb08df19234",
+        "tests/types/check.ts": "184542a7977a624dc0dab33f9eaf10ed75e0e9bac04a72384f68ed8fe536f0cc",
+        "tests/visual.spec.mjs": "09f8d217c0232bbb1f89159fe8b6106e43f187163a3c481de1bfb5948981b1e1",
+        "tokens/base.css": "0facf84ed4e718767e73a84d9e1ccedf89bb71bb7b5683aebfbaab575a49019d",
+        "tokens/design-tokens.css": "5d3f84d788d7f02c14de15fc9847b890cf6c62adc2abfb58f28d6410cdac213e",
+        "tokens/membrane-tailwind.css": "234473648251521a719b17513710e3595273db26ced0591f9c7113dce4315591",
+        "tokens/membrane.tokens.json": "1c5fbdfee57c347f19679e64679a81a71d02c3d13991a6fd58c72102ae87e382",
+        "tokens/tokens.resolved.json": "bc2f428ba2006a2295fb66076936b52e5ef8328d64afc9274985e378d0b2994c"
+      }
+    }
+  ],
+  "latestOutcomes": {
+    "passed": 346,
+    "skipped": 11,
+    "failed": 0,
+    "byProject": {
+      "chromium": {
+        "passed": 119,
+        "skipped": 0
+      },
+      "firefox": {
+        "passed": 111,
+        "skipped": 8
+      },
+      "webkit": {
+        "passed": 116,
+        "skipped": 3
+      }
+    },
+    "skippedTests": [
+      {
+        "file": "behavior.spec.mjs",
+        "title": "behavior.spec.mjs › primary hover fill is darker than rest (light) and label contrast rises",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "no hover-capable pointer in this browser"
+        ]
+      },
+      {
+        "file": "composition.spec.mjs",
+        "title": "composition.spec.mjs › workshop respects the reader's A4 portrait print settings",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright PDF output is Chromium-only"
+        ]
+      },
+      {
+        "file": "composition.spec.mjs",
+        "title": "composition.spec.mjs › research-explainer respects the reader's A4 portrait print settings",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright PDF output is Chromium-only"
+        ]
+      },
+      {
+        "file": "composition.spec.mjs",
+        "title": "composition.spec.mjs › presentation prints six complete landscape pages",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright PDF output is Chromium-only"
+        ]
+      },
+      {
+        "file": "composition.spec.mjs",
+        "title": "composition.spec.mjs › workshop respects the reader's A4 portrait print settings",
+        "project": "webkit",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright PDF output is Chromium-only"
+        ]
+      },
+      {
+        "file": "composition.spec.mjs",
+        "title": "composition.spec.mjs › research-explainer respects the reader's A4 portrait print settings",
+        "project": "webkit",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright PDF output is Chromium-only"
+        ]
+      },
+      {
+        "file": "composition.spec.mjs",
+        "title": "composition.spec.mjs › presentation prints six complete landscape pages",
+        "project": "webkit",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright PDF output is Chromium-only"
+        ]
+      },
+      {
+        "file": "motion.spec.mjs",
+        "title": "motion.spec.mjs › full motion › clickable card lifts on hover",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "no hover-capable pointer in this browser"
+        ]
+      },
+      {
+        "file": "motion.spec.mjs",
+        "title": "motion.spec.mjs › touch screens › a tap doesn't leave a hover fill stuck on the button",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright has no mobile emulation for Firefox"
+        ]
+      },
+      {
+        "file": "motion.spec.mjs",
+        "title": "motion.spec.mjs › touch screens › compact inputs and pill tabs grow to the 44px touch target",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright has no mobile emulation for Firefox"
+        ]
+      },
+      {
+        "file": "motion.spec.mjs",
+        "title": "motion.spec.mjs › touch screens › compact buttons grow to the 44px touch target",
+        "project": "firefox",
+        "status": "skipped",
+        "skipReasons": [
+          "Playwright has no mobile emulation for Firefox"
+        ]
+      }
+    ]
+  },
+  "limitations": [
+    "Automated assertions and axe scans do not establish screen-reader announcements, task usability or formal WCAG conformance.",
+    "Manual screen-reader and usability sessions have not been performed.",
+    "Canonical container pixel-baseline comparison was not run: pulling the Playwright image was blocked with Forbidden. Preview images were rendered and inspected separately.",
+    "The scoped correction was followed by the complete explorer suite in every engine; unaffected tests retain their full-suite results. Re-run relevant checks when their source changes."
+  ]
+}

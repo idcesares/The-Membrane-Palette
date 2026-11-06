@@ -33,6 +33,9 @@ jobs:
       - name: Check verbal system authorities and factuality
         run: npm run check:verbal
 
+      - name: Check CSS build regressions
+        run: npm run test:build
+
       # Regenerates tokens/design-tokens.css and tokens/base.css from
       # tokens/membrane.tokens.json. Fails if any color fails its OKLCH
       # round-trip, or if any gated contrast pair (light + dark, including
@@ -40,6 +43,9 @@ jobs:
       # WCAG minimum.
       - name: Build tokens (OKLCH round-trip + WCAG contrast gate)
         run: npm run build:tokens
+
+      - name: Render original visual assets from semantic tokens
+        run: npm run render:visuals
 
       # Lints every component against the token system (no raw colors, no
       # Tier 1 primitives, no deprecated or unknown tokens) and every README

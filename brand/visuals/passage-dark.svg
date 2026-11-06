@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="passage-title passage-description">
+  <title id="passage-title">Passage</title>
+  <desc id="passage-description">An open organic trace meets a dotted boundary and continues as three aligned routes. Original Membrane illustration; not data.</desc>
+  <path d="M126 127C203 66 327 101 362 199C395 292 344 424 251 467C155 512 69 435 73 330C77 242 66 177 126 127Z" fill="rgba(212, 114, 79, 0.1)"/>
+  <rect x="463" y="119" width="239" height="367" rx="22" fill="rgba(58, 175, 168, 0.1)"/>
+  <path d="M420 82C393 172 446 236 420 317C400 384 422 431 415 516" stroke="#F0EBE1" stroke-width="2" stroke-dasharray="2 13"/>
+  <g stroke="#5C564E" stroke-width="2"><path d="M487 151h31m-31 0v31m191-31h-31m31 0v31M487 454h31m-31 0v-31m191 31h-31m31 0v-31"/><path d="M521 190v225M568 190v225M615 190v225" stroke-dasharray="2 10"/></g>
+  <g stroke="#E08A6A" stroke-width="8"><path d="M66 364C144 435 230 425 242 337C255 243 141 214 160 298C178 377 315 395 420 302"/><path d="M103 188C209 105 254 189 298 205C341 221 381 214 420 214" stroke-width="4"/><path d="M135 465C270 509 310 383 420 390" stroke-width="4"/></g>
+  <g stroke="#3AAFA8" stroke-width="6"><path d="M420 214h229"/><path d="M420 302h123v88h106"/><path d="M420 390h66v-88h163"/></g>
+  <g fill="#3AAFA8"><circle cx="661" cy="214" r="8"/><circle cx="661" cy="302" r="8"/><rect x="653" y="382" width="16" height="16" rx="2"/></g>
+  <circle cx="420" cy="302" r="12" fill="#F0EBE1"/>
+</svg>

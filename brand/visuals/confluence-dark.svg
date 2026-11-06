@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="confluence-title confluence-description">
+  <title id="confluence-title">Confluence</title>
+  <desc id="confluence-description">Three independent curved paths gather at an open ring, then separate into a structured set of routes. Original Membrane illustration; not data.</desc>
+  <path d="M119 110C242 67 359 147 388 265C417 386 300 512 170 467C49 425 17 171 119 110Z" fill="rgba(212, 114, 79, 0.1)"/>
+  <circle cx="397" cy="300" r="113" fill="rgba(58, 175, 168, 0.1)"/>
+  <g stroke="#5C564E" stroke-width="2"><path d="M498 105h203v390H498" stroke-dasharray="3 12"/><path d="M520 150h160M520 450h160"/></g>
+  <g stroke="#E08A6A" stroke-width="7"><path d="M92 147C193 79 196 303 352 300"/><path d="M58 305C175 425 236 189 352 300"/><path d="M116 467C230 534 226 302 352 300"/></g>
+  <circle cx="397" cy="300" r="45" stroke="#F0EBE1" stroke-width="3"/>
+  <g stroke="#3AAFA8" stroke-width="6"><path d="M442 300h86V168h147"/><path d="M442 300h233"/><path d="M528 300v132h147"/></g>
+  <g fill="#3AAFA8"><circle cx="687" cy="168" r="8"/><rect x="679" y="292" width="16" height="16" rx="2"/><circle cx="687" cy="432" r="8"/></g>
+</svg>

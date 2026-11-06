@@ -1,0 +1,239 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Coverage inventory with dated automated execution evidence; no formal WCAG conformance claim.",
+  "automationBaseline": {
+    "package": "@playwright/test",
+    "version": "1.56.1",
+    "projects": [
+      "chromium",
+      "firefox",
+      "webkit"
+    ],
+    "visualImage": "mcr.microsoft.com/playwright:v1.56.1-noble",
+    "supportedBrowserVersionPromise": false,
+    "notes": "Test infrastructure only. No browser or assistive-technology versions have been inferred for manual testing."
+  },
+  "statusDefinitions": {
+    "covered": "Automated test code addresses the stated scope; this does not record a passing run.",
+    "not-tested": "No manual session has been performed or recorded for this activity.",
+    "passed": "A recorded manual session passed its stated scope.",
+    "failed": "A recorded manual session found a failure in its stated scope.",
+    "partial": "A recorded manual session has incomplete coverage or mixed outcomes; results describe limitations."
+  },
+  "areas": [
+    {
+      "id": "dialog",
+      "reference": "components/dialog/README.md",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/behavior.spec.mjs",
+          "tests/a11y.spec.mjs",
+          "tests/motion.spec.mjs"
+        ],
+        "scope": "Modal opening, Escape/backdrop dismissal, scroll lock, initial page scan and overlay motion.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    },
+    {
+      "id": "combobox",
+      "reference": "components/combobox/README.md",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/behavior.spec.mjs",
+          "tests/a11y.spec.mjs"
+        ],
+        "scope": "Accent-insensitive filtering, active-option/selection attributes, disabled options, no matches, status markup and initial page scan.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    },
+    {
+      "id": "menu",
+      "reference": "components/menu/README.md",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/behavior.spec.mjs",
+          "tests/a11y.spec.mjs",
+          "tests/motion.spec.mjs"
+        ],
+        "scope": "Keyboard navigation, focus return, expanded-state attributes, initial page scan and overlay motion.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    },
+    {
+      "id": "tabs",
+      "reference": "components/tabs/README.md",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/behavior.spec.mjs",
+          "tests/a11y.spec.mjs",
+          "tests/motion.spec.mjs"
+        ],
+        "scope": "Roving focus, selection, panel visibility, initial page scan and compact touch target.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    },
+    {
+      "id": "toast",
+      "reference": "components/toast/README.md",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/behavior.spec.mjs",
+          "tests/a11y.spec.mjs",
+          "tests/motion.spec.mjs"
+        ],
+        "scope": "Live-region/alert attributes, error dismissal, literal text rendering, initial page scan and exit behavior. This does not establish actual screen-reader announcements.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    },
+    {
+      "id": "resource-explorer",
+      "reference": "examples/resource-explorer.html",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/resource-explorer.spec.mjs",
+          "tests/a11y.spec.mjs"
+        ],
+        "scope": "Search/topic filtering, accent-insensitive bilingual search, retained language/filter/selection state, cancellation without late replacement, error/retry and distinct empty/no-match recovery; mobile detail/back/resize and pending-action focus; 200% text in English and pt-BR; axe scans of ready/loading/partial/empty/error in English/light and pt-BR/dark, plus initial-page scans in both themes.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    },
+    {
+      "id": "form-journey",
+      "reference": "examples/form-journey.html",
+      "automated": {
+        "status": "covered",
+        "tests": [
+          "tests/form-journey.spec.mjs",
+          "tests/a11y.spec.mjs"
+        ],
+        "scope": "English/pt-BR required-field summaries and linked inline errors, retained answers/language/step/focus, review/edit, local failure/retry and duplicate prevention, no transmission or storage; keyboard completion at 360px and 200% text in both themes; axe scans of entry/validation/review/failure/confirmation in both languages and both themes.",
+        "lastVerified": "2026-11-06",
+        "result": "passed",
+        "runEvidence": [
+          "automated-run-2026-11-06.json"
+        ],
+        "limitations": "Recorded execution applies only to its stated source snapshot and scope; inspect run evidence and conditional skips. Initial-load axe scans do not exercise every dynamic state or language and do not replace manual testing."
+      },
+      "manual": {
+        "screenReader": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        },
+        "usability": {
+          "status": "not-tested",
+          "lastTested": null,
+          "results": []
+        }
+      }
+    }
+  ]
+}

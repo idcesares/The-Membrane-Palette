@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" stroke-linecap="round" stroke-linejoin="round" role="img" aria-labelledby="learning-loop-title learning-loop-description">
+  <title id="learning-loop-title">Learning loop</title>
+  <desc id="learning-loop-description">An unfinished organic loop and an open rectangular route share two meeting points, leaving room for revision. Original Membrane illustration; not data.</desc>
+  <path d="M152 131C267 54 434 133 421 288C405 465 160 493 92 360C42 262 79 180 152 131Z" fill="rgba(212, 114, 79, 0.1)"/>
+  <rect x="392" y="150" width="279" height="307" rx="8" fill="rgba(58, 175, 168, 0.1)"/>
+  <path d="M164 401C69 341 125 139 262 152C407 165 407 359 274 390C221 402 193 358 209 328" stroke="#E08A6A" stroke-width="8"/>
+  <path d="M392 204h237v198H418v-98h116" stroke="#3AAFA8" stroke-width="6"/>
+  <g stroke="#5C564E" stroke-width="2" stroke-dasharray="2 11"><path d="M535 99v99M686 304h-85M392 503v-71"/></g>
+  <g stroke="#F0EBE1" stroke-width="3"><circle cx="392" cy="204" r="11"/><circle cx="418" cy="402" r="11"/></g>
+  <path d="M518 288l17 16-17 16" stroke="#3AAFA8" stroke-width="5"/>
+</svg>

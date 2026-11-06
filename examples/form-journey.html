@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan a learning resource · The Membrane Palette</title>
+  <link rel="stylesheet" href="../membrane.css">
+  <link rel="stylesheet" href="composition.css">
+  <link rel="stylesheet" href="form-journey.css">
+  <script src="form-journey.js" defer></script>
+</head>
+<body class="composition-page composition-journey">
+  <a class="mp-skip-link" id="skip-link" href="#main">Skip to content</a>
+  <header class="composition-header">
+    <div class="mp-container composition-header__inner">
+      <a class="composition-brand" href="../showcase/index.html"><img src="../brand/idcesares-logo-monogram-primary.svg" alt="dc" width="40" height="40"><span class="type-small">The Membrane Palette</span></a>
+      <div class="mp-field composition-journey-language">
+        <label class="mp-field__label" id="language-label" for="journey-language">Language</label>
+        <select class="mp-input" id="journey-language">
+          <option value="en">English</option>
+          <option value="pt-BR">Português (Brasil)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+  <main class="mp-section" id="main">
+    <div class="mp-container composition-split composition-journey-layout">
+      <div class="mp-stack" data-gap="6">
+        <p class="composition-kicker" id="journey-kicker">A complete form / Illustrative plan</p>
+        <h1 class="type-display composition-title" id="journey-title">Plan a learning resource.</h1>
+        <p class="mp-text type-body-lg" id="journey-intro">Start with one learning goal. Choose a format, review your choices and try a local confirmation.</p>
+        <aside class="composition-panel mp-stack" data-gap="3" aria-labelledby="privacy-title">
+          <h2 class="type-h3" id="privacy-title">An example, only in this tab.</h2>
+          <p class="mp-text" id="privacy-note">No information is sent or stored. Your choices stay only in the current tab and reset when this page reloads.</p>
+          <p class="mp-text type-small" id="scenario-note">Use an invented teaching scenario. Leave names and personal information out of this exercise.</p>
+        </aside>
+        <details class="composition-journey-demo">
+          <summary class="mp-link" id="demo-options">Explore a demo state</summary>
+          <div class="mp-stack" data-gap="3">
+            <label class="mp-choice"><input class="mp-checkbox" id="fail-next-confirmation" type="checkbox" aria-describedby="demo-hint"><span id="failure-option-label">Next confirmation fails</span></label>
+            <p class="mp-text type-small" id="demo-hint">Interrupt the next local simulation. Your choices remain available, and retry completes the example.</p>
+          </div>
+        </details>
+        <a class="mp-link type-small" id="pattern-link" href="../docs/patterns/forms.md">Read the form pattern</a>
+      </div>
+      <div class="mp-stack composition-journey-workspace" data-gap="6">
+        <ol class="composition-journey-steps" aria-label="Form progress" id="journey-steps">
+          <li id="step-describe" aria-current="step">1. Describe</li>
+          <li id="step-review">2. Review</li>
+          <li id="step-confirm">3. Confirm locally</li>
+        </ol>
+        <noscript><div class="mp-alert" data-tone="warning"><div class="mp-alert__content"><p class="mp-alert__title">This example needs JavaScript.</p><p>The form is inactive. <a class="mp-link" href="../docs/patterns/forms.md">Read the form pattern</a> for the complete journey.</p></div></div></noscript>
+        <section class="mp-stack" data-gap="6" id="entry-stage" aria-labelledby="entry-title">
+          <div class="mp-stack" data-gap="2">
+            <h2 class="type-h2" id="entry-title">What should the resource help someone learn?</h2>
+            <p class="mp-text type-small" id="required-note">Both fields are required.</p>
+          </div>
+          <div class="mp-alert composition-journey-focus" data-tone="error" id="error-summary" tabindex="-1" aria-labelledby="error-title" hidden>
+            <div class="mp-alert__content">
+              <h3 class="mp-alert__title" id="error-title">Check the highlighted fields</h3>
+              <ul class="composition-journey-errors">
+                <li id="goal-summary-item"><a class="mp-link" id="goal-summary-link" href="#learning-goal">Enter a learning goal.</a></li>
+                <li id="format-summary-item"><a class="mp-link" id="format-summary-link" href="#resource-format">Choose a resource format.</a></li>
+              </ul>
+            </div>
+          </div>
+          <form class="mp-stack" data-gap="6" id="plan-form" novalidate>
+            <fieldset class="mp-fieldset composition-journey-fields" id="plan-fields" disabled>
+              <legend class="mp-fieldset__legend" id="plan-legend">Your example resource</legend>
+              <div class="mp-field">
+                <label class="mp-field__label" for="learning-goal"><span id="goal-label">Learning goal</span><span class="mp-field__required" aria-hidden="true">*</span></label>
+                <textarea class="mp-input" id="learning-goal" name="learning-goal" rows="4" required aria-describedby="goal-hint"></textarea>
+                <p class="mp-field__hint" id="goal-hint">For example: compare two explanations of the water cycle.</p>
+                <p class="mp-field__error" id="goal-error" hidden>Enter a learning goal.</p>
+              </div>
+              <div class="mp-field">
+                <label class="mp-field__label" for="resource-format"><span id="format-label">Resource format</span><span class="mp-field__required" aria-hidden="true">*</span></label>
+                <select class="mp-input" id="resource-format" name="resource-format" required aria-describedby="format-hint">
+                  <option value="" id="format-empty">Choose a format</option>
+                  <option value="guide" id="format-guide">Guide</option>
+                  <option value="activity" id="format-activity">Activity</option>
+                  <option value="checklist" id="format-checklist">Checklist</option>
+                </select>
+                <p class="mp-field__hint" id="format-hint">Choose the shape that best supports the goal.</p>
+                <p class="mp-field__error" id="format-error" hidden>Choose a resource format.</p>
+              </div>
+              <div class="mp-cluster"><button class="mp-button composition-action" id="review-plan" type="submit">Review plan</button></div>
+            </fieldset>
+          </form>
+        </section>
+        <section class="mp-stack" data-gap="6" id="review-stage" aria-labelledby="review-title" hidden>
+          <div class="mp-stack" data-gap="2">
+            <h2 class="type-h2 composition-journey-focus" id="review-title" tabindex="-1">Review your example plan</h2>
+            <p class="mp-text" id="review-intro">Check each choice before confirming this local example.</p>
+          </div>
+          <dl class="composition-journey-review">
+            <div><dt class="type-label" id="review-goal-label">Learning goal</dt><dd id="review-goal"></dd><dd><button class="mp-button composition-action" data-variant="ghost" id="edit-goal" type="button">Edit learning goal</button></dd></div>
+            <div><dt class="type-label" id="review-format-label">Resource format</dt><dd id="review-format"></dd><dd><button class="mp-button composition-action" data-variant="ghost" id="edit-format" type="button">Edit resource format</button></dd></div>
+          </dl>
+          <div class="mp-alert" data-tone="error" id="failure-message" role="alert" hidden>
+            <div class="mp-alert__content"><h3 class="mp-alert__title" id="failure-title">The simulation stopped</h3><p id="failure-note">The selected demo state interrupted the local confirmation. Your choices are unchanged. Try again to complete the example.</p></div>
+          </div>
+          <p class="mp-text type-small" id="review-note">This confirms an example plan in this tab. It does not create or send a learning resource.</p>
+          <div class="mp-cluster"><button class="mp-button composition-action" id="confirm-plan" type="button">Confirm example plan</button></div>
+        </section>
+        <p class="mp-text type-small composition-journey-status" id="journey-status" role="status" aria-atomic="true"></p>
+        <section class="mp-stack" data-gap="6" id="confirmation-stage" aria-labelledby="confirmation-title" hidden>
+          <div class="mp-alert" data-tone="success">
+            <div class="mp-alert__content"><h2 class="mp-alert__title composition-journey-focus" id="confirmation-title" tabindex="-1">Example plan confirmed in this tab</h2><p id="confirmation-note">You completed the local form example. No information was sent, and no resource was created or stored.</p></div>
+          </div>
+          <dl class="composition-journey-review">
+            <div><dt class="type-label" id="confirmation-goal-label">Learning goal</dt><dd id="confirmation-goal"></dd></div>
+            <div><dt class="type-label" id="confirmation-format-label">Resource format</dt><dd id="confirmation-format"></dd></div>
+          </dl>
+          <p class="mp-text type-small" id="confirmation-tab-note">This example remains visible only in the current tab until you reload or leave the page.</p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="composition-footer"><div class="mp-container"><p class="mp-text type-small" id="footer-note">Membrane composition reference · An illustrative local form journey.</p></div></footer>
+</body>
+</html>

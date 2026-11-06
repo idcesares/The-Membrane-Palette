@@ -10,6 +10,7 @@ const siteUrl = "https://membrane-palette.dcesares.dev/";
 // Always regenerate tokens and components before building so dist is never stale.
 console.log("Building tokens and components from source…");
 execSync("node scripts/build-tokens.mjs", { cwd: root, stdio: "inherit" });
+execSync("node scripts/render-visual-assets.mjs", { cwd: root, stdio: "inherit" });
 execSync("node scripts/build-components.mjs", { cwd: root, stdio: "inherit" });
 
 await rm(dist, { recursive: true, force: true });
@@ -30,7 +31,15 @@ await cp(path.join(root, "showcase", "assets"), path.join(dist, "assets"), { rec
 for (const dir of ["tokens", "components", "examples", "fonts", "brand"]) {
   await cp(path.join(root, dir), path.join(dist, dir), { recursive: true });
 }
-for (const file of ["membrane.css", "llms.txt", "PROFILE.md", "VOICE.md", "BRAND-VOICE.md", "DESIGN-SYSTEM.md", "CHANGELOG.md"]) {
+for (const directory of ["composition", "patterns", "accessibility", "visual-language"]) {
+  await cp(path.join(root, "docs", directory), path.join(dist, "docs", directory), { recursive: true });
+}
+// Public test sources make the coverage inventory inspectable without bundling snapshots.
+await mkdir(path.join(dist, "tests"), { recursive: true });
+for (const file of (await readdir(path.join(root, "tests"))).filter((file) => file.endsWith(".mjs"))) {
+  await cp(path.join(root, "tests", file), path.join(dist, "tests", file));
+}
+for (const file of ["membrane.css", "llms.txt", "PROFILE.md", "VOICE.md", "BRAND-VOICE.md", "DESIGN-SYSTEM.md", "CHANGELOG.md", "CONTRIBUTING.md"]) {
   await cp(path.join(root, file), path.join(dist, file));
 }
 
@@ -46,6 +55,10 @@ const sections = [
   await readFile(path.join(root, "PROFILE.md"), "utf8"),
   await readFile(path.join(root, "VOICE.md"), "utf8"),
   await readFile(path.join(root, "BRAND-VOICE.md"), "utf8"),
+  ...(await Promise.all(["README.md", "creative-latitude.md", "rubric.md"].map((file) => readFile(path.join(root, "docs", "composition", file), "utf8")))),
+  ...(await Promise.all((await readdir(path.join(root, "docs", "patterns"))).filter((file) => file.endsWith(".md")).sort().map((file) => readFile(path.join(root, "docs", "patterns", file), "utf8")))),
+  await readFile(path.join(root, "docs", "accessibility", "README.md"), "utf8"),
+  await readFile(path.join(root, "docs", "visual-language", "README.md"), "utf8"),
   ...(await Promise.all(ordered.map((s) => readFile(path.join(root, "components", s, "README.md"), "utf8")))),
   await readFile(path.join(root, "DESIGN-SYSTEM.md"), "utf8"),
 ];
@@ -56,6 +69,11 @@ await writeFile(
   `User-agent: *\nAllow: /\n\nSitemap: ${siteUrl}sitemap.xml\n`
 );
 const examplePages = (await readdir(path.join(root, "examples"))).filter((f) => f.endsWith(".html")).sort();
+// Source examples point to showcase/index.html; deployment lifts it to /index.html.
+for (const file of examplePages) {
+  const html = await readFile(path.join(root, "examples", file), "utf8");
+  await writeFile(path.join(dist, "examples", file), html.replace(/href="\.\.\/showcase\//g, 'href="../'));
+}
 const urls = [siteUrl, ...examplePages.map((f) => `${siteUrl}examples/${f}`)];
 await writeFile(
   path.join(dist, "sitemap.xml"),

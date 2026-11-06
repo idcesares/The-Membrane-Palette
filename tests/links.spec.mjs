@@ -5,9 +5,9 @@ import { test, expect } from "@playwright/test";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { PAGES } from "./pages.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const PAGES = ["/", "/examples/starter.html", "/examples/article.html", "/examples/dashboard.html", "/404.html"];
 
 for (const pagePath of PAGES) {
   test(`links resolve: ${pagePath}`, async ({ page, request, baseURL }) => {
@@ -72,6 +72,7 @@ test("relative links in Markdown point at files that exist", () => {
   const files = [
     ...readdirSync(root).filter((f) => f.endsWith(".md")),
     ...readdirSync(path.join(root, "docs")).filter((f) => f.endsWith(".md")).map((f) => `docs/${f}`),
+    ...["composition", "patterns", "accessibility", "visual-language"].flatMap((directory) => readdirSync(path.join(root, "docs", directory)).filter((f) => f.endsWith(".md")).map((f) => `docs/${directory}/${f}`)),
     ...readdirSync(path.join(root, "components"), { withFileTypes: true })
       .filter((d) => d.isDirectory() && existsSync(path.join(root, "components", d.name, "README.md")))
       .map((d) => `components/${d.name}/README.md`),
@@ -91,4 +92,43 @@ test("relative links in Markdown point at files that exist", () => {
     }
   }
   expect(broken, broken.join("\n")).toEqual([]);
+});
+
+test("example references also resolve when served from the source checkout", () => {
+  const broken = [];
+  for (const pagePath of PAGES.filter((p) => p.startsWith("/examples/"))) {
+    const file = path.join(root, pagePath.slice(1));
+    for (const [, ref] of readFileSync(file, "utf8").matchAll(/(?:href|src)="([^"]+)"/g)) {
+      if (/^(?:[a-z]+:|#|\/\/)/i.test(ref)) continue;
+      const target = path.resolve(path.dirname(file), decodeURIComponent(ref.split("#")[0]));
+      if (!existsSync(target)) broken.push(`${pagePath}: ${ref}`);
+    }
+  }
+  expect(broken, broken.join("\n")).toEqual([]);
+});
+
+test("shipped task guides and accessibility evidence remain inspectable", async ({ request, baseURL }) => {
+  const targets = new Set(["/docs/accessibility/evidence.json"]);
+  for (const directory of ["patterns", "accessibility", "visual-language"]) {
+    for (const file of readdirSync(path.join(root, "docs", directory)).filter((file) => file.endsWith(".md"))) {
+      const pathname = `/docs/${directory}/${file}`;
+      targets.add(pathname);
+      const markdown = readFileSync(path.join(root, pathname), "utf8").replace(/```[\s\S]*?```/g, "").replace(/`[^`\n]*`/g, "");
+      for (const [, ref] of markdown.matchAll(/\]\(([^)\s]+)(?:\s+"[^"]*")?\)/g)) {
+        if (/^(?:[a-z]+:|#|\/\/)/i.test(ref)) continue;
+        targets.add(new URL(ref, new URL(pathname, baseURL)).pathname);
+      }
+    }
+  }
+  const evidence = JSON.parse(readFileSync(path.join(root, "docs/accessibility/evidence.json"), "utf8"));
+  for (const area of evidence.areas) {
+    targets.add(`/${area.reference}`);
+    for (const file of area.automated.tests) targets.add(`/${file}`);
+  }
+  const broken = [];
+  for (const target of targets) {
+    const response = await request.get(target);
+    if (!response.ok()) broken.push(`${target}: ${response.status()}`);
+  }
+  expect(broken).toEqual([]);
 });

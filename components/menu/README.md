@@ -40,6 +40,8 @@ For secondary actions that don't deserve permanent space: "Duplicate", "Export",
 - Keyboard (with `membrane.js`): opening focuses the first item; ↑/↓ move, Home/End jump, Escape closes and returns focus to the trigger; choosing an item closes the menu.
 - Destructive items use `data-tone="danger"` **and** a clear verb — color is never the only signal. Follow them with a confirmation [Dialog](../dialog/README.md).
 
+Manual screen-reader and usability checks have not been recorded for this inventory. See the [accessibility evidence](../../docs/accessibility/README.md) for automated coverage, remaining checks and the result-recording protocol.
+
 ## API
 
 <!-- GENERATED:API -->

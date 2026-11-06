@@ -1,0 +1,34 @@
+/* Local form composition. Existing components own controls and feedback. */
+.composition-journey :is(.mp-link, .mp-input, .mp-button) { transition-property: box-shadow, transform; }
+.composition-journey [hidden] { display: none; }
+.composition-journey-layout { grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); }
+.composition-journey-language { min-inline-size: 0; max-inline-size: 100%; }
+.composition-journey-language .mp-input { max-inline-size: 100%; }
+.composition-journey-workspace { min-inline-size: 0; }
+.composition-journey-steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3) var(--space-5);
+  list-style: none;
+  margin: 0;
+  padding: 0 0 var(--space-5);
+  border-block-end: var(--border-default);
+  font-size: var(--text-small);
+  color: var(--color-text-secondary);
+}
+.composition-journey-steps [aria-current="step"] { color: var(--color-text-primary); font-weight: var(--weight-semibold); }
+.composition-journey-demo > div { padding-block-start: var(--space-4); }
+.composition-journey-demo summary { cursor: pointer; }
+.composition-journey-fields { min-inline-size: 0; gap: var(--space-6); }
+.composition-journey-fields legend { margin-block-end: var(--space-4); }
+.composition-journey-errors { margin-block: var(--space-3) 0; padding-inline-start: var(--space-5); }
+.composition-journey-errors li + li { margin-block-start: var(--space-2); }
+.composition-journey-errors .mp-link { color: var(--color-error-text); }
+.composition-journey-focus:focus { outline: var(--focus-ring); outline-offset: var(--focus-ring-offset); }
+.composition-journey-review { margin: 0; }
+.composition-journey-review > div { display: grid; gap: var(--space-3); padding-block: var(--space-5); border-block-start: var(--border-default); }
+.composition-journey-review dd { min-inline-size: 0; margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+.composition-journey-status { min-block-size: 1lh; }
+@media (max-width: 48rem) {
+  .composition-journey-layout { grid-template-columns: minmax(0, 1fr); }
+}
