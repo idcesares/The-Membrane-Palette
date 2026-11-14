@@ -267,7 +267,7 @@ A **three-tier architecture**. Values live in `tokens/membrane.tokens.json`; com
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/figures/idcesares-figure-architecture-dark.png">
-  <img src="docs/figures/idcesares-figure-architecture-light.png" alt="Tier 1 primitives (33 immutable values) feed Tier 2 semantic tokens (181 roles and scales, themed with light-dark and guarded by 162 contrast checks), which feed Tier 3 component knobs (56), which style 35 components. One value is traced from #B35530 or #D4724F through --color-terracotta, --color-action-primary and --mp-button-bg to a rendered button.">
+  <img src="docs/figures/idcesares-figure-architecture-light.png" alt="Tier 1 primitives (33 immutable values) feed Tier 2 semantic tokens (181 roles and scales, themed with light-dark and guarded by 162 contrast checks), which feed Tier 3 component knobs (84), which style 35 components. One value is traced from #B35530 or #D4724F through --color-terracotta, --color-action-primary and --mp-button-bg to a rendered button.">
 </picture>
 
 How a change travels from source to CDN, and which checks can stop it:
@@ -380,7 +380,7 @@ Fluid type scale from `--text-xs` (0.75rem) to `--text-display` (clamp up to 3.7
 
 ## Accessibility
 
-- **Automated contrast gate:** the build verifies every foreground/background pair the UI depends on, in both modes, before writing CSS — text on every surface, button labels on resting *and hover* fills, register and status text on their washes (over both page and card surfaces), form-control boundaries and focus rings (WCAG 1.4.11), chart series, and every code syntax color. The full list is generated into `DESIGN-SYSTEM.md` §13.1. A failing pair aborts the build.
+- **Automated contrast gate:** the build verifies every foreground/background pair the UI depends on, in both modes, before writing CSS — text on every surface, button labels on resting *and hover* fills, register and status text on their washes (over both page and card surfaces), form-control boundaries and focus rings (WCAG 1.4.11), chart series, and every code syntax color. The full list is generated into `DESIGN-SYSTEM.md` §13.1. A second gate measures what each component actually paints through its `--mp-*` knobs, for every tone, variant and state. A failing pair aborts the build.
 - **Component lint:** components may only use semantic tokens; docs may only show classes and values the CSS implements. CI runs both builds on every push and PR and fails if any generated file is stale.
 - **State via ARIA:** component states are styled from `aria-*` and native attributes, so every visual state is also announced.
 - All primary/secondary color pairings meet **WCAG AA** contrast requirements; primary text pairs target **AAA**.

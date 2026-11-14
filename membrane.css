@@ -1668,6 +1668,11 @@
   .mp-checkbox,
   .mp-radio {
     --mp-choice-size: 1.25rem;
+    --mp-choice-bg: var(--color-bg-primary);
+    --mp-choice-border: var(--color-border-input);
+    --mp-choice-border-hover: var(--color-text-secondary);
+    --mp-choice-checked: var(--color-action-secondary);
+    --mp-choice-mark: var(--color-text-on-accent);
 
     box-sizing: border-box;
     appearance: none;
@@ -1678,9 +1683,9 @@
     height: var(--mp-choice-size);
     /* Centers the 20px control on the first line of a body-size label. */
     margin: 0.125rem 0 0;
-    border: var(--border-width-medium) solid var(--color-border-input);
+    border: var(--border-width-medium) solid var(--mp-choice-border);
     border-radius: var(--radius-sm);
-    background-color: var(--color-bg-primary);
+    background-color: var(--mp-choice-bg);
     cursor: pointer;
     transition: background-color var(--transition-fast), border-color var(--transition-fast);
   }
@@ -1692,7 +1697,7 @@
   .mp-checkbox::before,
   .mp-radio::before {
     content: "";
-    background-color: var(--color-text-on-accent);
+    background-color: var(--mp-choice-mark);
     scale: 0;
     transition: scale var(--transition-state);
   }
@@ -1712,8 +1717,8 @@
   .mp-checkbox:checked,
   .mp-checkbox:indeterminate,
   .mp-radio:checked {
-    border-color: var(--color-action-secondary);
-    background-color: var(--color-action-secondary);
+    border-color: var(--mp-choice-checked);
+    background-color: var(--mp-choice-checked);
   }
 
   .mp-checkbox:checked::before,
@@ -1728,7 +1733,7 @@
 
   .mp-checkbox:hover:not(:disabled, :checked, :indeterminate),
   .mp-radio:hover:not(:disabled, :checked) {
-    border-color: var(--color-text-secondary);
+    border-color: var(--mp-choice-border-hover);
   }
 
   .mp-checkbox:focus-visible,
@@ -2682,6 +2687,7 @@
     --mp-alert-accent: var(--color-info);
     --mp-alert-bg: var(--color-info-bg);
     --mp-alert-title: var(--color-info-text);
+    --mp-alert-icon: var(--mp-alert-accent);
 
     box-sizing: border-box;
     display: flex;
@@ -2708,6 +2714,8 @@
     --mp-alert-accent: var(--color-warning);
     --mp-alert-bg: var(--color-warning-bg);
     --mp-alert-title: var(--color-warning-text);
+    /* --color-warning is 2.1:1 on light washes: the icon carries meaning. */
+    --mp-alert-icon: var(--color-warning-text);
   }
 
   .mp-alert[data-tone="error"] {
@@ -2726,7 +2734,7 @@
     flex: none;
     width: var(--size-icon-sm);
     height: var(--size-icon-sm);
-    color: var(--mp-alert-accent);
+    color: var(--mp-alert-icon);
   }
 
   .mp-alert__content {
@@ -2795,7 +2803,7 @@
   }
 
   .mp-progress[data-tone="human"] { --mp-progress-value: var(--color-action-primary); }
-  .mp-progress[data-tone="success"] { --mp-progress-value: var(--color-success); }
+  .mp-progress[data-tone="success"] { --mp-progress-value: var(--color-success-text); }
 
   .mp-progress[data-size="sm"] { --mp-progress-height: 0.25rem; }
   .mp-progress[data-size="lg"] { --mp-progress-height: 0.75rem; }
@@ -3174,6 +3182,9 @@
 
   .mp-dialog {
     --mp-dialog-width: 35rem;
+    --mp-dialog-bg: var(--color-bg-elevated);
+    --mp-dialog-fg: var(--color-text-primary);
+    --mp-dialog-body: var(--color-text-secondary);
 
     box-sizing: border-box;
     width: min(var(--mp-dialog-width), 100% - 2 * var(--space-4));
@@ -3183,9 +3194,9 @@
     overflow: auto;
     border: var(--border-default);
     border-radius: var(--radius-xl);
-    background-color: var(--color-bg-elevated);
+    background-color: var(--mp-dialog-bg);
     box-shadow: var(--elevation-modal);
-    color: var(--color-text-primary);
+    color: var(--mp-dialog-fg);
     font-family: var(--font-sans);
     font-size: var(--text-body);
     line-height: var(--leading-body);
@@ -3268,7 +3279,7 @@
     flex: 1;
     padding: var(--space-4) var(--space-6);
     overflow-y: auto;
-    color: var(--color-text-secondary);
+    color: var(--mp-dialog-body);
   }
 
   .mp-dialog__body > :first-child { margin-top: 0; }
@@ -3293,15 +3304,23 @@
      (container query), not the viewport, so it also works inside panels. */
 
   .mp-navbar {
+    --mp-navbar-bg: var(--color-bg-primary);
+    --mp-navbar-fg: var(--color-text-primary);
+    --mp-navbar-link: var(--color-text-secondary);
+    --mp-navbar-link-hover: var(--color-text-primary);
+    --mp-navbar-link-bg-hover: var(--color-bg-hover);
+    --mp-navbar-link-current: var(--color-human-text);
+    --mp-navbar-indicator: var(--color-action-primary);
+
     box-sizing: border-box;
     position: sticky;
     top: 0;
     z-index: var(--z-nav);
     container-type: inline-size;
     border-block-end: var(--border-default);
-    background-color: color-mix(in srgb, var(--color-bg-primary) 88%, transparent);
+    background-color: color-mix(in srgb, var(--mp-navbar-bg) 88%, transparent);
     backdrop-filter: blur(var(--blur-backdrop));
-    color: var(--color-text-primary);
+    color: var(--mp-navbar-fg);
     font-family: var(--font-sans);
   }
 
@@ -3331,7 +3350,7 @@
     align-items: center;
     gap: var(--space-2);
     border-radius: var(--radius-sm);
-    color: var(--color-text-primary);
+    color: var(--mp-navbar-fg);
     font-family: var(--font-serif);
     font-size: var(--text-h4);
     font-weight: var(--weight-bold);
@@ -3360,7 +3379,7 @@
     min-height: var(--size-touch-target);
     padding: 0 var(--space-3);
     border-radius: var(--radius-full);
-    color: var(--color-text-secondary);
+    color: var(--mp-navbar-link);
     font-size: var(--text-xs);
     font-weight: var(--weight-semibold);
     letter-spacing: var(--tracking-label);
@@ -3370,15 +3389,15 @@
   }
 
   .mp-navbar__link:hover {
-    background-color: var(--color-bg-hover);
-    color: var(--color-text-primary);
+    background-color: var(--mp-navbar-link-bg-hover);
+    color: var(--mp-navbar-link-hover);
   }
 
   .mp-navbar__link[aria-current="page"] {
-    color: var(--color-human-text);
+    color: var(--mp-navbar-link-current);
     text-decoration-line: underline;
     text-decoration-thickness: var(--border-width-medium);
-    text-decoration-color: var(--color-action-primary);
+    text-decoration-color: var(--mp-navbar-indicator);
     text-underline-offset: 0.5em;
   }
 
@@ -3484,6 +3503,14 @@
      components/membrane.js supplies click and arrow-key behavior. */
 
   .mp-tabs {
+    --mp-tabs-fg: var(--color-text-secondary);
+    --mp-tabs-fg-hover: var(--color-text-primary);
+    --mp-tabs-fg-selected: var(--color-text-primary);
+    --mp-tabs-bg-hover: var(--color-bg-hover);
+    --mp-tabs-indicator: var(--color-action-primary);
+    --mp-tabs-track: var(--color-bg-tertiary);
+    --mp-tabs-bg-selected: var(--color-bg-primary);
+
     display: grid;
     align-content: start;
     gap: var(--space-4);
@@ -3513,7 +3540,7 @@
     border-block-end: var(--border-width-medium) solid transparent;
     border-radius: var(--radius-sm) var(--radius-sm) 0 0;
     background: transparent;
-    color: var(--color-text-secondary);
+    color: var(--mp-tabs-fg);
     font-family: inherit;
     font-size: var(--text-small);
     font-weight: var(--weight-medium);
@@ -3523,13 +3550,13 @@
   }
 
   .mp-tabs__tab:hover {
-    background-color: var(--color-bg-hover);
-    color: var(--color-text-primary);
+    background-color: var(--mp-tabs-bg-hover);
+    color: var(--mp-tabs-fg-hover);
   }
 
   .mp-tabs__tab[aria-selected="true"] {
-    border-block-end-color: var(--color-action-primary);
-    color: var(--color-text-primary);
+    border-block-end-color: var(--mp-tabs-indicator);
+    color: var(--mp-tabs-fg-selected);
   }
 
   /* Inset ring: the scrolling tab list would clip an outside outline. */
@@ -3555,7 +3582,7 @@
     padding: var(--space-1);
     border: 0;
     border-radius: var(--radius-full);
-    background-color: var(--color-bg-tertiary);
+    background-color: var(--mp-tabs-track);
   }
 
   .mp-tabs[data-variant="pill"] .mp-tabs__tab {
@@ -3566,7 +3593,7 @@
   }
 
   .mp-tabs[data-variant="pill"] .mp-tabs__tab[aria-selected="true"] {
-    background-color: var(--color-bg-primary);
+    background-color: var(--mp-tabs-bg-selected);
     box-shadow: var(--elevation-raised);
   }
 
@@ -3881,6 +3908,12 @@
      menu keyboard pattern. */
 
   .mp-menu {
+    --mp-menu-bg: var(--color-bg-elevated);
+    --mp-menu-fg: var(--color-text-primary);
+    --mp-menu-item-bg-hover: var(--color-bg-hover);
+    --mp-menu-danger: var(--color-error-text);
+    --mp-menu-label: var(--color-text-tertiary);
+
     box-sizing: border-box;
     min-width: 12rem;
     max-width: 20rem;
@@ -3888,9 +3921,9 @@
     padding: var(--space-1);
     border: var(--border-default);
     border-radius: var(--radius-md);
-    background-color: var(--color-bg-elevated);
+    background-color: var(--mp-menu-bg);
     box-shadow: var(--elevation-overlay);
-    color: var(--color-text-primary);
+    color: var(--mp-menu-fg);
     font-family: var(--font-sans);
     font-size: var(--text-small);
     opacity: 0;
@@ -3950,7 +3983,7 @@
 
   .mp-menu__item:hover,
   .mp-menu__item:focus-visible {
-    background-color: var(--color-bg-hover);
+    background-color: var(--mp-menu-item-bg-hover);
   }
 
   .mp-menu__item:focus-visible {
@@ -3959,7 +3992,7 @@
   }
 
   .mp-menu__item[data-tone="danger"] {
-    color: var(--color-error-text);
+    color: var(--mp-menu-danger);
   }
 
   .mp-menu__item:disabled,
@@ -3984,7 +4017,7 @@
   .mp-menu__label {
     margin: 0;
     padding: var(--space-2) var(--space-3) var(--space-1);
-    color: var(--color-text-tertiary);
+    color: var(--mp-menu-label);
     font-size: var(--text-xs);
     font-weight: var(--weight-semibold);
     letter-spacing: var(--tracking-label);

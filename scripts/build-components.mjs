@@ -27,6 +27,7 @@
 import { readFile, writeFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { parseColor, composite, contrast } from "./lib/contrast.mjs";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const rel = (...p) => path.join(root, ...p);
@@ -267,6 +268,31 @@ for (const f of examplePages) {
   lintMarkup(await readFile(rel("examples", f), "utf8"), `examples/${f}`, new Map());
 }
 
+/* Breakpoints — every width in an @media query is a step of the breakpoint
+   scale (tokens: breakpoint.*), written in px or rem. Container queries are
+   exempt: they measure the component's own box, not the viewport. Prefer
+   range syntax, (width < 48rem), so neighbouring queries never overlap. */
+const BREAKPOINTS = new Map(Object.entries(tokenJson.breakpoint).filter(([k]) => !k.startsWith("$")).map(([k, t]) => [parseFloat(t.$value), k]));
+function lintBreakpoints(css, where) {
+  for (const m of stripComments(css).matchAll(/@media([^{]*)\{/g)) {
+    const prelude = m[1];
+    if (!/width/.test(prelude)) continue;
+    for (const [, n, unit] of prelude.matchAll(/(\d*\.?\d+)(px|rem|em)\b/g)) {
+      const px = unit === "px" ? +n : +n * 16;
+      if (!BREAKPOINTS.has(px)) {
+        const scale = [...BREAKPOINTS].map(([v, k]) => `${k} ${v}px / ${v / 16}rem`).join(", ");
+        fail(where, `@media${prelude.trimEnd()} uses ${n}${unit}, which is not on the breakpoint scale (${scale})`);
+      }
+    }
+  }
+}
+for (const c of components) lintBreakpoints(c.css, `components/${c.slug}/${c.slug}.css`);
+for (const file of exampleStyles) lintBreakpoints(await readFile(rel("examples", file), "utf8"), `examples/${file}`);
+for (const file of [...examplePages.map((f) => `examples/${f}`), "showcase/index.html"]) {
+  const html = await readFile(rel(file), "utf8");
+  for (const [, style] of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) lintBreakpoints(style, file);
+}
+
 /* Coverage — every option the CSS implements is demonstrated in the README
    examples (and therefore rendered in the showcase), unless the README's
    frontmatter lists it under `exempt:` (e.g. a spacing scale). */
@@ -300,6 +326,162 @@ for (const file of ["README.md", "DESIGN-SYSTEM.md"]) {
     if (c.meta.status !== "beta" && marked) fail(file, `${c.meta.name} is marked beta in the catalog but its README says status: ${c.meta.status}`);
   }
 }
+
+/* ------------------------------------------------------------------ *
+ *  Component-token contrast gate
+ *
+ *  The token gate (build-tokens.mjs) measures semantic pairs; this one
+ *  measures the pairs a component actually paints, through its --mp-*
+ *  knobs. Each pair is checked in light and dark, once for the root
+ *  defaults and once for every rule that reassigns either side (a tone,
+ *  variant or state), over each backdrop a translucent or transparent
+ *  background can sit on. A knob may point at another knob; the chain is
+ *  resolved the way the cascade does on one element.
+ * ------------------------------------------------------------------ */
+
+const PAGE = "--color-bg-primary";
+const CARD = "--color-bg-secondary";
+const ELEVATED = "--color-bg-elevated";
+// slug -> [foreground, background, minimum, note, backdrops?]. Either side is
+// a --mp-* knob of that component or a design token. Only pairs that carry
+// information are gated (WCAG 1.4.3 text, 1.4.11 meaningful graphics): the
+// accent stripes on cards, alerts and toasts repeat what the title and icon
+// already say, so they are decorative and may use the brand fills.
+const COMPONENT_GATE = {
+  button: [
+    ["--mp-button-fg", "--mp-button-bg", 4.5, "label"],
+    ["--mp-button-fg-hover", "--mp-button-bg-hover", 4.5, "label, hover / pressed"],
+  ],
+  card: [
+    ["--color-text-primary", "--mp-card-bg", 7.0, "card body"],
+    ["--mp-card-overline", "--mp-card-bg", 4.5, "overline"],
+  ],
+  tag: [["--mp-tag-fg", "--mp-tag-bg", 4.5, "tag label"]],
+  badge: [["--mp-badge-fg", "--mp-badge-bg", 4.5, "badge label"]],
+  alert: [
+    ["--mp-alert-title", "--mp-alert-bg", 4.5, "alert title"],
+    ["--color-text-primary", "--mp-alert-bg", 4.5, "alert body"],
+    ["--mp-alert-icon", "--mp-alert-bg", 3.0, "alert icon"],
+  ],
+  toast: [
+    ["--mp-toast-title", ELEVATED, 4.5, "toast title", [ELEVATED]],
+  ],
+  progress: [["--mp-progress-value", "--mp-progress-track", 3.0, "progress value vs track"]],
+  steps: [["--mp-steps-ring", PAGE, 3.0, "step marker ring", [PAGE]]],
+  choice: [
+    ["--mp-choice-border", "--mp-choice-bg", 3.0, "control boundary"],
+    ["--mp-choice-border-hover", "--mp-choice-bg", 3.0, "control boundary, hover"],
+    ["--mp-choice-checked", PAGE, 3.0, "checked fill on page", [PAGE]],
+    ["--mp-choice-checked", CARD, 3.0, "checked fill on a card", [CARD]],
+    ["--mp-choice-mark", "--mp-choice-checked", 3.0, "check / dot mark"],
+  ],
+  tabs: [
+    ["--mp-tabs-fg", PAGE, 4.5, "tab label", [PAGE, CARD]],
+    ["--mp-tabs-fg-hover", "--mp-tabs-bg-hover", 4.5, "tab label, hover"],
+    ["--mp-tabs-fg-selected", PAGE, 7.0, "selected tab label", [PAGE, CARD]],
+    ["--mp-tabs-indicator", PAGE, 3.0, "selected-tab indicator", [PAGE, CARD]],
+    ["--mp-tabs-fg", "--mp-tabs-track", 4.5, "pill tab label"],
+    ["--mp-tabs-fg-selected", "--mp-tabs-bg-selected", 7.0, "selected pill tab label"],
+  ],
+  // The bar is 88% --mp-navbar-bg over the page; measured opaque.
+  navbar: [
+    ["--mp-navbar-fg", "--mp-navbar-bg", 7.0, "brand"],
+    ["--mp-navbar-link", "--mp-navbar-bg", 4.5, "nav link"],
+    ["--mp-navbar-link-hover", "--mp-navbar-link-bg-hover", 4.5, "nav link, hover", ["--mp-navbar-bg"]],
+    ["--mp-navbar-link-current", "--mp-navbar-bg", 4.5, "current page link"],
+    ["--mp-navbar-indicator", "--mp-navbar-bg", 3.0, "current page underline"],
+  ],
+  dialog: [
+    ["--mp-dialog-fg", "--mp-dialog-bg", 7.0, "dialog title"],
+    ["--mp-dialog-body", "--mp-dialog-bg", 4.5, "dialog body"],
+  ],
+  menu: [
+    ["--mp-menu-fg", "--mp-menu-bg", 7.0, "menu item"],
+    ["--mp-menu-fg", "--mp-menu-item-bg-hover", 4.5, "menu item, focused", ["--mp-menu-bg"]],
+    ["--mp-menu-danger", "--mp-menu-bg", 4.5, "danger item"],
+    ["--mp-menu-label", "--mp-menu-bg", 4.5, "group label"],
+  ],
+};
+
+const resolvedTokens = JSON.parse(await readFile(rel("tokens", "tokens.resolved.json"), "utf8"));
+const TRANSPARENT = "rgba(0, 0, 0, 0)";
+
+/** Innermost `selector { declarations }` rules (at-rule wrappers drop away). */
+function cssRules(css) {
+  return [...stripComments(css).matchAll(/([^{}]+)\{([^{}]*)\}/g)].map((m) => ({
+    selector: m[1].trim().replace(/\s+/g, " "),
+    decls: new Map([...m[2].matchAll(/(--mp-[a-z0-9-]+)\s*:\s*([^;]+)/g)].map((d) => [d[1], d[2].trim()])),
+  }));
+}
+
+/** Resolve a knob or token to a color literal for one mode and context. */
+function resolveColor(name, mode, ctx, where, seen = new Set()) {
+  if (seen.has(name)) throw new Error(`${where}: ${[...seen, name].join(" → ")} is circular`);
+  seen.add(name);
+  if (name.startsWith("--mp-")) {
+    const value = ctx.get(name);
+    if (value === undefined) throw new Error(`${where}: ${name} is not declared by the component`);
+    if (value === "transparent") return TRANSPARENT;
+    const ref = value.match(/^var\(\s*(--[a-z0-9-]+)\s*\)$/);
+    if (!ref) throw new Error(`${where}: ${name}: ${value} is not a single var() the gate can resolve`);
+    return resolveColor(ref[1], mode, ctx, where, seen);
+  }
+  const literal = resolvedTokens.modes[mode][name];
+  if (literal === undefined || !parseColor(literal)) throw new Error(`${where}: ${name} does not resolve to a color in ${mode} mode`);
+  return literal;
+}
+
+/** Composite a backdrop chain (outermost last) down to one opaque color. */
+function flatten(stack) {
+  let base = parseColor(stack.at(-1));
+  for (const layer of stack.slice(0, -1).reverse()) base = composite(parseColor(layer), base);
+  return `rgb(${base.r}, ${base.g}, ${base.b})`;
+}
+
+const componentGateRows = [];
+for (const c of components) {
+  const pairs = COMPONENT_GATE[c.slug];
+  if (!pairs) continue;
+  const where = `components/${c.slug}/${c.slug}.css`;
+  const defaults = new Map(c.knobs);
+  const rules = cssRules(c.css);
+  for (const [fg, bg, min, note, backdrops = [PAGE, CARD]] of pairs) {
+    // Contexts: the defaults, then every rule that reassigns a knob in the
+    // pair's chain (directly or through a knob it points at).
+    const chain = (n) => {
+      const out = new Set([n]);
+      for (const name of out) {
+        const ref = defaults.get(name)?.match(/var\(\s*(--mp-[a-z0-9-]+)/);
+        if (ref) out.add(ref[1]);
+      }
+      return out;
+    };
+    const involved = new Set([...chain(fg), ...chain(bg), ...backdrops.flatMap((b) => [...chain(b)])]);
+    const contexts = [{ label: "default", ctx: defaults }];
+    for (const rule of rules) {
+      if (rule.decls.size === 0 || ![...rule.decls.keys()].some((k) => involved.has(k))) continue;
+      if ([...rule.decls].every(([k, v]) => defaults.get(k) === v)) continue; // the root rule itself
+      contexts.push({ label: rule.selector, ctx: new Map([...defaults, ...rule.decls]) });
+    }
+    for (const mode of ["light", "dark"]) {
+      for (const { label, ctx } of contexts) {
+        for (const backdrop of backdrops) {
+          try {
+            const back = flatten([resolveColor(backdrop, mode, ctx, where), resolvedTokens.modes[mode][PAGE]]);
+            const bgV = resolveColor(bg, mode, ctx, where);
+            const ratio = contrast(resolveColor(fg, mode, ctx, where), bgV, back);
+            const row = { component: c.slug, mode, context: label, fg, bg, backdrop, ratio, min, note, pass: ratio >= min };
+            componentGateRows.push(row);
+            if (!row.pass) fail(where, `${mode} ${label}: ${fg} on ${bg} (over ${backdrop}) is ${ratio.toFixed(2)}:1, needs ${min}:1 — ${note}`);
+          } catch (e) {
+            fail(where, e.message.replace(`${where}: `, ""));
+          }
+        }
+      }
+    }
+  }
+}
+for (const slug of Object.keys(COMPONENT_GATE)) if (!ORDER.includes(slug)) fail("scripts/build-components.mjs", `COMPONENT_GATE names unknown component "${slug}"`);
 
 if (errors.length > 0) {
   console.error(`\nCOMPONENT BUILD FAILED — ${errors.length} problem(s):`);
@@ -667,6 +849,7 @@ html = html.replace(re, (_, a, b) => `${a}\n${renderGallery()}\n        ${b}`);
 await writeFile(SHOWCASE, html);
 
 const exampleCount = components.reduce((n, c) => n + c.examples.length, 0);
+console.log(`✓ Contrast-gated ${componentGateRows.length} component-token checks (${Object.keys(COMPONENT_GATE).length} components × variants × light/dark × backdrops)`);
 console.log(`✓ Linted ${components.length} components, ${exampleCount} documented examples and ${examplePages.length} pattern pages and ${exampleStyles.length} local stylesheets against ${tokens.size} tokens`);
 console.log("✓ Wrote components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt");
 console.log(`✓ Regenerated API sections in ${components.length} READMEs and the showcase component gallery`);

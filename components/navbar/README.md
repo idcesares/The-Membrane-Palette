@@ -58,5 +58,17 @@ _Generated from `navbar.css` by `npm run build:components` — do not edit this 
 
 **States styled** — `:focus-visible` `:hover` `[aria-current="page"]`
 
+**Component tokens** (override on an instance to restyle it)
+
+| Property | Default |
+|---|---|
+| `--mp-navbar-bg` | `var(--color-bg-primary)` |
+| `--mp-navbar-fg` | `var(--color-text-primary)` |
+| `--mp-navbar-link` | `var(--color-text-secondary)` |
+| `--mp-navbar-link-hover` | `var(--color-text-primary)` |
+| `--mp-navbar-link-bg-hover` | `var(--color-bg-hover)` |
+| `--mp-navbar-link-current` | `var(--color-human-text)` |
+| `--mp-navbar-indicator` | `var(--color-action-primary)` |
+
 **Design tokens consumed** — `--blur-backdrop` `--border-default` `--border-width-medium` `--color-action-primary` `--color-bg-hover` `--color-bg-primary` `--color-human-text` `--color-text-primary` `--color-text-secondary` `--container-xl` `--focus-ring` `--focus-ring-offset` `--font-sans` `--font-serif` `--radius-full` `--radius-sm` `--site-margin` `--size-nav` `--size-nav-mobile` `--size-touch-target` `--space-1` `--space-2` `--space-3` `--space-4` `--space-6` `--space-8` `--text-h4` `--text-xs` `--tracking-heading` `--tracking-label` `--transition-fast` `--weight-bold` `--weight-semibold` `--z-nav`
 <!-- /GENERATED:API -->

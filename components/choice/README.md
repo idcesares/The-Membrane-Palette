@@ -71,6 +71,11 @@ _Generated from `choice.css` by `npm run build:components` — do not edit this 
 | Property | Default |
 |---|---|
 | `--mp-choice-size` | `1.25rem` |
+| `--mp-choice-bg` | `var(--color-bg-primary)` |
+| `--mp-choice-border` | `var(--color-border-input)` |
+| `--mp-choice-border-hover` | `var(--color-text-secondary)` |
+| `--mp-choice-checked` | `var(--color-action-secondary)` |
+| `--mp-choice-mark` | `var(--color-text-on-accent)` |
 
 **Design tokens consumed** — `--border-width-medium` `--color-action-secondary` `--color-bg-primary` `--color-border-input` `--color-error` `--color-text-on-accent` `--color-text-primary` `--color-text-secondary` `--focus-ring` `--focus-ring-offset` `--font-sans` `--leading-body-lg` `--leading-small` `--radius-full` `--radius-sm` `--space-2` `--space-3` `--state-disabled-opacity` `--text-body` `--text-small` `--transition-fast` `--transition-state`
 <!-- /GENERATED:API -->

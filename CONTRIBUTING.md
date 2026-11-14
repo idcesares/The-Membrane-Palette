@@ -37,7 +37,7 @@ Commit the regenerated files together with your source change. CI runs all three
 
 ## Adding a component
 
-1. `components/<name>/<name>.css` — root class `mp-<name>`, parts `mp-<name>__<part>`, options as `data-*` attributes, **states from native attributes/ARIA only**, knobs named `--mp-<name>-*`, semantic tokens only.
+1. `components/<name>/<name>.css` — root class `mp-<name>`, parts `mp-<name>__<part>`, options as `data-*` attributes, **states from native attributes/ARIA only**, knobs named `--mp-<name>-*`, semantic tokens only. Colors go through knobs, and each pair that carries information gets a `COMPONENT_GATE` entry in `scripts/build-components.mjs`. `@media` widths must be breakpoint steps (`DESIGN-SYSTEM.md` §4.4).
 2. `components/<name>/README.md` — frontmatter (`name`, `category`, `status`, `summary`, optional `exempt`), prose (when to use / not), `## Examples` with `### Title` + `html` blocks, `## Accessibility`, and empty `<!-- GENERATED:API -->` markers.
 3. Add `<name>` to `ORDER` in `scripts/build-components.mjs`.
 4. `npm run build:system`. The build fails if:

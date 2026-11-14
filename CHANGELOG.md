@@ -9,6 +9,9 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 
 ### Added
 
+- **Component-token contrast gate:** `npm run build:components` now measures the pairs each component paints through its `--mp-*` knobs (`COMPONENT_GATE`, 258 checks across 13 components), for the defaults and for every tone, variant or state rule that reassigns a knob, in both modes and over page and card surfaces. The token gate only measured semantic pairs, so a variant could pair two individually valid tokens below the minimum without failing. The WCAG math moved to `scripts/lib/contrast.mjs`, shared by both gates.
+- **Breakpoint lint:** every `@media` width in component CSS, `examples/*.css`, example pages and the showcase must be a step of the breakpoint scale (§4.4). Container queries stay component-owned.
+- **More component tokens:** `--mp-tabs-*`, `--mp-navbar-*`, `--mp-menu-*`, color knobs for `--mp-dialog-*` and `--mp-choice-*` (checkbox and radio), and `--mp-alert-icon` — 56 → 84 knobs. All default to the semantic tokens the components used before, so default rendering is unchanged; a host can now re-skin these components per instance or subtree, and the gate checks their pairs.
 - **Original visual language:** organic gestures and precise frames now have six reusable constructions, twelve standalone SVGs, an inspectable asset catalog and a working website/presentation/teaching specimen. Role and arrangement guidance turns the illustration direction into usable material; semantic-token generation keeps artwork aligned with themes.
 - **Experience patterns:** forms/review, loading and recovery, component/message choices, adaptive layouts, data explanation, optional AI interaction guidance and incremental adoption, adapted from official established-system guidance.
 - **Two bilingual working references:** a resource explorer with search/filter, adaptive detail, cancellation, partial/empty/failure recovery, and a local form journey with linked validation errors, preserved answers, review/edit and controlled failure/retry. Both run on local illustrative content with no transmission or persistence.
@@ -26,6 +29,12 @@ Versioning follows semantic conventions: breaking token renames or removals incr
 - The 30-word slide limit is now an editorial starting point. Evidence canvases can retain necessary method, source and limitation text when hierarchy and readable type are preserved.
 - Public CDN install snippets pin to release `2.2.0` (git tag `v2.2.0`) instead of the default branch. `@2` remains the optional compatible range. See [`docs/RELEASING.md`](docs/RELEASING.md).
 - Published OBSERVED examples in `VOICE.md` keep their sentence shape and replace names, internal systems, and non-public operational detail with `[redacted]`.
+
+### Fixed
+
+- **Success-tone progress bar** measured 2.91:1 against its track in light mode (WCAG 1.4.11 needs 3:1 for the value of a progress bar). It now uses `--color-success-text` (4.49:1); dark mode is unchanged.
+- **Warning alert icon** used `--color-warning` (2.1:1 on the light wash), which the spec already forbids on light surfaces. The icon now uses `--color-warning-text` through the new `--mp-alert-icon` knob; the amber accent stripe stays, as decoration that repeats the title and icon.
+- **Off-scale breakpoints** in the showcase (1200px, 760px) and two example stylesheets (55.999rem, 56rem, 38rem) now use scale steps in range syntax: `width < 80rem`, `48rem`, `64rem` and `40rem`. Each new step is at or above the old threshold, so no layout collapses later than before; the showcase hero and the two examples switch to one column slightly earlier.
 
 ### Security
 

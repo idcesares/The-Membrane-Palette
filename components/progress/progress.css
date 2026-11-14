@@ -35,7 +35,7 @@
 }
 
 .mp-progress[data-tone="human"] { --mp-progress-value: var(--color-action-primary); }
-.mp-progress[data-tone="success"] { --mp-progress-value: var(--color-success); }
+.mp-progress[data-tone="success"] { --mp-progress-value: var(--color-success-text); }
 
 .mp-progress[data-size="sm"] { --mp-progress-height: 0.25rem; }
 .mp-progress[data-size="lg"] { --mp-progress-height: 0.75rem; }

@@ -3,6 +3,9 @@
 
 .mp-dialog {
   --mp-dialog-width: 35rem;
+  --mp-dialog-bg: var(--color-bg-elevated);
+  --mp-dialog-fg: var(--color-text-primary);
+  --mp-dialog-body: var(--color-text-secondary);
 
   box-sizing: border-box;
   width: min(var(--mp-dialog-width), 100% - 2 * var(--space-4));
@@ -12,9 +15,9 @@
   overflow: auto;
   border: var(--border-default);
   border-radius: var(--radius-xl);
-  background-color: var(--color-bg-elevated);
+  background-color: var(--mp-dialog-bg);
   box-shadow: var(--elevation-modal);
-  color: var(--color-text-primary);
+  color: var(--mp-dialog-fg);
   font-family: var(--font-sans);
   font-size: var(--text-body);
   line-height: var(--leading-body);
@@ -97,7 +100,7 @@
   flex: 1;
   padding: var(--space-4) var(--space-6);
   overflow-y: auto;
-  color: var(--color-text-secondary);
+  color: var(--mp-dialog-body);
 }
 
 .mp-dialog__body > :first-child { margin-top: 0; }

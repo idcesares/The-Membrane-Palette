@@ -17,7 +17,7 @@ Never infer biography from examples. If a requested personal claim is not suppor
 
 ```bash
 npm run build:tokens      # Regenerate tokens/design-tokens.css, base.css, membrane-tailwind.css, tokens.resolved.json, fonts/fonts.css and the spec/showcase token tables; runs the WCAG contrast gate (every `GATE` pair × light/dark) and aborts on failure
-npm run build:components  # Lint components + README examples + pattern pages, then write components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt, the README API sections and the showcase gallery
+npm run build:components  # Lint components + README examples + pattern pages + @media widths against the breakpoint scale, run the component-token contrast gate (COMPONENT_GATE × variants × light/dark), then write components/membrane-components.css, membrane.css, components/manifest.json, components/membrane.d.ts, llms.txt, the README API sections and the showcase gallery
 npm run build:system      # Tokens, original visual assets, then components — run after source changes
 npm run build             # Cloudflare build: build:system, then assembles dist/ (adds llms-full.txt)
 npm run check:verbal      # Validate Verbal System v2 authorities, factuality boundaries and obsolete identity semantics
@@ -55,7 +55,7 @@ A **token-based design system with a framework-free CSS component library**:
 
 Distribution: consumers link `membrane.css` (or the split files) from jsDelivr. npm publishing is not set up; the CDN link in `README.md` is the only supported channel.
 
-**Changing a token value:** edit the JSON, run `npm run build:system`. A new color pairing that UI depends on also gets a `GATE` entry in `scripts/build-tokens.mjs`.
+**Changing a token value:** edit the JSON, run `npm run build:system`. A new color pairing that UI depends on also gets a `GATE` entry in `scripts/build-tokens.mjs`; a pair a component paints through its knobs gets a `COMPONENT_GATE` entry in `scripts/build-components.mjs`.
 
 **Changing or adding a component:** edit/create `components/<name>/<name>.css` + `README.md`, add new names to `ORDER` in `scripts/build-components.mjs`, run `npm run build:system`, then `npm test` (a new or changed example also needs new visual baselines: review the diff, then commit CI's `visual-baselines` artifact). The component lint rejects: raw colors (hex/rgb/oklch/white/black), unknown or deprecated tokens, Tier 1 primitives (`--color-terracotta`, `--color-neutral-*`, alpha tints), and custom properties not named `--mp-*`. The docs lint rejects README examples that use classes, `data-*` attributes or values the CSS doesn't implement, duplicate ids across all examples, icon-only buttons without `aria-label`, and `<img>` without `alt`. The coverage lint requires every class and every `data-*` value the CSS implements to appear in at least one README example (so the showcase renders it); a README can opt an attribute or class out with a frontmatter line such as `exempt: data-gap, .mp-skip-link`, which should be reserved for token scales and runtime-only state.
 

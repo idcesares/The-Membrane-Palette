@@ -5,6 +5,7 @@
   --mp-alert-accent: var(--color-info);
   --mp-alert-bg: var(--color-info-bg);
   --mp-alert-title: var(--color-info-text);
+  --mp-alert-icon: var(--mp-alert-accent);
 
   box-sizing: border-box;
   display: flex;
@@ -31,6 +32,8 @@
   --mp-alert-accent: var(--color-warning);
   --mp-alert-bg: var(--color-warning-bg);
   --mp-alert-title: var(--color-warning-text);
+  /* --color-warning is 2.1:1 on light washes: the icon carries meaning. */
+  --mp-alert-icon: var(--color-warning-text);
 }
 
 .mp-alert[data-tone="error"] {
@@ -49,7 +52,7 @@
   flex: none;
   width: var(--size-icon-sm);
   height: var(--size-icon-sm);
-  color: var(--mp-alert-accent);
+  color: var(--mp-alert-icon);
 }
 
 .mp-alert__content {

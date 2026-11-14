@@ -93,6 +93,7 @@ _Generated from `alert.css` by `npm run build:components` — do not edit this s
 | `--mp-alert-accent` | `var(--color-info)` |
 | `--mp-alert-bg` | `var(--color-info-bg)` |
 | `--mp-alert-title` | `var(--color-info-text)` |
+| `--mp-alert-icon` | `var(--mp-alert-accent)` |
 
 **Design tokens consumed** — `--border-width-thick` `--border-width-thin` `--color-action-primary` `--color-error` `--color-error-bg` `--color-error-text` `--color-human-bg` `--color-human-text` `--color-info` `--color-info-bg` `--color-info-text` `--color-success` `--color-success-bg` `--color-success-text` `--color-text-primary` `--color-warning` `--color-warning-bg` `--color-warning-text` `--font-sans` `--leading-small` `--radius-md` `--size-icon-sm` `--space-1` `--space-2` `--space-3` `--space-4` `--space-5` `--text-body` `--text-small` `--weight-semibold`
 <!-- /GENERATED:API -->
