@@ -994,6 +994,13 @@
     font-size: 0.875em;
   }
 
+  /* Linked code keeps the mono face but sits on the page surface: link
+     color on the code wash is 4.0:1 in light mode. */
+  .mp-prose :where(a > code) {
+    padding-inline: 0;
+    background-color: transparent;
+  }
+
   .mp-prose :where(pre) {
     overflow-x: auto;
     padding: var(--space-5) var(--space-6);

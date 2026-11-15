@@ -81,12 +81,14 @@ A **design system with a framework-free CSS component library**. Link one styles
 | [`tokens/base.css`](tokens/base.css) | **Generated.** Page defaults (canvas, text, font, `box-sizing`, all zero-specificity), `::selection`, focus ring, reduced motion, `.type-*` composites. |
 | [`tokens/membrane-tailwind.css`](tokens/membrane-tailwind.css) | **Generated.** Tailwind v4 theme: only `mp-` utilities mapped to the tokens; default palette removed. |
 | [`tokens/tokens.resolved.json`](tokens/tokens.resolved.json) | **Generated.** Every token's light and dark value as plain hex, for charting libraries, native apps and tools. |
+| [`tokens/tokens.mjs`](tokens/tokens.mjs) | **Generated.** The same values as an ES module — `tokens`, `tokenValue(name, scheme)`, `chartColors(scheme)` — typed by [`tokens.d.mts`](tokens/tokens.d.mts) so only public tokens compile. |
 | [`fonts/`](fonts/) | **Self-hosted fonts** (SIL OFL): Fraunces, Instrument Sans, JetBrains Mono as variable woff2, plus `fonts.css` (generated from `fonts.json`, already inside `membrane.css`). |
 | [`brand/`](brand/) | **Brand marks** as outlined SVG: wordmark, compact, `dc` monogram, app icons. |
 | [`PROFILE.md`](PROFILE.md) | **Factual authority.** Current role, academic wording, public identity and explicit non-inferences. |
 | [`VOICE.md`](VOICE.md) | **Writing authority.** Observed voice, evidence classes and adaptive registers. |
 | [`BRAND-VOICE.md`](BRAND-VOICE.md) | **Brand application.** How the voice is expressed publicly without inventing biography. |
 | [`DESIGN-SYSTEM.md`](DESIGN-SYSTEM.md) | **Visual/UI specification.** Principles, color, type, spacing, components, dark mode, accessibility. |
+| [`reference/`](reference/index.html) | **Generated component reference.** One page per component: live examples with their HTML, README guidance, classes, attributes, component tokens with light/dark values and the contrast pairs the build verified. |
 | [`showcase/index.html`](showcase/index.html) | **Living reference.** Every component and token, plus a [composition gallery](showcase/index.html#compositions) with previews and source links — [live](https://membrane-palette.dcesares.dev/). |
 | [`examples/`](examples/) | **Pattern pages** to copy — [starter](examples/starter.html), [article](examples/article.html), [dashboard](examples/dashboard.html) — linted against the library. |
 | [`docs/composition/`](docs/composition/README.md) | **Complete compositions.** Intent routes, fixed principles and creative freedom, a visual rubric, and rendered workshop, research explainer and presentation references. |
@@ -209,6 +211,16 @@ const save: MpAttrs<"button"> = { "data-variant": "secondary", "data-size": "sm"
 ```
 
 Boolean options (`data-icon-only`, `data-full-width`…) are presence attributes: pass `true` to set them and leave them out to unset them.
+
+Where you need literal values rather than CSS — a canvas, a charting library, a native bridge — import the token module. Only public tokens type-check, and the chart palette comes in assignment order:
+
+```js
+import { tokenValue, chartColors } from "https://cdn.jsdelivr.net/gh/idcesares/The-Membrane-Palette@2.2.0/tokens/tokens.mjs";
+
+const scheme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+tokenValue("--color-text-primary", scheme); // "#2A2622" in light
+chartColors(scheme);                         // six series colors, in order
+```
 
 ### Option C — Copy the files
 
@@ -429,7 +441,8 @@ The-Membrane-Palette/
 │   ├── design-tokens.css      ← Generated
 │   ├── base.css               ← Generated
 │   ├── membrane-tailwind.css  ← Generated — Tailwind v4 theme
-│   └── tokens.resolved.json   ← Generated — light/dark values as hex
+│   ├── tokens.resolved.json   ← Generated — light/dark values as hex
+│   └── tokens.mjs / .d.mts    ← Generated — the same values as a typed ES module
 ├── components/
 │   ├── <name>/<name>.css      ← Component source (edit this)
 │   ├── <name>/README.md       ← Docs + examples (edit; the API section is generated)
@@ -440,6 +453,7 @@ The-Membrane-Palette/
 ├── fonts/                     ← Self-hosted woff2 + OFL licenses; fonts.json (source) → fonts.css (generated)
 ├── brand/                     ← Outlined brand marks (SVG)
 ├── examples/                  ← Pattern pages (starter, article, dashboard), linted
+├── reference/                 ← Generated — one reference page per component
 ├── tests/                     ← Playwright (3 engines) + axe, visual baselines, type check
 ├── scripts/
 │   ├── build-tokens.mjs       ← Token compiler (OKLCH + contrast gate)

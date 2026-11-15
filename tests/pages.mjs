@@ -7,5 +7,9 @@ export const PAGES = [
     .filter((file) => file.endsWith(".html"))
     .sort()
     .map((file) => `/examples/${file}`),
+  ...readdirSync(new URL("../reference/", import.meta.url))
+    .filter((file) => file.endsWith(".html"))
+    .sort()
+    .map((file) => `/reference/${file}`),
   "/404.html",
 ];
