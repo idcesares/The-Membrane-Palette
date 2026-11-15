@@ -1331,7 +1331,7 @@
             <p class="label">04 / Components</p>
             <h2>A component library made of tokens.</h2>
           </div>
-          <p>Framework-free components in one stylesheet. Classes name the thing (<code>mp-button</code>), <code>data-*</code> attributes choose the option, and ARIA drives the state — so the look and what assistive tech hears can't disagree.</p>
+          <p>Framework-free components in one stylesheet. Classes name the thing (<code>mp-button</code>), <code>data-*</code> attributes choose the option, and ARIA drives the state — so the look and what assistive tech hears can't disagree. Every component also has a <a class="mp-link" href="../reference/index.html">reference page</a> with its examples, API, component tokens and verified contrast.</p>
         </div>
 
         <div class="specimen-grid">
@@ -3974,7 +3974,7 @@
             <p class="label">06 / Reference</p>
             <h2>Every token, every ratio — generated, not hand-typed.</h2>
           </div>
-          <p>The tables below are rendered from <code>tokens/membrane.tokens.json</code> by the same build that writes the CSS, and the component gallery above from each component's README. There is no second copy to fall out of sync.</p>
+          <p>The tables below are rendered from <code>tokens/membrane.tokens.json</code> by the same build that writes the CSS, and the component gallery above and the <a class="mp-link" href="../reference/index.html">component reference</a> from each component's README and CSS. There is no second copy to fall out of sync.</p>
         </div>
 
         <div class="specimen-grid">
@@ -4031,7 +4031,9 @@
             <div class="mp-stack" data-gap="4">
               <p class="type-small muted">The component API and index are generated from source. Composition guidance adds reviewed examples of complete pieces.</p>
               <ul class="mp-stack agent-list" data-gap="2">
-                <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/manifest.json">components/manifest.json</a> — classes, allowed values, states, knobs, examples</li>
+                <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/components/manifest.json">components/manifest.json</a> — classes, allowed values, states, knobs, verified contrast, examples</li>
+                <li><a class="mp-link" href="../reference/index.html">Component reference</a> — one page per component, generated from the manifest and READMEs</li>
+                <li><a class="mp-link" href="https://github.com/idcesares/The-Membrane-Palette/blob/master/tokens/tokens.mjs">tokens.mjs</a> — typed token values and the chart palette for canvas, charts and native code</li>
                 <li><a class="mp-link" href="../llms.txt">llms.txt</a> — the index and the house rules</li>
                 <li><a class="mp-link" href="../examples/starter.html">Starter</a>, <a class="mp-link" href="../examples/article.html">article</a> and <a class="mp-link" href="../examples/dashboard.html">dashboard</a> — full pages to copy, linted against the library</li>
                 <li><a class="mp-link" href="../docs/composition/README.md">Composition guide</a> — intent routes, creative freedom and a visual review rubric</li>
@@ -5396,7 +5398,7 @@
           <article class="specimen specimen--full">
             <p class="label">Contrast Matrix</p>
             <h2 id="contrast-heading">Every pair, both modes, on every build.</h2>
-            <p class="specimen__note">Generated from the exact computation that fails <code>npm run build:tokens</code> if a pair regresses — including hover fills, status washes and code syntax colors. See the <code>GATE</code> list in <code>scripts/build-tokens.mjs</code>.</p>
+            <p class="specimen__note">Generated from the exact computation that fails <code>npm run build:tokens</code> if a pair regresses — including hover fills, status washes and code syntax colors. See the <code>GATE</code> list in <code>scripts/build-tokens.mjs</code>. A second check, <code>COMPONENT_GATE</code> in <code>scripts/build-components.mjs</code>, measures the pairs each component paints through its <code>--mp-*</code> tokens, for every tone, variant and state; each <a class="mp-link" href="../reference/index.html">reference page</a> lists its results.</p>
             <div class="mp-table-wrap reference-table" tabindex="0" role="region" aria-labelledby="contrast-heading">
               <table class="mp-table" data-density="compact">
                 <thead>
@@ -6799,7 +6801,7 @@
   </main>
 
   <footer class="mp-container footer">
-    Isaac D'Césares Design System · v2.1 · Source: <code>tokens/membrane.tokens.json</code> + <code>components/</code> · <a class="mp-link" data-variant="quiet" href="../llms.txt">llms.txt</a>
+    Isaac D'Césares Design System · v2.2 · Source: <code>tokens/membrane.tokens.json</code> + <code>components/</code> · <a class="mp-link" data-variant="quiet" href="../llms.txt">llms.txt</a>
   </footer>
 
   <script>
