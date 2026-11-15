@@ -101,6 +101,9 @@ _Generated from `dialog.css` by `npm run build:components` — do not edit this 
 | Property | Default |
 |---|---|
 | `--mp-dialog-width` | `35rem` |
+| `--mp-dialog-bg` | `var(--color-bg-elevated)` |
+| `--mp-dialog-fg` | `var(--color-text-primary)` |
+| `--mp-dialog-body` | `var(--color-text-secondary)` |
 
 **Design tokens consumed** — `--blur-backdrop` `--border-default` `--color-bg-elevated` `--color-overlay-bg` `--color-text-primary` `--color-text-secondary` `--duration-fast` `--duration-normal` `--elevation-modal` `--font-sans` `--font-serif` `--leading-body` `--leading-subheading` `--radius-xl` `--space-2` `--space-3` `--space-4` `--space-6` `--text-body` `--text-h3` `--tracking-subheading` `--transition-enter` `--transition-exit` `--weight-semibold`
 <!-- /GENERATED:API -->

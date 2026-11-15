@@ -126,6 +126,7 @@
         "--space-6",
         "--space-8"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Stack and cluster",
@@ -181,6 +182,7 @@
         "--color-text-tertiary",
         "--measure"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Tones and measure",
@@ -254,6 +256,56 @@
         "--tracking-subheading",
         "--weight-bold",
         "--weight-semibold"
+      ],
+      "contrast": [
+        {
+          "foreground": "--color-text-primary",
+          "background": "--color-bg-tertiary",
+          "minimum": 4.5,
+          "use": "inline code",
+          "light": {
+            "ratio": 11.01,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 11.36,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--color-text-accent",
+          "background": "--color-bg-primary",
+          "minimum": 4.5,
+          "use": "link, including linked code",
+          "light": {
+            "ratio": 5.11,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 6.45,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--color-text-accent",
+          "background": "--color-bg-secondary",
+          "minimum": 4.5,
+          "use": "link on a card",
+          "light": {
+            "ratio": 4.64,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 5.79,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        }
       ],
       "examples": [
         {
@@ -344,6 +396,40 @@
         "--transition-fast",
         "--weight-medium"
       ],
+      "contrast": [
+        {
+          "foreground": "--mp-button-fg",
+          "background": "--mp-button-bg",
+          "minimum": 4.5,
+          "use": "label",
+          "light": {
+            "ratio": 4.93,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 5.14,
+            "context": ".mp-button[data-variant=\"danger\"]",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-button-fg-hover",
+          "background": "--mp-button-bg-hover",
+          "minimum": 4.5,
+          "use": "label, hover / pressed",
+          "light": {
+            "ratio": 5.51,
+            "context": ".mp-button[data-variant=\"secondary\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 6.19,
+            "context": ".mp-button[data-variant=\"danger\"]",
+            "over": "--color-bg-secondary"
+          }
+        }
+      ],
       "examples": [
         {
           "title": "Variants",
@@ -415,6 +501,7 @@
         "--weight-semibold",
         "--z-tooltip"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Inline, quiet, standalone",
@@ -460,6 +547,7 @@
         "--weight-medium",
         "--weight-regular"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Label, hint and required marker",
@@ -540,6 +628,7 @@
         "--text-small",
         "--transition-fast"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Text, select, textarea",
@@ -613,6 +702,7 @@
         "--transition-exit",
         "--z-dropdown"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Topic",
@@ -652,7 +742,12 @@
         "[aria-invalid=\"true\"]"
       ],
       "componentTokens": {
-        "--mp-choice-size": "1.25rem"
+        "--mp-choice-size": "1.25rem",
+        "--mp-choice-bg": "var(--color-bg-primary)",
+        "--mp-choice-border": "var(--color-border-input)",
+        "--mp-choice-border-hover": "var(--color-text-secondary)",
+        "--mp-choice-checked": "var(--color-action-secondary)",
+        "--mp-choice-mark": "var(--color-text-on-accent)"
       },
       "tokensUsed": [
         "--border-width-medium",
@@ -677,6 +772,88 @@
         "--text-small",
         "--transition-fast",
         "--transition-state"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-choice-border",
+          "background": "--mp-choice-bg",
+          "minimum": 3,
+          "use": "control boundary",
+          "light": {
+            "ratio": 4.11,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 3.88,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-choice-border-hover",
+          "background": "--mp-choice-bg",
+          "minimum": 3,
+          "use": "control boundary, hover",
+          "light": {
+            "ratio": 6.73,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 6.39,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-choice-checked",
+          "background": "--color-bg-primary",
+          "minimum": 3,
+          "use": "checked fill on page",
+          "light": {
+            "ratio": 5.11,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 6.45,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-choice-checked",
+          "background": "--color-bg-secondary",
+          "minimum": 3,
+          "use": "checked fill on a card",
+          "light": {
+            "ratio": 4.64,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 5.79,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-choice-mark",
+          "background": "--mp-choice-checked",
+          "minimum": 3,
+          "use": "check / dot mark",
+          "light": {
+            "ratio": 5.51,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 6.45,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        }
       ],
       "examples": [
         {
@@ -735,6 +912,7 @@
         "--transition-fast",
         "--transition-state"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Settings",
@@ -823,6 +1001,40 @@
         "--transition-slow",
         "--weight-semibold"
       ],
+      "contrast": [
+        {
+          "foreground": "--color-text-primary",
+          "background": "--mp-card-bg",
+          "minimum": 7,
+          "use": "card body",
+          "light": {
+            "ratio": 12.64,
+            "context": ".mp-card[data-variant=\"flat\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 13,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-card-overline",
+          "background": "--mp-card-bg",
+          "minimum": 4.5,
+          "use": "overline",
+          "light": {
+            "ratio": 5.68,
+            "context": ".mp-card[data-variant=\"flat\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 5.79,
+            "context": ".mp-card[data-tone=\"digital\"]",
+            "over": "--color-bg-primary"
+          }
+        }
+      ],
       "examples": [
         {
           "title": "Standard, featured, digital",
@@ -892,6 +1104,24 @@
         "--transition-fast",
         "--weight-medium"
       ],
+      "contrast": [
+        {
+          "foreground": "--mp-tag-fg",
+          "background": "--mp-tag-bg",
+          "minimum": 4.5,
+          "use": "tag label",
+          "light": {
+            "ratio": 5.02,
+            "context": ".mp-tag[data-tone=\"human\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 4.95,
+            "context": ".mp-tag[data-tone=\"digital\"]",
+            "over": "--color-bg-secondary"
+          }
+        }
+      ],
       "examples": [
         {
           "title": "Tones",
@@ -960,6 +1190,24 @@
         "--tracking-label",
         "--weight-semibold"
       ],
+      "contrast": [
+        {
+          "foreground": "--mp-badge-fg",
+          "background": "--mp-badge-bg",
+          "minimum": 4.5,
+          "use": "badge label",
+          "light": {
+            "ratio": 4.65,
+            "context": ".mp-badge[data-tone=\"success\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 4.95,
+            "context": ".mp-badge[data-tone=\"digital\"]",
+            "over": "--color-bg-secondary"
+          }
+        }
+      ],
       "examples": [
         {
           "title": "Tones",
@@ -1013,6 +1261,7 @@
         "--radius-full",
         "--weight-semibold"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Sizes and tones",
@@ -1072,6 +1321,7 @@
         "--weight-regular",
         "--weight-semibold"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Blockquote",
@@ -1141,6 +1391,7 @@
         "--text-code",
         "--text-xs"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Inline code and keys",
@@ -1188,6 +1439,7 @@
         "--space-24",
         "--space-8"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Fading and full",
@@ -1250,6 +1502,7 @@
         "--tracking-label",
         "--weight-semibold"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Table in a scrolling frame",
@@ -1307,6 +1560,7 @@
         "--weight-bold",
         "--weight-medium"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Stat row",
@@ -1382,6 +1636,7 @@
         "--weight-medium",
         "--weight-semibold"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Single series",
@@ -1440,6 +1695,7 @@
         "--size-icon-sm",
         "--size-icon-xl"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Sizes and tones",
@@ -1478,7 +1734,8 @@
       "componentTokens": {
         "--mp-alert-accent": "var(--color-info)",
         "--mp-alert-bg": "var(--color-info-bg)",
-        "--mp-alert-title": "var(--color-info-text)"
+        "--mp-alert-title": "var(--color-info-text)",
+        "--mp-alert-icon": "var(--mp-alert-accent)"
       },
       "tokensUsed": [
         "--border-width-thick",
@@ -1511,6 +1768,56 @@
         "--text-body",
         "--text-small",
         "--weight-semibold"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-alert-title",
+          "background": "--mp-alert-bg",
+          "minimum": 4.5,
+          "use": "alert title",
+          "light": {
+            "ratio": 4.65,
+            "context": ".mp-alert[data-tone=\"success\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 4.95,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--color-text-primary",
+          "background": "--mp-alert-bg",
+          "minimum": 4.5,
+          "use": "alert body",
+          "light": {
+            "ratio": 11.09,
+            "context": ".mp-alert[data-tone=\"error\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 10.64,
+            "context": ".mp-alert[data-tone=\"warning\"]",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-alert-icon",
+          "background": "--mp-alert-bg",
+          "minimum": 3,
+          "use": "alert icon",
+          "light": {
+            "ratio": 3.01,
+            "context": ".mp-alert[data-tone=\"success\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 4.06,
+            "context": ".mp-alert[data-tone=\"human\"]",
+            "over": "--color-bg-secondary"
+          }
+        }
       ],
       "examples": [
         {
@@ -1558,11 +1865,29 @@
         "--color-action-primary",
         "--color-action-secondary",
         "--color-bg-tertiary",
-        "--color-success",
+        "--color-success-text",
         "--duration-loop",
         "--ease-in-out",
         "--radius-full",
         "--transition-default"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-progress-value",
+          "background": "--mp-progress-track",
+          "minimum": 3,
+          "use": "progress value vs track",
+          "light": {
+            "ratio": 3.62,
+            "context": ".mp-progress[data-tone=\"human\"]",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 4.06,
+            "context": ".mp-progress[data-tone=\"human\"]",
+            "over": "--color-bg-secondary"
+          }
+        }
       ],
       "examples": [
         {
@@ -1612,6 +1937,7 @@
         "--space-10",
         "--space-32"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Loading card",
@@ -1668,6 +1994,7 @@
         "--tracking-subheading",
         "--weight-semibold"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "First use",
@@ -1752,6 +2079,24 @@
         "--weight-semibold",
         "--z-toast"
       ],
+      "contrast": [
+        {
+          "foreground": "--mp-toast-title",
+          "background": "--color-bg-elevated",
+          "minimum": 4.5,
+          "use": "toast title",
+          "light": {
+            "ratio": 5.68,
+            "context": ".mp-toast[data-tone=\"success\"]",
+            "over": "--color-bg-elevated"
+          },
+          "dark": {
+            "ratio": 5.56,
+            "context": ".mp-toast[data-tone=\"error\"]",
+            "over": "--color-bg-elevated"
+          }
+        }
+      ],
       "examples": [
         {
           "title": "Tones",
@@ -1808,6 +2153,7 @@
         "--weight-medium",
         "--z-tooltip"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Top and bottom",
@@ -1845,7 +2191,10 @@
         "[open]"
       ],
       "componentTokens": {
-        "--mp-dialog-width": "35rem"
+        "--mp-dialog-width": "35rem",
+        "--mp-dialog-bg": "var(--color-bg-elevated)",
+        "--mp-dialog-fg": "var(--color-text-primary)",
+        "--mp-dialog-body": "var(--color-text-secondary)"
       },
       "tokensUsed": [
         "--blur-backdrop",
@@ -1872,6 +2221,40 @@
         "--transition-enter",
         "--transition-exit",
         "--weight-semibold"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-dialog-fg",
+          "background": "--mp-dialog-bg",
+          "minimum": 7,
+          "use": "dialog title",
+          "light": {
+            "ratio": 13.93,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 12.5,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-dialog-body",
+          "background": "--mp-dialog-bg",
+          "minimum": 4.5,
+          "use": "dialog body",
+          "light": {
+            "ratio": 6.73,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 5.52,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        }
       ],
       "examples": [
         {
@@ -1911,7 +2294,15 @@
         ":hover",
         "[aria-current=\"page\"]"
       ],
-      "componentTokens": {},
+      "componentTokens": {
+        "--mp-navbar-bg": "var(--color-bg-primary)",
+        "--mp-navbar-fg": "var(--color-text-primary)",
+        "--mp-navbar-link": "var(--color-text-secondary)",
+        "--mp-navbar-link-hover": "var(--color-text-primary)",
+        "--mp-navbar-link-bg-hover": "var(--color-bg-hover)",
+        "--mp-navbar-link-current": "var(--color-human-text)",
+        "--mp-navbar-indicator": "var(--color-action-primary)"
+      },
       "tokensUsed": [
         "--blur-backdrop",
         "--border-default",
@@ -1947,6 +2338,88 @@
         "--weight-bold",
         "--weight-semibold",
         "--z-nav"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-navbar-fg",
+          "background": "--mp-navbar-bg",
+          "minimum": 7,
+          "use": "brand",
+          "light": {
+            "ratio": 13.93,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 14.48,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-navbar-link",
+          "background": "--mp-navbar-bg",
+          "minimum": 4.5,
+          "use": "nav link",
+          "light": {
+            "ratio": 6.73,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 6.39,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-navbar-link-hover",
+          "background": "--mp-navbar-link-bg-hover",
+          "minimum": 4.5,
+          "use": "nav link, hover",
+          "light": {
+            "ratio": 12.51,
+            "context": "default",
+            "over": "--mp-navbar-bg"
+          },
+          "dark": {
+            "ratio": 12.52,
+            "context": "default",
+            "over": "--mp-navbar-bg"
+          }
+        },
+        {
+          "foreground": "--mp-navbar-link-current",
+          "background": "--mp-navbar-bg",
+          "minimum": 4.5,
+          "use": "current page link",
+          "light": {
+            "ratio": 6.26,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 6.57,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-navbar-indicator",
+          "background": "--mp-navbar-bg",
+          "minimum": 3,
+          "use": "current page underline",
+          "light": {
+            "ratio": 4.57,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 5.18,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        }
       ],
       "examples": [
         {
@@ -1993,6 +2466,7 @@
         "--text-small",
         "--weight-medium"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Path",
@@ -2028,7 +2502,15 @@
         ":hover",
         "[aria-selected=\"true\"]"
       ],
-      "componentTokens": {},
+      "componentTokens": {
+        "--mp-tabs-fg": "var(--color-text-secondary)",
+        "--mp-tabs-fg-hover": "var(--color-text-primary)",
+        "--mp-tabs-fg-selected": "var(--color-text-primary)",
+        "--mp-tabs-bg-hover": "var(--color-bg-hover)",
+        "--mp-tabs-indicator": "var(--color-action-primary)",
+        "--mp-tabs-track": "var(--color-bg-tertiary)",
+        "--mp-tabs-bg-selected": "var(--color-bg-primary)"
+      },
       "tokensUsed": [
         "--border-default",
         "--border-width-medium",
@@ -2055,6 +2537,104 @@
         "--transition-fast",
         "--transition-state",
         "--weight-medium"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-tabs-fg",
+          "background": "--color-bg-primary",
+          "minimum": 4.5,
+          "use": "tab label",
+          "light": {
+            "ratio": 6.73,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 6.39,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-tabs-fg-hover",
+          "background": "--mp-tabs-bg-hover",
+          "minimum": 4.5,
+          "use": "tab label, hover",
+          "light": {
+            "ratio": 11.31,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 11.06,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-tabs-fg-selected",
+          "background": "--color-bg-primary",
+          "minimum": 7,
+          "use": "selected tab label",
+          "light": {
+            "ratio": 13.93,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 14.48,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-tabs-indicator",
+          "background": "--color-bg-primary",
+          "minimum": 3,
+          "use": "selected-tab indicator",
+          "light": {
+            "ratio": 4.57,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 5.18,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-tabs-fg",
+          "background": "--mp-tabs-track",
+          "minimum": 4.5,
+          "use": "pill tab label",
+          "light": {
+            "ratio": 5.32,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 5.01,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        },
+        {
+          "foreground": "--mp-tabs-fg-selected",
+          "background": "--mp-tabs-bg-selected",
+          "minimum": 7,
+          "use": "selected pill tab label",
+          "light": {
+            "ratio": 13.93,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 14.48,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        }
       ],
       "examples": [
         {
@@ -2114,6 +2694,7 @@
         "--transition-state",
         "--weight-semibold"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "FAQ",
@@ -2168,6 +2749,7 @@
         "--transition-fast",
         "--weight-medium"
       ],
+      "contrast": [],
       "examples": [
         {
           "title": "Pages",
@@ -2237,6 +2819,24 @@
         "--weight-medium",
         "--weight-semibold"
       ],
+      "contrast": [
+        {
+          "foreground": "--mp-steps-ring",
+          "background": "--color-bg-primary",
+          "minimum": 3,
+          "use": "step marker ring",
+          "light": {
+            "ratio": 4.11,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 3.88,
+            "context": "default",
+            "over": "--color-bg-primary"
+          }
+        }
+      ],
       "examples": [
         {
           "title": "Course modules",
@@ -2278,7 +2878,13 @@
         ":popover-open",
         "[aria-disabled=\"true\"]"
       ],
-      "componentTokens": {},
+      "componentTokens": {
+        "--mp-menu-bg": "var(--color-bg-elevated)",
+        "--mp-menu-fg": "var(--color-text-primary)",
+        "--mp-menu-item-bg-hover": "var(--color-bg-hover)",
+        "--mp-menu-danger": "var(--color-error-text)",
+        "--mp-menu-label": "var(--color-text-tertiary)"
+      },
       "tokensUsed": [
         "--border-default",
         "--border-width-medium",
@@ -2309,6 +2915,72 @@
         "--transition-enter",
         "--transition-exit",
         "--weight-semibold"
+      ],
+      "contrast": [
+        {
+          "foreground": "--mp-menu-fg",
+          "background": "--mp-menu-bg",
+          "minimum": 7,
+          "use": "menu item",
+          "light": {
+            "ratio": 13.93,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 12.5,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-menu-fg",
+          "background": "--mp-menu-item-bg-hover",
+          "minimum": 4.5,
+          "use": "menu item, focused",
+          "light": {
+            "ratio": 12.51,
+            "context": "default",
+            "over": "--mp-menu-bg"
+          },
+          "dark": {
+            "ratio": 10.58,
+            "context": "default",
+            "over": "--mp-menu-bg"
+          }
+        },
+        {
+          "foreground": "--mp-menu-danger",
+          "background": "--mp-menu-bg",
+          "minimum": 4.5,
+          "use": "danger item",
+          "light": {
+            "ratio": 6.2,
+            "context": "default",
+            "over": "--color-bg-primary"
+          },
+          "dark": {
+            "ratio": 5.56,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        },
+        {
+          "foreground": "--mp-menu-label",
+          "background": "--mp-menu-bg",
+          "minimum": 4.5,
+          "use": "group label",
+          "light": {
+            "ratio": 5.12,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          },
+          "dark": {
+            "ratio": 4.51,
+            "context": "default",
+            "over": "--color-bg-secondary"
+          }
+        }
       ],
       "examples": [
         {

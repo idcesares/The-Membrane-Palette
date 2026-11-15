@@ -28,6 +28,11 @@
 .mp-checkbox,
 .mp-radio {
   --mp-choice-size: 1.25rem;
+  --mp-choice-bg: var(--color-bg-primary);
+  --mp-choice-border: var(--color-border-input);
+  --mp-choice-border-hover: var(--color-text-secondary);
+  --mp-choice-checked: var(--color-action-secondary);
+  --mp-choice-mark: var(--color-text-on-accent);
 
   box-sizing: border-box;
   appearance: none;
@@ -38,9 +43,9 @@
   height: var(--mp-choice-size);
   /* Centers the 20px control on the first line of a body-size label. */
   margin: 0.125rem 0 0;
-  border: var(--border-width-medium) solid var(--color-border-input);
+  border: var(--border-width-medium) solid var(--mp-choice-border);
   border-radius: var(--radius-sm);
-  background-color: var(--color-bg-primary);
+  background-color: var(--mp-choice-bg);
   cursor: pointer;
   transition: background-color var(--transition-fast), border-color var(--transition-fast);
 }
@@ -52,7 +57,7 @@
 .mp-checkbox::before,
 .mp-radio::before {
   content: "";
-  background-color: var(--color-text-on-accent);
+  background-color: var(--mp-choice-mark);
   scale: 0;
   transition: scale var(--transition-state);
 }
@@ -72,8 +77,8 @@
 .mp-checkbox:checked,
 .mp-checkbox:indeterminate,
 .mp-radio:checked {
-  border-color: var(--color-action-secondary);
-  background-color: var(--color-action-secondary);
+  border-color: var(--mp-choice-checked);
+  background-color: var(--mp-choice-checked);
 }
 
 .mp-checkbox:checked::before,
@@ -88,7 +93,7 @@
 
 .mp-checkbox:hover:not(:disabled, :checked, :indeterminate),
 .mp-radio:hover:not(:disabled, :checked) {
-  border-color: var(--color-text-secondary);
+  border-color: var(--mp-choice-border-hover);
 }
 
 .mp-checkbox:focus-visible,

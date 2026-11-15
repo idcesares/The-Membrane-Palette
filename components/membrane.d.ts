@@ -410,25 +410,34 @@ export type MpToken =
 
 /** Tier 3 component knobs, each declared on its component's root. */
 export type MpKnob =
-  | "--mp-alert-accent" | "--mp-alert-bg" | "--mp-alert-title"
-  | "--mp-avatar-size" | "--mp-badge-bg" | "--mp-badge-fg"
-  | "--mp-button-bg" | "--mp-button-bg-hover" | "--mp-button-border"
-  | "--mp-button-fg" | "--mp-button-fg-hover" | "--mp-button-font-size"
-  | "--mp-button-glow" | "--mp-button-height" | "--mp-button-padding"
-  | "--mp-card-accent" | "--mp-card-bg" | "--mp-card-overline"
-  | "--mp-card-padding" | "--mp-card-shadow" | "--mp-chart-bar"
-  | "--mp-chart-color" | "--mp-chart-value" | "--mp-choice-size"
-  | "--mp-combobox-max-height" | "--mp-container-max" | "--mp-dialog-width"
+  | "--mp-alert-accent" | "--mp-alert-bg" | "--mp-alert-icon"
+  | "--mp-alert-title" | "--mp-avatar-size" | "--mp-badge-bg"
+  | "--mp-badge-fg" | "--mp-button-bg" | "--mp-button-bg-hover"
+  | "--mp-button-border" | "--mp-button-fg" | "--mp-button-fg-hover"
+  | "--mp-button-font-size" | "--mp-button-glow" | "--mp-button-height"
+  | "--mp-button-padding" | "--mp-card-accent" | "--mp-card-bg"
+  | "--mp-card-overline" | "--mp-card-padding" | "--mp-card-shadow"
+  | "--mp-chart-bar" | "--mp-chart-color" | "--mp-chart-value"
+  | "--mp-choice-bg" | "--mp-choice-border" | "--mp-choice-border-hover"
+  | "--mp-choice-checked" | "--mp-choice-mark" | "--mp-choice-size"
+  | "--mp-combobox-max-height" | "--mp-container-max" | "--mp-dialog-bg"
+  | "--mp-dialog-body" | "--mp-dialog-fg" | "--mp-dialog-width"
   | "--mp-divider-space" | "--mp-gap" | "--mp-grid-min"
   | "--mp-icon-size" | "--mp-input-border" | "--mp-input-height"
-  | "--mp-input-padding" | "--mp-progress-height" | "--mp-progress-track"
+  | "--mp-input-padding" | "--mp-menu-bg" | "--mp-menu-danger"
+  | "--mp-menu-fg" | "--mp-menu-item-bg-hover" | "--mp-menu-label"
+  | "--mp-navbar-bg" | "--mp-navbar-fg" | "--mp-navbar-indicator"
+  | "--mp-navbar-link" | "--mp-navbar-link-bg-hover" | "--mp-navbar-link-current"
+  | "--mp-navbar-link-hover" | "--mp-progress-height" | "--mp-progress-track"
   | "--mp-progress-value" | "--mp-section-space" | "--mp-skeleton-height"
   | "--mp-skeleton-width" | "--mp-spinner-size" | "--mp-steps-line"
   | "--mp-steps-marker" | "--mp-steps-ring" | "--mp-switch-height"
   | "--mp-switch-inset" | "--mp-switch-thumb" | "--mp-switch-travel"
   | "--mp-switch-width" | "--mp-table-cell-padding" | "--mp-table-max-height"
-  | "--mp-tag-bg" | "--mp-tag-fg" | "--mp-toast-accent"
-  | "--mp-toast-title" | "--mp-tooltip-gap";
+  | "--mp-tabs-bg-hover" | "--mp-tabs-bg-selected" | "--mp-tabs-fg"
+  | "--mp-tabs-fg-hover" | "--mp-tabs-fg-selected" | "--mp-tabs-indicator"
+  | "--mp-tabs-track" | "--mp-tag-bg" | "--mp-tag-fg"
+  | "--mp-toast-accent" | "--mp-toast-title" | "--mp-tooltip-gap";
 
 /** A style object that can set knobs and read tokens:
  *  const style: MpStyle = { "--mp-button-bg": "var(--color-action-secondary)" }; */

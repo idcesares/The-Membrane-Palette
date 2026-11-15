@@ -56,13 +56,13 @@
 .composition-visual-asset .type-small { color: var(--color-text-secondary); }
 .composition-visual-asset .mp-cluster { align-items: start; gap: var(--space-3) var(--space-4); font-size: var(--text-small); }
 .composition-visual-library-footer { margin-block-start: var(--space-10); padding-block-start: var(--space-6); border-block-start: var(--border-default); }
-@media (max-width: 56rem) {
+@media (width < 64rem) {
   .composition-visual-opening, .composition-visual-principle, .composition-visual-teaching-layout, .composition-visual-field-example { grid-template-columns: minmax(0, 1fr); gap: var(--space-8); }
   .composition-visual-opening, .composition-visual-section { padding-block: var(--space-10); }
   .composition-visual-title { font-size: clamp(var(--text-h1), 10vw, var(--space-20)); }
   .composition-visual-library { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-@media (max-width: 38rem) {
+@media (width < 40rem) {
   .composition-visual-cover-content, .composition-visual-icon-row, .composition-visual-route, .composition-visual-library { grid-template-columns: minmax(0, 1fr); }
   .composition-visual-cover, .composition-teaching-card { padding: var(--space-5); }
   .composition-visual-cover-content h3 { font-size: var(--text-h1); }

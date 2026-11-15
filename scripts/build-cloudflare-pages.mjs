@@ -12,6 +12,7 @@ console.log("Building tokens and components from source…");
 execSync("node scripts/build-tokens.mjs", { cwd: root, stdio: "inherit" });
 execSync("node scripts/render-visual-assets.mjs", { cwd: root, stdio: "inherit" });
 execSync("node scripts/build-components.mjs", { cwd: root, stdio: "inherit" });
+execSync("node scripts/build-reference.mjs", { cwd: root, stdio: "inherit" });
 
 await rm(dist, { recursive: true, force: true });
 await mkdir(dist, { recursive: true });
@@ -74,9 +75,16 @@ for (const file of examplePages) {
   const html = await readFile(path.join(root, "examples", file), "utf8");
   await writeFile(path.join(dist, "examples", file), html.replace(/href="\.\.\/showcase\//g, 'href="../'));
 }
-const urls = [siteUrl, ...examplePages.map((f) => `${siteUrl}examples/${f}`)];
+// Component reference pages: same lift as the examples.
+const referencePages = (await readdir(path.join(root, "reference"))).filter((f) => f.endsWith(".html")).sort();
+await mkdir(path.join(dist, "reference"), { recursive: true });
+for (const file of referencePages) {
+  const html = await readFile(path.join(root, "reference", file), "utf8");
+  await writeFile(path.join(dist, "reference", file), html.replace(/href="\.\.\/showcase\//g, 'href="../'));
+}
+const urls = [siteUrl, ...examplePages.map((f) => `${siteUrl}examples/${f}`), ...referencePages.map((f) => `${siteUrl}reference/${f}`)];
 await writeFile(
   path.join(dist, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map((u) => `  <url>\n    <loc>${u}</loc>\n  </url>\n`).join("")}</urlset>\n`
 );
-console.log("✓ Assembled dist/ (showcase, 404, _headers, assets, tokens, components, examples, membrane.css, llms.txt, llms-full.txt)");
+console.log("✓ Assembled dist/ (showcase, 404, _headers, assets, tokens, components, examples, reference, membrane.css, llms.txt, llms-full.txt)");

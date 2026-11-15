@@ -14,6 +14,18 @@ for (const path of PAGES) {
       page.on("pageerror", (e) => errors.push(e.message));
       await page.emulateMedia({ colorScheme });
       await page.goto(path);
+      // Measure the settled page a person sees: entrance transitions (toasts
+      // fade in from opacity 0 via @starting-style) can still be running when
+      // a short page finishes loading, and axe would sample them mid-fade.
+      // Infinite loaders never finish, so only finite ones are awaited.
+      await page.evaluate(() =>
+        Promise.all(
+          document
+            .getAnimations()
+            .filter((a) => Number.isFinite(a.effect?.getComputedTiming().endTime))
+            .map((a) => a.finished.catch(() => {}))
+        )
+      );
       await page.addScriptTag({ content: axeSource });
       const violations = await page.evaluate(async () =>
         (await window.axe.run(document, { resultTypes: ["violations"] })).violations.map((v) => ({

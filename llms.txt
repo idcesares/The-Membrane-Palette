@@ -23,6 +23,7 @@ Rules for generating UI with this system:
 
 - [Component manifest (JSON)](components/manifest.json): every component's classes, allowed attribute values, states, knobs, tokens and HTML examples
 - [TypeScript types](components/membrane.d.ts): the same API as types (MpAttrs<"button">, MpClass, MpToken) for framework code
+- [Token values module](tokens/tokens.mjs): ES module with every public token's CSS reference and light/dark color values, plus tokenValue() and chartColors(); typed by tokens/tokens.d.mts
 - [Brand marks](DESIGN-SYSTEM.md#103-files): outlined SVG wordmark and `dc` monogram in brand/ — use the files, never retype the name in Fraunces
 - [Profile](PROFILE.md): factual identity and current biographical claims — authority for what is true about Isaac
 - [Voice](VOICE.md): observed writing behavior, evidence classes and register adaptation
@@ -82,4 +83,5 @@ Rules for generating UI with this system:
 - [Tailwind v4 theme](tokens/membrane-tailwind.css): mp- utilities mapped onto the semantic tokens
 - [Resolved tokens (JSON)](tokens/tokens.resolved.json): every token's light and dark value as plain hex, for charting libraries and native apps
 - [Live showcase](https://membrane-palette.dcesares.dev/): every component rendered in light and dark mode
+- [Component reference](https://membrane-palette.dcesares.dev/reference/): one page per component with live examples, guidance, API, component tokens with light/dark values and verified contrast
 - [Changelog](CHANGELOG.md): versions, deprecations, migration notes

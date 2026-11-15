@@ -2,6 +2,8 @@
 // (npm run lint:types). Each @ts-expect-error line must fail to compile;
 // if the types ever stop rejecting it, tsc reports the unused directive.
 import type { MpAttrs, MpClass, MpStyle, MpToken } from "../../components/membrane.d.ts";
+import { tokens, tokenValue, chartColors } from "../../tokens/tokens.mjs";
+import type { MpColorToken } from "../../tokens/tokens.mjs";
 
 const ok: MpAttrs<"button"> = { "data-variant": "secondary", "data-size": "sm", "data-icon-only": true };
 const okCombo: MpAttrs<"combobox"> = {};
@@ -23,4 +25,18 @@ const typo: MpClass = "mp-buton";
 // @ts-expect-error — toast tone is a closed set
 window.MembranePalette?.toast({ title: "x", tone: "danger" });
 
+// tokens/tokens.mjs: colors carry light/dark; other tokens carry a value.
+const accentDark: string = tokens["--color-action-primary"].dark;
+const spacing: string = tokens["--space-4"].value;
+const series: [string, string, string, string, string, string] = chartColors("dark");
+const literal: string = tokenValue("--color-text-primary", "light");
+const colorName: MpColorToken = "--color-chart-1";
+// @ts-expect-error — a spacing token has no light/dark pair
+const noMode = tokens["--space-4"].light;
+// @ts-expect-error — primitives are not exported
+const primValue = tokenValue("--color-terracotta");
+// @ts-expect-error — only light and dark exist
+const badScheme = tokenValue("--color-text-primary", "sepia");
+
+export { accentDark, spacing, series, literal, colorName, noMode, primValue, badScheme };
 export { ok, okCombo, cls, token, style, bad, badBool, prim, dep, typo };

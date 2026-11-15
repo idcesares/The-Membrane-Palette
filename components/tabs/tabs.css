@@ -2,6 +2,14 @@
    components/membrane.js supplies click and arrow-key behavior. */
 
 .mp-tabs {
+  --mp-tabs-fg: var(--color-text-secondary);
+  --mp-tabs-fg-hover: var(--color-text-primary);
+  --mp-tabs-fg-selected: var(--color-text-primary);
+  --mp-tabs-bg-hover: var(--color-bg-hover);
+  --mp-tabs-indicator: var(--color-action-primary);
+  --mp-tabs-track: var(--color-bg-tertiary);
+  --mp-tabs-bg-selected: var(--color-bg-primary);
+
   display: grid;
   align-content: start;
   gap: var(--space-4);
@@ -31,7 +39,7 @@
   border-block-end: var(--border-width-medium) solid transparent;
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   background: transparent;
-  color: var(--color-text-secondary);
+  color: var(--mp-tabs-fg);
   font-family: inherit;
   font-size: var(--text-small);
   font-weight: var(--weight-medium);
@@ -41,13 +49,13 @@
 }
 
 .mp-tabs__tab:hover {
-  background-color: var(--color-bg-hover);
-  color: var(--color-text-primary);
+  background-color: var(--mp-tabs-bg-hover);
+  color: var(--mp-tabs-fg-hover);
 }
 
 .mp-tabs__tab[aria-selected="true"] {
-  border-block-end-color: var(--color-action-primary);
-  color: var(--color-text-primary);
+  border-block-end-color: var(--mp-tabs-indicator);
+  color: var(--mp-tabs-fg-selected);
 }
 
 /* Inset ring: the scrolling tab list would clip an outside outline. */
@@ -73,7 +81,7 @@
   padding: var(--space-1);
   border: 0;
   border-radius: var(--radius-full);
-  background-color: var(--color-bg-tertiary);
+  background-color: var(--mp-tabs-track);
 }
 
 .mp-tabs[data-variant="pill"] .mp-tabs__tab {
@@ -84,7 +92,7 @@
 }
 
 .mp-tabs[data-variant="pill"] .mp-tabs__tab[aria-selected="true"] {
-  background-color: var(--color-bg-primary);
+  background-color: var(--mp-tabs-bg-selected);
   box-shadow: var(--elevation-raised);
 }
 
