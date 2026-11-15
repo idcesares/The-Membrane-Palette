@@ -924,11 +924,35 @@ ${items}
 </div>`;
 }
 
+/** Showcase table: every component-gate pair, worst case per mode. */
+function renderComponentContrast() {
+  const rows = [];
+  for (const c of components) {
+    for (const p of contrastSummary(c.slug)) {
+      const pass = p.light.ratio >= p.minimum && p.dark.ratio >= p.minimum;
+      rows.push(`                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/${c.slug}.html#contrast">${escapeHtml(c.meta.name)}</a></th>
+                  <td>${escapeHtml(p.use)}</td>
+                  <td><code>${p.foreground}</code></td>
+                  <td><code>${p.background}</code></td>
+                  <td data-align="end">${p.light.ratio.toFixed(2)}:1</td>
+                  <td data-align="end">${p.dark.ratio.toFixed(2)}:1</td>
+                  <td data-align="end">${p.minimum.toFixed(1)}:1</td>
+                  <td><span class="mp-badge" data-tone="${pass ? "success" : "error"}">${pass ? "Pass" : "Fail"}</span></td>
+                </tr>`);
+    }
+  }
+  return rows.join("\n");
+}
+
 const SHOWCASE = rel("showcase", "index.html");
 let html = await readFile(SHOWCASE, "utf8");
 const re = /(<!-- GENERATED:COMPONENT-GALLERY -->)[\s\S]*?(<!-- \/GENERATED:COMPONENT-GALLERY -->)/;
 if (!re.test(html)) throw new Error("Marker GENERATED:COMPONENT-GALLERY not found in showcase/index.html");
 html = html.replace(re, (_, a, b) => `${a}\n${renderGallery()}\n        ${b}`);
+const contrastRe = /(<!-- GENERATED:COMPONENT-CONTRAST -->)[\s\S]*?(<!-- \/GENERATED:COMPONENT-CONTRAST -->)/;
+if (!contrastRe.test(html)) throw new Error("Marker GENERATED:COMPONENT-CONTRAST not found in showcase/index.html");
+html = html.replace(contrastRe, (_, a, b) => `${a}\n${renderComponentContrast()}\n                ${b}`);
 await writeFile(SHOWCASE, html);
 
 const exampleCount = components.reduce((n, c) => n + c.examples.length, 0);

@@ -5398,7 +5398,7 @@
           <article class="specimen specimen--full">
             <p class="label">Contrast Matrix</p>
             <h2 id="contrast-heading">Every pair, both modes, on every build.</h2>
-            <p class="specimen__note">Generated from the exact computation that fails <code>npm run build:tokens</code> if a pair regresses — including hover fills, status washes and code syntax colors. See the <code>GATE</code> list in <code>scripts/build-tokens.mjs</code>. A second check, <code>COMPONENT_GATE</code> in <code>scripts/build-components.mjs</code>, measures the pairs each component paints through its <code>--mp-*</code> tokens, for every tone, variant and state; each <a class="mp-link" href="../reference/index.html">reference page</a> lists its results.</p>
+            <p class="specimen__note">Generated from the exact computation that fails <code>npm run build:tokens</code> if a pair regresses — including hover fills, status washes and code syntax colors. See the <code>GATE</code> list in <code>scripts/build-tokens.mjs</code>. A second check, <code>COMPONENT_GATE</code> in <code>scripts/build-components.mjs</code>, measures the pairs each component paints through its <code>--mp-*</code> tokens, for every tone, variant and state; its results are in the <a class="mp-link" href="#component-contrast-heading">component contrast table</a> below and on each <a class="mp-link" href="../reference/index.html">reference page</a>.</p>
             <div class="mp-table-wrap reference-table" tabindex="0" role="region" aria-labelledby="contrast-heading">
               <table class="mp-table" data-density="compact">
                 <thead>
@@ -6703,6 +6703,393 @@
                   <td><span class="mp-badge" data-tone="success">Pass</span></td>
                 </tr>
                 <!-- /GENERATED:CONTRAST-MATRIX -->
+                </tbody>
+              </table>
+            </div>
+          </article>
+
+          <article class="specimen specimen--full">
+            <p class="label">Component Contrast</p>
+            <h2 id="component-contrast-heading">What each component actually paints.</h2>
+            <p class="specimen__note">The pairs above are semantic tokens; these are the pairs components put on screen through their <code>--mp-*</code> tokens. <code>npm run build:components</code> measures each one for the defaults and for every tone, variant and state rule that reassigns a token, over page and card surfaces, and fails if any drops below its minimum. Each row shows the worst case per mode. Decorative accent stripes that repeat a title or icon are not listed. Source: <code>COMPONENT_GATE</code> in <code>scripts/build-components.mjs</code>.</p>
+            <div class="mp-table-wrap reference-table" tabindex="0" role="region" aria-labelledby="component-contrast-heading">
+              <table class="mp-table" data-density="compact">
+                <thead>
+                  <tr><th scope="col">Component</th><th scope="col">Use</th><th scope="col">Foreground</th><th scope="col">Background</th><th scope="col" data-align="end">Light</th><th scope="col" data-align="end">Dark</th><th scope="col" data-align="end">Minimum</th><th scope="col">Status</th></tr>
+                </thead>
+                <tbody>
+<!-- GENERATED:COMPONENT-CONTRAST -->
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/prose.html#contrast">Prose</a></th>
+                  <td>inline code</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--color-bg-tertiary</code></td>
+                  <td data-align="end">11.01:1</td>
+                  <td data-align="end">11.36:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/prose.html#contrast">Prose</a></th>
+                  <td>link, including linked code</td>
+                  <td><code>--color-text-accent</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">5.11:1</td>
+                  <td data-align="end">6.45:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/prose.html#contrast">Prose</a></th>
+                  <td>link on a card</td>
+                  <td><code>--color-text-accent</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">4.64:1</td>
+                  <td data-align="end">5.79:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/button.html#contrast">Button</a></th>
+                  <td>label</td>
+                  <td><code>--mp-button-fg</code></td>
+                  <td><code>--mp-button-bg</code></td>
+                  <td data-align="end">4.93:1</td>
+                  <td data-align="end">5.14:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/button.html#contrast">Button</a></th>
+                  <td>label, hover / pressed</td>
+                  <td><code>--mp-button-fg-hover</code></td>
+                  <td><code>--mp-button-bg-hover</code></td>
+                  <td data-align="end">5.51:1</td>
+                  <td data-align="end">6.19:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/choice.html#contrast">Choice</a></th>
+                  <td>control boundary</td>
+                  <td><code>--mp-choice-border</code></td>
+                  <td><code>--mp-choice-bg</code></td>
+                  <td data-align="end">4.11:1</td>
+                  <td data-align="end">3.88:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/choice.html#contrast">Choice</a></th>
+                  <td>control boundary, hover</td>
+                  <td><code>--mp-choice-border-hover</code></td>
+                  <td><code>--mp-choice-bg</code></td>
+                  <td data-align="end">6.73:1</td>
+                  <td data-align="end">6.39:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/choice.html#contrast">Choice</a></th>
+                  <td>checked fill on page</td>
+                  <td><code>--mp-choice-checked</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">5.11:1</td>
+                  <td data-align="end">6.45:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/choice.html#contrast">Choice</a></th>
+                  <td>checked fill on a card</td>
+                  <td><code>--mp-choice-checked</code></td>
+                  <td><code>--color-bg-secondary</code></td>
+                  <td data-align="end">4.64:1</td>
+                  <td data-align="end">5.79:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/choice.html#contrast">Choice</a></th>
+                  <td>check / dot mark</td>
+                  <td><code>--mp-choice-mark</code></td>
+                  <td><code>--mp-choice-checked</code></td>
+                  <td data-align="end">5.51:1</td>
+                  <td data-align="end">6.45:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/card.html#contrast">Card</a></th>
+                  <td>card body</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--mp-card-bg</code></td>
+                  <td data-align="end">12.64:1</td>
+                  <td data-align="end">13.00:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/card.html#contrast">Card</a></th>
+                  <td>overline</td>
+                  <td><code>--mp-card-overline</code></td>
+                  <td><code>--mp-card-bg</code></td>
+                  <td data-align="end">5.68:1</td>
+                  <td data-align="end">5.79:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tag.html#contrast">Tag</a></th>
+                  <td>tag label</td>
+                  <td><code>--mp-tag-fg</code></td>
+                  <td><code>--mp-tag-bg</code></td>
+                  <td data-align="end">5.02:1</td>
+                  <td data-align="end">4.95:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/badge.html#contrast">Badge</a></th>
+                  <td>badge label</td>
+                  <td><code>--mp-badge-fg</code></td>
+                  <td><code>--mp-badge-bg</code></td>
+                  <td data-align="end">4.65:1</td>
+                  <td data-align="end">4.95:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/alert.html#contrast">Alert</a></th>
+                  <td>alert title</td>
+                  <td><code>--mp-alert-title</code></td>
+                  <td><code>--mp-alert-bg</code></td>
+                  <td data-align="end">4.65:1</td>
+                  <td data-align="end">4.95:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/alert.html#contrast">Alert</a></th>
+                  <td>alert body</td>
+                  <td><code>--color-text-primary</code></td>
+                  <td><code>--mp-alert-bg</code></td>
+                  <td data-align="end">11.09:1</td>
+                  <td data-align="end">10.64:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/alert.html#contrast">Alert</a></th>
+                  <td>alert icon</td>
+                  <td><code>--mp-alert-icon</code></td>
+                  <td><code>--mp-alert-bg</code></td>
+                  <td data-align="end">3.01:1</td>
+                  <td data-align="end">4.06:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/progress.html#contrast">Progress</a></th>
+                  <td>progress value vs track</td>
+                  <td><code>--mp-progress-value</code></td>
+                  <td><code>--mp-progress-track</code></td>
+                  <td data-align="end">3.62:1</td>
+                  <td data-align="end">4.06:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/toast.html#contrast">Toast</a></th>
+                  <td>toast title</td>
+                  <td><code>--mp-toast-title</code></td>
+                  <td><code>--color-bg-elevated</code></td>
+                  <td data-align="end">5.68:1</td>
+                  <td data-align="end">5.56:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/dialog.html#contrast">Dialog</a></th>
+                  <td>dialog title</td>
+                  <td><code>--mp-dialog-fg</code></td>
+                  <td><code>--mp-dialog-bg</code></td>
+                  <td data-align="end">13.93:1</td>
+                  <td data-align="end">12.50:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/dialog.html#contrast">Dialog</a></th>
+                  <td>dialog body</td>
+                  <td><code>--mp-dialog-body</code></td>
+                  <td><code>--mp-dialog-bg</code></td>
+                  <td data-align="end">6.73:1</td>
+                  <td data-align="end">5.52:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/navbar.html#contrast">Navbar</a></th>
+                  <td>brand</td>
+                  <td><code>--mp-navbar-fg</code></td>
+                  <td><code>--mp-navbar-bg</code></td>
+                  <td data-align="end">13.93:1</td>
+                  <td data-align="end">14.48:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/navbar.html#contrast">Navbar</a></th>
+                  <td>nav link</td>
+                  <td><code>--mp-navbar-link</code></td>
+                  <td><code>--mp-navbar-bg</code></td>
+                  <td data-align="end">6.73:1</td>
+                  <td data-align="end">6.39:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/navbar.html#contrast">Navbar</a></th>
+                  <td>nav link, hover</td>
+                  <td><code>--mp-navbar-link-hover</code></td>
+                  <td><code>--mp-navbar-link-bg-hover</code></td>
+                  <td data-align="end">12.51:1</td>
+                  <td data-align="end">12.52:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/navbar.html#contrast">Navbar</a></th>
+                  <td>current page link</td>
+                  <td><code>--mp-navbar-link-current</code></td>
+                  <td><code>--mp-navbar-bg</code></td>
+                  <td data-align="end">6.26:1</td>
+                  <td data-align="end">6.57:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/navbar.html#contrast">Navbar</a></th>
+                  <td>current page underline</td>
+                  <td><code>--mp-navbar-indicator</code></td>
+                  <td><code>--mp-navbar-bg</code></td>
+                  <td data-align="end">4.57:1</td>
+                  <td data-align="end">5.18:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tabs.html#contrast">Tabs</a></th>
+                  <td>tab label</td>
+                  <td><code>--mp-tabs-fg</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">6.73:1</td>
+                  <td data-align="end">6.39:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tabs.html#contrast">Tabs</a></th>
+                  <td>tab label, hover</td>
+                  <td><code>--mp-tabs-fg-hover</code></td>
+                  <td><code>--mp-tabs-bg-hover</code></td>
+                  <td data-align="end">11.31:1</td>
+                  <td data-align="end">11.06:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tabs.html#contrast">Tabs</a></th>
+                  <td>selected tab label</td>
+                  <td><code>--mp-tabs-fg-selected</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">13.93:1</td>
+                  <td data-align="end">14.48:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tabs.html#contrast">Tabs</a></th>
+                  <td>selected-tab indicator</td>
+                  <td><code>--mp-tabs-indicator</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">4.57:1</td>
+                  <td data-align="end">5.18:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tabs.html#contrast">Tabs</a></th>
+                  <td>pill tab label</td>
+                  <td><code>--mp-tabs-fg</code></td>
+                  <td><code>--mp-tabs-track</code></td>
+                  <td data-align="end">5.32:1</td>
+                  <td data-align="end">5.01:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/tabs.html#contrast">Tabs</a></th>
+                  <td>selected pill tab label</td>
+                  <td><code>--mp-tabs-fg-selected</code></td>
+                  <td><code>--mp-tabs-bg-selected</code></td>
+                  <td data-align="end">13.93:1</td>
+                  <td data-align="end">14.48:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/steps.html#contrast">Steps</a></th>
+                  <td>step marker ring</td>
+                  <td><code>--mp-steps-ring</code></td>
+                  <td><code>--color-bg-primary</code></td>
+                  <td data-align="end">4.11:1</td>
+                  <td data-align="end">3.88:1</td>
+                  <td data-align="end">3.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/menu.html#contrast">Menu</a></th>
+                  <td>menu item</td>
+                  <td><code>--mp-menu-fg</code></td>
+                  <td><code>--mp-menu-bg</code></td>
+                  <td data-align="end">13.93:1</td>
+                  <td data-align="end">12.50:1</td>
+                  <td data-align="end">7.0:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/menu.html#contrast">Menu</a></th>
+                  <td>menu item, focused</td>
+                  <td><code>--mp-menu-fg</code></td>
+                  <td><code>--mp-menu-item-bg-hover</code></td>
+                  <td data-align="end">12.51:1</td>
+                  <td data-align="end">10.58:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/menu.html#contrast">Menu</a></th>
+                  <td>danger item</td>
+                  <td><code>--mp-menu-danger</code></td>
+                  <td><code>--mp-menu-bg</code></td>
+                  <td data-align="end">6.20:1</td>
+                  <td data-align="end">5.56:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <tr>
+                  <th scope="row"><a class="mp-link" href="../reference/menu.html#contrast">Menu</a></th>
+                  <td>group label</td>
+                  <td><code>--mp-menu-label</code></td>
+                  <td><code>--mp-menu-bg</code></td>
+                  <td data-align="end">5.12:1</td>
+                  <td data-align="end">4.51:1</td>
+                  <td data-align="end">4.5:1</td>
+                  <td><span class="mp-badge" data-tone="success">Pass</span></td>
+                </tr>
+                <!-- /GENERATED:COMPONENT-CONTRAST -->
                 </tbody>
               </table>
             </div>
