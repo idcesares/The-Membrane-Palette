@@ -100,6 +100,29 @@ test("theme toggle flips the page and reports its state", async ({ page }) => {
   expect(await page.evaluate(() => getComputedStyle(document.body).color)).not.toBe(before);
 });
 
+test("saved theme follows the component reference and live examples", async ({ page }) => {
+  await page.emulateMedia({ colorScheme: "light" });
+  await page.getByRole("button", { name: "Dark mode" }).click();
+  for (const path of ["/reference/index.html", "/reference/button.html", "/examples/form-journey.html"]) {
+    await page.goto(path);
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+  }
+});
+
+test("component reference is reachable from the mobile hero", async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  const reference = page.locator("#top").getByRole("link", { name: "Component reference" });
+  await expect(reference).toBeInViewport();
+  await reference.click();
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("Component reference");
+});
+
+test("hero offers a copyable install snippet with the behavior script", async ({ page }) => {
+  const install = page.locator(".hero__install");
+  await expect(install.locator("code")).toContainText(/membrane\.css[\s\S]*components\/membrane\.js/);
+  await expect(install.getByRole("button", { name: /copy install/i })).toBeVisible();
+});
+
 test("form: required field blocks submit; busy state while submitting", async ({ page }) => {
   const submit = page.locator('#specimen-form [type="submit"]');
   await submit.click();
@@ -107,7 +130,24 @@ test("form: required field blocks submit; busy state while submitting", async ({
   await page.fill("#specimen-email", "ana@school.edu");
   await submit.click();
   await expect(submit).toHaveAttribute("aria-busy", "true");
-  await expect(page.locator("#specimen-status .mp-alert")).toBeVisible();
+  await expect(page.locator("#specimen-status")).toContainText("Demo complete");
+});
+
+test("form: repeated Enter while busy produces a single confirmation", async ({ page }) => {
+  await page.clock.install();
+  const status = page.locator("#specimen-status");
+  await status.evaluate((element) => {
+    element.dataset.updates = "0";
+    new MutationObserver(() => {
+      element.dataset.updates = String(Number(element.dataset.updates) + 1);
+    }).observe(element, { childList: true });
+  });
+  const email = page.locator("#specimen-email");
+  await email.fill("demo@example.test");
+  await email.press("Enter");
+  await email.press("Enter");
+  await page.clock.runFor(1000);
+  await expect(status).toHaveAttribute("data-updates", "1");
 });
 
 test("primary hover fill is darker than rest (light) and label contrast rises", async ({ page }) => {

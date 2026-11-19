@@ -91,6 +91,7 @@ function page({ title, description, breadcrumb, body }) {
   <meta name="theme-color" content="#FAF6EE" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#1A1B1F" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="../brand/idcesares-icon-monogram-light.svg" type="image/svg+xml">
+  <script src="../showcase/assets/theme-preference.js"></script>
   <link rel="stylesheet" href="../membrane.css">
   <script src="../components/membrane.js" defer></script>
 </head>

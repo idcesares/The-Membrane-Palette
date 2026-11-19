@@ -71,16 +71,22 @@ await writeFile(
 );
 const examplePages = (await readdir(path.join(root, "examples"))).filter((f) => f.endsWith(".html")).sort();
 // Source examples point to showcase/index.html; deployment lifts it to /index.html.
+const liftShowcasePaths = (html) => html.replace(/(href|src)="\.\.\/showcase\//g, '$1="../');
 for (const file of examplePages) {
   const html = await readFile(path.join(root, "examples", file), "utf8");
-  await writeFile(path.join(dist, "examples", file), html.replace(/href="\.\.\/showcase\//g, 'href="../'));
+  // Standalone examples follow the OS. The hosted copies also honor the showcase preference.
+  const deployedExample = liftShowcasePaths(html).replace(
+    '  <link rel="stylesheet" href="../membrane.css">',
+    '  <script src="../assets/theme-preference.js"></script>\n  <link rel="stylesheet" href="../membrane.css">',
+  );
+  await writeFile(path.join(dist, "examples", file), deployedExample);
 }
 // Component reference pages: same lift as the examples.
 const referencePages = (await readdir(path.join(root, "reference"))).filter((f) => f.endsWith(".html")).sort();
 await mkdir(path.join(dist, "reference"), { recursive: true });
 for (const file of referencePages) {
   const html = await readFile(path.join(root, "reference", file), "utf8");
-  await writeFile(path.join(dist, "reference", file), html.replace(/href="\.\.\/showcase\//g, 'href="../'));
+  await writeFile(path.join(dist, "reference", file), liftShowcasePaths(html));
 }
 const urls = [siteUrl, ...examplePages.map((f) => `${siteUrl}examples/${f}`), ...referencePages.map((f) => `${siteUrl}reference/${f}`)];
 await writeFile(
